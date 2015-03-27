@@ -2,26 +2,56 @@ package com.jxz.notcontra.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.jxz.notcontra.handlers.GameStateManager;
 
 public class Game extends ApplicationAdapter {
-    SpriteBatch batch;
-    Texture img;
+    public static final String TITLE = "Test Game";
+    public static final int VID_WIDTH = 1280;
+    public static final int VID_HEIGHT = 720;
+
+    public static final float STEP = 1 / 60f;            // 60 Frames Per Second
+    private float accumulator;
+
+    private GameStateManager gsm;
+    private SpriteBatch sb;
+    private OrthographicCamera playerCam;
+    private OrthographicCamera hudCam;
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        img = new Texture("badlogic.jpg");
+        sb = new SpriteBatch();
+        playerCam = new OrthographicCamera();
+        playerCam.setToOrtho(false, VID_WIDTH, VID_HEIGHT);
+
+        gsm = new GameStateManager(this);
     }
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(img, 0, 0);
-        batch.end();
+        accumulator += Gdx.graphics.getDeltaTime();
+        while (accumulator >= STEP) {
+            accumulator -= STEP;
+            gsm.update(STEP);
+            gsm.render();
+        }
     }
+
+    public void dispose() {
+
+    }
+
+    public SpriteBatch getSpriteBatch() {
+        return sb;
+    }
+
+    public OrthographicCamera getPlayerCam() {
+        return playerCam;
+    }
+
+    public OrthographicCamera getHudCam() {
+        return hudCam;
+    }
+
 }
