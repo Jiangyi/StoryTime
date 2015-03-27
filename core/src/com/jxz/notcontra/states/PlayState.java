@@ -13,7 +13,7 @@ import com.jxz.notcontra.handlers.GameStateManager;
 public class PlayState extends GameState {
 
     private BitmapFont font = new BitmapFont();
-    private Texture texture = new Texture("badlogic.jpg");
+    private Texture texture = new Texture("qayum.png");
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
