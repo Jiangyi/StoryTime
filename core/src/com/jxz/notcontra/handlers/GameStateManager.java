@@ -13,13 +13,17 @@ import java.util.Stack;
 public class GameStateManager {
     private Game game;
     private Stack<GameState> gameState;
-
+    private GameStateManager gsmManager = new GameStateManager(game);
     public static final int PLAY = 1;       // Any number will do
 
-    public GameStateManager(Game game) {
+    private GameStateManager(Game game) {
         this.game = game;
         gameState = new Stack<GameState>();
         pushState(PLAY);
+    }
+
+    private GameStateManager getInstance() {
+        return gsmManager;
     }
 
     public void update(float dt) {
