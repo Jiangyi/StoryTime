@@ -25,7 +25,7 @@ public class Game extends ApplicationAdapter {
         playerCam = new OrthographicCamera();
         playerCam.setToOrtho(false, VID_WIDTH, VID_HEIGHT);
 
-        gsm = new GameStateManager(this);
+        gsm = GameStateManager.getInstance(this);
     }
 
     @Override

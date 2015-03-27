@@ -13,7 +13,7 @@ import java.util.Stack;
 public class GameStateManager {
     private Game game;
     private Stack<GameState> gameState;
-    private GameStateManager gsmManager = new GameStateManager(game);
+    private static GameStateManager gsmManager;
     public static final int PLAY = 1;       // Any number will do
 
     private GameStateManager(Game game) {
@@ -22,7 +22,10 @@ public class GameStateManager {
         pushState(PLAY);
     }
 
-    private GameStateManager getInstance() {
+    public static GameStateManager getInstance(Game game) {
+        if (gsmManager == null) {
+            gsmManager = new GameStateManager(game);
+        }
         return gsmManager;
     }
 
