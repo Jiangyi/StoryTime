@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.jxz.notcontra.entity.Entity;
 import com.jxz.notcontra.handlers.GameStateManager;
 
 /**
@@ -13,7 +14,6 @@ import com.jxz.notcontra.handlers.GameStateManager;
 public class PlayState extends GameState {
 
     private BitmapFont font = new BitmapFont();
-    private Texture texture = new Texture("qayum.png");
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
@@ -24,11 +24,12 @@ public class PlayState extends GameState {
     }
 
     public void update(float dt) {
-
+        game.getPhysics().update(dt);
     }
 
     public void dispose() {
-
+        sb.dispose();
+        game.getPhysics().getWorld().dispose();
     }
 
     public void render() {
@@ -39,7 +40,19 @@ public class PlayState extends GameState {
 
         font.draw(sb, "PLAY STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
         font.setColor(Color.BLACK);
-        sb.draw(texture, 10, 300);
+
+        // Uncomment below for Box2D debug renderer. Currently cannot see what is behind it.
+        // game.getPhysics().debugRender(playerCam);
+
+        // Update and draw all sprites
+        for (Entity e : game.getEntityManager().getMasterList()) {
+            if (e != null) {
+                if (e.isVisible()) {
+                    e.update();
+                    e.getSprite().draw(sb);
+                }
+            }
+        }
 
         sb.end();
     }
