@@ -1,6 +1,5 @@
 package com.jxz.notcontra.handlers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -12,7 +11,8 @@ import com.jxz.notcontra.game.Game;
  */
 public class PhysicsManager {
     // Physics Constants
-    private final float GRAVITY = -20f;
+    private final float GRAVITY = -9.8f;
+    private static final float PIXELS_TO_METERS = 100.0f;
 
     // Fields
     private Game game;
@@ -27,20 +27,20 @@ public class PhysicsManager {
         world = new World(new Vector2(0, GRAVITY), true);
     }
 
-    public static  PhysicsManager getInstance(Game game) {
+    public static PhysicsManager getInstance(Game game) {
         if (manager == null) {
             manager = new PhysicsManager(game);
         }
         return manager;
     }
 
-    public static  PhysicsManager getInstance() {
+    public static PhysicsManager getInstance() {
         return manager;
     }
 
     public void update(float dt) {
         // Updates since last called
-        world.step(Gdx.graphics.getDeltaTime(), 6, 2); // TODO: Use a different time stepping method
+        world.step(1 / 30.0f, 6, 2); // TODO: Use a different time stepping method
     }
 
     public World getWorld() {
@@ -48,6 +48,14 @@ public class PhysicsManager {
     }
 
     public void debugRender(Camera camera) {
-        debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, camera.combined.cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0));
+    }
+
+    public static float toMeters(float pixels) {
+        return pixels / PIXELS_TO_METERS;
+    }
+
+    public static float toPixels(float meters) {
+        return meters * PIXELS_TO_METERS;
     }
 }

@@ -11,7 +11,6 @@ public abstract class Entity {
     // Base Entity fields
     protected int id;
     protected Sprite sprite;
-    protected float x, y;
     protected boolean isVisible;
     protected EntityManager manager = EntityManager.getInstance();
     protected Body body;
@@ -19,6 +18,7 @@ public abstract class Entity {
     // Constructor - all entities must be registered through manager
     public Entity() {
         manager.register(this);
+        isVisible = true;
     }
 
     public int getId() {
@@ -35,22 +35,6 @@ public abstract class Entity {
 
     public void setSprite(Sprite sprite) {
         this.sprite = sprite;
-    }
-
-    public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
     }
 
     public abstract void update();

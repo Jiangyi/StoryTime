@@ -1,6 +1,5 @@
 package com.jxz.notcontra.handlers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.jxz.notcontra.entity.Player;
@@ -30,31 +29,34 @@ public class InputManager implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         // Movement controls only operational if in play state
-        if (game.getGsm().getStateInstance() instanceof PlayState) {
+        if (GameStateManager.getInstance().getStateInstance() instanceof PlayState) {
             // Update sprinting state TODO: Sprinting support
-            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            if (keycode == Input.Keys.SHIFT_LEFT) {
                 player.setSprinting(true);
-            } else {
-                player.setSprinting(false);
             }
 
             // Standard WASD Movement
             if (keycode == Input.Keys.A) {
-                player.setIsMovingX(player.getIsMovingX() - player.getSpeed());
+                player.getBody().applyLinearImpulse(-player.getSpeed(), 0, player.getBody().getPosition().x, player.getBody().getPosition().y, true);
             }
             if (keycode == Input.Keys.D) {
-                player.setIsMovingX(player.getIsMovingX() + player.getSpeed());
+                player.getBody().applyLinearImpulse(player.getSpeed(), 0, player.getBody().getPosition().x, player.getBody().getPosition().y, true);
             }
             if (keycode == Input.Keys.W) {
-                player.setIsMovingY(player.getIsMovingY() + player.getSpeed());
+                player.getBody().applyLinearImpulse(0, player.getSpeed(), player.getBody().getPosition().x, player.getBody().getPosition().y, true);
             }
             if (keycode == Input.Keys.S) {
-                player.setIsMovingY(player.getIsMovingY() - player.getSpeed());
+                player.getBody().applyLinearImpulse(0, -player.getSpeed(), player.getBody().getPosition().x, player.getBody().getPosition().y, true);
+            }
+
+            // Jump
+            if (keycode == Input.Keys.SPACE && player.isOnGround()) {
+                player.getBody().applyLinearImpulse(0.0f, 15.0f, player.getBody().getPosition().x, player.getBody().getPosition().y, true);
             }
 
             // ROTATING QAYUM
             if (keycode == Input.Keys.R) {
-                player.getBody().setAngularVelocity(35.0f);
+                player.getBody().applyTorque(-25.0f, true);
             }
         }
         return false;
@@ -63,29 +65,27 @@ public class InputManager implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         // Again, movement controls in play mode only
-        if (game.getGsm().getStateInstance() instanceof PlayState) {
+        if (GameStateManager.getInstance().getStateInstance() instanceof PlayState) {
             // Released keys signal end of movement
+            if (keycode == Input.Keys.SHIFT_LEFT) {
+                player.setSprinting(false);
+            }
+
             if (keycode == Input.Keys.A) {
-                player.setIsMovingX(player.getIsMovingX() + player.getSpeed());
+                player.getBody().applyLinearImpulse(player.getSpeed(), 0, player.getBody().getPosition().x, player.getBody().getPosition().y, true);
             }
             if (keycode == Input.Keys.D) {
-                player.setIsMovingX(player.getIsMovingX() - player.getSpeed());
+                player.getBody().applyLinearImpulse(-player.getSpeed(), 0, player.getBody().getPosition().x, player.getBody().getPosition().y, true);
             }
             if (keycode == Input.Keys.W) {
-                player.setIsMovingY(player.getIsMovingY() - player.getSpeed());
+                player.getBody().applyLinearImpulse(0, -player.getSpeed(), player.getBody().getPosition().x, player.getBody().getPosition().y, true);
             }
             if (keycode == Input.Keys.S) {
-                player.setIsMovingY(player.getIsMovingY() + player.getSpeed());
+                player.getBody().applyLinearImpulse(0, player.getSpeed(), player.getBody().getPosition().x, player.getBody().getPosition().y, true);
             }
-
-            // Jump -- TODO: Add 'isOnGround' flag to prevent double jump, also currently nonfunctional
-            if (keycode == Input.Keys.SPACE) {
-                player.getBody().applyLinearImpulse(0.0f, 80.0f, player.getX(), player.getY(), true);
-            }
-
             // Stop rotating Qayum
             if (keycode == Input.Keys.R) {
-                player.getBody().setAngularVelocity(0.0f);
+                player.getBody().applyTorque(25.0f, true);
             }
         }
         return false;

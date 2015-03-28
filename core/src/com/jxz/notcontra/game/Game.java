@@ -55,19 +55,18 @@ public class Game extends ApplicationAdapter {
         player.setSprite(new Sprite(new Texture("qayum.png")));
         player.getSprite().setX(250.0f);
         player.getSprite().setY(600.0f);
-        player.setSpeed(45.0f);
+        player.setSpeed(2.0f);
         player.createBody();
         player.setVisible(true);
 
         // --- EXPERIMENTAL --- Ground physics object
         BodyDef groundDef = new BodyDef();
-        groundDef.position.set(0, 20);
+        groundDef.position.set(PhysicsManager.toMeters(0), PhysicsManager.toMeters(20));
         Body groundBody = physics.getWorld().createBody(groundDef);
         PolygonShape groundBox = new PolygonShape();
-        groundBox.setAsBox(playerCam.viewportWidth, 20);
+        groundBox.setAsBox(PhysicsManager.toMeters(playerCam.viewportWidth), PhysicsManager.toMeters(20));
         groundBody.createFixture(groundBox, 0.0f);
         groundBox.dispose();
-
 
         // Input handled after player object created
         Gdx.input.setInputProcessor(InputManager.getInstance(this));
@@ -101,17 +100,5 @@ public class Game extends ApplicationAdapter {
 
     public Player getPlayer() {
         return player;
-    }
-
-    public GameStateManager getGsm() {
-        return gsm;
-    }
-
-    public PhysicsManager getPhysics() {
-        return physics;
-    }
-
-    public EntityManager getEntityManager() {
-        return entityManager;
     }
 }

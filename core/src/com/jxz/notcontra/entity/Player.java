@@ -1,6 +1,9 @@
 package com.jxz.notcontra.entity;
 
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.jxz.notcontra.handlers.PhysicsManager;
 
 /**
@@ -8,7 +11,7 @@ import com.jxz.notcontra.handlers.PhysicsManager;
  */
 public class Player extends LivingEntity {
     // Player specific fields
-    private boolean sprinting = false;
+    private boolean isSprinting = false;
 
     // Constructor
     public Player() {
@@ -17,13 +20,12 @@ public class Player extends LivingEntity {
 
     @Override
     public void update() {
-        // TODO: Apply velocities based on isMovingX and isMovingY
-        x = body.getPosition().x;
-        y = body.getPosition().y;
-        body.setLinearVelocity(body.getLinearVelocity().x + isMovingX, body.getLinearVelocity().y + isMovingY);
+        // Update grounded flag
+        isOnGround = (Math.round(body.getLinearVelocity().y) == 0);
+
         // Updates the sprite position on the screen
-        sprite.setPosition(body.getPosition().x, body.getPosition().y);
-        sprite.setRotation(body.getAngle());
+        sprite.setPosition(PhysicsManager.toPixels(body.getPosition().x) - sprite.getWidth() / 2, PhysicsManager.toPixels(body.getPosition().y) - sprite.getHeight() / 2);
+        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
     }
 
     @Override
@@ -32,18 +34,21 @@ public class Player extends LivingEntity {
         // Define body definition
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(sprite.getX(), sprite.getY());
+        bodyDef.position.set(PhysicsManager.toMeters(sprite.getX()), PhysicsManager.toMeters(sprite.getY()));
         body = PhysicsManager.getInstance().getWorld().createBody(bodyDef);
+        body.setSleepingAllowed(false);
+
 
         // Define bounding shape
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(sprite.getWidth()/2, sprite.getHeight()/2);
+        polygonShape.setAsBox(PhysicsManager.toMeters(sprite.getWidth() / 2), PhysicsManager.toMeters(sprite.getHeight() / 2));
 
         // Define fixture definition
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.density = 1.0f;
-        fixtureDef.restitution = 0.8f; // BOUNCING QAYUM
+        fixtureDef.friction = 0;
+        fixtureDef.restitution = 0.5f; // BOUNCING QAYUM
         Fixture fixture = body.createFixture(fixtureDef);
 
         // Cleanup
@@ -51,10 +56,10 @@ public class Player extends LivingEntity {
     }
 
     public boolean isSprinting() {
-        return sprinting;
+        return isSprinting;
     }
 
     public void setSprinting(boolean sprinting) {
-        this.sprinting = sprinting;
+        this.isSprinting = sprinting;
     }
 }
