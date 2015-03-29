@@ -1,13 +1,14 @@
 package com.jxz.notcontra.handlers;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.jxz.notcontra.entity.Entity;
 import com.jxz.notcontra.game.Game;
 
 /**
  * Created by Samuel on 2015-03-27.
  */
-public class EntityManager {
+public class EntityManager implements Disposable {
     // Entity Manager Fields
     private Array<Entity> masterList;
     private Game game;
@@ -38,5 +39,12 @@ public class EntityManager {
 
     public Array<Entity> getMasterList() {
         return masterList;
+    }
+
+    @Override
+    public void dispose() {
+        for (Entity e : masterList) {
+            e.getSprite().getTexture().dispose();
+        }
     }
 }

@@ -83,7 +83,9 @@ public class Game extends ApplicationAdapter {
     }
 
     public void dispose() {
-
+        sb.dispose();
+        physics.dispose();
+        entityManager.dispose();
     }
 
     public SpriteBatch getSpriteBatch() {

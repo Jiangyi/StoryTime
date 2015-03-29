@@ -29,8 +29,11 @@ public class PlayState extends GameState {
     }
 
     public void dispose() {
+        // Cleanup
         sb.dispose();
+        font.dispose();
         PhysicsManager.getInstance().getWorld().dispose();
+
     }
 
     public void render() {

@@ -4,12 +4,13 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Disposable;
 import com.jxz.notcontra.game.Game;
 
 /**
  * Created by Samuel on 27/03/2015.
  */
-public class PhysicsManager {
+public class PhysicsManager implements Disposable {
     // Physics Constants
     private final float GRAVITY = -9.8f;
     private static final float PIXELS_TO_METERS = 100.0f;
@@ -57,5 +58,11 @@ public class PhysicsManager {
 
     public static float toPixels(float meters) {
         return meters * PIXELS_TO_METERS;
+    }
+
+    @Override
+    public void dispose() {
+        world.dispose();
+        debugRenderer.dispose();
     }
 }
