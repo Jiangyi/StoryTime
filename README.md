@@ -3,7 +3,7 @@
 ## HIGH PRIORITY: ##
 * Tiled Map Support (.tmx loader and Box2D implementation) [currently working on - Samuel]
 * AssetManager (LoadState)
-* Animation support for main character
+* Animation support for main character [Kevin]
 * Multiple resolution support (changing camera viewport to arbitrary units)
 
 
