@@ -1,5 +1,6 @@
 package com.jxz.notcontra.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
@@ -20,6 +21,7 @@ public class Player extends LivingEntity {
     private int jumpMultiplier = 1;
     private int jumpHeight = 20;
     private int jumpFrames = 10;
+    private float currentGravity = 0f;
 
     // Movement State
     private Vector2 movementState;
@@ -34,6 +36,10 @@ public class Player extends LivingEntity {
 
     @Override
     public void update() {
+
+        // Local delta variables
+        float deltaX = 0;
+        float deltaY = 0;
         // Step X for static tile data
         if (movementState.x != 0) {
             // Gets center coordinate of sprite, as well as height of the sprite in tiles
@@ -53,9 +59,7 @@ public class Player extends LivingEntity {
 
             // Proceed if move is still valid
             if (validMove) {
-                float deltaX = speed * movementState.x;
-                deltaX *= isSprinting ? 2 : 1;
-                position.x += deltaX;
+                deltaX += (isSprinting ? 2 : 1) * speed * movementState.x;
             }
         }
 
@@ -68,7 +72,7 @@ public class Player extends LivingEntity {
         if (jumpState > 0) {
             // Check obstacles overhead before jumping!
             if (currentMap.getStaticTileAt(position.x + 1, position.y + sprite.getHeight()) == null && currentMap.getStaticTileAt(position.x + sprite.getWidth() - 1, position.y + sprite.getHeight()) == null) {
-                position.y += jumpMultiplier * jumpHeight;
+                deltaY += jumpMultiplier * jumpHeight;
                 jumpState -= 1;
             } else {
                 // Stops moving upwards if obstacle is found on either side of player overhead
@@ -82,11 +86,18 @@ public class Player extends LivingEntity {
 
         // Updates position due to gravity, if applicable
         if (!isGrounded) {
-            position.y -= currentMap.getGravity();
+            currentGravity += currentMap.getGravity() * Gdx.graphics.getDeltaTime();
+            System.out.println(currentGravity * Gdx.graphics.getDeltaTime());
+            deltaY -= currentGravity * Gdx.graphics.getDeltaTime() * 10;
         } else {
             // Resets jump counter if player is already grounded
             jumpCounter = 0;
+            currentGravity = 0;
         }
+
+        // Calculate
+        position.x += deltaX;
+        position.y += deltaY;
 
         // Update final sprite position for static collisions, and updates axis aligned bounding box for dynamic collisions
         sprite.setPosition(position.x, position.y);

@@ -16,7 +16,7 @@ public class Level {
     // Class Variables
     private Game game;
     private TiledMap map;
-    private float gravity = 5;
+    private float gravity = 9.8f;
 
     public Level(Game g, TiledMap map) {
         this.game = g;
