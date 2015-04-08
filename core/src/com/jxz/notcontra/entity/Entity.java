@@ -1,8 +1,10 @@
 package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.handlers.EntityManager;
+import com.jxz.notcontra.world.Level;
 
 /**
  * Created by Samuel on 2015-03-27.
@@ -11,9 +13,12 @@ public abstract class Entity {
     // Base Entity fields
     protected int id;
     protected Sprite sprite;
+    protected Vector2 position;
     protected boolean isVisible;
+    protected boolean isActive;
+    protected Level currentMap;
     protected EntityManager manager = EntityManager.getInstance();
-    protected Body body;
+    protected Rectangle aabb;
 
     // Constructor - all entities must be registered through manager
     public Entity() {
@@ -47,13 +52,19 @@ public abstract class Entity {
         this.isVisible = isVisible;
     }
 
-    public Body getBody() {
-        return body;
+    public Vector2 getPosition() {
+        return position;
     }
 
-    public void setBody(Body body) {
-        this.body = body;
+    public Level getCurrentMap() {
+        return currentMap;
     }
 
-    public abstract void createBody();
+    public void setCurrentMap(Level currentMap) {
+        this.currentMap = currentMap;
+    }
+
+    public Rectangle getAABB() {
+        return aabb;
+    }
 }

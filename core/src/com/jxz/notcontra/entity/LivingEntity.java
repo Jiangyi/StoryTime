@@ -7,7 +7,6 @@ public abstract class LivingEntity extends Entity {
     // Fields specific to living entities
     protected int health;
     protected float speed;
-    protected boolean isOnGround;
 
     // Constructor - start with no movement in either direction
     public LivingEntity() {
@@ -30,11 +29,4 @@ public abstract class LivingEntity extends Entity {
         this.speed = speed;
     }
 
-    public boolean isOnGround() {
-        return isOnGround;
-    }
-
-    public void setOnGround(boolean isOnGround) {
-        this.isOnGround = isOnGround;
-    }
 }

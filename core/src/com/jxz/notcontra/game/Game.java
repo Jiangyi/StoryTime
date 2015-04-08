@@ -6,20 +6,20 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.handlers.InputManager;
-import com.jxz.notcontra.handlers.PhysicsManager;
+import com.jxz.notcontra.world.Level;
 
 public class Game extends ApplicationAdapter {
     // Program Constants
     public static final String TITLE = "Test Game";
-    public static final int VID_WIDTH = 1280;
-    public static final int VID_HEIGHT = 720;
+    public static final int VID_WIDTH = 1120;
+    public static final int VID_HEIGHT = 630;
 
     public static final float STEP = 1 / 60f;            // 60 Frames Per Second
     private float accumulator;
@@ -30,43 +30,41 @@ public class Game extends ApplicationAdapter {
     private OrthographicCamera playerCam;
     private OrthographicCamera hudCam;
 
-    // Physics Manager
-    private PhysicsManager physics;
-
     // Entity Manager
     private EntityManager entityManager;
 
     // Player instance object
     private Player player;
 
+    // Map Render Variables
+    public static final float UNIT_SCALE = 1 / 70f; // 1 ingame unit = 70 px (tile size)
+    private final int VIEW_HEIGHT = 9;
+    private final int VIEW_WIDTH = 16;
+    private OrthogonalTiledMapRenderer currentMapRenderer;
+    private Level currentLevel;
+
     @Override
     public void create() {
         sb = new SpriteBatch();
         playerCam = new OrthographicCamera();
-        playerCam.setToOrtho(false, VID_WIDTH, VID_HEIGHT);
+        playerCam.setToOrtho(false, VIEW_WIDTH, VIEW_HEIGHT);
 
         // Setup singleton manager classes
         gsm = GameStateManager.getInstance(this);
-        physics = PhysicsManager.getInstance(this);
         entityManager = EntityManager.getInstance(this);
+
+        // Load TMX map
+        TiledMap map = new TmxMapLoader().load("Maps/samplelevel.tmx");
+        currentLevel = new Level(this, map);
+        currentMapRenderer = new OrthogonalTiledMapRenderer(map, UNIT_SCALE);
+        currentMapRenderer.setView(playerCam);
 
         // Initialize Player object
         player = new Player();
-        player.setSprite(new Sprite(new Texture("qayum.png")));
-        player.getSprite().setX(250.0f);
-        player.getSprite().setY(600.0f);
-        player.setSpeed(2.0f);
-        player.createBody();
+        player.setSprite(new Sprite(new Texture("p1_duck.png")));
+        player.setSpeed(2f);
+        player.setCurrentMap(currentLevel);
         player.setVisible(true);
-
-        // --- EXPERIMENTAL --- Ground physics object
-        BodyDef groundDef = new BodyDef();
-        groundDef.position.set(PhysicsManager.toMeters(0), PhysicsManager.toMeters(20));
-        Body groundBody = physics.getWorld().createBody(groundDef);
-        PolygonShape groundBox = new PolygonShape();
-        groundBox.setAsBox(PhysicsManager.toMeters(playerCam.viewportWidth), PhysicsManager.toMeters(20));
-        groundBody.createFixture(groundBox, 0.0f);
-        groundBox.dispose();
 
         // Input handled after player object created
         Gdx.input.setInputProcessor(InputManager.getInstance(this));
@@ -84,8 +82,8 @@ public class Game extends ApplicationAdapter {
 
     public void dispose() {
         sb.dispose();
-        physics.dispose();
         entityManager.dispose();
+        currentMapRenderer.getMap().dispose();
     }
 
     public SpriteBatch getSpriteBatch() {
@@ -102,5 +100,13 @@ public class Game extends ApplicationAdapter {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public Level getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public OrthogonalTiledMapRenderer getCurrentMapRenderer() {
+        return currentMapRenderer;
     }
 }

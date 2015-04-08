@@ -30,33 +30,30 @@ public class InputManager implements InputProcessor {
     public boolean keyDown(int keycode) {
         // Movement controls only operational if in play state
         if (GameStateManager.getInstance().getStateInstance() instanceof PlayState) {
-            // Update sprinting state TODO: Sprinting support
+            // Update sprinting state
             if (keycode == Input.Keys.SHIFT_LEFT) {
                 player.setSprinting(true);
             }
 
             // Standard WASD Movement
             if (keycode == Input.Keys.A) {
-                player.getBody().applyLinearImpulse(-player.getSpeed(), 0, player.getBody().getPosition().x, player.getBody().getPosition().y, true);
+                player.getMovementState().add(-1, 0);
             }
             if (keycode == Input.Keys.D) {
-                player.getBody().applyLinearImpulse(player.getSpeed(), 0, player.getBody().getPosition().x, player.getBody().getPosition().y, true);
+                player.getMovementState().add(1, 0);
             }
             if (keycode == Input.Keys.W) {
-                player.getBody().applyLinearImpulse(0, player.getSpeed(), player.getBody().getPosition().x, player.getBody().getPosition().y, true);
+                player.getMovementState().add(0, 1);
             }
             if (keycode == Input.Keys.S) {
-                player.getBody().applyLinearImpulse(0, -player.getSpeed(), player.getBody().getPosition().x, player.getBody().getPosition().y, true);
+                player.getMovementState().add(0, -1);
             }
 
-            // Jump
-            if (keycode == Input.Keys.SPACE && player.isOnGround()) {
-                player.getBody().applyLinearImpulse(0.0f, 15.0f, player.getBody().getPosition().x, player.getBody().getPosition().y, true);
-            }
-
-            // ROTATING QAYUM
-            if (keycode == Input.Keys.R) {
-                player.getBody().applyTorque(-25.0f, true);
+            // Jump if max jumps is not reached
+            if (keycode == Input.Keys.SPACE && player.getJumpCounter() < player.getMaxJumps() && !player.isJumping()) {
+                player.setJumpState(player.getJumpFrames());
+                player.setJumpCounter(player.getJumpCounter() + 1);
+                player.setIsJumping(true);
             }
         }
         return false;
@@ -72,20 +69,21 @@ public class InputManager implements InputProcessor {
             }
 
             if (keycode == Input.Keys.A) {
-                player.getBody().applyLinearImpulse(player.getSpeed(), 0, player.getBody().getPosition().x, player.getBody().getPosition().y, true);
+                player.getMovementState().add(1, 0);
             }
             if (keycode == Input.Keys.D) {
-                player.getBody().applyLinearImpulse(-player.getSpeed(), 0, player.getBody().getPosition().x, player.getBody().getPosition().y, true);
+                player.getMovementState().add(-1, 0);
             }
             if (keycode == Input.Keys.W) {
-                player.getBody().applyLinearImpulse(0, -player.getSpeed(), player.getBody().getPosition().x, player.getBody().getPosition().y, true);
+                player.getMovementState().add(0, -1);
             }
             if (keycode == Input.Keys.S) {
-                player.getBody().applyLinearImpulse(0, player.getSpeed(), player.getBody().getPosition().x, player.getBody().getPosition().y, true);
+                player.getMovementState().add(0, 1);
             }
-            // Stop rotating Qayum
-            if (keycode == Input.Keys.R) {
-                player.getBody().applyTorque(25.0f, true);
+
+            // Resets jump flag if space bar is released - ready to jump again
+            if (keycode == Input.Keys.SPACE) {
+                player.setIsJumping(false);
             }
         }
         return false;
