@@ -2,6 +2,7 @@ package com.jxz.notcontra.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.jxz.notcontra.entity.Entity;
@@ -36,9 +37,15 @@ public class PlayState extends GameState {
 
     public void render() {
         Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         playerCam.update();
+
+        sb.begin();
+        game.getCurrentMapRenderer().setView(playerCam);
         game.getCurrentMapRenderer().render();
+        sb.end();
+
         //sb.setProjectionMatrix(playerCam.combined);
         sb.begin();
 
@@ -65,6 +72,7 @@ public class PlayState extends GameState {
         }
 
         sb.end();
+
 
     }
 }

@@ -9,18 +9,20 @@ import com.jxz.notcontra.game.Game;
  * Created by Samuel on 2015-03-27.
  */
 public class Player extends LivingEntity {
+
+    // Sprite fields
+    private float centerX, centerY;
     // Player specific fields
     private boolean isSprinting = false;
     private boolean isGrounded = false;
     private boolean isJumping = false;
 
     // Jumping Parameters
-    private int maxJumps = 2;
+    private int maxJumps = 22;
     private int jumpCounter = 0;
-    private int jumpState = 0;
+    private float jumpState = 0;
     private int jumpMultiplier = 1;
-    private int jumpHeight = 20;
-    private int jumpFrames = 10;
+    private float jumpFrames = 3;
     private float currentGravity = 0f;
 
     // Movement State
@@ -40,28 +42,34 @@ public class Player extends LivingEntity {
         // Local delta variables
         float deltaX = 0;
         float deltaY = 0;
+
+        // Update pre-positional fields
+        centerX = position.x + sprite.getWidth() / 2;
+        centerY = position.y + sprite.getHeight() / 2;
+
         // Step X for static tile data
         if (movementState.x != 0) {
-            // Gets center coordinate of sprite, as well as height of the sprite in tiles
-            float centerX = position.x + sprite.getWidth() / 2;
+            // Add effective speed to delta X
             float effectiveSpeed = speed * (isSprinting ? 2 : 1);
-            float boundingEdgeDelta = movementState.x * (sprite.getWidth() / 2 + effectiveSpeed);
-            int height = (int) Math.ceil(sprite.getHeight() * Game.UNIT_SCALE);
+            deltaX += effectiveSpeed * movementState.x;
+        }
 
-            boolean validMove = true;
+        // Check collision bounds
 
-            // For-loop checks adjacent x positions based on height of the sprite
-            for (int i = 0; i < height; i++) {
-                if (currentMap.getStaticTileAt(centerX + boundingEdgeDelta, position.y + i * (1 / Game.UNIT_SCALE)) != null) {
-                    validMove = false; // any obstacle on any of the player's y-coordinates invalidates the move
-                }
-            }
+        int height = (int) Math.ceil(sprite.getHeight() * Game.UNIT_SCALE);
+        float boundingEdgeDelta = (deltaX > 0 ? 1 : -1) * sprite.getWidth() / 2;
 
-            // Proceed if move is still valid
-            if (validMove) {
-                deltaX += (isSprinting ? 2 : 1) * speed * movementState.x;
+        // X-check
+        float maxDist = Math.abs(deltaX);
+        for (int i = 0; i <= height; i++) {
+            float dist = currentMap.distToObstacle(centerX + boundingEdgeDelta, position.y + i * (1 / Game.UNIT_SCALE), deltaX, false);
+            if (dist < maxDist) {
+                maxDist = dist;
             }
         }
+
+        deltaX = (deltaX > 0 ? 1 : -1) * maxDist;
+        position.x += deltaX;
 
         // Step Y - currently non-functional due to lack of climbing mechanisms
         if (movementState.y != 0) {
@@ -70,34 +78,36 @@ public class Player extends LivingEntity {
 
         // Jump if jump frames are not 0
         if (jumpState > 0) {
-            // Check obstacles overhead before jumping!
-            if (currentMap.getStaticTileAt(position.x + 1, position.y + sprite.getHeight()) == null && currentMap.getStaticTileAt(position.x + sprite.getWidth() - 1, position.y + sprite.getHeight()) == null) {
-                deltaY += jumpMultiplier * jumpHeight;
-                jumpState -= 1;
-            } else {
-                // Stops moving upwards if obstacle is found on either side of player overhead
-                jumpState = 0;
-            }
+            deltaY += jumpMultiplier * Math.pow(jumpState, 2);
+            jumpState -= Gdx.graphics.getDeltaTime() * 2;
+        } else if (jumpState < 0) {
+            jumpState = 0;
         }
 
         // Update boolean states
-        // Player is grounded if there is room for player to step down due to gravity
-        isGrounded = (currentMap.getStaticTileAt(position.x + 1, position.y - currentMap.getGravity()) != null || currentMap.getStaticTileAt(position.x + sprite.getWidth() - 1, position.y - currentMap.getGravity()) != null);
+        // Player is grounded if there is 0 space to either side
+        isGrounded = currentMap.distToObstacle(position.x, position.y, -1, true) == 0 || currentMap.distToObstacle(position.x + sprite.getWidth(), position.y, -1, true) == 0;
 
         // Updates position due to gravity, if applicable
         if (!isGrounded) {
             currentGravity += currentMap.getGravity() * Gdx.graphics.getDeltaTime();
-            System.out.println(currentGravity * Gdx.graphics.getDeltaTime());
-            deltaY -= currentGravity * Gdx.graphics.getDeltaTime() * 10;
+            deltaY -= currentGravity;
         } else {
             // Resets jump counter if player is already grounded
             jumpCounter = 0;
             currentGravity = 0;
         }
 
-        // Calculate
-        position.x += deltaX;
+        maxDist = Math.abs(deltaY);
+        boundingEdgeDelta = (deltaY > 0 ? 1 : -1) * sprite.getHeight() / 2;
+
+        // Y-check
+        float leftDist = currentMap.distToObstacle(position.x, centerY + boundingEdgeDelta, deltaY, true);
+        float rightDist = currentMap.distToObstacle(position.x + sprite.getWidth(), centerY + boundingEdgeDelta, deltaY, true);
+
+        deltaY = (deltaY > 0 ? 1 : -1) * (leftDist > rightDist ? rightDist : leftDist);
         position.y += deltaY;
+
 
         // Update final sprite position for static collisions, and updates axis aligned bounding box for dynamic collisions
         sprite.setPosition(position.x, position.y);
@@ -132,7 +142,7 @@ public class Player extends LivingEntity {
         this.isGrounded = isGrounded;
     }
 
-    public int getJumpState() {
+    public float getJumpState() {
         return jumpState;
     }
 
@@ -148,7 +158,7 @@ public class Player extends LivingEntity {
         this.jumpMultiplier = jumpMultiplier;
     }
 
-    public int getJumpFrames() {
+    public float getJumpFrames() {
         return jumpFrames;
     }
 
@@ -178,5 +188,9 @@ public class Player extends LivingEntity {
 
     public void setIsJumping(boolean isJumping) {
         this.isJumping = isJumping;
+    }
+
+    public void resetGravity() {
+        this.currentGravity = 0;
     }
 }

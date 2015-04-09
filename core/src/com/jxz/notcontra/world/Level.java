@@ -16,7 +16,7 @@ public class Level {
     // Class Variables
     private Game game;
     private TiledMap map;
-    private float gravity = 9.8f;
+    private float gravity = 0.15f / Game.UNIT_SCALE;
 
     public Level(Game g, TiledMap map) {
         this.game = g;
@@ -46,6 +46,32 @@ public class Level {
         }
 
         return cell.getTile();
+    }
+
+    /**
+     * Returns the maximum distance the player can travel before bumping into an obstacle, given direction.
+     *
+     * @param x        Initial x coordinate.
+     * @param y        Initial y coordinate.
+     * @param dir      Direction to scan. Negative indicates left/down.
+     * @param vertical True when scanning for vertical.
+     * @return
+     */
+    public float distToObstacle(float x, float y, float dir, boolean vertical) {
+        float dist = 0;
+        for (int i = 0; i <= Math.abs(dir); i++) {
+            if (getStaticTileAt(x + (vertical ? 0 : (dir > 0 ? 1 : -1)) * i, y + (vertical ? (dir > 0 ? 1 : -1) : 0) * i) == null) {
+                dist++;
+            } else {
+                break;
+            }
+        }
+
+        if (dist > 0) {
+            dist--;
+        }
+
+        return dist;
     }
 
     /**
