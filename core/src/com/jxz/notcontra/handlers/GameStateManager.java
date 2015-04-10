@@ -29,6 +29,10 @@ public class GameStateManager {
         return gsmManager;
     }
 
+    public static GameStateManager getInstance() {
+        return gsmManager;
+    }
+
     public void update(float dt) {
         gameState.peek().update(dt);
     }
@@ -60,5 +64,13 @@ public class GameStateManager {
     public void popState() {
         GameState state = gameState.pop();
         state.dispose();
+    }
+
+    public void handleInput() {
+        gameState.peek().handleInput();
+    }
+
+    public GameState getStateInstance() {
+        return gameState.peek();
     }
 }
