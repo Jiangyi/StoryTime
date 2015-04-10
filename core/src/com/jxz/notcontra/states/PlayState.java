@@ -31,7 +31,6 @@ public class PlayState extends GameState {
 
     public void dispose() {
         // Cleanup
-        sb.dispose();
         font.dispose();
     }
 
@@ -57,6 +56,8 @@ public class PlayState extends GameState {
         font.draw(sb, "X tile: " + game.getPlayer().getPosition().x * Game.UNIT_SCALE, 300, 75);
         font.draw(sb, "Y tile: " + game.getPlayer().getPosition().y * Game.UNIT_SCALE, 300, 50);
         font.draw(sb, "MovementStateX: " + game.getPlayer().getMovementState().x, 500, 50);
+        font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 75);
+        font.draw(sb, "Press O to turn on VSync, P to turn off", 500, 25);
         // Flags
         font.draw(sb, "Grounded? : " + (game.getPlayer().isGrounded() ? "true" : "false"), 100, 25);
         font.setColor(Color.WHITE);
@@ -72,7 +73,6 @@ public class PlayState extends GameState {
         }
 
         sb.end();
-
 
     }
 }

@@ -3,6 +3,7 @@ package com.jxz.notcontra.handlers;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.states.GameState;
 import com.jxz.notcontra.states.PlayState;
+import com.jxz.notcontra.states.LoadState;
 
 import java.util.Stack;
 
@@ -15,11 +16,12 @@ public class GameStateManager {
     private Stack<GameState> gameState;
     private static GameStateManager gsmManager;
     public static final int PLAY = 1;       // Any number will do
+    public static final int LOAD = 0;
 
     private GameStateManager(Game game) {
         this.game = game;
         gameState = new Stack<GameState>();
-        pushState(PLAY);
+        pushState(LOAD);
     }
 
     public static GameStateManager getInstance(Game game) {
@@ -48,6 +50,9 @@ public class GameStateManager {
     private GameState getState(int state) {
         if (state == PLAY) {
             return new PlayState(this);
+        }
+        if (state == LOAD) {
+            return new LoadState(this);
         }
         return null;
     }

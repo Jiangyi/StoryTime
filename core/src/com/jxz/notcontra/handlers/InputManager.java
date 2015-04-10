@@ -1,9 +1,11 @@
 package com.jxz.notcontra.handlers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.states.LoadState;
 import com.jxz.notcontra.states.PlayState;
 
 /**
@@ -12,11 +14,13 @@ import com.jxz.notcontra.states.PlayState;
 public class InputManager implements InputProcessor {
     private Game game;
     private Player player;
+    private GameStateManager gsm;
     private static InputManager manager;
 
     private InputManager(Game g) {
         game = g;
         player = g.getPlayer();
+        gsm = GameStateManager.getInstance();
     }
 
     public static InputManager getInstance(Game game) {
@@ -57,6 +61,27 @@ public class InputManager implements InputProcessor {
                 player.setIsGrounded(false);
                 player.setIsJumping(true);
             }
+
+            // PLAY STATE SWITCH STATE TEST
+            if (keycode == Input.Keys.ESCAPE) {
+                gsm.setState(GameStateManager.LOAD);
+                return true;
+            }
+        }
+        // LOAD STATE SWITCH STATE TEST
+        if (GameStateManager.getInstance().getStateInstance() instanceof LoadState) {
+            if (keycode == Input.Keys.ESCAPE) {
+                gsm.setState(GameStateManager.PLAY);
+                return true;
+            }
+        }
+        if (keycode == Input.Keys.P) {
+            Gdx.graphics.setVSync(false);
+            return true;
+        }
+        if (keycode == Input.Keys.O) {
+            Gdx.graphics.setVSync(true);
+            return true;
         }
         return false;
     }

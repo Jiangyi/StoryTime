@@ -18,7 +18,7 @@ public class Player extends LivingEntity {
     private boolean isJumping = false;
 
     // Jumping Parameters
-    private int maxJumps = 22;
+    private int maxJumps = 2;
     private int jumpCounter = 0;
     private float jumpState = 0;
     private int jumpMultiplier = 1;

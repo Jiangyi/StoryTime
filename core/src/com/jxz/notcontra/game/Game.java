@@ -2,6 +2,7 @@ package com.jxz.notcontra.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -21,7 +22,7 @@ public class Game extends ApplicationAdapter {
     public static final int VID_WIDTH = 1120;
     public static final int VID_HEIGHT = 630;
 
-    public static final float STEP = 1 / 60f;            // 60 Frames Per Second
+    public static final float STEP = 1 / 60f;            // 60 ticks per Second
     private float accumulator;
 
     // Game-wide managers
@@ -53,7 +54,6 @@ public class Game extends ApplicationAdapter {
         gsm = GameStateManager.getInstance(this);
         entityManager = EntityManager.getInstance(this);
 
-        // Load TMX map
         TiledMap map = new TmxMapLoader().load("Maps/samplelevel.tmx");
         currentLevel = new Level(this, map);
         currentMapRenderer = new OrthogonalTiledMapRenderer(map, UNIT_SCALE);
