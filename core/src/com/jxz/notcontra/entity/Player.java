@@ -43,6 +43,9 @@ public class Player extends LivingEntity {
         float deltaX = 0;
         float deltaY = 0;
 
+        // Previous State storage
+        boolean prevGrounded = isGrounded;
+
         // Update pre-positional fields
         centerX = position.x + sprite.getWidth() / 2;
         centerY = position.y + sprite.getHeight() / 2;
@@ -58,11 +61,12 @@ public class Player extends LivingEntity {
 
         int height = (int) Math.ceil(sprite.getHeight() * Game.UNIT_SCALE);
         float boundingEdgeDelta = (deltaX > 0 ? 1 : -1) * sprite.getWidth() / 2;
+        float dist;
 
         // X-check
         float maxDist = Math.abs(deltaX);
         for (int i = 0; i <= height; i++) {
-            float dist = currentMap.distToObstacle(centerX + boundingEdgeDelta, position.y + i * (1 / Game.UNIT_SCALE), deltaX, false);
+            dist = currentMap.distToObstacle(centerX + boundingEdgeDelta, position.y + i * (1 / Game.UNIT_SCALE), deltaX, false);
             if (dist < maxDist) {
                 maxDist = dist;
             }
@@ -78,15 +82,19 @@ public class Player extends LivingEntity {
 
         // Jump if jump frames are not 0
         if (jumpState > 0) {
-            deltaY += jumpMultiplier * Math.pow(jumpState, 2);
-            jumpState -= Gdx.graphics.getDeltaTime() * 2;
+            float jumpDist = jumpMultiplier * (float) Math.pow(jumpState, 2);
+            float leftDist = currentMap.distToObstacle(position.x, position.y + height / Game.UNIT_SCALE, jumpDist, true);
+            float rightDist = currentMap.distToObstacle(position.x + sprite.getWidth(), position.y + height / Game.UNIT_SCALE, jumpDist, true);
+            if (leftDist < Math.floor(jumpDist) || rightDist < Math.floor(jumpDist)) {
+                jumpState = 0;
+            } else {
+                jumpState -= Gdx.graphics.getDeltaTime() * 2;
+            }
+            position.y += (leftDist < rightDist ? leftDist : rightDist);
+
         } else if (jumpState < 0) {
             jumpState = 0;
         }
-
-        // Update boolean states
-        // Player is grounded if there is 0 space to either side
-        isGrounded = currentMap.distToObstacle(position.x, position.y, -1, true) == 0 || currentMap.distToObstacle(position.x + sprite.getWidth(), position.y, -1, true) == 0;
 
         // Updates position due to gravity, if applicable
         if (!isGrounded) {
@@ -108,6 +116,12 @@ public class Player extends LivingEntity {
         deltaY = (deltaY > 0 ? 1 : -1) * (leftDist > rightDist ? rightDist : leftDist);
         position.y += deltaY;
 
+        // Player is grounded if there is 0 space to either side
+        isGrounded = currentMap.distToObstacle(position.x, position.y, -1, true) == 0 || currentMap.distToObstacle(position.x + sprite.getWidth(), position.y, -1, true) == 0;
+
+        if (!prevGrounded && isGrounded) {
+            jumpState = 0;
+        }
 
         // Update final sprite position for static collisions, and updates axis aligned bounding box for dynamic collisions
         sprite.setPosition(position.x, position.y);
