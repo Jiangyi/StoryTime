@@ -5,7 +5,7 @@
 * AssetManager (LoadState) [wip]
 * Animation support for main character [Kevin]
 * Multiple resolution support (changing camera viewport to arbitrary units)
-* Frame rate independent movement
+* Frame rate independent movement [Andrew]
 
 ## MEDIUM PRIORITY: ##
 * Interactable entities
