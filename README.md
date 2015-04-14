@@ -1,17 +1,15 @@
 # To Do List: #
 
 ## HIGH PRIORITY: ##
-* Tiled Map Support (.tmx loader and Box2D implementation) [currently working on - Samuel]
-* AssetManager (LoadState)
+* HUD Camera and Map Scrolling, one-way platforms, slopes, ladder/ropes[currently working on - Samuel]
+* AssetManager (LoadState) [wip]
 * Animation support for main character [Kevin]
 * Multiple resolution support (changing camera viewport to arbitrary units)
-
+* Frame rate independent movement
 
 ## MEDIUM PRIORITY: ##
 * Interactable entities
-* Camera follow and multiple screen maps
 * Sound effects/music
-* HUD/GUI
 
 ## LOW PRIORITY: ##
 * Debug mode
@@ -19,12 +17,3 @@
 * Custom Configurations
 * Buffs/Skills
 * Main Menu
-
-
-
-
-
-
-
-
-
