@@ -2,14 +2,11 @@ package com.jxz.notcontra.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.handlers.Assets;
 import com.jxz.notcontra.handlers.EntityManager;
@@ -31,6 +28,7 @@ public class Game extends ApplicationAdapter {
     private GameStateManager gsm;
     private SpriteBatch sb;
     private OrthographicCamera playerCam;
+    private FitViewport viewport;
     private OrthographicCamera hudCam;
 
     // Entity Manager
@@ -41,8 +39,8 @@ public class Game extends ApplicationAdapter {
 
     // Map Render Variables
     public static final float UNIT_SCALE = 1 / 70f; // 1 ingame unit = 70 px (tile size)
-    private final int VIEW_HEIGHT = 9;
-    private final int VIEW_WIDTH = 16;
+    private final int VIEW_HEIGHT = 9; // TODO: Finalize tile count on screen
+    private final int VIEW_WIDTH = 16; // TODO: Finalize tile count on screen x2
     private LevelRenderer currentMapRenderer;
     private Level currentLevel;
 
@@ -50,11 +48,15 @@ public class Game extends ApplicationAdapter {
     public void create() {
         // Load and parse assets
         Assets.load();
-        while (!Assets.assetManager.update());
+        while (!Assets.assetManager.update()) {
+            // TODO: Show loading screen here or something
+        };
 
         // Instantiate new sprite batch and camera for rendering
         sb = new SpriteBatch();
         playerCam = new OrthographicCamera();
+        viewport = new FitViewport(VIEW_WIDTH, VIEW_HEIGHT, playerCam);
+        viewport.apply();
         playerCam.setToOrtho(false, VIEW_WIDTH, VIEW_HEIGHT);
         hudCam = new OrthographicCamera();
         hudCam.setToOrtho(false, VID_WIDTH, VID_HEIGHT);
@@ -87,6 +89,10 @@ public class Game extends ApplicationAdapter {
             gsm.update(STEP);
             gsm.render();
         }
+    }
+
+    public void resize(int width, int height) {
+        viewport.update(width, height);
     }
 
     public void dispose() {
