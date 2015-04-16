@@ -2,19 +2,18 @@ package com.jxz.notcontra.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.handlers.InputManager;
 import com.jxz.notcontra.world.Level;
+import com.jxz.notcontra.world.LevelRenderer;
 
 public class Game extends ApplicationAdapter {
     // Program Constants
@@ -41,7 +40,7 @@ public class Game extends ApplicationAdapter {
     public static final float UNIT_SCALE = 1 / 70f; // 1 ingame unit = 70 px (tile size)
     private final int VIEW_HEIGHT = 9;
     private final int VIEW_WIDTH = 16;
-    private OrthogonalTiledMapRenderer currentMapRenderer;
+    private LevelRenderer currentMapRenderer;
     private Level currentLevel;
 
     @Override
@@ -49,6 +48,8 @@ public class Game extends ApplicationAdapter {
         sb = new SpriteBatch();
         playerCam = new OrthographicCamera();
         playerCam.setToOrtho(false, VIEW_WIDTH, VIEW_HEIGHT);
+        hudCam = new OrthographicCamera();
+        hudCam.setToOrtho(false, VID_WIDTH, VID_HEIGHT);
 
         // Setup singleton manager classes
         gsm = GameStateManager.getInstance(this);
@@ -56,7 +57,7 @@ public class Game extends ApplicationAdapter {
 
         TiledMap map = new TmxMapLoader().load("Maps/samplelevel.tmx");
         currentLevel = new Level(this, map);
-        currentMapRenderer = new OrthogonalTiledMapRenderer(map, UNIT_SCALE);
+        currentMapRenderer = new LevelRenderer(map, UNIT_SCALE);
         currentMapRenderer.setView(playerCam);
 
         // Initialize Player object
@@ -106,7 +107,7 @@ public class Game extends ApplicationAdapter {
         return currentLevel;
     }
 
-    public OrthogonalTiledMapRenderer getCurrentMapRenderer() {
+    public LevelRenderer getCurrentMapRenderer() {
         return currentMapRenderer;
     }
 }

@@ -3,6 +3,7 @@ package com.jxz.notcontra.entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.world.Level;
 
@@ -66,5 +67,15 @@ public abstract class Entity {
 
     public Rectangle getAABB() {
         return aabb;
+    }
+
+
+    // Temporary workarounds to differing camera and screen coordinates
+    public Vector2 getTileSize() {
+        return new Vector2(sprite.getWidth() * Game.UNIT_SCALE, sprite.getHeight() * Game.UNIT_SCALE);
+    }
+
+    public Vector2 getTilePosition() {
+        return new Vector2(position.x * Game.UNIT_SCALE, position.y * Game.UNIT_SCALE);
     }
 }

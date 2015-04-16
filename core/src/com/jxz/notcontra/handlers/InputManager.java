@@ -35,7 +35,7 @@ public class InputManager implements InputProcessor {
         // Movement controls only operational if in play state
         if (GameStateManager.getInstance().getStateInstance() instanceof PlayState) {
             // Update sprinting state
-            if (keycode == Input.Keys.SHIFT_LEFT) {
+            if (keycode == Input.Keys.SHIFT_LEFT && player.getJumpState() == 0) {
                 player.setSprinting(true);
             }
 
@@ -82,6 +82,14 @@ public class InputManager implements InputProcessor {
         if (keycode == Input.Keys.O) {
             Gdx.graphics.setVSync(true);
             return true;
+        }
+
+        if (keycode == Input.Keys.ALT_LEFT) {
+            game.getPlayerCam().zoom += 1;
+        }
+
+        if (keycode == Input.Keys.ALT_RIGHT) {
+            game.getPlayerCam().zoom -= 1;
         }
         return false;
     }
