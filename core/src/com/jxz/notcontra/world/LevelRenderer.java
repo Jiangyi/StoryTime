@@ -13,7 +13,7 @@ import com.jxz.notcontra.handlers.EntityManager;
 public class LevelRenderer extends OrthogonalTiledMapRenderer {
 
     // Constants
-    private final int SPRITE_LAYER = 1;
+    private final int SPRITE_LAYER = 4;
 
     public LevelRenderer(TiledMap map, float unitScale) {
         super(map, unitScale);

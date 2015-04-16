@@ -50,7 +50,7 @@ public class Game extends ApplicationAdapter {
         Assets.load();
         while (!Assets.assetManager.update()) {
             // TODO: Show loading screen here or something
-        };
+        }
 
         // Instantiate new sprite batch and camera for rendering
         sb = new SpriteBatch();
@@ -67,6 +67,7 @@ public class Game extends ApplicationAdapter {
 
         TiledMap map = Assets.assetManager.get(Assets.level1);
         currentLevel = new Level(this, map);
+        currentLevel.setDimensions(36, 12);
         currentMapRenderer = new LevelRenderer(map, UNIT_SCALE);
         currentMapRenderer.setView(playerCam);
 

@@ -55,6 +55,7 @@ public class InputManager implements InputProcessor {
 
             // Jump if max jumps is not reached
             if (keycode == Input.Keys.SPACE && player.getJumpCounter() < player.getMaxJumps() && !player.isJumping()) {
+                player.setIsClimbing(false);
                 player.setJumpState(Math.round(player.getJumpFrames()));
                 player.resetGravity();
                 player.setJumpCounter(player.getJumpCounter() + 1);

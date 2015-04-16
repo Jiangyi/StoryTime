@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.world.Level;
 
 /**
  * Created by Samuel on 2015-03-27.
@@ -16,6 +17,8 @@ public class Player extends LivingEntity {
     private boolean isSprinting = false;
     private boolean isGrounded = false;
     private boolean isJumping = false;
+    private boolean canClimb = false;
+    private boolean isClimbing = false;
 
     // Jumping Parameters
     private int maxJumps = 2;
@@ -73,11 +76,20 @@ public class Player extends LivingEntity {
         }
 
         deltaX = (deltaX > 0 ? 1 : -1) * maxDist;
+
+        // Lock horizontal movement when climbing
+        if (isClimbing) {
+            deltaX = 0;
+        }
+
+        // Update x
         position.x += deltaX;
 
-        // Step Y - currently non-functional due to lack of climbing mechanisms
-        if (movementState.y != 0) {
-            //position.y += speed * movementState.y;
+        // Step Y
+        if (movementState.y != 0 && canClimb) {
+            isClimbing = true;
+            position.x = (float) Math.round(position.x * Game.UNIT_SCALE) / Game.UNIT_SCALE;
+            deltaY += speed * movementState.y;
         }
 
         // Jump if jump frames are not 0
@@ -90,14 +102,14 @@ public class Player extends LivingEntity {
             } else {
                 jumpState -= Gdx.graphics.getDeltaTime() * 2;
             }
-            position.y += (leftDist < rightDist ? leftDist : rightDist);
+            deltaY += (leftDist < rightDist ? leftDist : rightDist);
 
         } else if (jumpState < 0) {
             jumpState = 0;
         }
 
-        // Updates position due to gravity, if applicable
-        if (!isGrounded) {
+        // Updates position due to gravity, if applicable (not climbing)
+        if (!isGrounded && !isClimbing) {
             currentGravity += currentMap.getGravity() * Gdx.graphics.getDeltaTime();
             deltaY -= currentGravity;
         } else {
@@ -116,11 +128,20 @@ public class Player extends LivingEntity {
         deltaY = (deltaY > 0 ? 1 : -1) * (leftDist > rightDist ? rightDist : leftDist);
         position.y += deltaY;
 
+        /** Update boolean states **/
         // Player is grounded if there is 0 space to either side
         isGrounded = currentMap.distToObstacle(position.x, position.y, -1, true) == 0 || currentMap.distToObstacle(position.x + sprite.getWidth(), position.y, -1, true) == 0;
 
         if (!prevGrounded && isGrounded) {
             jumpState = 0;
+        }
+
+        // Player can grab onto a ladder if the center of the player is within a ladder tile
+        if (currentMap.getTileAt(centerX, centerY, Level.CLIMB_LAYER) != null) {
+            canClimb = currentMap.getTileAt(centerX, centerY, Level.CLIMB_LAYER).getProperties().containsKey("climbable");
+        } else {
+            canClimb = false;
+            isClimbing = false;
         }
 
         // Update final sprite position for static collisions, and updates axis aligned bounding box for dynamic collisions
@@ -206,5 +227,17 @@ public class Player extends LivingEntity {
 
     public void resetGravity() {
         this.currentGravity = 0;
+    }
+
+    public boolean canClimb() {
+        return canClimb;
+    }
+
+    public boolean isClimbing() {
+        return isClimbing;
+    }
+
+    public void setIsClimbing(boolean isClimbing) {
+        this.isClimbing = isClimbing;
     }
 }
