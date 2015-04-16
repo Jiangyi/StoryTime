@@ -88,6 +88,7 @@ public class Player extends LivingEntity {
         // Step Y
         if (movementState.y != 0 && canClimb) {
             isClimbing = true;
+            jumpState = 0;
             position.x = (float) Math.round(position.x * Game.UNIT_SCALE) / Game.UNIT_SCALE;
             deltaY += speed * movementState.y;
         }
@@ -137,8 +138,8 @@ public class Player extends LivingEntity {
         }
 
         // Player can grab onto a ladder if the center of the player is within a ladder tile
-        if (currentMap.getTileAt(centerX, centerY, Level.CLIMB_LAYER) != null) {
-            canClimb = currentMap.getTileAt(centerX, centerY, Level.CLIMB_LAYER).getProperties().containsKey("climbable");
+        if (currentMap.getTileAt(centerX - (movementState.x * sprite.getWidth() / 4), centerY, Level.CLIMB_LAYER) != null) {
+            canClimb = currentMap.getTileAt(centerX - (movementState.x * sprite.getWidth() / 4), centerY, Level.CLIMB_LAYER).getProperties().containsKey("climbable");
         } else {
             canClimb = false;
             isClimbing = false;
