@@ -14,8 +14,8 @@ public class DesktopLauncher {
 
         // DISABLE VSYNC FOR TESTING
         config.vSyncEnabled = true;
-        config.foregroundFPS = 0;
-        config.backgroundFPS = 0;
+        //config.foregroundFPS = 0;
+        //config.backgroundFPS = 0;
 
         new LwjglApplication(new Game(), config);
     }

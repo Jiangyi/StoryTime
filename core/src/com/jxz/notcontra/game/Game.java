@@ -2,6 +2,8 @@ package com.jxz.notcontra.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -9,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.jxz.notcontra.entity.Player;
+import com.jxz.notcontra.handlers.Assets;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.handlers.InputManager;
@@ -45,6 +48,11 @@ public class Game extends ApplicationAdapter {
 
     @Override
     public void create() {
+        // Load and parse assets
+        Assets.load();
+        while (!Assets.assetManager.update());
+
+        // Instantiate new sprite batch and camera for rendering
         sb = new SpriteBatch();
         playerCam = new OrthographicCamera();
         playerCam.setToOrtho(false, VIEW_WIDTH, VIEW_HEIGHT);
@@ -55,14 +63,14 @@ public class Game extends ApplicationAdapter {
         gsm = GameStateManager.getInstance(this);
         entityManager = EntityManager.getInstance(this);
 
-        TiledMap map = new TmxMapLoader().load("Maps/samplelevel.tmx");
+        TiledMap map = Assets.assetManager.get(Assets.level1);
         currentLevel = new Level(this, map);
         currentMapRenderer = new LevelRenderer(map, UNIT_SCALE);
         currentMapRenderer.setView(playerCam);
 
         // Initialize Player object
         player = new Player();
-        player.setSprite(new Sprite(new Texture("p1_duck.png")));
+        player.setSprite(new Sprite(Assets.assetManager.get(Assets.player)));
         player.setSpeed(2f);
         player.setCurrentMap(currentLevel);
         player.setVisible(true);
@@ -85,6 +93,7 @@ public class Game extends ApplicationAdapter {
         sb.dispose();
         entityManager.dispose();
         currentMapRenderer.getMap().dispose();
+        Assets.dispose();
     }
 
     public SpriteBatch getSpriteBatch() {
