@@ -21,7 +21,6 @@ public class Game extends ApplicationAdapter {
     public static final int VID_WIDTH = 1120;
     public static final int VID_HEIGHT = 630;
 
-    public static final float STEP = 1 / 60f;            // 60 ticks per Second
     private float accumulator;
 
     // Game-wide managers
@@ -85,11 +84,8 @@ public class Game extends ApplicationAdapter {
     @Override
     public void render() {
         accumulator += Gdx.graphics.getDeltaTime();
-        while (accumulator >= STEP) {
-            accumulator -= STEP;
-            gsm.update(STEP);
-            gsm.render();
-        }
+        gsm.update(accumulator);
+        gsm.render();
     }
 
     public void resize(int width, int height) {
