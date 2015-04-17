@@ -46,6 +46,9 @@ public class Player extends LivingEntity {
         float deltaX = 0;
         float deltaY = 0;
 
+        // Constant to
+        final float FPS_CONSTANT = (Gdx.graphics.getDeltaTime() * 60);
+
         // Previous State storage
         boolean prevGrounded = isGrounded;
 
@@ -83,7 +86,7 @@ public class Player extends LivingEntity {
         }
 
         // Update x
-        position.x += deltaX;
+        position.x += deltaX * FPS_CONSTANT;
 
         // Step Y
         if (movementState.y != 0 && canClimb) {
@@ -127,7 +130,7 @@ public class Player extends LivingEntity {
         float rightDist = currentMap.distToObstacle(position.x + sprite.getWidth(), centerY + boundingEdgeDelta, deltaY, true);
 
         deltaY = (deltaY > 0 ? 1 : -1) * (leftDist > rightDist ? rightDist : leftDist);
-        position.y += deltaY;
+        position.y += deltaY * FPS_CONSTANT;
 
         /** Update boolean states **/
         // Player is grounded if there is 0 space to either side
