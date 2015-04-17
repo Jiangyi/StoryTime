@@ -41,12 +41,11 @@ public class Player extends LivingEntity {
 
     @Override
     public void update() {
-
         // Local delta variables
         float deltaX = 0;
         float deltaY = 0;
 
-        // Constant to
+        // Constant to multiply movements by to ensure timer-based movements
         final float FPS_CONSTANT = (Gdx.graphics.getDeltaTime() * 60);
 
         // Previous State storage
@@ -64,10 +63,14 @@ public class Player extends LivingEntity {
         }
 
         // Check collision bounds
-
         int height = (int) Math.ceil(sprite.getHeight() * Game.UNIT_SCALE);
         float boundingEdgeDelta = (deltaX > 0 ? 1 : -1) * sprite.getWidth() / 2;
         float dist;
+
+        // Low FPS check - ensure collisions are checked properly if FPS < 60
+        if (FPS_CONSTANT > 1) {
+            deltaX *= FPS_CONSTANT;
+        }
 
         // X-check
         float maxDist = Math.abs(deltaX);
@@ -86,7 +89,7 @@ public class Player extends LivingEntity {
         }
 
         // Update x
-        position.x += deltaX * FPS_CONSTANT;
+        position.x += (FPS_CONSTANT > 1) ? deltaX : deltaX * FPS_CONSTANT;
 
         // Step Y
         if (movementState.y != 0 && canClimb) {
@@ -122,15 +125,19 @@ public class Player extends LivingEntity {
             currentGravity = 0;
         }
 
-        maxDist = Math.abs(deltaY);
         boundingEdgeDelta = (deltaY > 0 ? 1 : -1) * sprite.getHeight() / 2;
+
+        // Low fps check - ensures collisions are handled properly when FPS < 60
+        if (FPS_CONSTANT > 1) {
+            deltaY *= FPS_CONSTANT;
+        }
 
         // Y-check
         float leftDist = currentMap.distToObstacle(position.x, centerY + boundingEdgeDelta, deltaY, true);
         float rightDist = currentMap.distToObstacle(position.x + sprite.getWidth(), centerY + boundingEdgeDelta, deltaY, true);
 
         deltaY = (deltaY > 0 ? 1 : -1) * (leftDist > rightDist ? rightDist : leftDist);
-        position.y += deltaY * FPS_CONSTANT;
+        position.y += (FPS_CONSTANT > 1) ? deltaY : deltaY * FPS_CONSTANT;
 
         /** Update boolean states **/
         // Player is grounded if there is 0 space to either side
@@ -185,7 +192,7 @@ public class Player extends LivingEntity {
         return jumpState;
     }
 
-    public void setJumpState(int jumpState) {
+    public void setJumpState(float jumpState) {
         this.jumpState = jumpState;
     }
 
