@@ -18,7 +18,6 @@ public abstract class Entity {
     protected Vector2 position;
     protected boolean isVisible;
     protected boolean isActive;
-    protected boolean isAnimated;
     protected boolean isFlipped;
     protected Level currentMap;
     protected EntityManager manager = EntityManager.getInstance();
@@ -28,7 +27,7 @@ public abstract class Entity {
     public Entity() {
         manager.register(this);
         isVisible = true;
-        isAnimated = false;
+        isFlipped = false;
     }
 
     public boolean isFlipped() {
@@ -52,12 +51,6 @@ public abstract class Entity {
     }
 
     public abstract void update();
-
-    public abstract TextureRegion getAnimation();
-
-    public boolean isAnimated() {
-        return isAnimated;
-    }
 
     public boolean isVisible() {
         return isVisible;

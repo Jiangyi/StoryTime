@@ -24,13 +24,8 @@ public class Player extends LivingEntity {
     private Animation animRope;
     private Animation animLadder;
     private TextureAtlas playerFrames;
-    private TextureRegion[][] walkFrames;
-    private TextureRegion[][] idleFrames;
-    private TextureRegion[][] jumpFrame;
-    private TextureRegion[][] ropeFrames;
-    private TextureRegion[][] ladderFrames;
-    private TextureRegion currentFrame;
     private float animStateTime;
+    private float climbingStateTime;
 
     // Player specific fields
     private boolean isSprinting = false;
@@ -53,7 +48,7 @@ public class Player extends LivingEntity {
     // Constructor
     public Player() {
         super();
-        // Sets up animation
+        // Set up animations
         playerFrames = Assets.assetManager.get(Assets.player);
         animWalk = new Animation(1 / 6f,
                 (playerFrames.findRegion("walk0")),
@@ -74,14 +69,12 @@ public class Player extends LivingEntity {
                 (playerFrames.findRegion("ladder0")),
                 (playerFrames.findRegion("ladder1")));
 
-        isAnimated = true;
         movementState = new Vector2(0, 0);
         position = new Vector2(500, 400);
-        aabb = new Rectangle(position.x, position.y, 70, 70);
-        currentFrame = animIdle.getKeyFrame(animStateTime, true);
+        aabb = new Rectangle(position.x, position.y, 52, 68);
 
-        // TODO: can this be deleted? player does not use Sprite to render anymore - it uses TextureRegion
-        this.setSprite(new Sprite(currentFrame));
+        // Initialize animated sprite for player
+        this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
     }
 
     @Override
@@ -129,7 +122,7 @@ public class Player extends LivingEntity {
         deltaX = (deltaX > 0 ? 1 : -1) * maxDist;
 
         // Lock horizontal movement when climbing
-        if (isClimbing) {
+        if (isClimbing && !isGrounded) {
             deltaX = 0;
         }
 
@@ -138,10 +131,15 @@ public class Player extends LivingEntity {
 
         // Step Y
         if (movementState.y != 0 && canClimb) {
-            isClimbing = true;
             jumpState = 0;
-            position.x = (float) Math.round(position.x * Game.UNIT_SCALE) / Game.UNIT_SCALE;
-            deltaY += speed * movementState.y;
+            deltaY += speed / 1.5 * movementState.y;
+            if (isGrounded && movementState.y <= 0) {
+                isClimbing = false;
+            } else {
+                // TODO: need to fix rounding so that player can't "launch off the side of ropes and ladders"
+                position.x = (float) Math.round(position.x * Game.UNIT_SCALE) / Game.UNIT_SCALE;
+                isClimbing = true;
+            }
         }
 
         // Jump if jump frames are not 0
@@ -208,20 +206,25 @@ public class Player extends LivingEntity {
         animStateTime += Gdx.graphics.getDeltaTime();
         // Changes animation based on current frame time
         if (isGrounded) {
+            climbingStateTime = 0;
             if (movementState.x == 0) {
-                currentFrame = animIdle.getKeyFrame(animStateTime, true);
+                this.sprite.setRegion(animIdle.getKeyFrame(animStateTime, true));
             } else {
-                currentFrame = animWalk.getKeyFrame(animStateTime, true);
+                this.sprite.setRegion(animWalk.getKeyFrame(animStateTime, true));
             }
+        } else if (!isGrounded && isClimbing) {
+            if (movementState.y != 0) {
+                climbingStateTime += Gdx.graphics.getDeltaTime();
+            }
+            this.sprite.setRegion(animRope.getKeyFrame(climbingStateTime, true));
         } else {
-            currentFrame = animJump.getKeyFrame(animStateTime, true);
+            this.sprite.setRegion(animJump.getKeyFrame(animStateTime, true));
         }
-        if (movementState.x < 0) {
+        if (movementState.x < 0 && !isClimbing) {
             isFlipped = true;
-        } else if (movementState.x > 0) {
+        } else if (movementState.x > 0 && !isClimbing) {
             isFlipped = false;
         }
-
     }
 
     public boolean isSprinting() {
@@ -230,10 +233,6 @@ public class Player extends LivingEntity {
 
     public void setSprinting(boolean sprinting) {
         this.isSprinting = sprinting;
-    }
-
-    public TextureRegion getAnimation() {
-        return currentFrame;
     }
 
     public Vector2 getMovementState() {

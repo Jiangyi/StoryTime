@@ -61,7 +61,7 @@ public class PlayState extends GameState {
         font.draw(sb, "Press O to turn on VSync, P to turn off", 500, 25);
         // Flags
         font.draw(sb, "Grounded? : " + (game.getPlayer().isGrounded() ? "true" : "false"), 100, 25);
-        font.draw(sb, "Can climb? : " + (game.getPlayer().canClimb() ? "true" : "false"), 300, 25);
+        font.draw(sb, "Can climb / Is Climbing? : " + game.getPlayer().canClimb() + "" + game.getPlayer().isClimbing(), 300, 25);
         font.setColor(Color.WHITE);
 
         sb.end();
