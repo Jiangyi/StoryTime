@@ -32,7 +32,10 @@ public class LevelRenderer extends OrthogonalTiledMapRenderer {
 
                     if (currentLayer == SPRITE_LAYER) {
                         for (Entity e : EntityManager.getInstance().getMasterList()) {
-                            if (e.isVisible()) {
+                            if (e.isVisible() && e.isAnimated()) {
+                                batch.draw(e.getAnimation(), e.getTilePosition().x, e.getTilePosition().y, e.getTileSize().x, e.getTileSize().y);
+                                e.update();
+                            } else {
                                 batch.draw(e.getSprite(), e.getTilePosition().x, e.getTilePosition().y, e.getTileSize().x, e.getTileSize().y);
                                 e.update();
                             }

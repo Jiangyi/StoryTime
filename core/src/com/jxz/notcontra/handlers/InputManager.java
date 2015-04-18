@@ -37,6 +37,7 @@ public class InputManager implements InputProcessor {
             // Update sprinting state
             if (keycode == Input.Keys.SHIFT_LEFT && player.getJumpState() == 0) {
                 player.setSprinting(true);
+                return true;
             }
 
             // Standard WASD Movement

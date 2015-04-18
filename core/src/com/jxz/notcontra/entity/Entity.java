@@ -1,6 +1,7 @@
 package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
@@ -17,6 +18,7 @@ public abstract class Entity {
     protected Vector2 position;
     protected boolean isVisible;
     protected boolean isActive;
+    protected boolean isAnimated;
     protected Level currentMap;
     protected EntityManager manager = EntityManager.getInstance();
     protected Rectangle aabb;
@@ -25,6 +27,7 @@ public abstract class Entity {
     public Entity() {
         manager.register(this);
         isVisible = true;
+        isAnimated = false;
     }
 
     public int getId() {
@@ -44,6 +47,12 @@ public abstract class Entity {
     }
 
     public abstract void update();
+
+    public abstract TextureRegion getAnimation();
+
+    public boolean isAnimated() {
+        return isAnimated;
+    }
 
     public boolean isVisible() {
         return isVisible;

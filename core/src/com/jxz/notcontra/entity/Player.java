@@ -1,9 +1,13 @@
 package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.Assets;
 import com.jxz.notcontra.world.Level;
 
 /**
@@ -13,6 +17,11 @@ public class Player extends LivingEntity {
 
     // Sprite fields
     private float centerX, centerY;
+    private Animation walkAnimation;
+    private TextureRegion[][] walkFrames;
+    private TextureRegion currentFrame;
+    private float animStateTime;
+
     // Player specific fields
     private boolean isSprinting = false;
     private boolean isGrounded = false;
@@ -34,9 +43,14 @@ public class Player extends LivingEntity {
     // Constructor
     public Player() {
         super();
+        isAnimated = true;
         movementState = new Vector2(0, 0);
         position = new Vector2(500, 400);
         aabb = new Rectangle(position.x, position.y, 70, 70);
+        walkFrames = TextureRegion.split(Assets.assetManager.get(Assets.animatedPlayer), Assets.assetManager.get(Assets.animatedPlayer).getWidth() / 4, Assets.assetManager.get(Assets.animatedPlayer).getHeight() / 1);
+        walkAnimation = new Animation(1 / 6f, walkFrames[0]);
+        this.setSprite(new Sprite(Assets.assetManager.get(Assets.player)));
+        currentFrame = walkAnimation.getKeyFrame(animStateTime, true);
     }
 
     @Override
@@ -158,6 +172,23 @@ public class Player extends LivingEntity {
         // Update final sprite position for static collisions, and updates axis aligned bounding box for dynamic collisions
         sprite.setPosition(position.x, position.y);
         aabb.setPosition(position);
+
+        // Animation stuff
+        animStateTime += Gdx.graphics.getDeltaTime();
+        currentFrame = walkAnimation.getKeyFrame(animStateTime, true);
+        // Changes animation based on current frame time
+        if (movementState.x == 0) {
+            currentFrame = walkFrames[0][0];
+        }
+        if (!currentFrame.isFlipX()) {
+            if (movementState.x < 0) {
+                currentFrame.flip(true, false);
+            }
+        } else {
+            if (movementState.x > 0) {
+                currentFrame.flip(false, false);
+            }
+        }
     }
 
     public boolean isSprinting() {
@@ -166,6 +197,10 @@ public class Player extends LivingEntity {
 
     public void setSprinting(boolean sprinting) {
         this.isSprinting = sprinting;
+    }
+
+    public TextureRegion getAnimation() {
+        return currentFrame;
     }
 
     public Vector2 getMovementState() {

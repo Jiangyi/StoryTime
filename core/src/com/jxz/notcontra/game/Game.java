@@ -3,6 +3,7 @@ package com.jxz.notcontra.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -43,6 +44,7 @@ public class Game extends ApplicationAdapter {
     private LevelRenderer currentMapRenderer;
     private Level currentLevel;
 
+
     @Override
     public void create() {
         // Load and parse assets
@@ -72,8 +74,8 @@ public class Game extends ApplicationAdapter {
 
         // Initialize Player object
         player = new Player();
-        player.setSprite(new Sprite(Assets.assetManager.get(Assets.player)));
-        player.setSpeed(2f);
+        //player.setSprite(new Sprite(Assets.assetManager.get(Assets.player)));
+        player.setSpeed(3f);
         player.setCurrentMap(currentLevel);
         player.setVisible(true);
 
