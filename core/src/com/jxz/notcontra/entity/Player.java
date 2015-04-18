@@ -20,9 +20,15 @@ public class Player extends LivingEntity {
     private float centerX, centerY;
     private Animation animWalk;
     private Animation animIdle;
+    private Animation animJump;
+    private Animation animRope;
+    private Animation animLadder;
     private TextureAtlas playerFrames;
     private TextureRegion[][] walkFrames;
     private TextureRegion[][] idleFrames;
+    private TextureRegion[][] jumpFrame;
+    private TextureRegion[][] ropeFrames;
+    private TextureRegion[][] ladderFrames;
     private TextureRegion currentFrame;
     private float animStateTime;
 
@@ -38,7 +44,7 @@ public class Player extends LivingEntity {
     private int jumpCounter = 0;
     private float jumpState = 0;
     private int jumpMultiplier = 1;
-    private float jumpFrames = 3;
+    private float jumpTime = 3;
     private float currentGravity = 0f;
 
     // Movement State
@@ -60,13 +66,22 @@ public class Player extends LivingEntity {
                 (playerFrames.findRegion("stand2")),
                 (playerFrames.findRegion("stand3")),
                 (playerFrames.findRegion("stand4")));
+        animJump = new Animation(1, (playerFrames.findRegion("jump0")));
+        animRope = new Animation(1 / 2f,
+                (playerFrames.findRegion("rope0")),
+                (playerFrames.findRegion("rope1")));
+        animLadder = new Animation(1 / 2f,
+                (playerFrames.findRegion("ladder0")),
+                (playerFrames.findRegion("ladder1")));
 
         isAnimated = true;
         movementState = new Vector2(0, 0);
         position = new Vector2(500, 400);
         aabb = new Rectangle(position.x, position.y, 70, 70);
         currentFrame = animIdle.getKeyFrame(animStateTime, true);
-        this.setSprite(new Sprite(currentFrame)); // TODO: how to get rid of this? unneeded
+
+        // TODO: can this be deleted? player does not use Sprite to render anymore - it uses TextureRegion
+        this.setSprite(new Sprite(currentFrame));
     }
 
     @Override
@@ -192,13 +207,18 @@ public class Player extends LivingEntity {
         // Animation stuff
         animStateTime += Gdx.graphics.getDeltaTime();
         // Changes animation based on current frame time
-        if (movementState.x == 0) {
-            currentFrame = animIdle.getKeyFrame(animStateTime, true);
-        } else if (movementState.x < 0) {
-            currentFrame = animWalk.getKeyFrame(animStateTime, true);
-            isFlipped = true;
+        if (isGrounded) {
+            if (movementState.x == 0) {
+                currentFrame = animIdle.getKeyFrame(animStateTime, true);
+            } else {
+                currentFrame = animWalk.getKeyFrame(animStateTime, true);
+            }
         } else {
-            currentFrame = animWalk.getKeyFrame(animStateTime, true);
+            currentFrame = animJump.getKeyFrame(animStateTime, true);
+        }
+        if (movementState.x < 0) {
+            isFlipped = true;
+        } else if (movementState.x > 0) {
             isFlipped = false;
         }
 
@@ -252,12 +272,12 @@ public class Player extends LivingEntity {
         this.jumpMultiplier = jumpMultiplier;
     }
 
-    public float getJumpFrames() {
-        return jumpFrames;
+    public float getJumpTime() {
+        return jumpTime;
     }
 
-    public void setJumpFrames(int jumpFrames) {
-        this.jumpFrames = jumpFrames;
+    public void setJumpTime(int jumpTime) {
+        this.jumpTime = jumpTime;
     }
 
     public int getJumpCounter() {

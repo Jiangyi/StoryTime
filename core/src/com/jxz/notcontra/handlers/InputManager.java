@@ -59,10 +59,10 @@ public class InputManager implements InputProcessor {
                 // Reduced jump height and disabled double jumping when climbing
                 if (player.isClimbing()) {
                     player.setIsClimbing(false);
-                    player.setJumpState(player.getJumpFrames() * (float) 0.75);
+                    player.setJumpState(player.getJumpTime() * (float) 0.75);
                     player.setJumpCounter(player.getMaxJumps());
                 } else {
-                    player.setJumpState(Math.round(player.getJumpFrames()));
+                    player.setJumpState(Math.round(player.getJumpTime()));
                 }
                 player.resetGravity();
                 player.setJumpCounter(player.getJumpCounter() + 1);
