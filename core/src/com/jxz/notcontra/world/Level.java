@@ -7,6 +7,7 @@ import com.jxz.notcontra.game.Game;
 
 /**
  * Created by Samuel on 04/04/2015.
+ * Level
  */
 public class Level {
 
@@ -133,8 +134,7 @@ public class Level {
         TiledMapTile tile = getTileAt(x, y, DYNAMIC_LAYER);
         if (tile != null) {
             if (tile.getProperties().containsKey("slope")) {
-                float slope = Float.valueOf((String) tile.getProperties().get("slope"));
-                return slope;
+                return Float.valueOf((String) tile.getProperties().get("slope"));
             }
         }
 

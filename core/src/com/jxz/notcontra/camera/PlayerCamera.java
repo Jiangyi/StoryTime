@@ -7,6 +7,7 @@ import com.jxz.notcontra.game.Game;
 
 /**
  * Created by Samuel on 17/04/2015.
+ * Camera will follow player
  */
 public class PlayerCamera extends OrthographicCamera {
     // Player Camera Fields

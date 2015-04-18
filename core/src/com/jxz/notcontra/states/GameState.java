@@ -8,6 +8,7 @@ import com.jxz.notcontra.handlers.GameStateManager;
 
 /**
  * Created by Kevin Xiao on 2015-03-24.
+ * Game State abstract class
  */
 public abstract class GameState {
 

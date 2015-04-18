@@ -9,6 +9,7 @@ import java.util.Stack;
 
 /**
  * Created by Kevin Xiao on 2015-03-24.
+ * A singleton class that manages the game states
  */
 
 public class GameStateManager {

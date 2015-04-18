@@ -10,6 +10,7 @@ import com.jxz.notcontra.world.Level;
 
 /**
  * Created by Samuel on 2015-03-27.
+ * Entity abstract class
  */
 public abstract class Entity {
     // Base Entity fields

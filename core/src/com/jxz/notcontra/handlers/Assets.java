@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 /**
  * Created by Kevin Xiao on 2015-04-09.
+ * All assets that are to be loaded goes here
  */
 public class Assets {
 

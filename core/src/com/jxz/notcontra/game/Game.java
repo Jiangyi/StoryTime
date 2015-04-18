@@ -50,7 +50,7 @@ public class Game extends ApplicationAdapter {
         // Load and parse assets
         Assets.load();
         while (!Assets.assetManager.update()) {
-            // TODO: Show loading screen here or something
+            System.out.println(Assets.assetManager.getProgress() * 100 + "% loaded");
         }
 
         // Instantiate new sprite batch and camera for rendering

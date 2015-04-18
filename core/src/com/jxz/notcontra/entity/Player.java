@@ -15,6 +15,7 @@ import com.jxz.notcontra.world.Level;
 
 /**
  * Created by Samuel on 2015-03-27.
+ * The one and only player
  */
 public class Player extends LivingEntity {
 
@@ -142,9 +143,13 @@ public class Player extends LivingEntity {
         /** Step Y coordinate */
         if (movementState.y != 0 && canClimb) {
             // Lock X-position to center of ladder and start climbing, disabling any persisting jump velocity
-            isClimbing = true;
+            if (movementState.y < 0 && isGrounded) {
+                isClimbing = false;
+            } else {
+                isClimbing = true;
+                position.x = (float) Math.round(position.x * Game.UNIT_SCALE) / Game.UNIT_SCALE;
+            }
             jumpState = 0;
-            position.x = (float) Math.round(position.x * Game.UNIT_SCALE) / Game.UNIT_SCALE;
             deltaY += speed * movementState.y;
         } else if (movementState.y < 0 && isOnPlatform()) {
             // Allows stepping down from one way platforms

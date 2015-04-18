@@ -8,6 +8,7 @@ import com.jxz.notcontra.handlers.GameStateManager;
 
 /**
  * Created by Kevin Xiao on 2015-04-09.
+ * Load State
  */
 public class LoadState extends GameState {
 
