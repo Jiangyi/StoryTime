@@ -2,6 +2,7 @@ package com.jxz.notcontra.states;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.GameStateManager;
 
@@ -14,7 +15,7 @@ public abstract class GameState {
     protected Game game;
 
     protected SpriteBatch sb;
-    protected OrthographicCamera playerCam;
+    protected PlayerCamera playerCam;
     protected OrthographicCamera hudCam;
 
     protected GameState(GameStateManager gsm) {
