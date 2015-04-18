@@ -1,0 +1,5 @@
+# Atlas for player
+player  textures/player/player.atlas    TextureAtlas
+
+# Level tile map
+level1  Maps/samplelevel.tmx    TiledMap

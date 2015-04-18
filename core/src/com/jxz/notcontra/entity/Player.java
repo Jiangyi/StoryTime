@@ -4,13 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.game.Game;
-import com.jxz.notcontra.handlers.Assets;
+import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.world.Level;
 
 /**
@@ -18,6 +17,8 @@ import com.jxz.notcontra.world.Level;
  * The one and only player
  */
 public class Player extends LivingEntity {
+
+    private AssetHandler assetHandler = AssetHandler.getInstance();
 
     // Sprite fields
     private float centerX, centerY;
@@ -54,7 +55,7 @@ public class Player extends LivingEntity {
     public Player() {
         super();
         // Set up animations
-        playerFrames = Assets.assetManager.get(Assets.player);
+        playerFrames = (TextureAtlas) assetHandler.getByName("player");
         animWalk = new Animation(1 / 6f,
                 (playerFrames.findRegion("walk0")),
                 (playerFrames.findRegion("walk1")),

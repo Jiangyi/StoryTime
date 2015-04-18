@@ -2,13 +2,14 @@ package com.jxz.notcontra.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.entity.Player;
-import com.jxz.notcontra.handlers.Assets;
+import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.handlers.InputManager;
@@ -23,6 +24,7 @@ public class Game extends ApplicationAdapter {
 
     private float accumulator;
     public static float fpsTimer;
+    private AssetHandler assetHandler = AssetHandler.getInstance();
 
     // Game-wide managers
     private GameStateManager gsm;
@@ -48,9 +50,9 @@ public class Game extends ApplicationAdapter {
     @Override
     public void create() {
         // Load and parse assets
-        Assets.load();
-        while (!Assets.assetManager.update()) {
-            System.out.println(Assets.assetManager.getProgress() * 100 + "% loaded");
+        assetHandler.loadFromFile(new FileHandle("levels/level1.txt"));
+        while (!assetHandler.update()) {
+            System.out.println(assetHandler.getProgress() * 100 + "% loaded");
         }
 
         // Instantiate new sprite batch and camera for rendering
@@ -66,7 +68,7 @@ public class Game extends ApplicationAdapter {
         gsm = GameStateManager.getInstance(this);
         entityManager = EntityManager.getInstance(this);
 
-        TiledMap map = Assets.assetManager.get(Assets.level1);
+        TiledMap map = (TiledMap) assetHandler.getByName("level1");
         currentLevel = new Level(this, map);
         currentLevel.setDimensions(36, 12);
         currentMapRenderer = new LevelRenderer(map, UNIT_SCALE);
@@ -101,7 +103,7 @@ public class Game extends ApplicationAdapter {
         sb.dispose();
         entityManager.dispose();
         currentMapRenderer.getMap().dispose();
-        Assets.dispose();
+        assetHandler.dispose();
     }
 
     public SpriteBatch getSpriteBatch() {
