@@ -2,8 +2,8 @@ package com.jxz.notcontra.handlers;
 
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.states.GameState;
-import com.jxz.notcontra.states.PlayState;
 import com.jxz.notcontra.states.LoadState;
+import com.jxz.notcontra.states.PlayState;
 
 import java.util.Stack;
 

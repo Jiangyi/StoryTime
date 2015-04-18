@@ -20,6 +20,7 @@ public abstract class Entity {
     protected boolean isActive;
     protected boolean isFlipped;
     protected Level currentMap;
+    protected Level currentLevel;
     protected EntityManager manager = EntityManager.getInstance();
     protected Rectangle aabb;
 
@@ -64,12 +65,12 @@ public abstract class Entity {
         return position;
     }
 
-    public Level getCurrentMap() {
-        return currentMap;
+    public Level getCurrentLevel() {
+        return currentLevel;
     }
 
-    public void setCurrentMap(Level currentMap) {
-        this.currentMap = currentMap;
+    public void setCurrentLevel(Level currentMap) {
+        this.currentLevel = currentMap;
     }
 
     public Rectangle getAABB() {

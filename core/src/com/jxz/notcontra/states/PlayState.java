@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.math.MathUtils;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.GameStateManager;
@@ -37,20 +36,21 @@ public class PlayState extends GameState {
     }
 
     public void render() {
+        // Clear screen
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-        float oldX = game.getPlayer().getPosition().x;
-        playerCam.update();
 
+        // Update projection matrices
+        playerCam.update();
+        sb.setProjectionMatrix(hudCam.combined);
+
+        // Render map
         game.getCurrentMapRenderer().render();
         game.getCurrentMapRenderer().setView(playerCam);
 
-        sb.setProjectionMatrix(hudCam.combined);
+        // Debug text - drawn to HUD Camera
         sb.begin();
-
-        // Debug Text
-        // Frame rate
         font.draw(sb, "PLAY STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
         font.draw(sb, "X-position: " + game.getPlayer().getPosition().x, 100, 75);
         font.draw(sb, "Y-position: " + game.getPlayer().getPosition().y, 100, 50);
@@ -59,16 +59,12 @@ public class PlayState extends GameState {
         font.draw(sb, "MovementStateX: " + game.getPlayer().getMovementState().x, 500, 50);
         font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 75);
         font.draw(sb, "Press O to turn on VSync, P to turn off", 500, 25);
-        // Flags
         font.draw(sb, "Grounded? : " + (game.getPlayer().isGrounded() ? "true" : "false"), 100, 25);
         font.draw(sb, "Can climb / Is Climbing? : " + game.getPlayer().canClimb() + "" + game.getPlayer().isClimbing(), 300, 25);
         font.setColor(Color.WHITE);
-
         sb.end();
 
         // Update camera position
-        playerCam.position.x = (player.getPosition().x + Math.round(player.getSprite().getWidth() / 2)) * Game.UNIT_SCALE;
-        playerCam.position.x = MathUtils.clamp(playerCam.position.x, 16 / 2f, game.getCurrentLevel().getWidth() - 16 / 2f);
-
+        playerCam.track();
     }
 }

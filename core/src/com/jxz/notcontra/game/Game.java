@@ -3,11 +3,10 @@ package com.jxz.notcontra.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.handlers.Assets;
 import com.jxz.notcontra.handlers.EntityManager;
@@ -23,11 +22,12 @@ public class Game extends ApplicationAdapter {
     public static final int VID_HEIGHT = 630;
 
     private float accumulator;
+    public static float fpsTimer;
 
     // Game-wide managers
     private GameStateManager gsm;
     private SpriteBatch sb;
-    private OrthographicCamera playerCam;
+    private PlayerCamera playerCam;
     private FitViewport viewport;
     private OrthographicCamera hudCam;
 
@@ -39,8 +39,8 @@ public class Game extends ApplicationAdapter {
 
     // Map Render Variables
     public static final float UNIT_SCALE = 1 / 70f; // 1 ingame unit = 70 px (tile size)
-    private final int VIEW_HEIGHT = 9; // TODO: Finalize tile count on screen
-    private final int VIEW_WIDTH = 16; // TODO: Finalize tile count on screen x2
+    public static final int VIEW_HEIGHT = 9; // TODO: Finalize tile count on screen
+    public static final int VIEW_WIDTH = 16; // TODO: Finalize tile count on screen x2
     private LevelRenderer currentMapRenderer;
     private Level currentLevel;
 
@@ -55,7 +55,7 @@ public class Game extends ApplicationAdapter {
 
         // Instantiate new sprite batch and camera for rendering
         sb = new SpriteBatch();
-        playerCam = new OrthographicCamera();
+        playerCam = new PlayerCamera();
         viewport = new FitViewport(VIEW_WIDTH, VIEW_HEIGHT, playerCam);
         viewport.apply();
         playerCam.setToOrtho(false, VIEW_WIDTH, VIEW_HEIGHT);
@@ -76,8 +76,10 @@ public class Game extends ApplicationAdapter {
         player = new Player();
         //player.setSprite(new Sprite(Assets.assetManager.get(Assets.player)));
         player.setSpeed(3f);
-        player.setCurrentMap(currentLevel);
+        player.setCurrentLevel(currentLevel);
         player.setVisible(true);
+        player.setCamera(playerCam);
+        playerCam.setPlayer(player);
 
         // Input handled after player object created
         Gdx.input.setInputProcessor(InputManager.getInstance(this));
@@ -86,6 +88,7 @@ public class Game extends ApplicationAdapter {
     @Override
     public void render() {
         accumulator += Gdx.graphics.getDeltaTime();
+        fpsTimer = Gdx.graphics.getDeltaTime() * 60;
         gsm.update(accumulator);
         gsm.render();
     }
@@ -105,7 +108,7 @@ public class Game extends ApplicationAdapter {
         return sb;
     }
 
-    public OrthographicCamera getPlayerCam() {
+    public PlayerCamera getPlayerCam() {
         return playerCam;
     }
 

@@ -1,13 +1,9 @@
 package com.jxz.notcontra.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.jxz.notcontra.entity.Entity;
-import com.jxz.notcontra.game.Game;
-import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.GameStateManager;
 
 /**
