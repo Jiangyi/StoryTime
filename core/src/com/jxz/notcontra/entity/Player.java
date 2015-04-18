@@ -3,6 +3,7 @@ package com.jxz.notcontra.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -17,8 +18,11 @@ public class Player extends LivingEntity {
 
     // Sprite fields
     private float centerX, centerY;
-    private Animation walkAnimation;
+    private Animation animWalk;
+    private Animation animIdle;
+    private TextureAtlas playerFrames;
     private TextureRegion[][] walkFrames;
+    private TextureRegion[][] idleFrames;
     private TextureRegion currentFrame;
     private float animStateTime;
 
@@ -43,14 +47,26 @@ public class Player extends LivingEntity {
     // Constructor
     public Player() {
         super();
+        // Sets up animation
+        playerFrames = Assets.assetManager.get(Assets.player);
+        animWalk = new Animation(1 / 6f,
+                (playerFrames.findRegion("walk0")),
+                (playerFrames.findRegion("walk1")),
+                (playerFrames.findRegion("walk2")),
+                (playerFrames.findRegion("walk3")));
+        animIdle = new Animation(1 / 1.5f,
+                (playerFrames.findRegion("stand0")),
+                (playerFrames.findRegion("stand1")),
+                (playerFrames.findRegion("stand2")),
+                (playerFrames.findRegion("stand3")),
+                (playerFrames.findRegion("stand4")));
+
         isAnimated = true;
         movementState = new Vector2(0, 0);
         position = new Vector2(500, 400);
         aabb = new Rectangle(position.x, position.y, 70, 70);
-        walkFrames = TextureRegion.split(Assets.assetManager.get(Assets.animatedPlayer), Assets.assetManager.get(Assets.animatedPlayer).getWidth() / 4, Assets.assetManager.get(Assets.animatedPlayer).getHeight() / 1);
-        walkAnimation = new Animation(1 / 6f, walkFrames[0]);
-        this.setSprite(new Sprite(Assets.assetManager.get(Assets.player)));
-        currentFrame = walkAnimation.getKeyFrame(animStateTime, true);
+        currentFrame = animIdle.getKeyFrame(animStateTime, true);
+        this.setSprite(new Sprite(currentFrame)); // TODO: how to get rid of this? unneeded
     }
 
     @Override
@@ -175,20 +191,17 @@ public class Player extends LivingEntity {
 
         // Animation stuff
         animStateTime += Gdx.graphics.getDeltaTime();
-        currentFrame = walkAnimation.getKeyFrame(animStateTime, true);
         // Changes animation based on current frame time
         if (movementState.x == 0) {
-            currentFrame = walkFrames[0][0];
-        }
-        if (!currentFrame.isFlipX()) {
-            if (movementState.x < 0) {
-                currentFrame.flip(true, false);
-            }
+            currentFrame = animIdle.getKeyFrame(animStateTime, true);
+        } else if (movementState.x < 0) {
+            currentFrame = animWalk.getKeyFrame(animStateTime, true);
+            isFlipped = true;
         } else {
-            if (movementState.x > 0) {
-                currentFrame.flip(false, false);
-            }
+            currentFrame = animWalk.getKeyFrame(animStateTime, true);
+            isFlipped = false;
         }
+
     }
 
     public boolean isSprinting() {

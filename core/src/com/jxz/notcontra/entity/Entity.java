@@ -19,6 +19,7 @@ public abstract class Entity {
     protected boolean isVisible;
     protected boolean isActive;
     protected boolean isAnimated;
+    protected boolean isFlipped;
     protected Level currentMap;
     protected EntityManager manager = EntityManager.getInstance();
     protected Rectangle aabb;
@@ -28,6 +29,10 @@ public abstract class Entity {
         manager.register(this);
         isVisible = true;
         isAnimated = false;
+    }
+
+    public boolean isFlipped() {
+        return isFlipped;
     }
 
     public int getId() {
