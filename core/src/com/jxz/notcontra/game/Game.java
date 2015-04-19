@@ -2,7 +2,6 @@ package com.jxz.notcontra.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -51,8 +50,14 @@ public class Game extends ApplicationAdapter {
         // Load and parse assets
         assetHandler.loadFromFile("levels/general.txt");
         assetHandler.loadFromFile("levels/level1.txt");
+        float prevProgress = 0f;
         while (!assetHandler.update()) {
-            System.out.println(assetHandler.getProgress() * 100 + "% loaded");
+            float currentProgress = assetHandler.getProgress();
+            if (prevProgress != currentProgress) {
+                System.out.println(currentProgress * 100 + "% loaded");
+                prevProgress = currentProgress;
+            }
+
         }
 
         // Instantiate new sprite batch and camera for rendering
