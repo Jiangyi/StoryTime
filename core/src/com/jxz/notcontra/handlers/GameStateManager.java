@@ -50,9 +50,11 @@ public class GameStateManager {
 
     private GameState getState(int state) {
         if (state == PLAY) {
+            AudioHelper.playBgMusic(true);
             return new PlayState(this);
         }
         if (state == LOAD) {
+            AudioHelper.playBgMusic(false);
             return new LoadState(this);
         }
         return null;

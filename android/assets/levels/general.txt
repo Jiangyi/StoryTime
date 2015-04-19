@@ -1,0 +1,3 @@
+bgmusic	Music/peaceful_forest.mp3	Music
+
+jump	sfx/jump.wav	Sound

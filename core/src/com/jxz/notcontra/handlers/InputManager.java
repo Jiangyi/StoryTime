@@ -63,8 +63,10 @@ public class InputManager implements InputProcessor {
                     player.setJumpCounter(player.getMaxJumps());
                 } else {
                     player.setJumpState(Math.round(player.getJumpTime()));
+                    AudioHelper.playSoundEffect("jump");
                 }
                 player.resetGravity();
+
                 player.setJumpCounter(player.getJumpCounter() + 1);
                 player.setIsGrounded(false);
                 player.setIsJumping(true);
@@ -90,6 +92,11 @@ public class InputManager implements InputProcessor {
         }
         if (keycode == Input.Keys.O) {
             Gdx.graphics.setVSync(true);
+            return true;
+        }
+
+        if (keycode == Input.Keys.M) {
+            AudioHelper.playBgMusic(AudioHelper.isBgMusicPlaying() ? false : true);
             return true;
         }
 

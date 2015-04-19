@@ -25,7 +25,6 @@ public class Game extends ApplicationAdapter {
     private float accumulator;
     public static float fpsTimer;
     private AssetHandler assetHandler = AssetHandler.getInstance();
-
     // Game-wide managers
     private GameStateManager gsm;
     private SpriteBatch sb;
@@ -50,6 +49,7 @@ public class Game extends ApplicationAdapter {
     @Override
     public void create() {
         // Load and parse assets
+        assetHandler.loadFromFile(new FileHandle("levels/general.txt"));
         assetHandler.loadFromFile(new FileHandle("levels/level1.txt"));
         while (!assetHandler.update()) {
             System.out.println(assetHandler.getProgress() * 100 + "% loaded");

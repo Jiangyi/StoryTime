@@ -60,6 +60,7 @@ public class PlayState extends GameState {
         font.draw(sb, "MovementStateX: " + game.getPlayer().getMovementState().x, 500, 50);
         font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 75);
         font.draw(sb, "Press O to turn on VSync, P to turn off", 500, 25);
+        font.draw(sb, "Press M to mute/unmute background music", 700, 50);
         font.draw(sb, "Grounded? : " + (game.getPlayer().isGrounded() ? "true" : "false"), 100, 25);
         font.draw(sb, "Can climb / Is Climbing? : " + game.getPlayer().canClimb() + "" + game.getPlayer().isClimbing(), 300, 25);
         font.setColor(Color.WHITE);
