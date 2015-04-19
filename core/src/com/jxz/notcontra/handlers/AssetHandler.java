@@ -1,5 +1,6 @@
 package com.jxz.notcontra.handlers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -52,7 +53,8 @@ public class AssetHandler extends AssetManager {
         return assetHandler;
     }
 
-    public synchronized void loadFromFile(FileHandle fileHandle) {
+    public synchronized void loadFromFile(String filePath) {
+        FileHandle fileHandle = Gdx.files.internal(filePath);
         BufferedReader br = new BufferedReader(fileHandle.reader());
 
         String line;

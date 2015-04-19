@@ -49,8 +49,8 @@ public class Game extends ApplicationAdapter {
     @Override
     public void create() {
         // Load and parse assets
-        assetHandler.loadFromFile(new FileHandle("levels/general.txt"));
-        assetHandler.loadFromFile(new FileHandle("levels/level1.txt"));
+        assetHandler.loadFromFile("levels/general.txt");
+        assetHandler.loadFromFile("levels/level1.txt");
         while (!assetHandler.update()) {
             System.out.println(assetHandler.getProgress() * 100 + "% loaded");
         }
