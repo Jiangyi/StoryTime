@@ -10,11 +10,11 @@ import com.jxz.notcontra.handlers.GameStateManager;
  * Created by Kevin Xiao on 2015-04-09.
  * Load State
  */
-public class LoadState extends GameState {
+public class PauseState extends GameState {
 
     private BitmapFont font = new BitmapFont();
 
-    public LoadState(GameStateManager gsm) {
+    public PauseState(GameStateManager gsm) {
         super(gsm);
     }
 
@@ -33,6 +33,9 @@ public class LoadState extends GameState {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         sb.begin();
+        font.draw(sb, "PAUSE STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
+        font.draw(sb, "DELTA TIME IN SECONDS: " + Gdx.graphics.getDeltaTime(), 100, 75);
+        font.draw(sb, "PRESS ESC TO SWITCH STATES", 100, 50);
         sb.end();
     }
 

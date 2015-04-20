@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.game.Game;
-import com.jxz.notcontra.states.LoadState;
+import com.jxz.notcontra.states.PauseState;
 import com.jxz.notcontra.states.PlayState;
 
 /**
@@ -80,7 +80,7 @@ public class InputManager implements InputProcessor {
             }
         }
         // LOAD STATE SWITCH STATE TEST
-        if (GameStateManager.getInstance().getStateInstance() instanceof LoadState) {
+        if (GameStateManager.getInstance().getStateInstance() instanceof PauseState) {
             if (keycode == Input.Keys.ESCAPE) {
                 gsm.setState(GameStateManager.PLAY);
                 return true;
@@ -96,7 +96,7 @@ public class InputManager implements InputProcessor {
         }
 
         if (keycode == Input.Keys.M) {
-            AudioHelper.playBgMusic(AudioHelper.isBgMusicPlaying() ? false : true);
+            AudioHelper.playBgMusic(!AudioHelper.isBgMusicPlaying());
             return true;
         }
 

@@ -14,12 +14,14 @@ public class AudioHelper {
     private static Sound sound;
 
     public static void playBgMusic(boolean play) {
+        bgMusic.setVolume(0.2f);
         if (play) {
             bgMusic.setLooping(true);
             bgMusic.play();
         } else {
             bgMusic.pause();
         }
+
     }
 
     public static boolean isBgMusicPlaying() {

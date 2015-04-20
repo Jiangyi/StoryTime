@@ -27,7 +27,6 @@ public class Player extends LivingEntity {
     private Animation animJump;
     private Animation animRope;
     private Animation animLadder;
-    private TextureAtlas playerFrames;
     private float animStateTime;
     private float climbingStateTime;
 
@@ -55,25 +54,25 @@ public class Player extends LivingEntity {
     public Player() {
         super();
         // Set up animations
-        playerFrames = (TextureAtlas) assetHandler.getByName("player");
+        this.entityFrames = (TextureAtlas) assetHandler.getByName("player");
         animWalk = new Animation(1 / 6f,
-                (playerFrames.findRegion("walk0")),
-                (playerFrames.findRegion("walk1")),
-                (playerFrames.findRegion("walk2")),
-                (playerFrames.findRegion("walk3")));
+                (this.entityFrames.findRegion("walk0")),
+                (this.entityFrames.findRegion("walk1")),
+                (this.entityFrames.findRegion("walk2")),
+                (this.entityFrames.findRegion("walk3")));
         animIdle = new Animation(1 / 1.5f,
-                (playerFrames.findRegion("stand0")),
-                (playerFrames.findRegion("stand1")),
-                (playerFrames.findRegion("stand2")),
-                (playerFrames.findRegion("stand3")),
-                (playerFrames.findRegion("stand4")));
-        animJump = new Animation(1, (playerFrames.findRegion("jump0")));
+                (this.entityFrames.findRegion("stand0")),
+                (this.entityFrames.findRegion("stand1")),
+                (this.entityFrames.findRegion("stand2")),
+                (this.entityFrames.findRegion("stand3")),
+                (this.entityFrames.findRegion("stand4")));
+        animJump = new Animation(1, (this.entityFrames.findRegion("jump0")));
         animRope = new Animation(1 / 2f,
-                (playerFrames.findRegion("rope0")),
-                (playerFrames.findRegion("rope1")));
+                (this.entityFrames.findRegion("rope0")),
+                (this.entityFrames.findRegion("rope1")));
         animLadder = new Animation(1 / 2f,
-                (playerFrames.findRegion("ladder0")),
-                (playerFrames.findRegion("ladder1")));
+                (this.entityFrames.findRegion("ladder0")),
+                (this.entityFrames.findRegion("ladder1")));
 
         movementState = new Vector2(0, 0);
         position = new Vector2(500, 400);
@@ -158,7 +157,7 @@ public class Player extends LivingEntity {
             isOnPlatform = false;
         }
 
-        // Jump if jump frames are not 0
+        // Jump if jump time is not 0
         if (jumpState > 0) {
             float jumpDist = jumpMultiplier * (float) Math.pow(jumpState, 2);
             float leftDist = currentLevel.distToObstacle(position.x, position.y + height / Game.UNIT_SCALE, jumpDist, true);
@@ -283,29 +282,7 @@ public class Player extends LivingEntity {
         sprite.setPosition(position.x, position.y);
         aabb.setPosition(position);
 
-        // Animation stuff
-        animStateTime += Gdx.graphics.getDeltaTime();
-        // Changes animation based on current frame time
-        if (isGrounded) {
-            climbingStateTime = 0;
-            if (movementState.x == 0) {
-                this.sprite.setRegion(animIdle.getKeyFrame(animStateTime, true));
-            } else {
-                this.sprite.setRegion(animWalk.getKeyFrame(animStateTime, true));
-            }
-        } else if (!isGrounded && isClimbing) {
-            if (movementState.y != 0) {
-                climbingStateTime += Gdx.graphics.getDeltaTime();
-            }
-            this.sprite.setRegion(animRope.getKeyFrame(climbingStateTime, true));
-        } else {
-            this.sprite.setRegion(animJump.getKeyFrame(animStateTime, true));
-        }
-        if (movementState.x < 0 && !isClimbing) {
-            isFlipped = true;
-        } else if (movementState.x > 0 && !isClimbing) {
-            isFlipped = false;
-        }
+        this.animate();
     }
 
     public boolean isSprinting() {
@@ -406,5 +383,32 @@ public class Player extends LivingEntity {
 
     public boolean isOnPlatform() {
         return isOnPlatform;
+    }
+
+    public void animate() {
+        // Animation stuff
+        animStateTime += Gdx.graphics.getDeltaTime();
+        // Changes animation based on current frame time
+        if (isGrounded) {
+            climbingStateTime = 0;
+            if (movementState.x == 0) {
+                this.sprite.setRegion(animIdle.getKeyFrame(animStateTime, true));
+            } else {
+                this.sprite.setRegion(animWalk.getKeyFrame(animStateTime, true));
+            }
+        } else if (!isGrounded && isClimbing) {
+            animStateTime = 0;
+            if (movementState.y != 0) {
+                climbingStateTime += Gdx.graphics.getDeltaTime();
+            }
+            this.sprite.setRegion(animRope.getKeyFrame(climbingStateTime, true));
+        } else {
+            this.sprite.setRegion(animJump.getKeyFrame(animStateTime, true));
+        }
+        if (movementState.x < 0 && !isClimbing) {
+            isFlipped = true;
+        } else if (movementState.x > 0 && !isClimbing) {
+            isFlipped = false;
+        }
     }
 }

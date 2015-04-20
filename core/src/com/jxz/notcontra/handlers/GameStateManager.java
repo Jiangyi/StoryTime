@@ -2,7 +2,7 @@ package com.jxz.notcontra.handlers;
 
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.states.GameState;
-import com.jxz.notcontra.states.LoadState;
+import com.jxz.notcontra.states.PauseState;
 import com.jxz.notcontra.states.PlayState;
 
 import java.util.Stack;
@@ -55,7 +55,7 @@ public class GameStateManager {
         }
         if (state == LOAD) {
             AudioHelper.playBgMusic(false);
-            return new LoadState(this);
+            return new PauseState(this);
         }
         return null;
     }
@@ -72,10 +72,6 @@ public class GameStateManager {
     public void popState() {
         GameState state = gameState.pop();
         state.dispose();
-    }
-
-    public void handleInput() {
-        gameState.peek().handleInput();
     }
 
     public GameState getStateInstance() {

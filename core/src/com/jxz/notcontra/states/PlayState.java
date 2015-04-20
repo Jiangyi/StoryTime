@@ -23,10 +23,6 @@ public class PlayState extends GameState {
         player = game.getPlayer();
     }
 
-    public void handleInput() {
-
-    }
-
     public void update(float dt) {
 
     }
@@ -38,7 +34,7 @@ public class PlayState extends GameState {
 
     public void render() {
         // Clear screen
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
