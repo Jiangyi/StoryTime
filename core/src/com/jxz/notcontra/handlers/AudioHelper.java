@@ -12,16 +12,38 @@ public class AudioHelper {
     // TODO: Generalize background music further
     private static Music bgMusic = (Music) assetHandler.getByName("bgmusic");
     private static Sound sound;
+    private static float volume;
+
+    public static void setMusicVolume(float vol) {
+        if (vol > 1) {
+            vol = 1;
+        } else if (vol < 0) {
+            vol = 0;
+        }
+        volume = vol;
+        bgMusic.setVolume(volume);
+    }
+
+    public static float getMusicVolume() {
+        return bgMusic.getVolume();
+    }
 
     public static void playBgMusic(boolean play) {
-        bgMusic.setVolume(0.2f);
         if (play) {
             bgMusic.setLooping(true);
             bgMusic.play();
         } else {
             bgMusic.pause();
         }
+    }
 
+    public static void muteMusic() {
+        if (bgMusic.getVolume() > 0) {
+            volume = bgMusic.getVolume();
+            bgMusic.setVolume(0f);
+        } else {
+            bgMusic.setVolume(volume);
+        }
     }
 
     public static boolean isBgMusicPlaying() {

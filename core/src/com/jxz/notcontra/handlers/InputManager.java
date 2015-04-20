@@ -96,7 +96,17 @@ public class InputManager implements InputProcessor {
         }
 
         if (keycode == Input.Keys.M) {
-            AudioHelper.playBgMusic(!AudioHelper.isBgMusicPlaying());
+            AudioHelper.muteMusic();
+            return true;
+        }
+
+        if (keycode == Input.Keys.PAGE_UP) {
+            AudioHelper.setMusicVolume(AudioHelper.getMusicVolume() + 0.1f);
+            return true;
+        }
+
+        if (keycode == Input.Keys.PAGE_DOWN) {
+            AudioHelper.setMusicVolume(AudioHelper.getMusicVolume() - 0.1f);
             return true;
         }
 
