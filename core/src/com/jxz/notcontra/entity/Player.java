@@ -20,23 +20,7 @@ public class Player extends LivingEntity {
 
     private AssetHandler assetHandler = AssetHandler.getInstance();
 
-    // Sprite fields
-    private float centerX, centerY;
-    private Animation animWalk;
-    private Animation animIdle;
-    private Animation animJump;
-    private Animation animRope;
-    private Animation animLadder;
-    private float animStateTime;
-    private float climbingStateTime;
-
-    // Player specific fields
-    private boolean isSprinting = false;
-    private boolean isGrounded = false;
-    private boolean isOnPlatform = false;
-    private boolean isJumping = false;
-    private boolean canClimb = false;
-    private boolean isClimbing = false;
+    // Player camera
     private PlayerCamera camera;
 
     // Jumping Parameters
@@ -47,32 +31,29 @@ public class Player extends LivingEntity {
     private float jumpTime = 3;
     private float currentGravity = 0f;
 
-    // Movement State
-    private Vector2 movementState;
-
     // Constructor
     public Player() {
         super();
         // Set up animations
-        this.entityFrames = (TextureAtlas) assetHandler.getByName("player");
+        this.animFrames = (TextureAtlas) assetHandler.getByName("player");
         animWalk = new Animation(1 / 6f,
-                (this.entityFrames.findRegion("walk0")),
-                (this.entityFrames.findRegion("walk1")),
-                (this.entityFrames.findRegion("walk2")),
-                (this.entityFrames.findRegion("walk3")));
+                (this.animFrames.findRegion("walk0")),
+                (this.animFrames.findRegion("walk1")),
+                (this.animFrames.findRegion("walk2")),
+                (this.animFrames.findRegion("walk3")));
         animIdle = new Animation(1 / 1.5f,
-                (this.entityFrames.findRegion("stand0")),
-                (this.entityFrames.findRegion("stand1")),
-                (this.entityFrames.findRegion("stand2")),
-                (this.entityFrames.findRegion("stand3")),
-                (this.entityFrames.findRegion("stand4")));
-        animJump = new Animation(1, (this.entityFrames.findRegion("jump0")));
+                (this.animFrames.findRegion("stand0")),
+                (this.animFrames.findRegion("stand1")),
+                (this.animFrames.findRegion("stand2")),
+                (this.animFrames.findRegion("stand3")),
+                (this.animFrames.findRegion("stand4")));
+        animJump = new Animation(1, (this.animFrames.findRegion("jump0")));
         animRope = new Animation(1 / 2f,
-                (this.entityFrames.findRegion("rope0")),
-                (this.entityFrames.findRegion("rope1")));
+                (this.animFrames.findRegion("rope0")),
+                (this.animFrames.findRegion("rope1")));
         animLadder = new Animation(1 / 2f,
-                (this.entityFrames.findRegion("ladder0")),
-                (this.entityFrames.findRegion("ladder1")));
+                (this.animFrames.findRegion("ladder0")),
+                (this.animFrames.findRegion("ladder1")));
 
         movementState = new Vector2(0, 0);
         position = new Vector2(500, 400);
@@ -285,34 +266,6 @@ public class Player extends LivingEntity {
         this.animate();
     }
 
-    public boolean isSprinting() {
-        return isSprinting;
-    }
-
-    public void setSprinting(boolean sprinting) {
-        this.isSprinting = sprinting;
-    }
-
-    public Vector2 getMovementState() {
-        return movementState;
-    }
-
-    public void setMovementState(Vector2 movementState) {
-        this.movementState = movementState;
-    }
-
-    public void setIsSprinting(boolean isSprinting) {
-        this.isSprinting = isSprinting;
-    }
-
-    public boolean isGrounded() {
-        return isGrounded;
-    }
-
-    public void setIsGrounded(boolean isGrounded) {
-        this.isGrounded = isGrounded;
-    }
-
     public float getJumpState() {
         return jumpState;
     }
@@ -353,36 +306,12 @@ public class Player extends LivingEntity {
         this.maxJumps = maxJumps;
     }
 
-    public boolean isJumping() {
-        return isJumping;
-    }
-
-    public void setIsJumping(boolean isJumping) {
-        this.isJumping = isJumping;
-    }
-
     public void resetGravity() {
         this.currentGravity = 0;
     }
 
-    public boolean canClimb() {
-        return canClimb;
-    }
-
-    public boolean isClimbing() {
-        return isClimbing;
-    }
-
-    public void setIsClimbing(boolean isClimbing) {
-        this.isClimbing = isClimbing;
-    }
-
     public void setCamera(PlayerCamera camera) {
         this.camera = camera;
-    }
-
-    public boolean isOnPlatform() {
-        return isOnPlatform;
     }
 
     public void animate() {
