@@ -328,10 +328,13 @@ public class Player extends LivingEntity {
     }
 
     public void melee(int type) {
-        isMeleeing = true;
-        if (type != meleeType) {
-            meleeType = type;
-            meleeStateTime = 0;
+        if (!isClimbing()) {
+            isMeleeing = true;
+
+            if (type != meleeType) {
+                meleeType = type;
+                meleeStateTime = 0;
+            }
         }
     }
 
