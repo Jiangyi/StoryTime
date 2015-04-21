@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.jxz.notcontra.entity.Entity;
+import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.EntityManager;
 
 /**
@@ -32,7 +33,7 @@ public class LevelRenderer extends OrthogonalTiledMapRenderer {
 
                     if (currentLayer == SPRITE_LAYER) {
                         for (Entity e : EntityManager.getInstance().getMasterList()) {
-                            batch.draw(e.getSprite(), e.isFlipped() ? e.getTilePosition().x + e.getTileSize().x : e.getTilePosition().x, e.getTilePosition().y, e.isFlipped() ? -e.getTileSize().x : e.getTileSize().x, e.getTileSize().y);
+                            batch.draw(e.getSprite(), e.isFlipped() ? e.getTilePosition().x + e.getTileSize().x - ((e.getSprite().getWidth()- e.getDefaultWidth()) * Game.UNIT_SCALE) : e.getTilePosition().x, e.getTilePosition().y, e.isFlipped() ? -e.getTileSize().x : e.getTileSize().x, e.getTileSize().y);
                             e.update();
                         }
                     }

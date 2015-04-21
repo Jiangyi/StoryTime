@@ -54,6 +54,20 @@ public class Player extends LivingEntity {
         animLadder = new Animation(1 / 2f,
                 (this.animFrames.findRegion("ladder0")),
                 (this.animFrames.findRegion("ladder1")));
+        animMelee = new Animation[3];
+        animMelee[0] = new Animation(1 / 4.2f,
+                (this.animFrames.findRegion("swingO10")),
+                (this.animFrames.findRegion("swingO11")),
+                (this.animFrames.findRegion("swingO12")));
+        animMelee[1] = new Animation(1 / 5f,
+                (this.animFrames.findRegion("swingO20")),
+                (this.animFrames.findRegion("swingO21")),
+                (this.animFrames.findRegion("swingO22")));
+        animMelee[2] = new Animation(1 / 7f,
+                (this.animFrames.findRegion("swingOF0")),
+                (this.animFrames.findRegion("swingOF1")),
+                (this.animFrames.findRegion("swingOF2")),
+                (this.animFrames.findRegion("swingOF3")));
 
         movementState = new Vector2(0, 0);
         position = new Vector2(500, 400);
@@ -61,6 +75,8 @@ public class Player extends LivingEntity {
 
         // Initialize animated sprite for player
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
+        defaultWidth = sprite.getWidth();
+        defaultHeight = sprite.getHeight();
     }
 
     @Override
@@ -73,8 +89,8 @@ public class Player extends LivingEntity {
         boolean prevGrounded = isGrounded;
 
         // Update pre-positional fields
-        centerX = position.x + sprite.getWidth() / 2;
-        centerY = position.y + sprite.getHeight() / 2;
+        centerX = position.x + 52 / 2;
+        centerY = position.y + 68 / 2;
 
         /** Step X coordinate */
         // Step X for static tile data
@@ -85,8 +101,8 @@ public class Player extends LivingEntity {
         }
 
         // Check collision bounds
-        int height = (int) Math.ceil(sprite.getHeight() * Game.UNIT_SCALE);
-        float boundingEdgeDelta = (deltaX > 0 ? 1 : -1) * sprite.getWidth() / 2;
+        int height = (int) Math.ceil(defaultHeight * Game.UNIT_SCALE);
+        float boundingEdgeDelta = (deltaX > 0 ? 1 : -1) * defaultWidth / 2;
         float dist;
 
         // Low FPS check - ensure collisions are checked properly if FPS < 60
@@ -115,7 +131,7 @@ public class Player extends LivingEntity {
 
         // Update Y if player is in a slope tile
         float slopeLeft = currentLevel.getSlopeOfTile(position.x, position.y);
-        float slopeRight = currentLevel.getSlopeOfTile(position.x + sprite.getWidth(), position.y);
+        float slopeRight = currentLevel.getSlopeOfTile(position.x + defaultWidth, position.y);
         float slope = (Math.abs(slopeLeft) > Math.abs(slopeRight)) ? slopeLeft : slopeRight;
         if (slope != 0) {
             position.y += (Game.fpsTimer > 1) ? slope * deltaX : slope * deltaX * Game.fpsTimer;
@@ -142,7 +158,7 @@ public class Player extends LivingEntity {
         if (jumpState > 0) {
             float jumpDist = jumpMultiplier * (float) Math.pow(jumpState, 2);
             float leftDist = currentLevel.distToObstacle(position.x, position.y + height / Game.UNIT_SCALE, jumpDist, true);
-            float rightDist = currentLevel.distToObstacle(position.x + sprite.getWidth(), position.y + height / Game.UNIT_SCALE, jumpDist, true);
+            float rightDist = currentLevel.distToObstacle(position.x + defaultWidth, position.y + height / Game.UNIT_SCALE, jumpDist, true);
             if (leftDist < Math.floor(jumpDist) || rightDist < Math.floor(jumpDist)) {
                 jumpState = 0;
             } else {
@@ -170,9 +186,9 @@ public class Player extends LivingEntity {
 
         // Y-check
         // Static Collision Check:
-        boundingEdgeDelta = (deltaY > 0 ? 1 : -1) * sprite.getHeight() / 2; // Defines either the top edge of the AABB or bottom edge, depending on direction
+        boundingEdgeDelta = (deltaY > 0 ? 1 : -1) * defaultHeight / 2; // Defines either the top edge of the AABB or bottom edge, depending on direction
         float leftDist = currentLevel.distToObstacle(position.x, centerY + boundingEdgeDelta, deltaY, true);
-        float rightDist = currentLevel.distToObstacle(position.x + sprite.getWidth(), centerY + boundingEdgeDelta, deltaY, true);
+        float rightDist = currentLevel.distToObstacle(position.x + defaultWidth, centerY + boundingEdgeDelta, deltaY, true);
         dist = (leftDist > rightDist ? rightDist : leftDist); // dist stores maximum possible distance before obstacles
 
         // Dynamic collision check
@@ -180,16 +196,16 @@ public class Player extends LivingEntity {
         if (deltaY < 0) {
             // One way platform check
             leftDist = currentLevel.distToPlatform(position.x, position.y, Math.abs(deltaY));
-            rightDist = currentLevel.distToPlatform(position.x + sprite.getWidth(), position.y, Math.abs(deltaY));
+            rightDist = currentLevel.distToPlatform(position.x + defaultWidth, position.y, Math.abs(deltaY));
             if (leftDist < dist || rightDist < dist) {
                 dist = (leftDist > rightDist ? rightDist : leftDist);
             }
 
             // Slope Check - scan downwards until a slope tile is found
             leftDist = currentLevel.distToObstacle(position.x, position.y, deltaY, true, Level.DYNAMIC_LAYER, "slope");
-            rightDist = currentLevel.distToObstacle(position.x + sprite.getWidth(), position.y, deltaY, true, Level.DYNAMIC_LAYER, "slope");
+            rightDist = currentLevel.distToObstacle(position.x + defaultWidth, position.y, deltaY, true, Level.DYNAMIC_LAYER, "slope");
             slopeLeft = currentLevel.getSlopeOfTile(position.x, position.y - leftDist);
-            slopeRight = currentLevel.getSlopeOfTile(position.x + sprite.getWidth(), position.y - rightDist);
+            slopeRight = currentLevel.getSlopeOfTile(position.x + defaultWidth, position.y - rightDist);
 
             // Stores the slope if either tile is sloped
             // leftDist is used to store the y-dist to that tile
@@ -207,7 +223,7 @@ public class Player extends LivingEntity {
             // If the tile is sloped, calculate the max possible position that the player can travel downwards
             if (slope != 0) {
                 if (slope > 0) {
-                    deltaX = (position.x + sprite.getWidth()) % (1 / Game.UNIT_SCALE);
+                    deltaX = (position.x + defaultWidth) % (1 / Game.UNIT_SCALE);
                 } else {
                     deltaX = position.x % (1 / Game.UNIT_SCALE);
                 }
@@ -225,10 +241,10 @@ public class Player extends LivingEntity {
 
         /** Update boolean states **/
         // Check if player is on static ground
-        isGrounded = currentLevel.distToObstacle(position.x, position.y, -1, true) == 0 || currentLevel.distToObstacle(position.x + sprite.getWidth(), position.y, -1, true) == 0;
+        isGrounded = currentLevel.distToObstacle(position.x, position.y, -1, true) == 0 || currentLevel.distToObstacle(position.x + defaultWidth, position.y, -1, true) == 0;
 
         // Check if player is on dynamic ground (platform)
-        isOnPlatform = currentLevel.distToPlatform(position.x, position.y, 1) == 0 || currentLevel.distToPlatform(position.x + sprite.getWidth(), position.y, 1) == 0;
+        isOnPlatform = currentLevel.distToPlatform(position.x, position.y, 1) == 0 || currentLevel.distToPlatform(position.x + defaultWidth, position.y, 1) == 0;
 
         // If player is not grounded on static ground, isGrounded is updated based on platform ground
         if (!isGrounded) {
@@ -236,7 +252,7 @@ public class Player extends LivingEntity {
         }
 
         // If player is in a slope tile, they are also grounded
-        if (currentLevel.getSlopeOfTile(position.x, position.y) != 0 || currentLevel.getSlopeOfTile(position.x + sprite.getWidth(), position.y) != 0) {
+        if (currentLevel.getSlopeOfTile(position.x, position.y) != 0 || currentLevel.getSlopeOfTile(position.x + defaultWidth, position.y) != 0) {
             isGrounded = true; // TODO: Player is only grounded if they are in the proper y-position for the slope tile.
         }
         // If grounded state changes, make sure jump is reset
@@ -245,8 +261,8 @@ public class Player extends LivingEntity {
         }
 
         // Player can grab onto a ladder if the center of the player is within a ladder tile
-        TiledMapTile bottomTile = currentLevel.getTileAt(centerX - (movementState.x * sprite.getWidth() / 4), position.y + sprite.getHeight(), Level.CLIMB_LAYER);
-        TiledMapTile topTile = currentLevel.getTileAt(centerX - (movementState.x * sprite.getWidth() / 4), position.y, Level.CLIMB_LAYER);
+        TiledMapTile bottomTile = currentLevel.getTileAt(centerX - (movementState.x * defaultWidth / 4), position.y + defaultHeight, Level.CLIMB_LAYER);
+        TiledMapTile topTile = currentLevel.getTileAt(centerX - (movementState.x * defaultWidth / 4), position.y, Level.CLIMB_LAYER);
 
         if (topTile != null && bottomTile != null) {
             canClimb = topTile.getProperties().containsKey("climbable") || bottomTile.getProperties().containsKey("climbable");
@@ -314,11 +330,19 @@ public class Player extends LivingEntity {
         this.camera = camera;
     }
 
+    public void melee(int type) {
+        isMeleeing = true;
+        if (type != meleeType) {
+            meleeType = type;
+            meleeStateTime = 0;
+        }
+    }
+
     public void animate() {
         // Animation stuff
         animStateTime += Gdx.graphics.getDeltaTime();
         // Changes animation based on current frame time
-        if (isGrounded) {
+        if (isGrounded && !isMeleeing) {
             climbingStateTime = 0;
             if (movementState.x == 0) {
                 this.sprite.setRegion(animIdle.getKeyFrame(animStateTime, true));
@@ -334,10 +358,31 @@ public class Player extends LivingEntity {
         } else {
             this.sprite.setRegion(animJump.getKeyFrame(animStateTime, true));
         }
+
+        // Attack
+        if (isMeleeing && !isClimbing) {
+            meleeStateTime += Gdx.graphics.getDeltaTime();
+            this.sprite.setRegion(animMelee[meleeType].getKeyFrame(meleeStateTime, false));
+            if (animMelee[meleeType].isAnimationFinished(meleeStateTime)) {
+                isMeleeing = false;
+                meleeStateTime = 0;
+            }
+        }
+
+        // Flip sprite if facing left
         if (movementState.x < 0 && !isClimbing) {
             isFlipped = true;
         } else if (movementState.x > 0 && !isClimbing) {
             isFlipped = false;
         }
+        this.sprite.setSize(this.sprite.getRegionWidth(), this.sprite.getRegionHeight());
+    }
+
+    public float getSizeWidth() {
+        return defaultWidth;
+    }
+
+    public float getSizeHeight() {
+        return defaultHeight;
     }
 }

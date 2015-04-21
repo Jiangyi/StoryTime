@@ -54,6 +54,17 @@ public class InputManager implements InputProcessor {
                 player.getMovementState().add(0, -1);
             }
 
+            // Attack | melee keys
+            if (keycode == Input.Keys.J) {
+                player.melee(0);
+            }
+            if (keycode == Input.Keys.K) {
+                player.melee(1);
+            }
+            if (keycode == Input.Keys.L) {
+                player.melee(2);
+            }
+
             // Jump if max jumps is not reached
             if (keycode == Input.Keys.SPACE && player.getJumpCounter() < player.getMaxJumps() && !player.isJumping()) {
                 // Reduced jump height and disabled double jumping when climbing

@@ -20,8 +20,11 @@ public abstract class LivingEntity extends Entity {
     protected Animation animJump;
     protected Animation animRope;
     protected Animation animLadder;
+    protected Animation[] animMelee;
     protected float animStateTime;
     protected float climbingStateTime;
+    protected float meleeStateTime;
+    protected int meleeType;
 
     // Movement State
     protected Vector2 movementState;
@@ -107,6 +110,12 @@ public abstract class LivingEntity extends Entity {
 
     public void setIsMeleeing(boolean isMeleeing) {
         this.isMeleeing = isMeleeing;
+    }
+
+    public abstract void melee(int type);
+
+    public int getMeleeType() {
+        return meleeType;
     }
 
     public boolean isProvoked() {

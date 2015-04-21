@@ -25,6 +25,10 @@ public abstract class Entity {
     protected EntityManager manager = EntityManager.getInstance();
     protected Rectangle aabb;
 
+    // default Sprite size for proper rendering calculations rendering
+    protected float defaultWidth;
+    protected float defaultHeight;
+
     // Constructor - all entities must be registered through manager
     public Entity() {
         manager.register(this);
@@ -78,6 +82,13 @@ public abstract class Entity {
         return aabb;
     }
 
+    public float getDefaultHeight() {
+        return defaultHeight;
+    }
+
+    public float getDefaultWidth() {
+        return defaultWidth;
+    }
 
     // Temporary workarounds to differing camera and screen coordinates
     public Vector2 getTileSize() {
