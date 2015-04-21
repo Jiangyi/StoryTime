@@ -1,16 +1,17 @@
 # To Do List: #
 
 ## HIGH PRIORITY: ##
-* One-way platforms, slopes [Samuel]
+* Interactable entities
+* Save state / Multi-level support
+* Level format that allows for storage of important positions
+* Background camera (parallax)
 
 ## MEDIUM PRIORITY: ##
-* Interactable entities
-* Save state
+* Buffs/Skills
+* Proper HUD implementation
 * Custom game configuration
-* Fix low FPS movement
 
 ## LOW PRIORITY: ##
 * Debug mode
 * Dialogue boxes
-* Buffs/Skills
 * Main Menu
