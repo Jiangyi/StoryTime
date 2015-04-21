@@ -33,6 +33,7 @@ public abstract class LivingEntity extends Entity {
     protected boolean isSprinting = false;
     protected boolean isGrounded = false;
     protected boolean isOnPlatform = false;
+    protected boolean isOnSlope = false;
     protected boolean isJumping = false;
     protected boolean canClimb = false;
     protected boolean isClimbing = false;

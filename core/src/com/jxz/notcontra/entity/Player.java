@@ -85,6 +85,8 @@ public class Player extends LivingEntity {
         float deltaX = 0;
         float deltaY = 0;
 
+        float slopeLeft, slopeRight;
+
         // Previous State storage
         boolean prevGrounded = isGrounded;
 
@@ -96,7 +98,7 @@ public class Player extends LivingEntity {
         // Step X for static tile data
         if (movementState.x != 0) {
             // Add effective speed to delta X
-            float effectiveSpeed = speed * (isSprinting ? 2 : 1);
+            float effectiveSpeed = speed * (isSprinting ? 2 : 1) * (isOnSlope ? 0.5f : 1);
             deltaX += effectiveSpeed * movementState.x;
         }
 
@@ -129,12 +131,26 @@ public class Player extends LivingEntity {
         // Update x
         position.x += (Game.fpsTimer > 1) ? deltaX : deltaX * Game.fpsTimer;
 
-        // Update Y if player is in a slope tile
-        float slopeLeft = currentLevel.getSlopeOfTile(position.x, position.y);
-        float slopeRight = currentLevel.getSlopeOfTile(position.x + defaultWidth, position.y);
-        float slope = (Math.abs(slopeLeft) > Math.abs(slopeRight)) ? slopeLeft : slopeRight;
-        if (slope != 0) {
-            position.y += (Game.fpsTimer > 1) ? slope * deltaX : slope * deltaX * Game.fpsTimer;
+        // Update Y if on slope
+        if (isOnSlope) {
+            slopeLeft = currentLevel.getSlopeOfTile(position.x, position.y);
+            slopeRight = currentLevel.getSlopeOfTile(position.x + sprite.getWidth(), position.y);
+            position.y += ((Game.fpsTimer > 1) ? deltaX : deltaX * Game.fpsTimer) * (Math.abs(slopeLeft) > Math.abs(slopeRight) ? slopeLeft : slopeRight);
+        }
+
+        // Player can grab onto a ladder if the center of the player is within a ladder tile
+        TiledMapTile bottomTile = currentLevel.getTileAt(centerX, position.y + sprite.getHeight(), Level.CLIMB_LAYER);
+        TiledMapTile topTile = currentLevel.getTileAt(centerX, position.y, Level.CLIMB_LAYER);
+
+        if (topTile != null && bottomTile != null) {
+            canClimb = topTile.getProperties().containsKey("climbable") || bottomTile.getProperties().containsKey("climbable");
+        } else if (bottomTile != null) {
+            canClimb = bottomTile.getProperties().containsKey("climbable");
+        } else if (topTile != null) {
+            canClimb = topTile.getProperties().containsKey("climbable");
+        } else {
+            canClimb = false;
+            isClimbing = false;
         }
 
         /** Step Y coordinate */
@@ -144,7 +160,7 @@ public class Player extends LivingEntity {
                 isClimbing = false;
             } else {
                 isClimbing = true;
-                position.x = (float) Math.round(position.x * Game.UNIT_SCALE) / Game.UNIT_SCALE;
+                position.x = (float) Math.floor(centerX * Game.UNIT_SCALE) / Game.UNIT_SCALE;
             }
             jumpState = 0;
             deltaY += speed * movementState.y;
@@ -193,7 +209,7 @@ public class Player extends LivingEntity {
 
         // Dynamic collision check
         // Slope / One way platform check only applies if player is moving down
-        if (deltaY < 0) {
+        if (deltaY <= 0) {
             // One way platform check
             leftDist = currentLevel.distToPlatform(position.x, position.y, Math.abs(deltaY));
             rightDist = currentLevel.distToPlatform(position.x + defaultWidth, position.y, Math.abs(deltaY));
@@ -203,35 +219,26 @@ public class Player extends LivingEntity {
 
             // Slope Check - scan downwards until a slope tile is found
             leftDist = currentLevel.distToObstacle(position.x, position.y, deltaY, true, Level.DYNAMIC_LAYER, "slope");
-            rightDist = currentLevel.distToObstacle(position.x + defaultWidth, position.y, deltaY, true, Level.DYNAMIC_LAYER, "slope");
-            slopeLeft = currentLevel.getSlopeOfTile(position.x, position.y - leftDist);
-            slopeRight = currentLevel.getSlopeOfTile(position.x + defaultWidth, position.y - rightDist);
+            rightDist = currentLevel.distToObstacle(position.x + sprite.getWidth(), position.y, deltaY, true, Level.DYNAMIC_LAYER, "slope");
 
-            // Stores the slope if either tile is sloped
-            // leftDist is used to store the y-dist to that tile
-            if (Math.abs(slopeLeft) > Math.abs(slopeRight)) {
-                slope = slopeLeft;
-            } else if (Math.abs(slopeRight) > Math.abs(slopeLeft)) {
-                slope = slopeRight;
-                leftDist = rightDist;
-            } else if (Math.abs(slopeLeft) == Math.abs(slopeRight)) {
-                if (slopeLeft > 0) {
-                    leftDist = rightDist;
-                }
-            }
+            // Get y-coordinate of nearest slope to the left and right sides
+            slopeLeft = currentLevel.getSlopePosition(position.x, position.y - leftDist);
+            slopeRight = currentLevel.getSlopePosition(position.x + sprite.getWidth(), position.y - rightDist);
 
-            // If the tile is sloped, calculate the max possible position that the player can travel downwards
-            if (slope != 0) {
-                if (slope > 0) {
-                    deltaX = (position.x + defaultWidth) % (1 / Game.UNIT_SCALE);
-                } else {
-                    deltaX = position.x % (1 / Game.UNIT_SCALE);
-                }
-                // y = mx + b
-                slope = (slope * -1) * deltaX + leftDist;
-                if (Math.abs(slope) < dist) {
-                    dist = Math.abs(slope);
-                }
+            // Calculate differences
+            leftDist = position.y - slopeLeft;
+            rightDist = position.y - slopeRight;
+
+            // If player is within correcting distance under the slope, correct them onto the slope
+            if (leftDist < 0 && leftDist > -3) {
+                dist = 0;
+                position.y = slopeLeft + 1;
+            } else if (rightDist < 0 && rightDist > -3) {
+                dist = 0;
+                position.y = slopeRight + 1;
+            } else if (leftDist < dist || rightDist < dist) {
+                // If not, get the maximum distance that can be travelled
+                dist = leftDist > rightDist ? rightDist : leftDist;
             }
         }
 
@@ -246,33 +253,23 @@ public class Player extends LivingEntity {
         // Check if player is on dynamic ground (platform)
         isOnPlatform = currentLevel.distToPlatform(position.x, position.y, 1) == 0 || currentLevel.distToPlatform(position.x + defaultWidth, position.y, 1) == 0;
 
-        // If player is not grounded on static ground, isGrounded is updated based on platform ground
-        if (!isGrounded) {
-            isGrounded = isOnPlatform;
+        // If player is in a slope tile, they are also grounded if they are in the proper y-position
+        if (currentLevel.getSlopeOfTile(position.x, position.y) != 0 || currentLevel.getSlopeOfTile(position.x + sprite.getWidth(), position.y) != 0) {
+            slopeLeft = currentLevel.getSlopePosition(position.x, position.y);
+            slopeRight = currentLevel.getSlopePosition(position.x + sprite.getWidth(), position.y);
+            isOnSlope = (position.y - slopeLeft < 2) || (position.y - slopeRight < 2);
+        } else {
+            isOnSlope = false;
         }
 
-        // If player is in a slope tile, they are also grounded
-        if (currentLevel.getSlopeOfTile(position.x, position.y) != 0 || currentLevel.getSlopeOfTile(position.x + defaultWidth, position.y) != 0) {
-            isGrounded = true; // TODO: Player is only grounded if they are in the proper y-position for the slope tile.
+        // If player is not grounded on static ground, isGrounded is updated based on platform ground
+        if (!isGrounded && deltaY <= 0) {
+            isGrounded = isOnPlatform || isOnSlope;
         }
+
         // If grounded state changes, make sure jump is reset
         if (!prevGrounded && isGrounded) {
             jumpState = 0;
-        }
-
-        // Player can grab onto a ladder if the center of the player is within a ladder tile
-        TiledMapTile bottomTile = currentLevel.getTileAt(centerX - (movementState.x * defaultWidth / 4), position.y + defaultHeight, Level.CLIMB_LAYER);
-        TiledMapTile topTile = currentLevel.getTileAt(centerX - (movementState.x * defaultWidth / 4), position.y, Level.CLIMB_LAYER);
-
-        if (topTile != null && bottomTile != null) {
-            canClimb = topTile.getProperties().containsKey("climbable") || bottomTile.getProperties().containsKey("climbable");
-        } else if (bottomTile != null) {
-            canClimb = bottomTile.getProperties().containsKey("climbable");
-        } else if (topTile != null) {
-            canClimb = topTile.getProperties().containsKey("climbable");
-        } else {
-            canClimb = false;
-            isClimbing = false;
         }
 
         /** Update final positions */

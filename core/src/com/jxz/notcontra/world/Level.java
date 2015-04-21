@@ -147,13 +147,20 @@ public class Level {
      *
      * @param x     X-coordinate (in pixels) of the tile to check.
      * @param y     Y-coordinate (in pixels) of the tile to check.
-     * @param width Width of the bounding box (in pixels) of the object. Used to differentiate left and right bounding edges.
      * @return Returns the calculated y-position of the slope at the desired x-y coordinate pair.
      */
-    public float getSlopePosition(float x, float y, float width) {
+    public float getSlopePosition(float x, float y) {
         float slope = getSlopeOfTile(x, y);
-        float tileDeltaX = (x + (slope > 0 ? width : 0)) % (1 / Game.UNIT_SCALE);
-        float deltaY = tileDeltaX * slope;
+        if (slope == 0) {
+            // Return absurd value if there is no slope
+            return -99999;
+        }
+        float deltaX = x % (1 / Game.UNIT_SCALE);
+        float deltaY = deltaX * slope; // y = mx
+        // Negative slopes start at the top of the tile, and so, 1 tile needs to be added to the result
+        if (slope < 0) {
+            deltaY += (1 / Game.UNIT_SCALE) * Math.abs(slope); // + b if necessary
+        }
         return (float) Math.floor(y * Game.UNIT_SCALE) / Game.UNIT_SCALE + deltaY;
     }
 
