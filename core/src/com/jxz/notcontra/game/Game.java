@@ -3,10 +3,8 @@ package com.jxz.notcontra.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.entity.Player;
@@ -82,7 +80,7 @@ public class Game extends ApplicationAdapter {
         currentMapRenderer.setView(playerCam);
 
         // Initialize Player object
-        player = new Player();
+        player = new Player("player");
         //player.setSprite(new Sprite(Assets.assetManager.get(Assets.player)));
         player.setSpeed(3f);
         player.setCurrentLevel(currentLevel);

@@ -1,7 +1,6 @@
 package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
@@ -14,7 +13,8 @@ import com.jxz.notcontra.world.Level;
  */
 public abstract class Entity {
     // Base Entity fields
-    protected int id;
+    protected int id = 0;
+    protected String name;
     protected Sprite sprite;
     protected Vector2 position;
     protected boolean isVisible;
@@ -30,8 +30,9 @@ public abstract class Entity {
     protected float defaultHeight;
 
     // Constructor - all entities must be registered through manager
-    public Entity() {
-        manager.register(this);
+    public Entity(String entityName) {
+        id++;
+        manager.register(name + id, this);
         isVisible = true;
         isFlipped = false;
     }
@@ -48,6 +49,13 @@ public abstract class Entity {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name + id;
+    }
     public Sprite getSprite() {
         return sprite;
     }

@@ -42,8 +42,8 @@ public abstract class LivingEntity extends Entity {
     protected boolean isMeleeing = false;
 
     // Constructor - start with no movement in either direction
-    public LivingEntity() {
-        super();
+    public LivingEntity(String entityName) {
+        super(entityName);
     }
 
     // Because if it's livin', it's gotta be movin'

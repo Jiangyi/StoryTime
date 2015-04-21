@@ -32,8 +32,8 @@ public class Player extends LivingEntity {
     private float currentGravity = 0f;
 
     // Constructor
-    public Player() {
-        super();
+    public Player(String entityName) {
+        super(entityName);
         // Set up animations
         this.animFrames = (TextureAtlas) assetHandler.getByName("player");
         animWalk = new Animation(1 / 6f,
@@ -328,16 +328,11 @@ public class Player extends LivingEntity {
     }
 
     public void melee(int type) {
-        if (!isClimbing()) {
-            isMeleeing = true;
-
-            if (type != meleeType) {
-                meleeType = type;
-                meleeStateTime = 0;
-            }
+        isMeleeing = true;
+        if (type != meleeType) {
+            meleeType = type;
+            meleeStateTime = 0;
         }
-
-
     }
 
     public void animate() {
