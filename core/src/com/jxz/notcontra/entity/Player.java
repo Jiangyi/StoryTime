@@ -134,12 +134,12 @@ public class Player extends LivingEntity {
         // Update Y if on slope
         if (isOnSlope) {
             slopeLeft = currentLevel.getSlopeOfTile(position.x, position.y);
-            slopeRight = currentLevel.getSlopeOfTile(position.x + sprite.getWidth(), position.y);
+            slopeRight = currentLevel.getSlopeOfTile(position.x + defaultWidth, position.y);
             position.y += ((Game.fpsTimer > 1) ? deltaX : deltaX * Game.fpsTimer) * (Math.abs(slopeLeft) > Math.abs(slopeRight) ? slopeLeft : slopeRight);
         }
 
         // Player can grab onto a ladder if the center of the player is within a ladder tile
-        TiledMapTile bottomTile = currentLevel.getTileAt(centerX, position.y + sprite.getHeight(), Level.CLIMB_LAYER);
+        TiledMapTile bottomTile = currentLevel.getTileAt(centerX, position.y + defaultHeight, Level.CLIMB_LAYER);
         TiledMapTile topTile = currentLevel.getTileAt(centerX, position.y, Level.CLIMB_LAYER);
 
         if (topTile != null && bottomTile != null) {
@@ -219,11 +219,11 @@ public class Player extends LivingEntity {
 
             // Slope Check - scan downwards until a slope tile is found
             leftDist = currentLevel.distToObstacle(position.x, position.y, deltaY, true, Level.DYNAMIC_LAYER, "slope");
-            rightDist = currentLevel.distToObstacle(position.x + sprite.getWidth(), position.y, deltaY, true, Level.DYNAMIC_LAYER, "slope");
+            rightDist = currentLevel.distToObstacle(position.x + defaultWidth, position.y, deltaY, true, Level.DYNAMIC_LAYER, "slope");
 
             // Get y-coordinate of nearest slope to the left and right sides
             slopeLeft = currentLevel.getSlopePosition(position.x, position.y - leftDist);
-            slopeRight = currentLevel.getSlopePosition(position.x + sprite.getWidth(), position.y - rightDist);
+            slopeRight = currentLevel.getSlopePosition(position.x + defaultWidth, position.y - rightDist);
 
             // Calculate differences
             leftDist = position.y - slopeLeft;
@@ -254,9 +254,9 @@ public class Player extends LivingEntity {
         isOnPlatform = currentLevel.distToPlatform(position.x, position.y, 1) == 0 || currentLevel.distToPlatform(position.x + defaultWidth, position.y, 1) == 0;
 
         // If player is in a slope tile, they are also grounded if they are in the proper y-position
-        if (currentLevel.getSlopeOfTile(position.x, position.y) != 0 || currentLevel.getSlopeOfTile(position.x + sprite.getWidth(), position.y) != 0) {
+        if (currentLevel.getSlopeOfTile(position.x, position.y) != 0 || currentLevel.getSlopeOfTile(position.x + defaultWidth, position.y) != 0) {
             slopeLeft = currentLevel.getSlopePosition(position.x, position.y);
-            slopeRight = currentLevel.getSlopePosition(position.x + sprite.getWidth(), position.y);
+            slopeRight = currentLevel.getSlopePosition(position.x + defaultWidth, position.y);
             isOnSlope = (position.y - slopeLeft < 2) || (position.y - slopeRight < 2);
         } else {
             isOnSlope = false;
