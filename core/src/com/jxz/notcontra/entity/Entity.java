@@ -31,6 +31,7 @@ public abstract class Entity {
 
     // Constructor - all entities must be registered through manager
     public Entity(String entityName) {
+        name = entityName;
         id++;
         manager.register(name + id, this);
         isVisible = true;

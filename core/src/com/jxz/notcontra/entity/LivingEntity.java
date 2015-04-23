@@ -21,6 +21,8 @@ public abstract class LivingEntity extends Entity {
     protected Animation animRope;
     protected Animation animLadder;
     protected Animation[] animMelee;
+    protected Animation animHurt;
+    protected Animation animDeath;
     protected float animStateTime;
     protected float climbingStateTime;
     protected float meleeStateTime;

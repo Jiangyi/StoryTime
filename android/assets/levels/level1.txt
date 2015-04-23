@@ -1,5 +1,7 @@
 # Atlas for player
-player  textures/player/player.pack    TextureAtlas
+player  textures/entities/player/player.pack    TextureAtlas
+grey_slime    textures/entities/monsters/grey_slime/grey_slime.pack    TextureAtlas
+
 
 # Level tile map
 level1  Maps/samplelevel.tmx    TiledMap

@@ -36,6 +36,7 @@ public class EntityManager implements Disposable {
     public void register(String key, Entity e) {
         // Add entities to master list, and add the appropriate physics body to the world
         masterList.put(key, e);
+        System.out.println(masterList.put(key, e).getName());
     }
 
     public Array<Entity> getEntitiesList() {

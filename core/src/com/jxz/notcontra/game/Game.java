@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.entity.Player;
+import com.jxz.notcontra.entity.Slime;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.GameStateManager;
@@ -36,6 +37,9 @@ public class Game extends ApplicationAdapter {
 
     // Player instance object
     private Player player;
+
+    // Monster instance object;
+    private Slime slime;
 
     // Map Render Variables
     public static final float UNIT_SCALE = 1 / 70f; // 1 ingame unit = 70 px (tile size)
@@ -79,6 +83,8 @@ public class Game extends ApplicationAdapter {
         currentMapRenderer = new LevelRenderer(map, UNIT_SCALE);
         currentMapRenderer.setView(playerCam);
 
+
+
         // Initialize Player object
         player = new Player("player");
         //player.setSprite(new Sprite(Assets.assetManager.get(Assets.player)));
@@ -87,6 +93,12 @@ public class Game extends ApplicationAdapter {
         player.setVisible(true);
         player.setCamera(playerCam);
         playerCam.setPlayer(player);
+
+        // Initialize monsters
+        slime = new Slime("greyslime");
+        slime.setSpeed(3f);
+        slime.setCurrentLevel(currentLevel);
+        slime.setVisible(true);
 
         // Input handled after player object created
         Gdx.input.setInputProcessor(InputManager.getInstance(this));

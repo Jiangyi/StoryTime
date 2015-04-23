@@ -1,0 +1,117 @@
+
+grey_slime.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+move
+  rotate: false
+  xy: 1, 26
+  size: 72, 94
+  orig: 72, 94
+  offset: 0, 0
+  index: 0
+move
+  rotate: false
+  xy: 75, 26
+  size: 72, 94
+  orig: 72, 94
+  offset: 0, 0
+  index: 1
+move
+  rotate: false
+  xy: 149, 26
+  size: 72, 94
+  orig: 72, 94
+  offset: 0, 0
+  index: 2
+move
+  rotate: false
+  xy: 223, 26
+  size: 72, 94
+  orig: 72, 94
+  offset: 0, 0
+  index: 3
+move
+  rotate: false
+  xy: 297, 26
+  size: 72, 94
+  orig: 72, 94
+  offset: 0, 0
+  index: 4
+move
+  rotate: false
+  xy: 371, 26
+  size: 72, 94
+  orig: 72, 94
+  offset: 0, 0
+  index: 5
+move
+  rotate: false
+  xy: 445, 26
+  size: 72, 94
+  orig: 72, 94
+  offset: 0, 0
+  index: 6
+jump
+  rotate: false
+  xy: 519, 53
+  size: 63, 67
+  orig: 63, 67
+  offset: 0, 0
+  index: 0
+hit1
+  rotate: false
+  xy: 584, 54
+  size: 63, 66
+  orig: 63, 66
+  offset: 0, 0
+  index: 0
+die1
+  rotate: false
+  xy: 649, 60
+  size: 65, 60
+  orig: 65, 60
+  offset: 0, 0
+  index: 0
+die1
+  rotate: false
+  xy: 716, 60
+  size: 65, 60
+  orig: 65, 60
+  offset: 0, 0
+  index: 1
+die1
+  rotate: false
+  xy: 783, 60
+  size: 65, 60
+  orig: 65, 60
+  offset: 0, 0
+  index: 2
+die1
+  rotate: false
+  xy: 850, 60
+  size: 65, 60
+  orig: 65, 60
+  offset: 0, 0
+  index: 3
+stand
+  rotate: false
+  xy: 917, 70
+  size: 69, 50
+  orig: 69, 50
+  offset: 0, 0
+  index: 0
+stand
+  rotate: false
+  xy: 519, 1
+  size: 69, 50
+  orig: 69, 50
+  offset: 0, 0
+  index: 1
+stand
+  rotate: false
+  xy: 590, 2
+  size: 69, 50
+  orig: 69, 50
+  offset: 0, 0
+  index: 2
