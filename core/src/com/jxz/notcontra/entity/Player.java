@@ -71,7 +71,7 @@ public class Player extends LivingEntity {
 
         movementState = new Vector2(0, 0);
         position = new Vector2(857, 421);
-        aabb = new Rectangle(position.x, position.y, 52, 68);
+        aabb = new Rectangle(position.x, position.y, defaultWidth, defaultHeight);
 
         // Initialize animated sprite for player
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
@@ -91,8 +91,8 @@ public class Player extends LivingEntity {
         boolean prevGrounded = isGrounded;
 
         // Update pre-positional fields
-        centerX = position.x + 52 / 2;
-        centerY = position.y + 68 / 2;
+        centerX = position.x + defaultWidth / 2;
+        centerY = position.y + defaultHeight / 2;
 
         /** Step X coordinate */
         // Step X for static tile data
