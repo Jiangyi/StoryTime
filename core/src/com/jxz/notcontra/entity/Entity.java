@@ -30,8 +30,15 @@ public abstract class Entity {
         name = entityName;
         id = EntityManager.id;
         manager.register(name + id, this);
+        position = new Vector2(0, 0);
+        hitboxOffset = new Vector2(0, 0);
         isVisible = true;
         isFlipped = false;
+    }
+
+    public Entity(String entityName, float x, float y) {
+        this(entityName);
+        position.set(x, y);
     }
 
     public boolean isFlipped() {

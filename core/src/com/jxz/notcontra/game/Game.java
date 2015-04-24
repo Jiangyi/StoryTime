@@ -89,10 +89,13 @@ public class Game extends ApplicationAdapter {
         playerCam.setPlayer(player);
 
         // Initialize monsters
-        slime = (Slime) MonsterFactory.spawn(Slime.class);
-        slime.setSpeed(3f);
-        slime.setCurrentLevel(currentLevel);
-        slime.setVisible(true);
+        for (int i = 0; i < 65; i++) {
+            slime = (Slime) MonsterFactory.spawn(Slime.class);
+            slime.setSpeed(3f);
+            slime.setPosition(i * 35, 750);
+            slime.setCurrentLevel(currentLevel);
+            slime.setVisible(true);
+        }
 
     }
 
