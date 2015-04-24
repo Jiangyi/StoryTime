@@ -6,14 +6,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.entity.Slime;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
-import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.GameStateManager;
-import com.jxz.notcontra.handlers.InputManager;
 import com.jxz.notcontra.world.Level;
 import com.jxz.notcontra.world.LevelRenderer;
 

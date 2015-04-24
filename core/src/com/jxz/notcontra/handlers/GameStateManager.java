@@ -18,6 +18,9 @@ public class GameStateManager {
     private Stack<GameState> gameState;
     private static GameStateManager gsmManager;
 
+    private static PlayState playState;
+    private static LoadState loadState;
+    private static PauseState pauseState;
     public enum State {
         PLAY, LOAD, PAUSE
     }
@@ -25,13 +28,14 @@ public class GameStateManager {
 
     private GameStateManager(Game game) {
         this.game = game;
-        gameState = new Stack<GameState>();
+        this.gameState = new Stack<GameState>();
         pushState(State.LOAD);
     }
 
     public static GameStateManager getInstance(Game game) {
         if (gsmManager == null) {
             gsmManager = new GameStateManager(game);
+
         }
         return gsmManager;
     }
@@ -55,14 +59,23 @@ public class GameStateManager {
     public GameState getState(State state) {
         if (state == State.PLAY) {
             AudioHelper.playBgMusic(true);
-            return new PlayState(this);
+            if (playState == null) {
+                this.playState = new PlayState(this);
+            }
+            return playState;
         }
         if (state == State.PAUSE) {
             AudioHelper.playBgMusic(false);
-            return new PauseState(this);
+            if (pauseState == null) {
+                this.pauseState = new PauseState(this);
+            }
+            return pauseState;
         }
         if (state == State.LOAD) {
-            return new LoadState(this);
+            if (loadState == null) {
+                this.loadState = new LoadState(this);
+            }
+            return loadState;
         }
         return null;
     }
@@ -78,7 +91,6 @@ public class GameStateManager {
 
     public void popState() {
         GameState state = gameState.pop();
-        state.dispose();
     }
 
     public GameState getStateInstance() {

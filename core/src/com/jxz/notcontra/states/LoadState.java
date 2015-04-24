@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.GameStateManager;
-import com.jxz.notcontra.handlers.InputManager;
 import com.jxz.notcontra.menu.LoadingBar;
 
 /**
@@ -49,10 +48,12 @@ public class LoadState extends GameState {
             progress = assetHandler.getProgress();
         }
 
+
         sb.begin();
         font.draw(sb, "LOADING... PLEASE WAIT... : " + progress, 100, 100);
         if (progress == 1.0f) {
             font.draw(sb, "DONE LOADING! PRESS ESC TO SWITCH TO PLAY STATE", 100, 75);
+            game.setInputProcessor();
         }
         sb.end();
     }

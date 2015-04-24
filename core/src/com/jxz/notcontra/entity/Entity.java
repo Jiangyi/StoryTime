@@ -100,4 +100,12 @@ public abstract class Entity {
     public void unregister() {
         manager.unregister(this);
     }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
+    }
+
+    public void setPosition(float x, float y) {
+        this.position.set(x, y);
+    }
 }

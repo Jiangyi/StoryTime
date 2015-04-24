@@ -71,9 +71,6 @@ public class Game extends ApplicationAdapter {
         // Setup singleton manager classes
         gsm = GameStateManager.getInstance(this);
         entityManager = EntityManager.getInstance(this);
-
-        // Input handled after player object created
-        Gdx.input.setInputProcessor(InputManager.getInstance(this));
     }
 
     public void load() {
@@ -85,7 +82,6 @@ public class Game extends ApplicationAdapter {
 
         // Initialize Player object
         player = new Player("player");
-        //player.setSprite(new Sprite(Assets.assetManager.get(Assets.player)));
         player.setSpeed(3f);
         player.setCurrentLevel(currentLevel);
         player.setVisible(true);
@@ -119,6 +115,13 @@ public class Game extends ApplicationAdapter {
             currentMapRenderer.getMap().dispose();
         }
         assetHandler.dispose();
+    }
+
+    public void setInputProcessor() {
+        // Input handled after player object created
+        if (Gdx.input.getInputProcessor() == null) {
+            Gdx.input.setInputProcessor(InputManager.getInstance(this));
+        }
     }
 
     public SpriteBatch getSpriteBatch() {
