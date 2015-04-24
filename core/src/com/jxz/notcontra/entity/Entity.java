@@ -20,19 +20,15 @@ public abstract class Entity {
     protected boolean isVisible;
     protected boolean isActive;
     protected boolean isFlipped;
-    protected Level currentMap;
     protected Level currentLevel;
     protected EntityManager manager = EntityManager.getInstance();
     protected Rectangle aabb;
-
-    // default Sprite size for proper rendering calculations rendering
-    protected float defaultWidth;
-    protected float defaultHeight;
+    protected Vector2 hitboxOffset;
 
     // Constructor - all entities must be registered through manager
     public Entity(String entityName) {
         name = entityName;
-        id++;
+        id = EntityManager.id;
         manager.register(name + id, this);
         isVisible = true;
         isFlipped = false;
@@ -57,6 +53,7 @@ public abstract class Entity {
     public void setName(String name) {
         this.name = name + id;
     }
+
     public Sprite getSprite() {
         return sprite;
     }
@@ -91,14 +88,6 @@ public abstract class Entity {
         return aabb;
     }
 
-    public float getDefaultHeight() {
-        return defaultHeight;
-    }
-
-    public float getDefaultWidth() {
-        return defaultWidth;
-    }
-
     // Temporary workarounds to differing camera and screen coordinates
     public Vector2 getTileSize() {
         return new Vector2(sprite.getWidth() * Game.UNIT_SCALE, sprite.getHeight() * Game.UNIT_SCALE);
@@ -106,5 +95,9 @@ public abstract class Entity {
 
     public Vector2 getTilePosition() {
         return new Vector2(position.x * Game.UNIT_SCALE, position.y * Game.UNIT_SCALE);
+    }
+
+    public void unregister() {
+        manager.unregister(this);
     }
 }

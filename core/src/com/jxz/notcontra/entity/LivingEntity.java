@@ -3,6 +3,7 @@ package com.jxz.notcontra.entity;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.jxz.notcontra.skill.Skill;
 
 /**
  * Created by Samuel on 2015-03-27.
@@ -20,13 +21,13 @@ public abstract class LivingEntity extends Entity {
     protected Animation animJump;
     protected Animation animRope;
     protected Animation animLadder;
-    protected Animation[] animMelee;
+    protected Animation[] animCast;
     protected Animation animHurt;
     protected Animation animDeath;
     protected float animStateTime;
     protected float climbingStateTime;
-    protected float meleeStateTime;
-    protected int meleeType;
+    protected float castStateTime;
+    protected int castType;
 
     // Movement State
     protected Vector2 movementState;
@@ -40,8 +41,12 @@ public abstract class LivingEntity extends Entity {
     protected boolean canClimb = false;
     protected boolean isClimbing = false;
     protected boolean isProvoked = false;
-    protected boolean canMelee = false;
-    protected boolean isMeleeing = false;
+    protected boolean canCast = false;
+    protected boolean isCasting = false;
+    protected boolean isRooted = false;
+
+    // Skill Inventory
+    Skill[] skillInventory = new Skill[5];
 
     // Constructor - start with no movement in either direction
     public LivingEntity(String entityName) {
@@ -100,25 +105,25 @@ public abstract class LivingEntity extends Entity {
     }
 
     public boolean canMelee() {
-        return canMelee;
+        return canCast;
     }
 
-    public void setCanMelee(boolean canMelee) {
-        this.canMelee = canMelee;
+    public void setCanCast(boolean canCast) {
+        this.canCast = canCast;
     }
 
-    public boolean isMeleeing() {
-        return isMeleeing;
+    public boolean isCasting() {
+        return isCasting;
     }
 
     public void setIsMeleeing(boolean isMeleeing) {
-        this.isMeleeing = isMeleeing;
+        this.isCasting = isMeleeing;
     }
 
     public abstract void melee(int type);
 
-    public int getMeleeType() {
-        return meleeType;
+    public int getCastType() {
+        return castType;
     }
 
     public boolean isProvoked() {
@@ -143,6 +148,14 @@ public abstract class LivingEntity extends Entity {
 
     public boolean isOnPlatform() {
         return isOnPlatform;
+    }
+
+    public boolean isRooted() {
+        return isRooted;
+    }
+
+    public void setIsRooted(boolean isRooted) {
+        this.isRooted = isRooted;
     }
 
 }

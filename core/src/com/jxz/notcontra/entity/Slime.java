@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.handlers.AssetHandler;
 
@@ -41,10 +42,10 @@ public class Slime extends Monster {
         movementState = new Vector2(0, 0);
         position = new Vector2(501, 401);
 
+
         // Initialize sprite stuff
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
-        defaultWidth = sprite.getWidth();
-        defaultHeight = sprite.getHeight();
+        aabb = new Rectangle(501, 401, sprite.getWidth(), sprite.getHeight());
         state = AIState.IDLE;
     }
 
@@ -54,7 +55,7 @@ public class Slime extends Monster {
     }
 
     public void melee(int type) {
-        this.isMeleeing = true;
+        this.isCasting = true;
     }
 
     public void animate() {

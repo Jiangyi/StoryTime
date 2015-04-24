@@ -24,10 +24,10 @@ public class PlayerCamera extends OrthographicCamera {
 
     public void track() {
         // X-position
-        position.x = (player.getPosition().x + Math.round(player.getSizeWidth() / 2)) * Game.UNIT_SCALE;
+        position.x = (player.getPosition().x + Math.round(player.getAABB().getWidth() / 2)) * Game.UNIT_SCALE;
 
         // Y-position
-        float deltaY = position.y - player.getTilePosition().y + player.getSizeHeight() * Game.UNIT_SCALE;
+        float deltaY = position.y - player.getTilePosition().y + player.getAABB().getHeight() * Game.UNIT_SCALE;
         if (!isTracking) {
             // Enables tracking when player is more than 1/4 screen height away
             if (Math.abs(deltaY) > Game.VIEW_HEIGHT / 4) {

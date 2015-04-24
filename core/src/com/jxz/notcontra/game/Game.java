@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jxz.notcontra.camera.PlayerCamera;
+import com.jxz.notcontra.entity.MonsterFactory;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.entity.Slime;
 import com.jxz.notcontra.handlers.AssetHandler;
@@ -92,7 +93,7 @@ public class Game extends ApplicationAdapter {
         playerCam.setPlayer(player);
 
         // Initialize monsters
-        slime = new Slime("greyslime");
+        slime = (Slime) MonsterFactory.spawn(Slime.class);
         slime.setSpeed(3f);
         slime.setCurrentLevel(currentLevel);
         slime.setVisible(true);

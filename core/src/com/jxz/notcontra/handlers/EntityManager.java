@@ -12,6 +12,7 @@ import com.jxz.notcontra.game.Game;
 public class EntityManager implements Disposable {
     // Entity Manager Fields
     private ObjectMap<String, Entity> masterList;
+    public static int id;
     private Game game;
     private static EntityManager entityManager;
 
@@ -36,7 +37,7 @@ public class EntityManager implements Disposable {
     public void register(String key, Entity e) {
         // Add entities to master list, and add the appropriate physics body to the world
         masterList.put(key, e);
-        System.out.println(masterList.put(key, e).getName());
+        id++;
     }
 
     public Array<Entity> getEntitiesList() {
@@ -45,6 +46,10 @@ public class EntityManager implements Disposable {
 
     public ObjectMap<String, Entity> getMasterObjectMap() {
         return masterList;
+    }
+
+    public void unregister(Entity e) {
+        masterList.remove(e.getName() + e.getId());
     }
 
     @Override

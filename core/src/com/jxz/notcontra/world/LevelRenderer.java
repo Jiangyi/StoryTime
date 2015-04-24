@@ -14,7 +14,7 @@ import com.jxz.notcontra.handlers.EntityManager;
 public class LevelRenderer extends OrthogonalTiledMapRenderer {
 
     // Constants
-    private final int SPRITE_LAYER = 4;
+    private final int SPRITE_LAYER = 3;
 
     public LevelRenderer(TiledMap map, float unitScale) {
         super(map, unitScale);
@@ -33,7 +33,7 @@ public class LevelRenderer extends OrthogonalTiledMapRenderer {
 
                     if (currentLayer == SPRITE_LAYER) {
                         for (Entity e : EntityManager.getInstance().getEntitiesList()) {
-                            batch.draw(e.getSprite(), e.isFlipped() ? e.getTilePosition().x + e.getTileSize().x - ((e.getSprite().getWidth()- e.getDefaultWidth()) * Game.UNIT_SCALE) : e.getTilePosition().x, e.getTilePosition().y, e.isFlipped() ? -e.getTileSize().x : e.getTileSize().x, e.getTileSize().y);
+                            batch.draw(e.getSprite(), e.isFlipped() ? e.getTilePosition().x + e.getTileSize().x - ((e.getSprite().getWidth()- e.getAABB().getWidth()) * Game.UNIT_SCALE) : e.getTilePosition().x, e.getTilePosition().y, e.isFlipped() ? -e.getTileSize().x : e.getTileSize().x, e.getTileSize().y);
                             e.update();
                         }
                     }
