@@ -81,7 +81,7 @@ public class InputManager implements InputProcessor {
                 game.getPlayer().setJumpCounter(game.getPlayer().getJumpCounter() + 1);
                 game.getPlayer().setIsGrounded(false);
                 game.getPlayer().setIsJumping(true);
-
+                return true;
             }
 
             // PLAY STATE SWITCH STATE TEST
