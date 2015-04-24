@@ -8,7 +8,7 @@ public abstract class Monster extends LivingEntity {
     protected AIState state;
 
     public enum AIState {
-        IDLE, PATROLLING, CHASING;
+        IDLE, PATROLLING, CHASING
     }
 
     public Monster(String entityName) {

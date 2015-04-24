@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.states.GameState;
+import com.jxz.notcontra.states.LoadState;
 import com.jxz.notcontra.states.PauseState;
 import com.jxz.notcontra.states.PlayState;
 
@@ -13,13 +15,11 @@ import com.jxz.notcontra.states.PlayState;
  */
 public class InputManager implements InputProcessor {
     private Game game;
-    private Player player;
     private GameStateManager gsm;
     private static InputManager manager;
 
     private InputManager(Game g) {
         game = g;
-        player = g.getPlayer();
         gsm = GameStateManager.getInstance();
     }
 
@@ -35,65 +35,73 @@ public class InputManager implements InputProcessor {
         // Movement controls only operational if in play state
         if (GameStateManager.getInstance().getStateInstance() instanceof PlayState) {
             // Update sprinting state
-            if (keycode == Input.Keys.SHIFT_LEFT && player.getJumpState() == 0) {
-                player.setSprinting(true);
+            if (keycode == Input.Keys.SHIFT_LEFT && game.getPlayer().getJumpState() == 0) {
+                game.getPlayer().setSprinting(true);
                 return true;
             }
 
             // Standard WASD Movement
             if (keycode == Input.Keys.A) {
-                player.getMovementState().add(-1, 0);
+                game.getPlayer().getMovementState().add(-1, 0);
             }
             if (keycode == Input.Keys.D) {
-                player.getMovementState().add(1, 0);
+                game.getPlayer().getMovementState().add(1, 0);
             }
             if (keycode == Input.Keys.W) {
-                player.getMovementState().add(0, 1);
+                game.getPlayer().getMovementState().add(0, 1);
             }
             if (keycode == Input.Keys.S) {
-                player.getMovementState().add(0, -1);
+                game.getPlayer().getMovementState().add(0, -1);
             }
 
             // Attack | melee keys
             if (keycode == Input.Keys.J) {
-                player.melee(0);
+                game.getPlayer().melee(0);
             }
             if (keycode == Input.Keys.K) {
-                player.melee(1);
+                game.getPlayer().melee(1);
             }
             if (keycode == Input.Keys.L) {
-                player.melee(2);
+                game.getPlayer().melee(2);
             }
 
             // Jump if max jumps is not reached
-            if (keycode == Input.Keys.SPACE && player.getJumpCounter() < player.getMaxJumps() && !player.isJumping()) {
+            if (keycode == Input.Keys.SPACE && game.getPlayer().getJumpCounter() < game.getPlayer().getMaxJumps() && !game.getPlayer().isJumping()) {
                 // Reduced jump height and disabled double jumping when climbing
-                if (player.isClimbing()) {
-                    player.setIsClimbing(false);
-                    player.setJumpState(player.getJumpTime() * (float) 0.75);
-                    player.setJumpCounter(player.getMaxJumps());
+                if (game.getPlayer().isClimbing()) {
+                    game.getPlayer().setIsClimbing(false);
+                    game.getPlayer().setJumpState(game.getPlayer().getJumpTime() * (float) 0.75);
+                    game.getPlayer().setJumpCounter(game.getPlayer().getMaxJumps());
                 } else {
-                    player.setJumpState(Math.round(player.getJumpTime()));
+                    game.getPlayer().setJumpState(Math.round(game.getPlayer().getJumpTime()));
                     AudioHelper.playSoundEffect("jump");
                 }
-                player.resetGravity();
+                game.getPlayer().resetGravity();
 
-                player.setJumpCounter(player.getJumpCounter() + 1);
-                player.setIsGrounded(false);
-                player.setIsJumping(true);
+                game.getPlayer().setJumpCounter(game.getPlayer().getJumpCounter() + 1);
+                game.getPlayer().setIsGrounded(false);
+                game.getPlayer().setIsJumping(true);
 
             }
 
             // PLAY STATE SWITCH STATE TEST
             if (keycode == Input.Keys.ESCAPE) {
-                gsm.setState(GameStateManager.LOAD);
+                gsm.setState(GameStateManager.State.PAUSE);
+                return true;
+            }
+        }
+        // PAUSE STATE SWITCH STATE TEST
+        if (GameStateManager.getInstance().getStateInstance() instanceof PauseState) {
+            if (keycode == Input.Keys.ESCAPE) {
+                gsm.setState(GameStateManager.State.PLAY);
                 return true;
             }
         }
         // LOAD STATE SWITCH STATE TEST
-        if (GameStateManager.getInstance().getStateInstance() instanceof PauseState) {
+        if (GameStateManager.getInstance().getStateInstance() instanceof LoadState) {
             if (keycode == Input.Keys.ESCAPE) {
-                gsm.setState(GameStateManager.PLAY);
+                game.load();
+                gsm.setState(GameStateManager.State.PLAY);
                 return true;
             }
         }
@@ -137,25 +145,25 @@ public class InputManager implements InputProcessor {
         if (GameStateManager.getInstance().getStateInstance() instanceof PlayState) {
             // Released keys signal end of movement
             if (keycode == Input.Keys.SHIFT_LEFT) {
-                player.setSprinting(false);
+                game.getPlayer().setSprinting(false);
             }
 
             if (keycode == Input.Keys.A) {
-                player.getMovementState().add(1, 0);
+                game.getPlayer().getMovementState().add(1, 0);
             }
             if (keycode == Input.Keys.D) {
-                player.getMovementState().add(-1, 0);
+                game.getPlayer().getMovementState().add(-1, 0);
             }
             if (keycode == Input.Keys.W) {
-                player.getMovementState().add(0, -1);
+                game.getPlayer().getMovementState().add(0, -1);
             }
             if (keycode == Input.Keys.S) {
-                player.getMovementState().add(0, 1);
+                game.getPlayer().getMovementState().add(0, 1);
             }
 
             // Resets jump flag if space bar is released - ready to jump again
             if (keycode == Input.Keys.SPACE) {
-                player.setIsJumping(false);
+                game.getPlayer().setIsJumping(false);
             }
         }
         return false;
@@ -190,4 +198,5 @@ public class InputManager implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+    
 }

@@ -37,10 +37,10 @@ public class Player extends LivingEntity {
         // Set up animations
         this.animFrames = (TextureAtlas) assetHandler.getByName("player");
         animWalk = new Animation(1 / 6f,
-                (this.animFrames.findRegion("walk1,", 0)),
-                (this.animFrames.findRegion("walk1,", 1)),
-                (this.animFrames.findRegion("walk1,", 2)),
-                (this.animFrames.findRegion("walk1,", 3)));
+                (this.animFrames.findRegion("walk1", 0)),
+                (this.animFrames.findRegion("walk1", 1)),
+                (this.animFrames.findRegion("walk1", 2)),
+                (this.animFrames.findRegion("walk1", 3)));
         animIdle = new Animation(1 / 1.5f,
                 (this.animFrames.findRegion("stand1", 0)),
                 (this.animFrames.findRegion("stand1", 1)),
@@ -70,7 +70,7 @@ public class Player extends LivingEntity {
                 (this.animFrames.findRegion("swingOF", 3)));
 
         movementState = new Vector2(0, 0);
-        position = new Vector2(500, 400);
+        position = new Vector2(857, 421);
         aabb = new Rectangle(position.x, position.y, 52, 68);
 
         // Initialize animated sprite for player

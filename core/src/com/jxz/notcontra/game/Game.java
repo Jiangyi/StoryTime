@@ -47,21 +47,15 @@ public class Game extends ApplicationAdapter {
     public static final int VIEW_WIDTH = 16; // TODO: Finalize tile count on screen x2
     private LevelRenderer currentMapRenderer;
     private Level currentLevel;
+    private TiledMap map;
 
 
     @Override
     public void create() {
         // Load and parse assets
-        assetHandler.loadFromFile("levels/general.txt");
-        assetHandler.loadFromFile("levels/level1.txt");
-        float prevProgress = 0f;
+        assetHandler.loadFromFile("menu/load.txt");
         while (!assetHandler.update()) {
-            float currentProgress = assetHandler.getProgress();
-            if (prevProgress != currentProgress) {
-                System.out.println(currentProgress * 100 + "% loaded");
-                prevProgress = currentProgress;
-            }
-
+            System.out.println(assetHandler.getProgress() * 100 + "% loaded");
         }
 
         // Instantiate new sprite batch and camera for rendering
@@ -77,13 +71,16 @@ public class Game extends ApplicationAdapter {
         gsm = GameStateManager.getInstance(this);
         entityManager = EntityManager.getInstance(this);
 
-        TiledMap map = (TiledMap) assetHandler.getByName("level1");
+        // Input handled after player object created
+        Gdx.input.setInputProcessor(InputManager.getInstance(this));
+    }
+
+    public void load() {
+        map = (TiledMap) assetHandler.getByName("level1");
         currentLevel = new Level(this, map);
         currentLevel.setDimensions(36, 12);
         currentMapRenderer = new LevelRenderer(map, UNIT_SCALE);
         currentMapRenderer.setView(playerCam);
-
-
 
         // Initialize Player object
         player = new Player("player");
@@ -100,8 +97,6 @@ public class Game extends ApplicationAdapter {
         slime.setCurrentLevel(currentLevel);
         slime.setVisible(true);
 
-        // Input handled after player object created
-        Gdx.input.setInputProcessor(InputManager.getInstance(this));
     }
 
     @Override
@@ -119,7 +114,9 @@ public class Game extends ApplicationAdapter {
     public void dispose() {
         sb.dispose();
         entityManager.dispose();
-        currentMapRenderer.getMap().dispose();
+        if (currentMapRenderer != null) {
+            currentMapRenderer.getMap().dispose();
+        }
         assetHandler.dispose();
     }
 

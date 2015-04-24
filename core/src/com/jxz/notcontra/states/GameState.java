@@ -3,6 +3,7 @@ package com.jxz.notcontra.states;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jxz.notcontra.camera.PlayerCamera;
+import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.GameStateManager;
 

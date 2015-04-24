@@ -2,6 +2,7 @@ package com.jxz.notcontra.handlers;
 
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.states.GameState;
+import com.jxz.notcontra.states.LoadState;
 import com.jxz.notcontra.states.PauseState;
 import com.jxz.notcontra.states.PlayState;
 
@@ -16,13 +17,16 @@ public class GameStateManager {
     private Game game;
     private Stack<GameState> gameState;
     private static GameStateManager gsmManager;
-    public static final int PLAY = 1;       // Any number will do
-    public static final int LOAD = 0;
+
+    public enum State {
+        PLAY, LOAD, PAUSE
+    }
+    public State state;
 
     private GameStateManager(Game game) {
         this.game = game;
         gameState = new Stack<GameState>();
-        pushState(LOAD);
+        pushState(State.LOAD);
     }
 
     public static GameStateManager getInstance(Game game) {
@@ -48,24 +52,27 @@ public class GameStateManager {
         return game;
     }
 
-    private GameState getState(int state) {
-        if (state == PLAY) {
+    public GameState getState(State state) {
+        if (state == State.PLAY) {
             AudioHelper.playBgMusic(true);
             return new PlayState(this);
         }
-        if (state == LOAD) {
+        if (state == State.PAUSE) {
             AudioHelper.playBgMusic(false);
             return new PauseState(this);
+        }
+        if (state == State.LOAD) {
+            return new LoadState(this);
         }
         return null;
     }
 
-    public void setState(int state) {
+    public void setState(State state) {
         popState();
         pushState(state);
     }
 
-    public void pushState(int state) {
+    public void pushState(State state) {
         gameState.push(getState(state));
     }
 
