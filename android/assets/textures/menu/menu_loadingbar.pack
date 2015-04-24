@@ -1,0 +1,26 @@
+
+menu_loadingbar.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+loadingbar
+  rotate: false
+  xy: 1, 47
+  size: 380, 44
+  orig: 380, 44
+  offset: 0, 0
+  index: -1
+loadingframe
+  rotate: false
+  xy: 1, 1
+  size: 380, 44
+  orig: 380, 44
+  offset: 0, 0
+  index: -1
+libgdx
+  rotate: false
+  xy: 383, 41
+  size: 300, 50
+  orig: 300, 50
+  offset: 0, 0
+  index: -1

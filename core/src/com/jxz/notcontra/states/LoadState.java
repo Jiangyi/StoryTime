@@ -4,6 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Interpolation;
+import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.menu.LoadingBar;
@@ -14,19 +19,29 @@ import com.jxz.notcontra.menu.LoadingBar;
  */
 public class LoadState extends GameState {
 
+    TextureAtlas loadAtlas;
+    private Sprite logo_libgdx;
     private BitmapFont font = new BitmapFont();
     private AssetHandler assetHandler = AssetHandler.getInstance();
     private LoadingBar loadingBar;
     private float progress = 0f;
+    private GlyphLayout layout;
+
+    private final String LOADING = "Loading Game: ";
+    private final String DONE_LOADING = "Done Loading!";
 
     public LoadState(GameStateManager gsm) {
         super(gsm);
+        loadingBar = new LoadingBar();
+        loadAtlas = (TextureAtlas) assetHandler.getByName("menu_loadingbar");
+        logo_libgdx = loadAtlas.createSprite("libgdx");
         assetHandler.loadFromFile("levels/general.txt");
         assetHandler.loadFromFile("levels/level1.txt");
+        layout = new GlyphLayout();
     }
 
     public void update(float dt) {
-
+        loadingBar.update();
     }
 
     public void dispose() {
@@ -34,26 +49,34 @@ public class LoadState extends GameState {
         font.dispose();
     }
 
-    public void load() {
-        while (!assetHandler.update()) {
-            progress = assetHandler.getProgress();
-        }
-    }
-
     public void render() {
-        Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
+        Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-        if (assetHandler.update()) {
-            progress = assetHandler.getProgress();
-        }
 
+        assetHandler.update();
+        progress = Interpolation.linear.apply(progress, assetHandler.getProgress(), 0.06f);
 
         sb.begin();
-
-        font.draw(sb, "LOADING... PLEASE WAIT... : " + progress, 100, 100);
-        if (progress == 1.0f) {
-            font.draw(sb, "DONE LOADING! PRESS ESC TO SWITCH TO PLAY STATE", 100, 75);
+        //Draw libgdx logo
+        sb.draw(logo_libgdx, Game.VID_WIDTH - logo_libgdx.getWidth() / 2 - 5, 5, 150, 25);
+        // Drawing loading frame and bar
+        sb.draw(loadingBar.getFrameSprite(), loadingBar.getPositionX(), loadingBar.getPositionY(), loadingBar.getWidth(), loadingBar.getHeight());
+        sb.draw(loadingBar.getBarSprite().getTexture(),
+                loadingBar.getPositionX(),
+                loadingBar.getPositionY(),
+                (progress > 0.995f ? loadingBar.getWidth() : loadingBar.getWidth() * progress),
+                loadingBar.getHeight(),
+                loadingBar.getBarSprite().getRegionX(),
+                loadingBar.getBarSprite().getRegionY(),
+                (progress > 0.995f ? (loadingBar.getBarSprite().getRegionWidth()) : Math.round(loadingBar.getBarSprite().getRegionWidth() * progress)),
+                loadingBar.getBarSprite().getRegionHeight(), false, false);
+        // Draw fonts
+        layout.setText(font, LOADING + Math.round(progress * 100) + "%");
+        font.draw(sb, layout, Game.VID_WIDTH / 2 - layout.width / 2, Game.VID_HEIGHT / 2 + 45);
+        layout.setText(font, DONE_LOADING);
+        if (Math.round(progress * 100) == 100) {
+            font.draw(sb, layout, Game.VID_WIDTH / 2 - layout.width / 2, Game.VID_HEIGHT / 2 - (45 - layout.height));
             game.setInputProcessor();
         }
         sb.end();

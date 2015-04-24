@@ -53,12 +53,6 @@ public class Game extends ApplicationAdapter {
 
     @Override
     public void create() {
-        // Load and parse assets
-        assetHandler.loadFromFile("menu/load.txt");
-        while (!assetHandler.update()) {
-            System.out.println(assetHandler.getProgress() * 100 + "% loaded");
-        }
-
         // Instantiate new sprite batch and camera for rendering
         sb = new SpriteBatch();
         playerCam = new PlayerCamera();
@@ -68,9 +62,15 @@ public class Game extends ApplicationAdapter {
         hudCam = new OrthographicCamera();
         hudCam.setToOrtho(false, VID_WIDTH, VID_HEIGHT);
 
+        // Load and parse assets
+        assetHandler.loadFromFile("textures/menu/loading_screen.txt");
+        while (!assetHandler.update());
+
         // Setup singleton manager classes
         gsm = GameStateManager.getInstance(this);
         entityManager = EntityManager.getInstance(this);
+
+
     }
 
     public void load() {
