@@ -36,7 +36,7 @@ public class PlayerCamera extends OrthographicCamera {
         } else {
             // Moves camera closer to the player until within 0.01 tiles
             if (Math.abs(deltaY) > 0.01 && position.y >= Game.VIEW_HEIGHT / 2f && position.y <= player.getCurrentLevel().getHeight() - Game.VIEW_HEIGHT / 2f) {
-                position.y += (deltaY > 0 ? -1 : 1) * Math.pow(deltaY, 2) * Game.UNIT_SCALE * Game.fpsTimer;
+                position.y += (deltaY > 0 ? -1 : 1) * Math.pow(deltaY, 2) * Game.UNIT_SCALE * Game.getFpsTimer();
             } else {
                 isTracking = false;
             }

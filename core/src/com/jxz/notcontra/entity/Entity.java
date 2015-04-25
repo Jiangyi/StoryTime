@@ -38,7 +38,12 @@ public abstract class Entity {
 
     public Entity(String entityName, float x, float y) {
         this(entityName);
-        position.set(x, y);
+        this.position = new Vector2(x, y);
+    }
+
+    public Entity(String entityName, Vector2 position) {
+        this(entityName);
+        this.position = position;
     }
 
     public boolean isFlipped() {

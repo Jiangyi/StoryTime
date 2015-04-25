@@ -9,7 +9,7 @@ import com.jxz.notcontra.game.Game;
 /**
  * Created by Kevin Xiao on 2015-04-23.
  */
-public class LoadingBar extends AbstractBars{
+public class LoadingBar extends AbstractBars {
 
     public LoadingBar() {
         super();

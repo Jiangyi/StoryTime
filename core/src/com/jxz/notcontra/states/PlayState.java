@@ -4,13 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.jxz.notcontra.entity.MonsterFactory;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.entity.Slime;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
-import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.world.Level;
 import com.jxz.notcontra.world.LevelRenderer;
 
@@ -26,25 +25,41 @@ public class PlayState extends GameState {
     private Player player;
     private Level currentLevel;
     private LevelRenderer currentMapRenderer;
-
     private TiledMap map;
 
-    private BitmapFont font = new BitmapFont();
-
-    public PlayState(GameStateManager gsm) {
-        super(gsm);
-        player = game.getPlayer();
+    public PlayState(Game game) {
+        super(game);
+        load();
     }
 
     public void update(float dt) {
-
     }
 
-    public void dispose() {
-        // Cleanup
-        font.dispose();
-    }
+    public void load() {
+        map = (TiledMap) assetHandler.getByName("level1");
+        currentLevel = new Level(map);
+        currentLevel.setDimensions(36, 12);
+        currentMapRenderer = new LevelRenderer(map, Game.UNIT_SCALE);
+        currentMapRenderer.setView(playerCam);
 
+        // Initialize Player object
+        player = new Player("player");
+        player.setSpeed(3f);
+        player.setCurrentLevel(currentLevel);
+        player.setVisible(true);
+        player.setCamera(playerCam);
+        playerCam.setPlayer(player);
+
+        // Initialize monsters
+        for (int i = 0; i < 65; i++) {
+            slime = (Slime) MonsterFactory.spawn(Slime.class);
+            slime.setSpeed(3f);
+            slime.setPosition(i * 35, 750);
+            slime.setCurrentLevel(currentLevel);
+            slime.setVisible(true);
+        }
+
+    }
     public void render() {
         // Clear screen
         Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
@@ -56,8 +71,8 @@ public class PlayState extends GameState {
         sb.setProjectionMatrix(hudCam.combined);
 
         // Render map
-        game.getCurrentMapRenderer().render();
-        game.getCurrentMapRenderer().setView(playerCam);
+        currentMapRenderer.render();
+        currentMapRenderer.setView(playerCam);
 
         // Debug text - drawn to HUD Camera
         sb.begin();
@@ -78,5 +93,18 @@ public class PlayState extends GameState {
         // Update camera position
         playerCam.track();
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Level getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public LevelRenderer getCurrentMapRenderer() {
+        return currentMapRenderer;
+    }
+
 
 }

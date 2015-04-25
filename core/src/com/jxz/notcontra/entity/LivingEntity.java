@@ -98,8 +98,8 @@ public abstract class LivingEntity extends Entity {
         float dist;
 
         // Low FPS check - ensure collisions are checked properly if FPS < 60
-        if (Game.fpsTimer > 1) {
-            deltaX *= Game.fpsTimer;
+        if (Game.getFpsTimer() > 1) {
+            deltaX *= Game.getFpsTimer();
         }
 
         // X collision check
@@ -119,13 +119,13 @@ public abstract class LivingEntity extends Entity {
         }
 
         // Update x
-        position.x += (Game.fpsTimer > 1) ? deltaX : deltaX * Game.fpsTimer;
+        position.x += (Game.getFpsTimer() > 1) ? deltaX : deltaX * Game.getFpsTimer();
 
         // Update Y if on slope
         if (isOnSlope) {
             slopeLeft = currentLevel.getSlopeOfTile(position.x, position.y);
             slopeRight = currentLevel.getSlopeOfTile(position.x + aabb.getWidth(), position.y);
-            position.y += ((Game.fpsTimer > 1) ? deltaX : deltaX * Game.fpsTimer) * (Math.abs(slopeLeft) > Math.abs(slopeRight) ? slopeLeft : slopeRight);
+            position.y += ((Game.getFpsTimer() > 1) ? deltaX : deltaX * Game.getFpsTimer()) * (Math.abs(slopeLeft) > Math.abs(slopeRight) ? slopeLeft : slopeRight);
         }
 
         // Player can grab onto a ladder if the center of the player is within a ladder tile
@@ -199,8 +199,8 @@ public abstract class LivingEntity extends Entity {
         }
 
         // Low fps check - ensures collisions are handled properly when FPS < 60
-        if (Game.fpsTimer > 1) {
-            deltaY *= Game.fpsTimer;
+        if (Game.getFpsTimer() > 1) {
+            deltaY *= Game.getFpsTimer();
         }
 
         // Y-check
@@ -247,7 +247,7 @@ public abstract class LivingEntity extends Entity {
 
         // Finalize delta Y based on lowest distance
         deltaY = (deltaY > 0 ? 1 : -1) * dist;
-        position.y += (Game.fpsTimer > 1) ? deltaY : deltaY * Game.fpsTimer;
+        position.y += (Game.getFpsTimer() > 1) ? deltaY : deltaY * Game.getFpsTimer();
 
         // Fix Y so that player is on a uniform y-level when not moving
         if (deltaY == 0) {

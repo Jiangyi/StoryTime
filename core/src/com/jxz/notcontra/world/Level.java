@@ -17,13 +17,11 @@ public class Level {
     public static final String CLIMB_LAYER = "Trigger Tile"; // Name of trigger layer (ladders/ropes)
 
     // Class Variables
-    private Game game;
     private TiledMap map;
     private int height, width;
     private float gravity = 0.15f / Game.UNIT_SCALE;
 
-    public Level(Game g, TiledMap map) {
-        this.game = g;
+    public Level(TiledMap map) {
         this.map = map;
     }
 

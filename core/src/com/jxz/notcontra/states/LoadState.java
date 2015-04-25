@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
-import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.menu.LoadingBar;
 
 /**
@@ -30,8 +29,11 @@ public class LoadState extends GameState {
     private final String LOADING = "Loading Game: ";
     private final String DONE_LOADING = "Done Loading!";
 
-    public LoadState(GameStateManager gsm) {
-        super(gsm);
+    public LoadState(Game game) {
+        super(game);
+        assetHandler.loadFromFile("textures/menu/loading_screen.txt");
+        while (!assetHandler.update());
+        // Load and parse assets
         loadingBar = new LoadingBar();
         loadAtlas = (TextureAtlas) assetHandler.getByName("menu_loadingbar");
         logo_libgdx = loadAtlas.createSprite("libgdx");
@@ -42,11 +44,6 @@ public class LoadState extends GameState {
 
     public void update(float dt) {
         loadingBar.update();
-    }
-
-    public void dispose() {
-        // Cleanup
-        font.dispose();
     }
 
     public void render() {

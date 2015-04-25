@@ -6,8 +6,6 @@ import com.jxz.notcontra.states.LoadState;
 import com.jxz.notcontra.states.PauseState;
 import com.jxz.notcontra.states.PlayState;
 
-import java.util.Stack;
-
 /**
  * Created by Kevin Xiao on 2015-03-24.
  * A singleton class that manages the game states
@@ -15,85 +13,76 @@ import java.util.Stack;
 
 public class GameStateManager {
     private Game game;
-    private Stack<GameState> gameState;
-    private static GameStateManager gsmManager;
-
+    private static GameStateManager gsm;
+    private static GameState currentGameState;
     private static PlayState playState;
     private static LoadState loadState;
     private static PauseState pauseState;
+
     public enum State {
         PLAY, LOAD, PAUSE
     }
-    public State state;
 
     private GameStateManager(Game game) {
         this.game = game;
-        this.gameState = new Stack<GameState>();
-        pushState(State.LOAD);
+        setState(State.LOAD);
     }
 
     public static GameStateManager getInstance(Game game) {
-        if (gsmManager == null) {
-            gsmManager = new GameStateManager(game);
-
+        if (gsm == null) {
+            gsm = new GameStateManager(game);
         }
-        return gsmManager;
-    }
-
-    public static GameStateManager getInstance() {
-        return gsmManager;
+        return gsm;
     }
 
     public void update(float dt) {
-        gameState.peek().update(dt);
+        currentGameState.update(dt);
     }
 
     public void render() {
-        gameState.peek().render();
+        currentGameState.render();
     }
 
     public Game getGame() {
         return game;
     }
 
-    public GameState getState(State state) {
+    public PlayState getPlayState() {
+        return playState;
+    }
+
+    public LoadState getLoadState() {
+        return loadState;
+    }
+
+    public PauseState getPauseState() {
+        return pauseState;
+    }
+
+    public void setState(State state) {
         if (state == State.PLAY) {
             AudioHelper.playBgMusic(true);
             if (playState == null) {
-                this.playState = new PlayState(this);
+                this.playState = new PlayState(game);
             }
-            return playState;
+            currentGameState = playState;
         }
         if (state == State.PAUSE) {
             AudioHelper.playBgMusic(false);
             if (pauseState == null) {
-                this.pauseState = new PauseState(this);
+                this.pauseState = new PauseState(game);
             }
-            return pauseState;
+            currentGameState = pauseState;
         }
         if (state == State.LOAD) {
-            if (loadState == null) {
-                this.loadState = new LoadState(this);
+            if (pauseState == null) {
+                this.loadState = new LoadState(game);
             }
-            return loadState;
+            currentGameState = loadState;
         }
-        return null;
     }
 
-    public void setState(State state) {
-        popState();
-        pushState(state);
-    }
-
-    public void pushState(State state) {
-        gameState.push(getState(state));
-    }
-
-    public void popState() {
-        GameState state = gameState.pop();
-    }
-
-    public GameState getStateInstance() {
-        return gameState.peek();
+    public GameState getCurrentState() {
+        return currentGameState;
     }
 }

@@ -3,8 +3,7 @@ package com.jxz.notcontra.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.jxz.notcontra.handlers.GameStateManager;
+import com.jxz.notcontra.game.Game;
 
 /**
  * Created by Kevin Xiao on 2015-04-09.
@@ -12,19 +11,12 @@ import com.jxz.notcontra.handlers.GameStateManager;
  */
 public class PauseState extends GameState {
 
-    private BitmapFont font = new BitmapFont();
-
-    public PauseState(GameStateManager gsm) {
-        super(gsm);
+    public PauseState(Game game) {
+        super(game);
     }
 
     public void update(float dt) {
-
-    }
-
-    public void dispose() {
-        // Cleanup
-        font.dispose();
+        // Do nothing
     }
 
 

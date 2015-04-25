@@ -1,11 +1,10 @@
 package com.jxz.notcontra.states;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jxz.notcontra.camera.PlayerCamera;
-import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.game.Game;
-import com.jxz.notcontra.handlers.GameStateManager;
 
 /**
  * Created by Kevin Xiao on 2015-03-24.
@@ -13,25 +12,30 @@ import com.jxz.notcontra.handlers.GameStateManager;
  */
 public abstract class GameState {
 
-    protected GameStateManager gsm;
     protected Game game;
 
-    protected SpriteBatch sb;
+    protected SpriteBatch sb = new SpriteBatch();
     protected PlayerCamera playerCam;
     protected OrthographicCamera hudCam;
+    protected BitmapFont font = new BitmapFont();
 
-    protected GameState(GameStateManager gsm) {
-        this.gsm = gsm;
-        game = gsm.getGame();
-        sb = game.getSpriteBatch();
-        playerCam = game.getPlayerCam();
-        hudCam = game.getHudCam();
+    protected GameState(Game game) {
+        this.game = game;
+        this.playerCam = this.game.getPlayerCam();
+        this.hudCam = this.game.getHudCam();
     }
 
     public abstract void update(float dt);
 
     public abstract void render();
 
-    public abstract void dispose();
+    public SpriteBatch getSpriteBatch() {
+        return sb;
+    }
+
+    public void dispose() {
+        sb.dispose();
+        font.dispose();
+    };
 
 }

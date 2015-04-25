@@ -13,24 +13,32 @@ public class EntityManager implements Disposable {
     // Entity Manager Fields
     private ObjectMap<String, Entity> masterList;
     public static int id;
-    private Game game;
     private static EntityManager entityManager;
 
     // Constructor
-    private EntityManager(Game game) {
-        // Initialize list
-        this.game = game;
-        masterList = new ObjectMap<String, Entity>();
+    private EntityManager() {
+        this(null);
     }
 
-    public static EntityManager getInstance(Game game) {
+    private EntityManager(String saveFile) {
+        // Initialize list
+        if (saveFile != null) {
+            masterList = SaveGameHandler.loadSave(saveFile);
+        } else {
+            masterList = new ObjectMap<String, Entity>();
+        }
+    }
+
+    public static EntityManager getInstance() {
         if (entityManager == null) {
-            entityManager = new EntityManager(game);
+            entityManager = new EntityManager();
         }
         return entityManager;
     }
 
-    public static EntityManager getInstance() {
+    public static EntityManager getInstanceFromSave(Game game, String saveFile) {
+        // Overwrite any previous entityManager initializations with the one from the savefile
+        entityManager = new EntityManager(saveFile);
         return entityManager;
     }
 
