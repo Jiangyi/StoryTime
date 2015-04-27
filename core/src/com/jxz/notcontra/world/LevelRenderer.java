@@ -5,8 +5,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.jxz.notcontra.entity.Entity;
-import com.jxz.notcontra.entity.LivingEntity;
-import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.EntityManager;
 
 /**

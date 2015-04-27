@@ -1,12 +1,10 @@
 package com.jxz.notcontra.skill;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.entity.DynamicHitbox;
 import com.jxz.notcontra.entity.Entity;
 import com.jxz.notcontra.entity.LivingEntity;
-import com.jxz.notcontra.handlers.AssetHandler;
 
 import java.util.ArrayList;
 
@@ -26,6 +24,7 @@ public abstract class Skill {
     protected DynamicHitbox hitbox;
     protected boolean rootWhileCasting;
     protected TextureAtlas vfx;
+    protected Entity caster;
 
     // Constructor
     public Skill(String name) {

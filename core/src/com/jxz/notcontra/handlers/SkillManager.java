@@ -2,8 +2,6 @@ package com.jxz.notcontra.handlers;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.jxz.notcontra.entity.EntityFactory;
-import com.jxz.notcontra.entity.Projectile;
 import com.jxz.notcontra.skill.MeleeAttack;
 import com.jxz.notcontra.skill.Skill;
 

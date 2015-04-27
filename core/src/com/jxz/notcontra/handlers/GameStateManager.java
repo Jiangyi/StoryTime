@@ -63,20 +63,20 @@ public class GameStateManager {
         if (state == State.PLAY) {
             AudioHelper.playBgMusic(true);
             if (playState == null) {
-                this.playState = new PlayState(game);
+                playState = new PlayState(game);
             }
             currentGameState = playState;
         }
         if (state == State.PAUSE) {
             AudioHelper.playBgMusic(false);
             if (pauseState == null) {
-                this.pauseState = new PauseState(game);
+                pauseState = new PauseState(game);
             }
             currentGameState = pauseState;
         }
         if (state == State.LOAD) {
             if (pauseState == null) {
-                this.loadState = new LoadState(game);
+                loadState = new LoadState(game);
             }
             currentGameState = loadState;
         }

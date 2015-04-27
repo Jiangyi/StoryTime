@@ -1,7 +1,6 @@
 package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.jxz.notcontra.game.Game;
 
 import java.util.ArrayList;
 

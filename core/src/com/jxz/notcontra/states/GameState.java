@@ -36,6 +36,6 @@ public abstract class GameState {
     public void dispose() {
         sb.dispose();
         font.dispose();
-    };
+    }
 
 }

@@ -1,8 +1,10 @@
 package com.jxz.notcontra.skill;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.jxz.notcontra.entity.*;
+import com.jxz.notcontra.entity.AttachedHitbox;
+import com.jxz.notcontra.entity.Entity;
+import com.jxz.notcontra.entity.EntityFactory;
+import com.jxz.notcontra.entity.LivingEntity;
 
 import java.util.ArrayList;
 
@@ -19,6 +21,7 @@ public class MeleeAttack extends Skill {
 
     @Override
     public void use(LivingEntity caster) {
+        this.caster = caster;
         hitbox = (AttachedHitbox) EntityFactory.spawn(AttachedHitbox.class);
         hitbox.setHitboxOffset(hitboxOffset.x, hitboxOffset.y);
         hitbox.setFlipOffset(flipOffset.x, flipOffset.y);
@@ -34,7 +37,7 @@ public class MeleeAttack extends Skill {
         for (Entity e : list) {
             if (e instanceof LivingEntity) {
                 LivingEntity le = (LivingEntity) e;
-                le.damage(damage);
+                le.damage(damage, caster);
                 System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
             }
         }

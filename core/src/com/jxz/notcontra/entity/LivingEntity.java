@@ -2,7 +2,6 @@ package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
@@ -29,6 +28,7 @@ public abstract class LivingEntity extends AnimatedEntity {
     protected Animation[] animCast;
     protected Animation animHurt;
     protected Animation animDeath;
+    protected Animation currentAnimation;
     protected float climbingStateTime;
     protected float castStateTime;
     protected int castType;
@@ -41,8 +41,10 @@ public abstract class LivingEntity extends AnimatedEntity {
     private float jumpTime = 3;
     private float currentGravity = 0f;
 
-    // Movement State
+    // Movement Vectors
     protected Vector2 movementState;
+    protected Vector2 forceVector;
+    protected float forceDuration;
 
     // Living entity states
     protected boolean isSprinting = false;
@@ -52,8 +54,6 @@ public abstract class LivingEntity extends AnimatedEntity {
     protected boolean isJumping = false;
     protected boolean canClimb = false;
     protected boolean isClimbing = false;
-    protected boolean isProvoked = false;
-    protected boolean canCast = false;
     protected boolean isCasting = false;
     protected boolean isRooted = false;
     protected boolean skillCasted = false;
@@ -66,6 +66,8 @@ public abstract class LivingEntity extends AnimatedEntity {
     public LivingEntity(String entityName) {
         super(entityName);
         movementState = new Vector2(0, 0);
+        forceVector = new Vector2(0, 0);
+        forceDuration = 0;
         skillInventory = new Skill[5];
     }
 
@@ -90,6 +92,11 @@ public abstract class LivingEntity extends AnimatedEntity {
             // Add effective speed to delta X
             float effectiveSpeed = speed * (isSprinting ? 2 : 1) * (isOnSlope ? 0.5f : 1);
             deltaX += effectiveSpeed * movementState.x;
+        }
+
+        // Apply Force Vector
+        if (forceDuration > 0) {
+            deltaX += forceVector.x * forceDuration;
         }
 
         // Check collision bounds
@@ -198,6 +205,11 @@ public abstract class LivingEntity extends AnimatedEntity {
             currentGravity = 0;
         }
 
+        // Apply Force Vector
+        if (forceDuration > 0) {
+           deltaY += forceVector.y * forceDuration;
+        }
+
         // Low fps check - ensures collisions are handled properly when FPS < 60
         if (Game.getFpsTimer() > 1) {
             deltaY *= Game.getFpsTimer();
@@ -299,6 +311,11 @@ public abstract class LivingEntity extends AnimatedEntity {
             isRooted = false;
         }
 
+        // Update force vector status
+        if (forceDuration > 0) {
+            forceDuration -= Gdx.graphics.getDeltaTime();
+        }
+
         /** Update final positions */
         sprite.setPosition(position.x - hitboxOffset.x, position.y - hitboxOffset.y);
         aabb.setPosition(position);
@@ -306,8 +323,8 @@ public abstract class LivingEntity extends AnimatedEntity {
         this.animate();
     }
 
-    public void damage(float health) {
-        this.health -= health;
+    public void damage(float dmg, Entity source) {
+        this.health -= dmg;
     }
 
     public void die() {
@@ -397,5 +414,9 @@ public abstract class LivingEntity extends AnimatedEntity {
         return isRooted;
     }
 
+    public void applyForce(Vector2 forceVector, float duration) {
+        this.forceVector = forceVector;
+        this.forceDuration = duration;
+    }
 
 }

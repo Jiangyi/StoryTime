@@ -11,9 +11,10 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
 
     protected AIState state;
     protected OSHealthBar healthbar;
+    protected float kbDuration, kbDistance, kbThreshold;
 
     public enum AIState {
-        IDLE, PATROLLING, CHASING
+        IDLE, PATROLLING, CHASING, DYING, SPAWNING
     }
 
     public Monster(String entityName) {
@@ -48,6 +49,18 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     public void draw(Batch batch) {
         super.draw(batch);
         this.healthbar.draw(batch);
+    }
+
+    @Override
+    public void damage(float dmg, Entity source) {
+        super.damage(dmg, source);
+        // If monster isn't already dying, proc hit animation
+        if (state != AIState.DYING && dmg > kbThreshold) {
+            forceVector = this.position.cpy().sub(source.getPosition()).nor();
+            forceVector.set(forceVector.x, 0);
+            forceVector.scl(kbDistance);
+            applyForce(forceVector, kbDuration);
+        }
     }
 
     public void reset() {

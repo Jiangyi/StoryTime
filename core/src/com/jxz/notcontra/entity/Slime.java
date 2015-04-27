@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Rectangle;
 import com.jxz.notcontra.handlers.AssetHandler;
 
 /**
@@ -32,7 +31,7 @@ public class Slime extends Monster {
                 this.animFrames.findRegion("move", 6));
         animHurt = new Animation(1 / 6f, this.animFrames.findRegion("hit1", 0));
         animJump = new Animation(1 / 6f, this.animFrames.findRegion("jump", 0));
-        animDeath = new Animation(1 / 2f,
+        animDeath = new Animation(1 / 10f,
                 this.animFrames.findRegion("die1", 0),
                 this.animFrames.findRegion("die1", 1),
                 this.animFrames.findRegion("die1", 2),
@@ -40,6 +39,11 @@ public class Slime extends Monster {
 
         // Initialize sprite stuff
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
+
+        // Knockback values
+        kbDuration = 0.4f;
+        kbDistance = 25f;
+        kbThreshold = 15;
     }
 
     public void init() {
@@ -50,6 +54,7 @@ public class Slime extends Monster {
         isActive = true;
         hitboxOffset.set(0, 0);
         state = AIState.IDLE;
+        currentAnimation = animIdle;
     }
 
 
@@ -57,7 +62,8 @@ public class Slime extends Monster {
     public void update() {
         super.update();
         if (health <= 0) {
-            die();
+            health = 0;
+            state = AIState.DYING;
         }
     }
 
@@ -72,8 +78,39 @@ public class Slime extends Monster {
     }
 
     public void animate() {
+        // Update animation time
         animStateTime += Gdx.graphics.getDeltaTime();
-        this.sprite.setRegion(animIdle.getKeyFrame(animStateTime, true));
+
+        // Hurt > Death > Movement/Idle
+        if (forceDuration > 0) {
+            if (currentAnimation != animHurt) {
+                animStateTime = 0;
+            }
+            forceDuration -= Gdx.graphics.getDeltaTime();
+            sprite.setRegion(animHurt.getKeyFrame(animStateTime, true));
+            currentAnimation = animHurt;
+        } else if (state == AIState.DYING) {
+            if (currentAnimation != animDeath) {
+                animStateTime = 0;
+            }
+            sprite.setRegion(animDeath.getKeyFrame(animStateTime, true));
+            currentAnimation = animDeath;
+            if (animStateTime > animDeath.getAnimationDuration()) {
+                die();
+            }
+        } else if (movementState.isZero()) {
+            if (currentAnimation != animIdle) {
+                animStateTime = 0;
+            }
+            sprite.setRegion(animIdle.getKeyFrame(animStateTime, true));
+            currentAnimation = animIdle;
+        } else {
+            if (currentAnimation != animWalk) {
+                animStateTime = 0;
+            }
+            sprite.setRegion(animWalk.getKeyFrame(animStateTime, true));
+            currentAnimation = animWalk;
+        }
     }
 
 }

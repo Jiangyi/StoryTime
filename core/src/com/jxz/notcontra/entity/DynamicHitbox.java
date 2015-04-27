@@ -3,14 +3,11 @@ package com.jxz.notcontra.entity;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.skill.Skill;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Samuel on 25/04/2015.

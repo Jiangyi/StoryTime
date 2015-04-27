@@ -1,6 +1,5 @@
 package com.jxz.notcontra.entity;
 
-import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 
 /**
@@ -13,7 +12,7 @@ public class EntityFactory {
 
     // Spawn method
     public static Entity spawn(Class type) {
-        return (Entity) entityPool.obtain(type);
+        return (Entity) Pools.obtain(type);
     }
 
     // Overloaded spawn method - contains coordinates
@@ -25,7 +24,7 @@ public class EntityFactory {
 
     // Frees the object from the pool
     public static void free(Object o) {
-        entityPool.free(o);
+        Pools.free(o);
     }
 
     // Static method called to assign pools to pool map
