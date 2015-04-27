@@ -1,0 +1,75 @@
+
+swing.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+0.swingOF.3
+  rotate: false
+  xy: 1, 54
+  size: 144, 57
+  orig: 144, 57
+  offset: 0, 0
+  index: 0
+0.swingD1.1
+  rotate: false
+  xy: 147, 22
+  size: 98, 89
+  orig: 98, 89
+  offset: 0, 0
+  index: 0
+0.swingD1.1
+  rotate: false
+  xy: 247, 22
+  size: 98, 89
+  orig: 98, 89
+  offset: 0, 0
+  index: 1
+0.swingD1.1
+  rotate: false
+  xy: 347, 22
+  size: 98, 89
+  orig: 98, 89
+  offset: 0, 0
+  index: 2
+0.swingD1.1
+  rotate: false
+  xy: 447, 22
+  size: 98, 89
+  orig: 98, 89
+  offset: 0, 0
+  index: 3
+0.swingD2.1
+  rotate: false
+  xy: 547, 25
+  size: 97, 86
+  orig: 97, 86
+  offset: 0, 0
+  index: 0
+0.swingD2.1
+  rotate: false
+  xy: 646, 25
+  size: 97, 86
+  orig: 97, 86
+  offset: 0, 0
+  index: 1
+0.swingO2.2
+  rotate: false
+  xy: 745, 29
+  size: 88, 82
+  orig: 88, 82
+  offset: 0, 0
+  index: 0
+0.swingO1.2
+  rotate: false
+  xy: 835, 43
+  size: 79, 68
+  orig: 79, 68
+  offset: 0, 0
+  index: 0
+0.swingO3.2
+  rotate: false
+  xy: 1, 1
+  size: 93, 51
+  orig: 93, 51
+  offset: 0, 0
+  index: 0

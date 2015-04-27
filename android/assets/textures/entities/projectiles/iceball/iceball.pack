@@ -1,0 +1,187 @@
+
+iceball.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effect
+  rotate: false
+  xy: 1, 784
+  size: 257, 192
+  orig: 257, 192
+  offset: 0, 0
+  index: 0
+effect
+  rotate: false
+  xy: 1, 590
+  size: 257, 192
+  orig: 257, 192
+  offset: 0, 0
+  index: 1
+effect
+  rotate: false
+  xy: 260, 784
+  size: 257, 192
+  orig: 257, 192
+  offset: 0, 0
+  index: 10
+effect
+  rotate: false
+  xy: 1, 396
+  size: 257, 192
+  orig: 257, 192
+  offset: 0, 0
+  index: 11
+effect
+  rotate: false
+  xy: 260, 590
+  size: 257, 192
+  orig: 257, 192
+  offset: 0, 0
+  index: 12
+effect
+  rotate: false
+  xy: 519, 784
+  size: 257, 192
+  orig: 257, 192
+  offset: 0, 0
+  index: 13
+effect
+  rotate: false
+  xy: 1, 202
+  size: 257, 192
+  orig: 257, 192
+  offset: 0, 0
+  index: 2
+effect
+  rotate: false
+  xy: 260, 396
+  size: 257, 192
+  orig: 257, 192
+  offset: 0, 0
+  index: 3
+effect
+  rotate: false
+  xy: 519, 590
+  size: 257, 192
+  orig: 257, 192
+  offset: 0, 0
+  index: 4
+effect
+  rotate: false
+  xy: 1, 8
+  size: 257, 192
+  orig: 257, 192
+  offset: 0, 0
+  index: 5
+effect
+  rotate: false
+  xy: 260, 202
+  size: 257, 192
+  orig: 257, 192
+  offset: 0, 0
+  index: 6
+effect
+  rotate: false
+  xy: 519, 396
+  size: 257, 192
+  orig: 257, 192
+  offset: 0, 0
+  index: 7
+effect
+  rotate: false
+  xy: 260, 8
+  size: 257, 192
+  orig: 257, 192
+  offset: 0, 0
+  index: 8
+effect
+  rotate: false
+  xy: 519, 202
+  size: 257, 192
+  orig: 257, 192
+  offset: 0, 0
+  index: 9
+ball
+  rotate: false
+  xy: 778, 873
+  size: 184, 103
+  orig: 184, 103
+  offset: 0, 0
+  index: 0
+ball
+  rotate: false
+  xy: 519, 97
+  size: 184, 103
+  orig: 184, 103
+  offset: 0, 0
+  index: 1
+ball
+  rotate: false
+  xy: 778, 768
+  size: 184, 103
+  orig: 184, 103
+  offset: 0, 0
+  index: 2
+ball
+  rotate: false
+  xy: 778, 663
+  size: 184, 103
+  orig: 184, 103
+  offset: 0, 0
+  index: 3
+hit.0
+  rotate: false
+  xy: 778, 567
+  size: 109, 94
+  orig: 109, 94
+  offset: 0, 0
+  index: 0
+hit.0
+  rotate: false
+  xy: 778, 471
+  size: 109, 94
+  orig: 109, 94
+  offset: 0, 0
+  index: 1
+hit.0
+  rotate: false
+  xy: 778, 375
+  size: 109, 94
+  orig: 109, 94
+  offset: 0, 0
+  index: 2
+hit.0
+  rotate: false
+  xy: 778, 279
+  size: 109, 94
+  orig: 109, 94
+  offset: 0, 0
+  index: 3
+hit.0
+  rotate: false
+  xy: 519, 1
+  size: 109, 94
+  orig: 109, 94
+  offset: 0, 0
+  index: 4
+2221003
+  rotate: false
+  xy: 964, 944
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 0
+2221003
+  rotate: false
+  xy: 705, 168
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 1
+2221003
+  rotate: false
+  xy: 889, 629
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 2

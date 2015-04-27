@@ -6,17 +6,17 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.skill.Skill;
 import com.jxz.notcontra.world.Level;
 
 /**
  * Created by Samuel on 2015-03-27.
  */
-public abstract class LivingEntity extends Entity {
+public abstract class LivingEntity extends AnimatedEntity {
     // Fields specific to living entities
     protected int health;
     protected float speed;
-    protected TextureAtlas animFrames;
 
     // Sprite fields
     protected float centerX, centerY;
@@ -28,7 +28,6 @@ public abstract class LivingEntity extends Entity {
     protected Animation[] animCast;
     protected Animation animHurt;
     protected Animation animDeath;
-    protected float animStateTime;
     protected float climbingStateTime;
     protected float castStateTime;
     protected int castType;
@@ -56,18 +55,18 @@ public abstract class LivingEntity extends Entity {
     protected boolean canCast = false;
     protected boolean isCasting = false;
     protected boolean isRooted = false;
+    protected boolean skillCasted = false;
 
     // Skill Inventory
-    Skill[] skillInventory = new Skill[5];
+    Skill[] skillInventory;
+    Skill currentSkill;
 
     // Constructor - start with no movement in either direction
     public LivingEntity(String entityName) {
         super(entityName);
         movementState = new Vector2(0, 0);
+        skillInventory = new Skill[5];
     }
-
-    // Because if it's livin', it's gotta be movin'
-    public abstract void animate();
 
     @Override
     public void update() {
@@ -287,10 +286,17 @@ public abstract class LivingEntity extends Entity {
         // If grounded state changes, make sure jump is reset
         if (!prevGrounded && isGrounded) {
             jumpState = 0;
+            if (isCasting && currentSkill.isRootWhileCasting()) {
+                movementState.set(0, 0);
+            }
         }
 
         // If casting, player is rooted
-        isRooted = isCasting;
+        if (isCasting) {
+            isRooted = currentSkill.isRootWhileCasting();
+        } else {
+            isRooted = false;
+        }
 
         /** Update final positions */
         sprite.setPosition(position.x - hitboxOffset.x, position.y - hitboxOffset.y);
@@ -299,44 +305,41 @@ public abstract class LivingEntity extends Entity {
         this.animate();
     }
 
+    public void damage(float health) {
+        this.health -= health;
+    }
+
+    public void die() {
+        isActive = false;
+        isVisible = false;
+        System.out.println(name + id + " has been slain.");
+    }
+
+    public void jump() {
+        if (isClimbing) {
+            isClimbing = false;
+            jumpState = jumpTime * 0.75f;
+            jumpCounter = maxJumps;
+        } else {
+            jumpState = jumpTime;
+            AudioHelper.playSoundEffect("jump");
+        }
+        resetGravity();
+        jumpCounter += 1;
+        isGrounded = false;
+        isJumping = true;
+    }
+
     public float getJumpState() {
         return jumpState;
-    }
-
-    public void setJumpState(float jumpState) {
-        this.jumpState = jumpState;
-    }
-
-    public int getJumpMultiplier() {
-        return jumpMultiplier;
-    }
-
-    public void setJumpMultiplier(int jumpMultiplier) {
-        this.jumpMultiplier = jumpMultiplier;
-    }
-
-    public float getJumpTime() {
-        return jumpTime;
-    }
-
-    public void setJumpTime(int jumpTime) {
-        this.jumpTime = jumpTime;
     }
 
     public int getJumpCounter() {
         return jumpCounter;
     }
 
-    public void setJumpCounter(int jumpCounter) {
-        this.jumpCounter = jumpCounter;
-    }
-
     public int getMaxJumps() {
         return maxJumps;
-    }
-
-    public void setMaxJumps(int maxJumps) {
-        this.maxJumps = maxJumps;
     }
 
     public void resetGravity() {
@@ -347,28 +350,12 @@ public abstract class LivingEntity extends Entity {
         return health;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-
     public void setSpeed(float speed) {
         this.speed = speed;
     }
 
     public Vector2 getMovementState() {
         return movementState;
-    }
-
-    public void setMovementState(Vector2 movementState) {
-        this.movementState = movementState;
-    }
-
-    public boolean isSprinting() {
-        return isSprinting;
     }
 
     public void setSprinting(boolean sprinting) {
@@ -379,10 +366,6 @@ public abstract class LivingEntity extends Entity {
         return isGrounded;
     }
 
-    public void setIsGrounded(boolean isGrounded) {
-        this.isGrounded = isGrounded;
-    }
-
     public boolean isJumping() {
         return isJumping;
     }
@@ -391,35 +374,7 @@ public abstract class LivingEntity extends Entity {
         this.isJumping = isJumping;
     }
 
-    public boolean canMelee() {
-        return canCast;
-    }
-
-    public void setCanCast(boolean canCast) {
-        this.canCast = canCast;
-    }
-
-    public boolean isCasting() {
-        return isCasting;
-    }
-
-    public void setIsMeleeing(boolean isMeleeing) {
-        this.isCasting = isMeleeing;
-    }
-
-    public abstract void melee(int type);
-
-    public int getCastType() {
-        return castType;
-    }
-
-    public boolean isProvoked() {
-        return isProvoked;
-    }
-
-    public void setIsProvoked(boolean isProvoked) {
-        this.isProvoked = isProvoked;
-    }
+    public abstract void cast(int skill);
 
     public boolean canClimb() {
         return canClimb;
@@ -427,10 +382,6 @@ public abstract class LivingEntity extends Entity {
 
     public boolean isClimbing() {
         return isClimbing;
-    }
-
-    public void setIsClimbing(boolean isClimbing) {
-        this.isClimbing = isClimbing;
     }
 
     public boolean isOnPlatform() {
@@ -441,8 +392,5 @@ public abstract class LivingEntity extends Entity {
         return isRooted;
     }
 
-    public void setIsRooted(boolean isRooted) {
-        this.isRooted = isRooted;
-    }
 
 }

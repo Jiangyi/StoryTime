@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.handlers.AssetHandler;
+import com.jxz.notcontra.handlers.SkillManager;
 
 /**
  * Created by Samuel on 2015-03-27.
@@ -63,28 +64,29 @@ public class Player extends LivingEntity {
 
         // Setup Hitbox
         position.set(857, 421);
-        aabb = new Rectangle(position.x, position.y, 45, 50);
+        aabb.set(position.x, position.y, 40, 50);
         hitboxOffset.set(6, 9);
+
+        // Setup Skill
+        skillInventory[0] = SkillManager.getSkill("testmelee");
+        skillInventory[1] = SkillManager.getSkill("melee2");
 
         // Initialize animated sprite for player
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
-    }
-
-    @Override
-    public void update() {
-        super.update();
     }
 
     public void setCamera(PlayerCamera camera) {
         this.camera = camera;
     }
 
-    public void melee(int type) {
-        if (!isClimbing()) {
+    public void cast(int skill) {
+        if (!isClimbing() && !isCasting) {
             isCasting = true;
+            skillCasted = false;
+            currentSkill = skillInventory[skill];
 
-            if (type != castType) {
-                castType = type;
+            if (skill != castType) {
+                castType = skill;
                 castStateTime = 0;
             }
             if (isGrounded) {
@@ -119,9 +121,16 @@ public class Player extends LivingEntity {
         if (isCasting && !isClimbing) {
             castStateTime += Gdx.graphics.getDeltaTime();
             this.sprite.setRegion(animCast[castType].getKeyFrame(castStateTime, false));
+            if (animCast[castType].getKeyFrameIndex(castStateTime) == animCast[castType].getKeyFrameIndex(animCast[castType].getAnimationDuration()) && !skillCasted) {
+                currentSkill.use(this);
+                skillCasted = true;
+            }
             if (animCast[castType].isAnimationFinished(castStateTime)) {
                 isCasting = false;
                 castStateTime = 0;
+                if (currentSkill.isRootWhileCasting()) {
+                    isRooted = false;
+                }
                 updateMovementState();
             }
         }

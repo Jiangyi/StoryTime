@@ -1,45 +1,25 @@
 package com.jxz.notcontra.entity;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.jxz.notcontra.skill.Skill;
 
 /**
  * Created by Samuel on 23/04/2015.
- * Object pool of projectiles.
+ * Projectiles are travelling hitboxes.
  */
-public class Projectile extends Entity implements Pool.Poolable {
-
+public class Projectile extends DynamicHitbox {
     // Projectile Specific
     protected float range;
-    protected float time;
     protected int targets;
-    protected Skill parent;
-    protected LivingEntity caster;
     protected Vector2 direction;
     protected float speed;
 
-    // Static Projectile Pool
-    protected static Pool<Projectile> projectilePool;
-
-    protected Projectile() {
+    public Projectile() {
         super("projectile");
-        projectilePool = new Pool<Projectile>() {
-            @Override
-            protected Projectile newObject() {
-                return new Projectile();
-            }
-        };
+        direction = new Vector2(0, 0);
     }
-
-    // Initialization upon retrieving from pool
-    public void init(Skill parent, LivingEntity caster) {
-        isActive = true;
-        isVisible = true;
-        this.parent = parent;
-        this.caster = caster;
-    }
-
 
     @Override
     public void update() {
@@ -51,12 +31,15 @@ public class Projectile extends Entity implements Pool.Poolable {
 
     @Override
     public void reset() {
-        position.set(-1337, -1337);
         isActive = false;
         isVisible = false;
+        direction.set(0,0);
+        speed = 0;
     }
 
-    public static Projectile create() {
-        return projectilePool.obtain();
+
+    @Override
+    public void animate() {
+
     }
 }
