@@ -153,7 +153,7 @@ public abstract class LivingEntity extends Entity {
                 position.x = (float) Math.floor(centerX * Game.UNIT_SCALE) / Game.UNIT_SCALE + (0.5f / Game.UNIT_SCALE - aabb.getWidth() / 2);
             }
             jumpState = 0;
-            deltaY += speed * movementState.y;
+            deltaY += speed * 0.8 * movementState.y;
         } else if (movementState.y < 0 && isOnPlatform()) {
             // Allows stepping down from one way platforms with a downwards jump
             if (jumpState == jumpTime) {

@@ -41,7 +41,7 @@ public class Player extends LivingEntity {
         animRope = new Animation(1 / 2f,
                 (this.animFrames.findRegion("rope", 0)),
                 (this.animFrames.findRegion("rope", 1)));
-        animLadder = new Animation(1 / 2f,
+        animLadder = new Animation(1 / 4f,
                 (this.animFrames.findRegion("ladder", 0)),
                 (this.animFrames.findRegion("ladder", 1)));
         animCast = new Animation[3];
@@ -63,7 +63,7 @@ public class Player extends LivingEntity {
 
         // Setup Hitbox
         position.set(857, 421);
-        aabb = new Rectangle(position.x, position.y, 40, 50);
+        aabb = new Rectangle(position.x, position.y, 45, 50);
         hitboxOffset.set(6, 9);
 
         // Initialize animated sprite for player
@@ -74,8 +74,6 @@ public class Player extends LivingEntity {
     public void update() {
         super.update();
     }
-
-
 
     public void setCamera(PlayerCamera camera) {
         this.camera = camera;
@@ -112,7 +110,7 @@ public class Player extends LivingEntity {
             if (movementState.y != 0) {
                 climbingStateTime += Gdx.graphics.getDeltaTime();
             }
-            this.sprite.setRegion(animRope.getKeyFrame(climbingStateTime, true));
+            this.sprite.setRegion(animLadder.getKeyFrame(climbingStateTime, true));
         } else {
             this.sprite.setRegion(animJump.getKeyFrame(animStateTime, true));
         }
