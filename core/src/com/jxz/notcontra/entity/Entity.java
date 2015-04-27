@@ -1,6 +1,8 @@
 package com.jxz.notcontra.entity;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
@@ -118,5 +120,13 @@ public abstract class Entity {
 
     public boolean isActive() {
         return isActive;
+    }
+
+    public void draw(Batch batch) {
+        batch.draw(this.sprite,
+                this.isFlipped ? ((this.position.x + this.sprite.getWidth()) * Game.UNIT_SCALE) - ((this.sprite.getWidth() - this.aabb.getWidth()) * Game.UNIT_SCALE) : this.position.x * Game.UNIT_SCALE,
+                this.position.y * Game.UNIT_SCALE,
+                this.isFlipped ? -this.sprite.getWidth() * Game.UNIT_SCALE : this.sprite.getWidth() * Game.UNIT_SCALE,
+                this.sprite.getHeight() * Game.UNIT_SCALE);
     }
 }

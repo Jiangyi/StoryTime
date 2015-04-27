@@ -16,6 +16,7 @@ import com.jxz.notcontra.world.Level;
 public abstract class LivingEntity extends AnimatedEntity {
     // Fields specific to living entities
     protected int health;
+    protected int maxHealth;
     protected float speed;
 
     // Sprite fields
@@ -348,6 +349,10 @@ public abstract class LivingEntity extends AnimatedEntity {
 
     public int getHealth() {
         return health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
     public void setSpeed(float speed) {

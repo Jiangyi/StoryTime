@@ -14,7 +14,7 @@ public class LoadingBar extends AbstractBars {
     public LoadingBar() {
         super();
         this.animFrames = (TextureAtlas) assetHandler.getByName("menu_loadingbar");
-        this.animation = new Animation(0.05f, this.animFrames.findRegions("loadingbar"));
+        this.animation = new Animation(0.05f, this.animFrames.findRegion("loadingbar"));
         animation.setPlayMode(Animation.PlayMode.LOOP_REVERSED);
 
         bar = new Sprite(animation.getKeyFrame(animStateTime, true));

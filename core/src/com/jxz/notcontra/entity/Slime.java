@@ -45,6 +45,7 @@ public class Slime extends Monster {
     public void init() {
         aabb.set(position.x, position.y, sprite.getWidth(), sprite.getHeight());
         health = 50;
+        maxHealth = 50;
         isVisible = true;
         isActive = true;
         hitboxOffset.set(0, 0);

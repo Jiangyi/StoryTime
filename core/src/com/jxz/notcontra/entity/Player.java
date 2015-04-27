@@ -64,7 +64,7 @@ public class Player extends LivingEntity {
 
         // Setup Hitbox
         position.set(857, 421);
-        aabb.set(position.x, position.y, 40, 50);
+        aabb.set(position.x, position.y, 49, 50);
         hitboxOffset.set(6, 9);
 
         // Setup Skill
