@@ -17,7 +17,9 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
         super(entityName);
     }
 
-    public abstract void melee(int type);
+    public abstract void init();
+
+    public abstract void cast(int skill);
 
     public AIState getAIState() {
         return state;
@@ -27,8 +29,15 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
         this.state = state;
     }
 
-    public void reset() {
+    @Override
+    public void die() {
+        super.die();
+    }
 
+    public void reset() {
+        isVisible = false;
+        isActive = false;
+        position.set(-1336, 1339);
     }
 
 }

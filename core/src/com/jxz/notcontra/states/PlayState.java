@@ -5,11 +5,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.jxz.notcontra.entity.MonsterFactory;
+import com.jxz.notcontra.entity.EntityFactory;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.entity.Slime;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
+import com.jxz.notcontra.handlers.SkillManager;
 import com.jxz.notcontra.world.Level;
 import com.jxz.notcontra.world.LevelRenderer;
 
@@ -42,6 +43,10 @@ public class PlayState extends GameState {
         currentMapRenderer = new LevelRenderer(map, Game.UNIT_SCALE);
         currentMapRenderer.setView(playerCam);
 
+        // Initialize EntityFactory
+        EntityFactory.init();
+        SkillManager.init();
+
         // Initialize Player object
         player = new Player("player");
         player.setSpeed(3f);
@@ -51,10 +56,11 @@ public class PlayState extends GameState {
         playerCam.setPlayer(player);
 
         // Initialize monsters
-        for (int i = 0; i < 65; i++) {
-            slime = (Slime) MonsterFactory.spawn(Slime.class);
+        for (int i = 0; i < 5; i++) {
+            slime = (Slime) EntityFactory.spawn(Slime.class);
             slime.setSpeed(3f);
-            slime.setPosition(i * 35, 750);
+            slime.init();
+            slime.setPosition(i * 250, 750);
             slime.setCurrentLevel(currentLevel);
             slime.setVisible(true);
         }

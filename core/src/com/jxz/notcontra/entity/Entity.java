@@ -32,6 +32,8 @@ public abstract class Entity {
         manager.register(name + id, this);
         position = new Vector2(0, 0);
         hitboxOffset = new Vector2(0, 0);
+        aabb = new Rectangle(0, 0, 0, 0);
+        isActive = true;
         isVisible = true;
         isFlipped = false;
     }
@@ -52,10 +54,6 @@ public abstract class Entity {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -109,9 +107,6 @@ public abstract class Entity {
         return new Vector2(position.x * Game.UNIT_SCALE, position.y * Game.UNIT_SCALE);
     }
 
-    public void unregister() {
-        manager.unregister(this);
-    }
 
     public void setPosition(Vector2 position) {
         this.position = position;
@@ -119,5 +114,9 @@ public abstract class Entity {
 
     public void setPosition(float x, float y) {
         this.position.set(x, y);
+    }
+
+    public boolean isActive() {
+        return isActive;
     }
 }

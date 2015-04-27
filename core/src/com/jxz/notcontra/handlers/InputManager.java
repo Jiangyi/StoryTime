@@ -3,7 +3,10 @@ package com.jxz.notcontra.handlers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector3;
+import com.jxz.notcontra.entity.EntityFactory;
 import com.jxz.notcontra.entity.Player;
+import com.jxz.notcontra.entity.Slime;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.states.LoadState;
 import com.jxz.notcontra.states.PauseState;
@@ -58,33 +61,26 @@ public class InputManager implements InputProcessor {
 
                 // Jump if max jumps is not reached
                 if (keycode == Input.Keys.SPACE && player.getJumpCounter() < player.getMaxJumps() && !player.isJumping()) {
-                    // Reduced jump height and disabled double jumping when climbing
-                    if (player.isClimbing()) {
-                        player.setIsClimbing(false);
-                        player.setJumpState(player.getJumpTime() * (float) 0.75);
-                        player.setJumpCounter(player.getMaxJumps());
-                    } else {
-                        player.setJumpState(Math.round(player.getJumpTime()));
-                        AudioHelper.playSoundEffect("jump");
-                    }
-                    player.resetGravity();
-
-                    player.setJumpCounter(player.getJumpCounter() + 1);
-                    player.setIsGrounded(false);
-                    player.setIsJumping(true);
-                    return true;
+                    player.jump();
                 }
             }
 
-            // Attack | melee keys
+            // Attack | cast keys
             if (keycode == Input.Keys.J) {
-                player.melee(0);
+                player.cast(0);
             }
             if (keycode == Input.Keys.K) {
-                player.melee(1);
+                player.cast(1);
             }
             if (keycode == Input.Keys.L) {
-                player.melee(2);
+                // Spawn some slimes
+                Vector3 worldPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+                game.getPlayerCam().unproject(worldPos);
+                worldPos.scl(1 / Game.UNIT_SCALE);
+                Slime slime = (Slime) EntityFactory.spawn(Slime.class, worldPos.x, worldPos.y);
+                slime.init();
+                slime.setCurrentLevel(player.getCurrentLevel());
+                slime.setVisible(true);
             }
 
             // PLAY STATE SWITCH STATE TEST

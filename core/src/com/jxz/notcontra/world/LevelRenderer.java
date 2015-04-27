@@ -33,8 +33,12 @@ public class LevelRenderer extends OrthogonalTiledMapRenderer {
 
                     if (currentLayer == SPRITE_LAYER) {
                         for (Entity e : EntityManager.getInstance().getEntitiesList()) {
-                            batch.draw(e.getSprite(), e.isFlipped() ? e.getTilePosition().x + e.getTileSize().x - ((e.getSprite().getWidth()- e.getAABB().getWidth()) * Game.UNIT_SCALE) : e.getTilePosition().x, e.getTilePosition().y, e.isFlipped() ? -e.getTileSize().x : e.getTileSize().x, e.getTileSize().y);
-                            e.update();
+                            if (e.isActive()) {
+                                e.update();
+                            }
+                            if (e.isVisible()) {
+                                batch.draw(e.getSprite(), e.isFlipped() ? e.getTilePosition().x + e.getTileSize().x - ((e.getSprite().getWidth() - e.getAABB().getWidth()) * Game.UNIT_SCALE) : e.getTilePosition().x, e.getTilePosition().y, e.isFlipped() ? -e.getTileSize().x : e.getTileSize().x, e.getTileSize().y);
+                            }
                         }
                     }
                 }

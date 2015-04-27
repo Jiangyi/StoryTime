@@ -1,3 +1,7 @@
 bgmusic	Music/peaceful_forest.mp3	Music
 
 jump	sfx/jump.wav	Sound
+
+#Projectiles
+iceball	textures/entities/projectiles/iceball/iceball.pack	TextureAtlas
+swing	textures/entities/projectiles/swing/swing.pack	TextureAtlas
