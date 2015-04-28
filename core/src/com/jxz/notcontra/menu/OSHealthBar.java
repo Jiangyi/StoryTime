@@ -51,6 +51,8 @@ public class OSHealthBar extends AbstractBars {
                 this.bar.getRegionHeight(), false, false);
     }
 
-
+    public void setPercentage(float percent) {
+        this.percentage = percent;
+    }
 
 }

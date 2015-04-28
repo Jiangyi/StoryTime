@@ -3,19 +3,26 @@ package com.jxz.notcontra.handlers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.jxz.notcontra.entity.EntityFactory;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.entity.Slime;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.menu.ScreenshotFactory;
 import com.jxz.notcontra.states.LoadState;
 import com.jxz.notcontra.states.PauseState;
 import com.jxz.notcontra.states.PlayState;
+
+import java.nio.ByteBuffer;
 
 /**
  * Created by Samuel on 2015-03-27.
  */
 public class InputManager implements InputProcessor {
+
     private Game game;
     private GameStateManager gsm;
     private static InputManager manager;
@@ -85,7 +92,9 @@ public class InputManager implements InputProcessor {
 
             // PLAY STATE SWITCH STATE TEST
             if (keycode == Input.Keys.ESCAPE) {
+                TextureRegion background = ScreenUtils.getFrameBufferTexture(game.getViewport().getScreenX(), game.getViewport().getScreenY(), game.getViewport().getScreenWidth(), game.getViewport().getScreenHeight());
                 gsm.setState(GameStateManager.State.PAUSE);
+                gsm.getPauseState().setBackground(background);
                 return true;
             }
         }

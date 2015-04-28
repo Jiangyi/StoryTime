@@ -3,11 +3,13 @@ package com.jxz.notcontra.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.handlers.InputManager;
+import com.jxz.notcontra.shaders.Shaders;
 
 public class Game extends ApplicationAdapter {
     // Program Constants
@@ -23,7 +25,7 @@ public class Game extends ApplicationAdapter {
     private PlayerCamera playerCam;
     private FitViewport viewport;
     private OrthographicCamera hudCam;
-
+    private ShaderProgram shader;
 
     // Map Render Variables
     public static final float UNIT_SCALE = 1 / 70f; // 1 ingame unit = 70 px (tile size)
@@ -35,6 +37,7 @@ public class Game extends ApplicationAdapter {
     @Override
     public void create() {
         // Instantiate viewport and camera for rendering
+        ShaderProgram.pedantic = false;
         playerCam = new PlayerCamera();
         viewport = new FitViewport(VIEW_WIDTH, VIEW_HEIGHT, playerCam);
         viewport.apply();
@@ -43,9 +46,9 @@ public class Game extends ApplicationAdapter {
         hudCam.setToOrtho(false, VID_WIDTH, VID_HEIGHT);
         // Setup singleton manager classes
         gsm = GameStateManager.getInstance(this);
+        //shader = new ShaderProgram(Gdx.files.internal("shaders/sepia.vsh"), Gdx.files.internal("shaders/sepia.fsh"));
+        shader = Shaders.vignetteShader;
     }
-
-
 
     @Override
     public void render() {
@@ -57,6 +60,9 @@ public class Game extends ApplicationAdapter {
 
     public void resize(int width, int height) {
         viewport.update(width, height);
+        shader.begin();
+        shader.setUniformf("u_resolution", width, height);
+        shader.end();
     }
 
     public void dispose() {
@@ -80,6 +86,14 @@ public class Game extends ApplicationAdapter {
 
     public static float getFpsTimer() {
         return fpsTimer;
+    }
+
+    public FitViewport getViewport() {
+        return viewport;
+    }
+
+    public ShaderProgram getShader() {
+        return shader;
     }
 
 }
