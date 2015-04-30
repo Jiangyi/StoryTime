@@ -90,6 +90,11 @@ public class InputManager implements InputProcessor {
                 slime.setVisible(true);
             }
 
+            // Interact key
+            if (keycode == Input.Keys.E) {
+                player.interact();
+            }
+
             // PLAY STATE SWITCH STATE TEST
             if (keycode == Input.Keys.ESCAPE) {
                 TextureRegion background = ScreenUtils.getFrameBufferTexture(game.getViewport().getScreenX(), game.getViewport().getScreenY(), game.getViewport().getScreenWidth(), game.getViewport().getScreenHeight());

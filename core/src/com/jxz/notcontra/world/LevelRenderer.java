@@ -15,8 +15,12 @@ public class LevelRenderer extends OrthogonalTiledMapRenderer {
     // Constants
     private final int SPRITE_LAYER = 3;
 
-    public LevelRenderer(TiledMap map, float unitScale) {
-        super(map, unitScale);
+    // Fields
+    Level currentLevel;
+
+    public LevelRenderer(Level level, float unitScale) {
+        super(level.getMap(), unitScale);
+        currentLevel = level;
     }
 
     @Override
@@ -32,11 +36,13 @@ public class LevelRenderer extends OrthogonalTiledMapRenderer {
 
                     if (currentLayer == SPRITE_LAYER) {
                         for (Entity e : EntityManager.getInstance().getEntitiesList()) {
-                            if (e.isActive()) {
-                                e.update();
-                            }
-                            if (e.isVisible()) {
-                                e.draw(batch);
+                            if (e.getCurrentLevel() == currentLevel) {
+                                if (e.isActive()) {
+                                    e.update();
+                                }
+                                if (e.isVisible()) {
+                                    e.draw(batch);
+                                }
                             }
                         }
                     }

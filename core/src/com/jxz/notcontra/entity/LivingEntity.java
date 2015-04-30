@@ -136,8 +136,8 @@ public abstract class LivingEntity extends AnimatedEntity {
         }
 
         // Player can grab onto a ladder if the center of the player is within a ladder tile
-        TiledMapTile bottomTile = currentLevel.getTileAt(centerX, position.y + aabb.getHeight(), Level.CLIMB_LAYER);
-        TiledMapTile topTile = currentLevel.getTileAt(centerX, position.y, Level.CLIMB_LAYER);
+        TiledMapTile bottomTile = currentLevel.getTileAt(centerX, position.y + aabb.getHeight(), Level.TRIGGER_LAYER);
+        TiledMapTile topTile = currentLevel.getTileAt(centerX, position.y, Level.TRIGGER_LAYER);
 
         if (topTile != null && bottomTile != null) {
             canClimb = topTile.getProperties().containsKey("climbable") || bottomTile.getProperties().containsKey("climbable");
@@ -169,7 +169,7 @@ public abstract class LivingEntity extends AnimatedEntity {
                 isOnPlatform = false;
             } else {
                 // Downward jumps are not needed if player is above a climbable tile
-                bottomTile = currentLevel.getTileAt(centerX, position.y - 1, Level.CLIMB_LAYER);
+                bottomTile = currentLevel.getTileAt(centerX, position.y - 1, Level.TRIGGER_LAYER);
                 if (bottomTile != null) {
                     if (bottomTile.getProperties().containsKey("climbable")) {
                         position.y -= 1;

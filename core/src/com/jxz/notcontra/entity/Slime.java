@@ -4,14 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.jxz.notcontra.handlers.AssetHandler;
 
 /**
  * Created by Kevin Xiao on 2015-04-23.
  */
 public class Slime extends Monster {
 
-    private AssetHandler assetHandler = AssetHandler.getInstance();
+    public static int slimeCounter = 0;
 
     public Slime() {
         super("slime");
@@ -47,9 +46,11 @@ public class Slime extends Monster {
     }
 
     public void init() {
+        slimeCounter++;
         aabb.set(position.x, position.y, sprite.getWidth(), sprite.getHeight());
         health = 50;
         maxHealth = 50;
+        speed = 3;
         isVisible = true;
         isActive = true;
         hitboxOffset.set(0, 0);

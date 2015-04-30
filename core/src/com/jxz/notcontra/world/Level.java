@@ -3,6 +3,7 @@ package com.jxz.notcontra.world;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.utils.Array;
 import com.jxz.notcontra.game.Game;
 
 /**
@@ -12,17 +13,35 @@ import com.jxz.notcontra.game.Game;
 public class Level {
 
     // Class constants
-    public static final String STATIC_LAYER = "Static Map"; // Name of static collision map layer
-    public static final String DYNAMIC_LAYER = "Dynamic Map"; // Name of dynamic collision layers (platforms and slopes)
-    public static final String CLIMB_LAYER = "Trigger Tile"; // Name of trigger layer (ladders/ropes)
+    public static final String STATIC_LAYER = "Static Map";     // Name of static collision map layer
+    public static final String DYNAMIC_LAYER = "Dynamic Map";   // Name of dynamic collision layers (platforms and slopes)
+    public static final String TRIGGER_LAYER = "Trigger Tile";  // Name of trigger layer (ladders/ropes)
 
     // Class Variables
+    private static Array<Level> loadedMaps = new Array<Level>();    // Static list of Levels to avoid duplicates
     private TiledMap map;
     private int height, width;
     private float gravity = 0.15f / Game.UNIT_SCALE;
 
-    public Level(TiledMap map) {
+    protected Level(TiledMap map) {
         this.map = map;
+        height = map.getProperties().get("height", int.class);
+        width = map.getProperties().get("width", int.class);
+        loadedMaps.add(this);
+    }
+
+    /**
+     * Returns a level instance, given a TiledMap. Prevents duplicate levels from existing.
+     * @param map TiledMap for the level.
+     * @return A reference to the Level object corresponding to the map.
+     */
+    public static Level getLevel(TiledMap map) {
+        for (Level l : loadedMaps) {
+            if (l.getMap().equals(map)) {
+                return l;
+            }
+        }
+        return new Level(map);
     }
 
     /**
@@ -49,10 +68,6 @@ public class Level {
         }
 
         return cell.getTile();
-    }
-
-    public TiledMapTile getTileAt(float x, float y) {
-        return getTileAt(x, y, STATIC_LAYER);
     }
 
     /**
@@ -92,6 +107,13 @@ public class Level {
         return distToObstacle(x, y, dir, vertical, STATIC_LAYER, "");
     }
 
+    /**
+     * Returns the distance downwards (in pixels) to the nearest one-way platform.
+     * @param x X-coordinate of the check, in pixels.
+     * @param y Y-coordinate of the initial check, in pixels.
+     * @param distance Distance downwards to scan, in pixels.
+     * @return Returns the whole number of pixels away from the nearest platform.
+     */
     public float distToPlatform(float x, float y, float distance) {
         float dist = 0;
         float tileY = 0;
@@ -177,20 +199,15 @@ public class Level {
         return gravity;
     }
 
-    public void setGravity(float gravity) {
-        this.gravity = gravity;
-    }
-
-    public void setDimensions(int width, int height) {
-        this.width = width;
-        this.height = height;
-    }
-
     public int getWidth() {
         return width;
     }
 
     public int getHeight() {
         return height;
+    }
+
+    public TiledMap getMap() {
+        return map;
     }
 }

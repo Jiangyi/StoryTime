@@ -22,7 +22,6 @@ public class PlayState extends GameState {
 
     private AssetHandler assetHandler = AssetHandler.getInstance();
 
-    private Slime slime;
     private Player player;
     private Level currentLevel;
     private LevelRenderer currentMapRenderer;
@@ -30,42 +29,42 @@ public class PlayState extends GameState {
 
     public PlayState(Game game) {
         super(game);
+        // Initialize for the first time
+        EntityFactory.init();
+        SkillManager.init();
+
+        // Initialize player
+        player = new Player(this);
+        player.setCamera(playerCam);
+        playerCam.setPlayer(player);
         load();
     }
 
     public void update(float dt) {
     }
 
-    public void load() {
-        map = (TiledMap) assetHandler.getByName("level1");
-        currentLevel = new Level(map);
-        currentLevel.setDimensions(36, 12);
-        currentMapRenderer = new LevelRenderer(map, Game.UNIT_SCALE);
+    public void load(String levelName) {
+        map = (TiledMap) assetHandler.getByName(levelName);
+        currentLevel = Level.getLevel(map);
+        currentMapRenderer = new LevelRenderer(currentLevel, Game.UNIT_SCALE);
         currentMapRenderer.setView(playerCam);
 
-        // Initialize EntityFactory
-        EntityFactory.init();
-        SkillManager.init();
-
         // Initialize Player object
-        player = new Player("player");
-        player.setSpeed(3f);
         player.setCurrentLevel(currentLevel);
-        player.setVisible(true);
-        player.setCamera(playerCam);
-        playerCam.setPlayer(player);
 
         // Initialize monsters
         for (int i = 0; i < 5; i++) {
-            slime = (Slime) EntityFactory.spawn(Slime.class);
-            slime.setSpeed(3f);
+            Slime slime = (Slime) EntityFactory.spawn(Slime.class);
             slime.init();
             slime.setPosition(i * 250, 750);
             slime.setCurrentLevel(currentLevel);
-            slime.setVisible(true);
         }
-
     }
+
+    public void load() {
+        load("level1");
+    }
+
     public void render() {
         // Clear screen
         Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
@@ -92,7 +91,7 @@ public class PlayState extends GameState {
         font.draw(sb, "Press O to turn on VSync, P to turn off", 500, 25);
         font.draw(sb, "Press M to mute/unmute background music", 700, 50);
         font.draw(sb, "Grounded? : " + (player.isGrounded() ? "true" : "false"), 100, 25);
-        font.draw(sb, "Can climb / Is Climbing? : " + player.canClimb() + "" + player.isClimbing(), 300, 25);
+        font.draw(sb, "Total Slimes: " + Slime.slimeCounter, 300, 25);
         font.setColor(Color.WHITE);
         sb.end();
 
@@ -103,14 +102,5 @@ public class PlayState extends GameState {
     public Player getPlayer() {
         return player;
     }
-
-    public Level getCurrentLevel() {
-        return currentLevel;
-    }
-
-    public LevelRenderer getCurrentMapRenderer() {
-        return currentMapRenderer;
-    }
-
 
 }

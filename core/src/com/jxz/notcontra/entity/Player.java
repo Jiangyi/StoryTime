@@ -5,25 +5,26 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.camera.PlayerCamera;
-import com.jxz.notcontra.handlers.AssetHandler;
+import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.SkillManager;
+import com.jxz.notcontra.states.PlayState;
+import com.jxz.notcontra.world.Level;
 
 /**
  * Created by Samuel on 2015-03-27.
  * The one and only player
  */
 public class Player extends LivingEntity {
-
-    private AssetHandler assetHandler = AssetHandler.getInstance();
-
     // Player camera
     private PlayerCamera camera;
+    private PlayState playState;
 
     // Constructor
-    public Player(String entityName) {
-        super(entityName);
+    public Player(PlayState playState) {
+        super("player");
         // Set up animations
         this.animFrames = (TextureAtlas) assetHandler.getByName("player");
         animWalk = new Animation(1 / 6f,
@@ -62,9 +63,13 @@ public class Player extends LivingEntity {
         movementState = new Vector2(0, 0);
 
         // Setup Hitbox
-        position.set(857, 421);
         aabb.set(position.x, position.y, 49, 50);
         hitboxOffset.set(6, 9);
+        speed = 3;
+
+        // Health
+        health = 200;
+        maxHealth = 200;
 
         // Setup Skill
         skillInventory[0] = SkillManager.getSkill("testmelee");
@@ -72,6 +77,8 @@ public class Player extends LivingEntity {
 
         // Initialize animated sprite for player
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
+
+        this.playState = playState;
     }
 
     public void setCamera(PlayerCamera camera) {
@@ -163,6 +170,28 @@ public class Player extends LivingEntity {
         }
 
         isSprinting = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+    }
+
+    @Override
+    public void setCurrentLevel(Level level) {
+        float spawnX = Float.parseFloat(level.getMap().getProperties().get("spawnX", String.class));
+        float spawnY = Float.parseFloat(level.getMap().getProperties().get("spawnY", String.class));
+        position.set(spawnX / Game.UNIT_SCALE, spawnY / Game.UNIT_SCALE);
+        aabb.setPosition(position.x + hitboxOffset.x, position.y + hitboxOffset.y);
+        currentLevel = level;
+    }
+
+    public void interact() {
+        // Interacts with target center tile (and eventually entities)
+        TiledMapTile target = currentLevel.getTileAt(position.x + aabb.getWidth() / 2, position.y + aabb.getHeight() / 2, Level.TRIGGER_LAYER);
+        if (target != null) {
+            if (target.getProperties().containsKey("interactable")) {
+                String command = target.getProperties().get("interactable", String.class);
+                if (command.equalsIgnoreCase("nextLevel")) {
+                    playState.load(target.getProperties().get("nextLevel", String.class));
+                }
+            }
+        }
     }
 
 }

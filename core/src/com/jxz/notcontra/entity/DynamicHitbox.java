@@ -37,6 +37,7 @@ public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poola
     public void init(Skill parent, LivingEntity caster, float x, float y) {
         isActive = true;
         isVisible = true;
+        currentLevel = caster.getCurrentLevel();
         isFlipped = !caster.isFlipped();
         animStateTime = 0;
         position.x = x + hitboxOffset.x;
@@ -54,7 +55,7 @@ public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poola
     public ArrayList<Entity> collisionCheck() {
         ArrayList<Entity> targets = new ArrayList<Entity>();
         for (Entity e : EntityManager.getInstance().getEntitiesList()) {
-            if (!(e.equals(caster)) && e.isActive() && !e.equals(this)) {
+            if (!(e.equals(caster)) && e.isActive() && !e.equals(this) && e.getCurrentLevel().equals(caster.getCurrentLevel())) {
                 if (!hitEntities.contains(e)) {
                     if (Intersector.overlaps(e.getAABB(), aabb)) {
                         targets.add(e);
