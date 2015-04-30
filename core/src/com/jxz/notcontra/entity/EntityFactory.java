@@ -7,8 +7,6 @@ import com.badlogic.gdx.utils.Pools;
  * Static instance to manage pools of entities.
  */
 public class EntityFactory {
-    // Static Pools
-    private static Pools entityPool;
 
     // Spawn method
     public static Entity spawn(Class type) {

@@ -39,18 +39,21 @@ public class Slime extends Monster {
         // Initialize sprite stuff
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
 
-        // Knockback values
+        // Knock back values
         kbDuration = 0.4f;
         kbDistance = 25f;
         kbThreshold = 15;
+
+        // Combat stats
+        damage = 5;
+        maxHealth = 50;
+        speed = 3;
     }
 
     public void init() {
         slimeCounter++;
         aabb.set(position.x, position.y, sprite.getWidth(), sprite.getHeight());
         health = 50;
-        maxHealth = 50;
-        speed = 3;
         isVisible = true;
         isActive = true;
         hitboxOffset.set(0, 0);

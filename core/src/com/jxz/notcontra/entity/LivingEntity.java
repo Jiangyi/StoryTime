@@ -34,17 +34,18 @@ public abstract class LivingEntity extends AnimatedEntity {
     protected int castType;
 
     // Jumping Parameters
-    private int maxJumps = 2;
-    private int jumpCounter = 0;
-    private float jumpState = 0;
-    private int jumpMultiplier = 1;
-    private float jumpTime = 3;
-    private float currentGravity = 0f;
+    protected int maxJumps = 2;
+    protected int jumpCounter = 0;
+    protected float jumpState = 0;
+    protected int jumpMultiplier = 1;
+    protected float jumpTime = 3;
+    protected float currentGravity = 0f;
 
     // Movement Vectors
     protected Vector2 movementState;
     protected Vector2 forceVector;
     protected float forceDuration;
+    protected boolean rootingForce = false;
 
     // Living entity states
     protected boolean isSprinting = false;
@@ -81,6 +82,7 @@ public abstract class LivingEntity extends AnimatedEntity {
 
         // Previous State storage
         boolean prevGrounded = isGrounded;
+        boolean prevRooted = isRooted;
 
         // Update pre-positional fields
         centerX = position.x + aabb.getWidth() / 2;
@@ -266,7 +268,17 @@ public abstract class LivingEntity extends AnimatedEntity {
             if (position.y % (1 / Game.UNIT_SCALE) < 1 || (1 / Game.UNIT_SCALE) - (position.y % (1 / Game.UNIT_SCALE)) < 1) {
                 position.y = Math.round(position.y * Game.UNIT_SCALE) / Game.UNIT_SCALE;
             }
+            // Makes sure player doesn't stick to ceilings
+            topTile = currentLevel.getTileAt(position.x, position.y + 1, Level.STATIC_LAYER);
+            bottomTile = currentLevel.getTileAt(position.x + aabb.getWidth(), position.y + 1, Level.STATIC_LAYER);
+            if (topTile != null || bottomTile != null) {
+                if (forceVector.y > 0) {
+                    forceVector.y = 0;
+                    resetGravity();
+                }
+            }
         }
+
 
         /** Update boolean states **/
         // Check if player is on static ground
@@ -302,18 +314,27 @@ public abstract class LivingEntity extends AnimatedEntity {
             if (isCasting && currentSkill.isRootWhileCasting()) {
                 movementState.set(0, 0);
             }
-        }
-
-        // If casting, player is rooted
-        if (isCasting) {
-            isRooted = currentSkill.isRootWhileCasting();
-        } else {
-            isRooted = false;
+            if (forceDuration > 0 && forceVector.y > 0) {
+                forceDuration = 0;
+            }
         }
 
         // Update force vector status
         if (forceDuration > 0) {
             forceDuration -= Gdx.graphics.getDeltaTime();
+            if (rootingForce) {
+                isRooted = true;
+            }
+        } else if (forceDuration < 0) {
+            forceDuration = 0;
+        }
+
+        // If casting, player is rooted
+        if (isCasting && currentSkill.isRootWhileCasting()) {
+            isRooted = true;
+        } else if (forceDuration == 0 && rootingForce){
+            isRooted = false;
+            rootingForce = false;
         }
 
         /** Update final positions */
@@ -415,8 +436,13 @@ public abstract class LivingEntity extends AnimatedEntity {
     }
 
     public void applyForce(Vector2 forceVector, float duration) {
+        applyForce(forceVector, duration, false);
+    }
+
+    public void applyForce(Vector2 forceVector, float duration, boolean rootingForce) {
         this.forceVector = forceVector;
         this.forceDuration = duration;
+        this.rootingForce = rootingForce;
     }
 
 }

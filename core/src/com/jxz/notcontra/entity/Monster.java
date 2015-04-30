@@ -11,6 +11,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
 
     protected AIState state;
     protected OSHealthBar healthbar;
+    protected float damage;
     protected float kbDuration, kbDistance, kbThreshold;
 
     public enum AIState {
@@ -48,7 +49,9 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     @Override
     public void draw(Batch batch) {
         super.draw(batch);
-        this.healthbar.draw(batch);
+        if (state == AIState.CHASING) {
+            this.healthbar.draw(batch);
+        }
     }
 
     @Override
@@ -60,7 +63,11 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
             forceVector.set(forceVector.x, 0);
             forceVector.scl(kbDistance);
             applyForce(forceVector, kbDuration);
+            if (state != AIState.CHASING) {
+                state = AIState.CHASING;
+            }
         }
+
     }
 
     public void reset() {
@@ -69,6 +76,9 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
         position.set(-1336, 1339);
     }
 
+    public float getTouchDamage() {
+        return damage;
+    }
 }
 
 

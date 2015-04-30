@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.SkillManager;
 import com.jxz.notcontra.states.PlayState;
 import com.jxz.notcontra.world.Level;
@@ -81,6 +83,57 @@ public class Player extends LivingEntity {
         this.playState = playState;
     }
 
+    @Override
+    public void update() {
+        boolean prevRooted = isRooted;
+        // Iterate through entities to check for touch damage
+        if (forceDuration == 0) {
+            for (Entity e : EntityManager.getInstance().getEntitiesList()) {
+                if (e.isActive()) {
+                    if (e.getCurrentLevel().equals(currentLevel)) {
+                        if (e instanceof Monster && !e.equals(this)) {
+                            Monster m = (Monster) e;
+                            if (m.getAIState() != Monster.AIState.DYING && m.getAIState() != Monster.AIState.SPAWNING) {
+                                if (Intersector.overlaps(aabb, e.getAABB())) {
+                                    damage(m.getTouchDamage(), e);
+                                    break;
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        super.update();
+
+        // Re-poll for movement if root state updated
+        if (prevRooted && !isRooted) {
+            updateMovementState();
+        }
+    }
+
+    @Override
+    public void damage(float dmg, Entity source) {
+        super.damage(dmg, source);
+
+        // Knock back player
+        forceVector = this.position.cpy().sub(source.getPosition()).nor();
+        forceVector.set(forceVector.x, 0.6f);
+        forceVector.scl(8);
+        applyForce(forceVector, 1.0f);
+
+        // Reset movement states
+        if (isSprinting) {
+            isSprinting = false;
+        }
+
+        if (jumpState > 0) {
+            jumpState = 0;
+        }
+        resetGravity();
+    }
+
     public void setCamera(PlayerCamera camera) {
         this.camera = camera;
     }
@@ -95,7 +148,7 @@ public class Player extends LivingEntity {
                 castType = skill;
                 castStateTime = 0;
             }
-            if (isGrounded) {
+            if (isGrounded && currentSkill.isRootWhileCasting()) {
                 // No motions persist through casting, unless one is already in the air
                 movementState.set(0, 0);
             }
