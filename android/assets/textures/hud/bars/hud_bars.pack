@@ -1,0 +1,40 @@
+
+hud_bars.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+hud_hp_frame
+  rotate: false
+  xy: 1, 1
+  size: 402, 55
+  orig: 402, 55
+  offset: 0, 0
+  index: -1
+hud_hp_bar
+  rotate: false
+  xy: 405, 44
+  size: 391, 12
+  orig: 391, 12
+  offset: 0, 0
+  index: -1
+hud_mp_bar
+  rotate: false
+  xy: 405, 30
+  size: 391, 12
+  orig: 391, 12
+  offset: 0, 0
+  index: -1
+oshp_bar
+  rotate: false
+  xy: 798, 47
+  size: 52, 9
+  orig: 52, 9
+  offset: 0, 0
+  index: -1
+oshp_frame
+  rotate: false
+  xy: 405, 19
+  size: 52, 9
+  orig: 52, 9
+  offset: 0, 0
+  index: -1

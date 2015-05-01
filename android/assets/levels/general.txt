@@ -7,4 +7,4 @@ iceball	textures/entities/projectiles/iceball/iceball.pack	TextureAtlas
 swing	textures/entities/projectiles/swing/swing.pack	TextureAtlas
 
 #HUD Stuff
-os_health_bar	textures/hud/bars/health_bar.pack	TextureAtlas
+hud_bars	textures/hud/bars/hud_bars.pack	TextureAtlas

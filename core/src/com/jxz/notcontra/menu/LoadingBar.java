@@ -20,7 +20,6 @@ public class LoadingBar extends AbstractBars {
         bar = new Sprite(animation.getKeyFrame(animStateTime, true));
         frame = new Sprite(this.animFrames.findRegion("loadingframe"));
         position.set(Game.VID_WIDTH / 2 - bar.getWidth() / 2, Game.VID_HEIGHT / 2 - bar.getHeight() / 2);
-        size.set(bar.getWidth(), bar.getHeight());
     }
 
     public Sprite getFrameSprite() {return frame;}

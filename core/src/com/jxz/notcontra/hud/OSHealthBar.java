@@ -1,8 +1,7 @@
-package com.jxz.notcontra.menu;
+package com.jxz.notcontra.hud;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.jxz.notcontra.entity.LivingEntity;
 import com.jxz.notcontra.game.Game;
@@ -10,19 +9,12 @@ import com.jxz.notcontra.game.Game;
 /**
  * Created by Kevin Xiao on 2015-04-26.
  */
-public class OSHealthBar extends AbstractBars {
-
-    private LivingEntity parent;
-    private TextureAtlas healthbar;
-    private float percentage;
+public class OSHealthBar extends HealthBar {
 
     public OSHealthBar(LivingEntity le) {
-        this.healthbar = (TextureAtlas) assetHandler.getByName("os_health_bar");
-        this.parent = le;
-        bar = new Sprite(healthbar.findRegion("healthbar"));
-        frame = new Sprite(healthbar.findRegion("frame"));
-        size.set(bar.getWidth(), bar.getHeight());
-        percentage = 1.0f;      // All monsters start at full health
+        super(le);
+        bar = new Sprite(hud_bars.findRegion("oshp_bar"));
+        frame = new Sprite(hud_bars.findRegion("oshp_frame"));
     }
 
     public void update() {
@@ -36,23 +28,19 @@ public class OSHealthBar extends AbstractBars {
         batch.draw(this.frame,
                 this.position.x,
                 this.position.y,
-                this.getWidth() * Game.UNIT_SCALE,
-                this.getHeight() * Game.UNIT_SCALE);
+                this.bar.getWidth() * Game.UNIT_SCALE,
+                this.bar.getHeight() * Game.UNIT_SCALE);
 
         //Draw health bar
         batch.draw(bar.getTexture(),
                 this.position.x,
                 this.position.y,
-                this.getWidth() * percentage * Game.UNIT_SCALE,
-                this.getHeight() * Game.UNIT_SCALE,
+                this.frame.getWidth() * percentage * Game.UNIT_SCALE,
+                this.frame.getHeight() * Game.UNIT_SCALE,
                 this.bar.getRegionX(),
                 this.bar.getRegionY(),
                 Math.round(this.bar.getRegionWidth() * percentage),
                 this.bar.getRegionHeight(), false, false);
-    }
-
-    public void setPercentage(float percent) {
-        this.percentage = percent;
     }
 
 }

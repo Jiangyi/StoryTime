@@ -16,6 +16,8 @@ public abstract class LivingEntity extends AnimatedEntity {
     // Fields specific to living entities
     protected int health;
     protected int maxHealth;
+    protected int mana;
+    protected int maxMana;
     protected float speed;
 
     // Sprite fields
@@ -391,6 +393,14 @@ public abstract class LivingEntity extends AnimatedEntity {
 
     public int getMaxHealth() {
         return maxHealth;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public int getMaxMana() {
+        return maxMana;
     }
 
     public void setSpeed(float speed) {

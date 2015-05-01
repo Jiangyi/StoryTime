@@ -12,6 +12,7 @@ import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.SkillManager;
+import com.jxz.notcontra.hud.PlayerStatusBar;
 import com.jxz.notcontra.states.PlayState;
 import com.jxz.notcontra.world.Level;
 
@@ -23,6 +24,7 @@ public class Player extends LivingEntity {
     // Player camera
     private PlayerCamera camera;
     private PlayState playState;
+    private PlayerStatusBar healthBar;
 
     // Constructor
     public Player(PlayState playState) {
@@ -72,6 +74,8 @@ public class Player extends LivingEntity {
         // Health
         health = 200;
         maxHealth = 200;
+        mana = 200;
+        maxMana = 200;
 
         // Setup Skill
         skillInventory[0] = SkillManager.getSkill("testmelee");
@@ -81,6 +85,8 @@ public class Player extends LivingEntity {
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
 
         this.playState = playState;
+
+        this.healthBar = new PlayerStatusBar(this);
     }
 
     @Override
@@ -111,6 +117,7 @@ public class Player extends LivingEntity {
         if (prevRooted && !isRooted) {
             updateMovementState();
         }
+        healthBar.update();
     }
 
     @Override
@@ -245,6 +252,10 @@ public class Player extends LivingEntity {
                 }
             }
         }
+    }
+
+    public PlayerStatusBar getHealthBar() {
+        return healthBar;
     }
 
 }

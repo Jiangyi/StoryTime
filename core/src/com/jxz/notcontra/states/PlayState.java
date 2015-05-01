@@ -79,6 +79,7 @@ public class PlayState extends GameState {
         currentMapRenderer.render();
         currentMapRenderer.setView(playerCam);
 
+        font.setColor(Color.WHITE);
         // Debug text - drawn to HUD Camera
         sb.begin();
         font.draw(sb, "PLAY STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
@@ -92,7 +93,7 @@ public class PlayState extends GameState {
         font.draw(sb, "Press M to mute/unmute background music", 700, 50);
         font.draw(sb, "Grounded? : " + (player.isGrounded() ? "true" : "false"), 100, 25);
         font.draw(sb, "Total Slimes: " + Slime.slimeCounter, 300, 25);
-        font.setColor(Color.WHITE);
+        player.getHealthBar().draw(sb);
         sb.end();
 
         // Update camera position

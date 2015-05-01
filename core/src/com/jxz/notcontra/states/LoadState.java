@@ -58,12 +58,12 @@ public class LoadState extends GameState {
         //Draw libgdx logo
         sb.draw(logo_libgdx, Game.VID_WIDTH - logo_libgdx.getWidth() / 2 - 5, 5, 150, 25);
         // Drawing loading frame and bar
-        sb.draw(loadingBar.getFrameSprite(), loadingBar.getPositionX(), loadingBar.getPositionY(), loadingBar.getWidth(), loadingBar.getHeight());
+        sb.draw(loadingBar.getFrameSprite(), loadingBar.getPositionX(), loadingBar.getPositionY(), loadingBar.getBarSprite().getWidth(), loadingBar.getBarSprite().getHeight());
         sb.draw(loadingBar.getBarSprite().getTexture(),
                 loadingBar.getPositionX(),
                 loadingBar.getPositionY(),
-                (progress > 0.995f ? loadingBar.getWidth() : loadingBar.getWidth() * progress),
-                loadingBar.getHeight(),
+                (progress > 0.995f ? loadingBar.getBarSprite().getWidth() : loadingBar.getBarSprite().getWidth() * progress),
+                loadingBar.getBarSprite().getHeight(),
                 loadingBar.getBarSprite().getRegionX(),
                 loadingBar.getBarSprite().getRegionY(),
                 (progress > 0.995f ? (loadingBar.getBarSprite().getRegionWidth()) : Math.round(loadingBar.getBarSprite().getRegionWidth() * progress)),

@@ -2,7 +2,7 @@ package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Pool;
-import com.jxz.notcontra.menu.OSHealthBar;
+import com.jxz.notcontra.hud.OSHealthBar;
 
 /**
  * Created by Kevin Xiao on 2015-04-23.

@@ -17,12 +17,10 @@ public abstract class AbstractBars {
     protected float animStateTime;
     protected TextureAtlas animFrames;
     protected Vector2 position;
-    protected Vector2 size;
 
     public AbstractBars() {
         assetHandler = AssetHandler.getInstance();
         position = new Vector2();
-        size = new Vector2();
     }
 
     public abstract void update();
@@ -33,14 +31,6 @@ public abstract class AbstractBars {
 
     public float getPositionY() {
         return position.y;
-    }
-
-    public float getWidth() {
-        return size.x;
-    }
-
-    public float getHeight() {
-        return size.y;
     }
 
 }
