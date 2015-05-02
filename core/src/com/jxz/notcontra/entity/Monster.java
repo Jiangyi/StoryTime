@@ -1,8 +1,10 @@
 package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.jxz.notcontra.hud.OSHealthBar;
+import com.jxz.notcontra.world.Level;
 
 /**
  * Created by Kevin Xiao on 2015-04-23.
@@ -11,8 +13,12 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
 
     protected AIState state;
     protected OSHealthBar healthbar;
+    protected float aiStateTime;
     protected float damage;
     protected float kbDuration, kbDistance, kbThreshold;
+    protected float patrolSpeed, chaseSpeed;
+    protected Vector2 distToTarget;
+    protected Entity target;
 
     public enum AIState {
         IDLE, PATROLLING, CHASING, DYING, SPAWNING
@@ -21,6 +27,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     public Monster(String entityName) {
         super(entityName);
         this.healthbar = new OSHealthBar(this);
+        distToTarget = new Vector2(0, 0);
     }
 
     public abstract void init();
@@ -44,6 +51,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     @Override
     public void die() {
         super.die();
+        currentLevel.decMonsterCount();
     }
 
     @Override
@@ -58,16 +66,26 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     public void damage(float dmg, Entity source) {
         super.damage(dmg, source);
         // If monster isn't already dying, proc hit animation
-        if (state != AIState.DYING && dmg > kbThreshold) {
-            forceVector = this.position.cpy().sub(source.getPosition()).nor();
-            forceVector.set(forceVector.x, 0);
-            forceVector.scl(kbDistance);
-            applyForce(forceVector, kbDuration);
+        if (state != AIState.DYING) {
+            if (dmg > kbThreshold) {
+                forceVector = this.position.cpy().sub(source.getPosition()).nor();
+                forceVector.set(forceVector.x, 0);
+                forceVector.scl(kbDistance);
+                applyForce(forceVector, kbDuration, true);
+                movementState.set(0, 0);
+                resetGravity();
+            }
             if (state != AIState.CHASING) {
                 state = AIState.CHASING;
+                target = source;
             }
         }
+    }
 
+    @Override
+    public void setCurrentLevel (Level level) {
+        this.currentLevel = level;
+        level.incMonsterCount();
     }
 
     public void reset() {
@@ -78,6 +96,14 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
 
     public float getTouchDamage() {
         return damage;
+    }
+
+    public Entity getTarget() {
+        return target;
+    }
+
+    public void setTarget(Entity target) {
+        this.target = target;
     }
 }
 

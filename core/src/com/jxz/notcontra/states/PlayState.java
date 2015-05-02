@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.jxz.notcontra.entity.EntityFactory;
+import com.jxz.notcontra.entity.Monster;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.entity.Slime;
 import com.jxz.notcontra.game.Game;
@@ -53,11 +54,8 @@ public class PlayState extends GameState {
         player.setCurrentLevel(currentLevel);
 
         // Initialize monsters
-        for (int i = 0; i < 5; i++) {
-            Slime slime = (Slime) EntityFactory.spawn(Slime.class);
-            slime.init();
-            slime.setPosition(i * 250, 750);
-            slime.setCurrentLevel(currentLevel);
+        if (currentLevel.isFirstLoad()) {
+            currentLevel.spawn();
         }
     }
 
@@ -83,16 +81,16 @@ public class PlayState extends GameState {
         // Debug text - drawn to HUD Camera
         sb.begin();
         font.draw(sb, "PLAY STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
-        font.draw(sb, "X-position: " + player.getPosition().x, 100, 75);
-        font.draw(sb, "Y-position: " + player.getPosition().y, 100, 50);
-        font.draw(sb, "X tile: " + player.getPosition().x * Game.UNIT_SCALE, 300, 75);
-        font.draw(sb, "Y tile: " + player.getPosition().y * Game.UNIT_SCALE, 300, 50);
-        font.draw(sb, "MovementStateX: " + player.getMovementState().x, 500, 50);
-        font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 75);
-        font.draw(sb, "Press O to turn on VSync, P to turn off", 500, 25);
+        font.draw(sb, "X-position: " + player.getPosition().x, 500, 75);
+        font.draw(sb, "Y-position: " + player.getPosition().y, 500, 50);
+        //font.draw(sb, "X tile: " + player.getPosition().x * Game.UNIT_SCALE, 300, 75);
+        //font.draw(sb, "Y tile: " + player.getPosition().y * Game.UNIT_SCALE, 300, 50);
+        //font.draw(sb, "MovementStateX: " + player.getMovementState().x, 500, 50);
+        font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
+        font.draw(sb, "Press O to turn on VSync, P to turn off", 700, 25);
         font.draw(sb, "Press M to mute/unmute background music", 700, 50);
-        font.draw(sb, "Grounded? : " + (player.isGrounded() ? "true" : "false"), 100, 25);
-        font.draw(sb, "Total Slimes: " + Slime.slimeCounter, 300, 25);
+        //font.draw(sb, "Grounded? : " + (player.isGrounded() ? "true" : "false"), 100, 25);
+        font.draw(sb, "Slimes: " + currentLevel.getMonsterCount(), 500, 25);
         player.getHealthBar().draw(sb);
         sb.end();
 

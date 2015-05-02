@@ -36,15 +36,16 @@ public abstract class LivingEntity extends AnimatedEntity {
     protected int castType;
 
     // Jumping Parameters
-    protected int maxJumps = 2;
-    protected int jumpCounter = 0;
-    protected float jumpState = 0;
-    protected int jumpMultiplier = 1;
-    protected float jumpTime = 3;
+    protected int maxJumps;
+    protected int jumpCounter;
+    protected float jumpState;
+    protected float jumpMultiplier;
+    protected float jumpTime;
     protected float currentGravity = 0f;
 
     // Movement Vectors
     protected Vector2 movementState;
+    protected float deltaX, deltaY;
     protected Vector2 forceVector;
     protected float forceDuration;
     protected boolean rootingForce = false;
@@ -77,10 +78,9 @@ public abstract class LivingEntity extends AnimatedEntity {
     @Override
     public void update() {
         /** Declare local variables */
-        float deltaX = 0;
-        float deltaY = 0;
-
         float slopeLeft, slopeRight;
+        deltaX = 0;
+        deltaY = 0;
 
         // Previous State storage
         boolean prevGrounded = isGrounded;
@@ -357,18 +357,20 @@ public abstract class LivingEntity extends AnimatedEntity {
     }
 
     public void jump() {
-        if (isClimbing) {
-            isClimbing = false;
-            jumpState = jumpTime * 0.75f;
-            jumpCounter = maxJumps;
-        } else {
-            jumpState = jumpTime;
-            AudioHelper.playSoundEffect("jump");
+        if (jumpCounter < maxJumps) {
+            if (isClimbing) {
+                isClimbing = false;
+                jumpState = jumpTime * 0.75f;
+                jumpCounter = maxJumps;
+            } else {
+                jumpState = jumpTime;
+                AudioHelper.playSoundEffect("jump");
+            }
+            resetGravity();
+            jumpCounter += 1;
+            isGrounded = false;
+            isJumping = true;
         }
-        resetGravity();
-        jumpCounter += 1;
-        isGrounded = false;
-        isJumping = true;
     }
 
     public float getJumpState() {

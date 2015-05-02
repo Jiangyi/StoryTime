@@ -45,17 +45,17 @@
  </layer>
  <layer name="Dynamic Map" width="32" height="12">
   <data encoding="base64" compression="zlib">
-   eJxjYBjZoGyA8SgYBQMJRtP/yAYAJqAdgQ==
+   eJxjYBjZoGyA8SgYBQMJRtP/wAKVAbYfADigHaU=
   </data>
  </layer>
  <layer name="Trigger Tile" width="32" height="12">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFIgNsv8Ko/aP2jxAwGPOa4wDbP5AAACqZAUo=
+   eJxjYBgFIgNsv8Ko/aP2jxAwGPOa4wDar0JHu7EBADyZAW4=
   </data>
  </layer>
  <layer name="Foreground" width="32" height="12">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMBIBAAYAAAE=
+   eJxjYBgFo2AUjIJRMBBAZYDtBwAYAAAl
   </data>
  </layer>
 </map>

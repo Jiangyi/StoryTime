@@ -77,6 +77,13 @@ public class Player extends LivingEntity {
         mana = 200;
         maxMana = 200;
 
+        // Jump parameters
+        maxJumps = 2;
+        jumpCounter = 0;
+        jumpState = 0;
+        jumpMultiplier = 1;
+        jumpTime = 3;
+
         // Setup Skill
         skillInventory[0] = SkillManager.getSkill("testmelee");
         skillInventory[1] = SkillManager.getSkill("melee2");
@@ -105,7 +112,6 @@ public class Player extends LivingEntity {
                                     break;
                                 }
                             }
-
                         }
                     }
                 }
@@ -128,7 +134,7 @@ public class Player extends LivingEntity {
         forceVector = this.position.cpy().sub(source.getPosition()).nor();
         forceVector.set(forceVector.x, 0.6f);
         forceVector.scl(8);
-        applyForce(forceVector, 1.0f);
+        applyForce(forceVector, 0.8f);
 
         // Reset movement states
         if (isSprinting) {

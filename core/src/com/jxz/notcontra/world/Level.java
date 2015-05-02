@@ -4,6 +4,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.utils.Array;
+import com.jxz.notcontra.entity.EntityFactory;
+import com.jxz.notcontra.entity.Slime;
 import com.jxz.notcontra.game.Game;
 
 /**
@@ -22,12 +24,15 @@ public class Level {
     private TiledMap map;
     private int height, width;
     private float gravity = 0.15f / Game.UNIT_SCALE;
+    private boolean firstLoad;
+    private int monsterCount;
 
     protected Level(TiledMap map) {
         this.map = map;
         height = map.getProperties().get("height", int.class);
         width = map.getProperties().get("width", int.class);
         loadedMaps.add(this);
+        firstLoad = true;
     }
 
     /**
@@ -38,10 +43,23 @@ public class Level {
     public static Level getLevel(TiledMap map) {
         for (Level l : loadedMaps) {
             if (l.getMap().equals(map)) {
+                l.firstLoad = false;
                 return l;
             }
         }
         return new Level(map);
+    }
+
+    /**
+     * Reads from the map file to spawn a predetermined number of entities in random valid spawn rectangles.
+     */
+    public void spawn() {
+        for (int i = 0; i < 5; i++) {
+            Slime slime = (Slime) EntityFactory.spawn(Slime.class);
+            slime.init();
+            slime.setPosition(i * 250, 750);
+            slime.setCurrentLevel(this);
+        }
     }
 
     /**
@@ -209,5 +227,21 @@ public class Level {
 
     public TiledMap getMap() {
         return map;
+    }
+
+    public boolean isFirstLoad() {
+        return firstLoad;
+    }
+
+    public int getMonsterCount() {
+        return monsterCount;
+    }
+
+    public void incMonsterCount() {
+        monsterCount++;
+    }
+
+    public void decMonsterCount() {
+        monsterCount--;
     }
 }

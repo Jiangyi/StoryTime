@@ -7,9 +7,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.jxz.notcontra.entity.EntityFactory;
-import com.jxz.notcontra.entity.Player;
-import com.jxz.notcontra.entity.Slime;
+import com.jxz.notcontra.entity.*;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.menu.ScreenshotFactory;
 import com.jxz.notcontra.states.LoadState;
@@ -67,7 +65,7 @@ public class InputManager implements InputProcessor {
                 }
 
                 // Jump if max jumps is not reached
-                if (keycode == Input.Keys.SPACE && player.getJumpCounter() < player.getMaxJumps() && !player.isJumping()) {
+                if (keycode == Input.Keys.SPACE && !player.isJumping()) {
                     player.jump();
                 }
             }
@@ -76,8 +74,16 @@ public class InputManager implements InputProcessor {
             if (keycode == Input.Keys.J) {
                 player.cast(0);
             }
+
+            // K has become the "piss off everything on the map" button
             if (keycode == Input.Keys.K) {
-                player.cast(1);
+                for (Entity e : EntityManager.getInstance().getEntitiesList()) {
+                    if (e instanceof Monster) {
+                        Monster m = (Monster) e;
+                        m.setTarget(player);
+                        m.setAIState(Monster.AIState.CHASING);
+                    }
+                }
             }
             if (keycode == Input.Keys.L) {
                 // Spawn some slimes
