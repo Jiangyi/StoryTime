@@ -2,6 +2,7 @@ package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
@@ -218,6 +219,15 @@ public class Slime extends Monster {
         }
 
         this.sprite.setSize(this.sprite.getRegionWidth(), this.sprite.getRegionHeight());
+    }
+
+    @Override
+    public void draw (Batch batch) {
+        if (state == AIState.DYING) {
+            batch.setColor(1f, 1f, 1f, 1 - (animStateTime / animDeath.getAnimationDuration()));
+        }
+        super.draw(batch);
+        batch.setColor(1f, 1f, 1f, 1f);
     }
 
 }

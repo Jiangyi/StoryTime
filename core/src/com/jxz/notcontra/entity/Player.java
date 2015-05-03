@@ -2,9 +2,7 @@ package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
@@ -25,6 +23,8 @@ public class Player extends LivingEntity {
     private PlayerCamera camera;
     private PlayState playState;
     private PlayerStatusBar healthBar;
+    private PlayerState state;
+    private float hurtTimer;
 
     // Constructor
     public Player(PlayState playState) {
@@ -76,6 +76,8 @@ public class Player extends LivingEntity {
         maxHealth = 200;
         mana = 200;
         maxMana = 200;
+        state = PlayerState.ALIVE;
+        hurtTimer = 0f;
 
         // Jump parameters
         maxJumps = 2;
@@ -94,6 +96,10 @@ public class Player extends LivingEntity {
         this.playState = playState;
 
         this.healthBar = new PlayerStatusBar(this);
+    }
+
+    public enum PlayerState {
+        ALIVE, HURT, DEAD,
     }
 
     @Override
@@ -124,27 +130,44 @@ public class Player extends LivingEntity {
             updateMovementState();
         }
         healthBar.update();
+
+        if (state == PlayerState.HURT) {
+            hurtTimer += Gdx.graphics.getDeltaTime();
+        }
+        if (hurtTimer >= 1.5f) {
+            state = PlayerState.ALIVE;
+            hurtTimer = 0f;
+        }
     }
 
     @Override
     public void damage(float dmg, Entity source) {
-        super.damage(dmg, source);
+        if (health <= 0 && state == PlayerState.ALIVE) {
+            health = 0;
+            state = PlayerState.DEAD;
+            movementState.set(0, 0);
+        }
+        if (state == PlayerState.ALIVE) {
+            super.damage(dmg, source);
 
-        // Knock back player
-        forceVector = this.position.cpy().sub(source.getPosition()).nor();
-        forceVector.set(forceVector.x, 0.6f);
-        forceVector.scl(8);
-        applyForce(forceVector, 0.8f);
+            // Knock back player
+            forceVector = this.position.cpy().sub(source.getPosition()).nor();
+            forceVector.set(forceVector.x, 0.6f);
+            forceVector.scl(8);
+            applyForce(forceVector, 0.8f);
+            state = PlayerState.HURT;
 
-        // Reset movement states
-        if (isSprinting) {
-            isSprinting = false;
+            // Reset movement states
+            if (isSprinting) {
+                isSprinting = false;
+            }
+
+            if (jumpState > 0) {
+                jumpState = 0;
+            }
+            resetGravity();
         }
 
-        if (jumpState > 0) {
-            jumpState = 0;
-        }
-        resetGravity();
     }
 
     public void setCamera(PlayerCamera camera) {
@@ -171,6 +194,7 @@ public class Player extends LivingEntity {
     public void animate() {
         // Animation stuff
         animStateTime += Gdx.graphics.getDeltaTime();
+
         // Changes animation based on current frame time
         if (isGrounded && !isCasting) {
             climbingStateTime = 0;
@@ -262,6 +286,19 @@ public class Player extends LivingEntity {
 
     public PlayerStatusBar getHealthBar() {
         return healthBar;
+    }
+
+    @Override
+    public void draw(Batch batch) {
+
+        super.draw(batch);
+    }
+
+    public boolean isAlive() {
+        if (state == PlayerState.DEAD) {
+            return false;
+        }
+        return true;
     }
 
 }

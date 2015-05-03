@@ -1,6 +1,8 @@
 package com.jxz.notcontra.entity;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
 
 /**
@@ -17,4 +19,5 @@ public abstract class AnimatedEntity extends Entity {
     }
 
     public abstract void animate();
+
 }

@@ -3,6 +3,7 @@ package com.jxz.notcontra.entity;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
+import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.hud.OSHealthBar;
 import com.jxz.notcontra.world.Level;
 
@@ -19,6 +20,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     protected float patrolSpeed, chaseSpeed;
     protected Vector2 distToTarget;
     protected Entity target;
+    protected float deathLerp;
 
     public enum AIState {
         IDLE, PATROLLING, CHASING, DYING, SPAWNING
@@ -105,6 +107,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     public void setTarget(Entity target) {
         this.target = target;
     }
+
 }
 
 

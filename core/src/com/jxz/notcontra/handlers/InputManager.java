@@ -43,62 +43,64 @@ public class InputManager implements InputProcessor {
         // Movement controls only operational if in play state
         if (gsm.getCurrentState() instanceof PlayState) {
             player = gsm.getPlayState().getPlayer();
-            if (!player.isRooted()) {
-                // Update sprinting state
-                if (keycode == Input.Keys.SHIFT_LEFT && player.getJumpState() == 0) {
-                    player.setSprinting(true);
-                    return true;
-                }
+            if (player.isAlive()) {
+                if (!player.isRooted()) {
+                    // Update sprinting state
+                    if (keycode == Input.Keys.SHIFT_LEFT && player.getJumpState() == 0) {
+                        player.setSprinting(true);
+                        return true;
+                    }
 
-                // Standard WASD Movement
-                if (keycode == Input.Keys.A) {
-                    player.getMovementState().add(-1, 0);
-                }
-                if (keycode == Input.Keys.D) {
-                    player.getMovementState().add(1, 0);
-                }
-                if (keycode == Input.Keys.W) {
-                    player.getMovementState().add(0, 1);
-                }
-                if (keycode == Input.Keys.S) {
-                    player.getMovementState().add(0, -1);
-                }
+                    // Standard WASD Movement
+                    if (keycode == Input.Keys.A) {
+                        player.getMovementState().add(-1, 0);
+                    }
+                    if (keycode == Input.Keys.D) {
+                        player.getMovementState().add(1, 0);
+                    }
+                    if (keycode == Input.Keys.W) {
+                        player.getMovementState().add(0, 1);
+                    }
+                    if (keycode == Input.Keys.S) {
+                        player.getMovementState().add(0, -1);
+                    }
 
-                // Jump if max jumps is not reached
-                if (keycode == Input.Keys.SPACE && !player.isJumping()) {
-                    player.jump();
-                }
-            }
-
-            // Attack | cast keys
-            if (keycode == Input.Keys.J) {
-                player.cast(0);
-            }
-
-            // K has become the "piss off everything on the map" button
-            if (keycode == Input.Keys.K) {
-                for (Entity e : EntityManager.getInstance().getEntitiesList()) {
-                    if (e instanceof Monster) {
-                        Monster m = (Monster) e;
-                        m.setTarget(player);
-                        m.setAIState(Monster.AIState.CHASING);
+                    // Jump if max jumps is not reached
+                    if (keycode == Input.Keys.SPACE && !player.isJumping()) {
+                        player.jump();
                     }
                 }
-            }
-            if (keycode == Input.Keys.L) {
-                // Spawn some slimes
-                Vector3 worldPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-                game.getPlayerCam().unproject(worldPos);
-                worldPos.scl(1 / Game.UNIT_SCALE);
-                Slime slime = (Slime) EntityFactory.spawn(Slime.class, worldPos.x, worldPos.y);
-                slime.init();
-                slime.setCurrentLevel(player.getCurrentLevel());
-                slime.setVisible(true);
-            }
 
-            // Interact key
-            if (keycode == Input.Keys.E) {
-                player.interact();
+                // Attack | cast keys
+                if (keycode == Input.Keys.J) {
+                    player.cast(0);
+                }
+
+                // K has become the "piss off everything on the map" button
+                if (keycode == Input.Keys.K) {
+                    for (Entity e : EntityManager.getInstance().getEntitiesList()) {
+                        if (e instanceof Monster) {
+                            Monster m = (Monster) e;
+                            m.setTarget(player);
+                            m.setAIState(Monster.AIState.CHASING);
+                        }
+                    }
+                }
+                if (keycode == Input.Keys.L) {
+                    // Spawn some slimes
+                    Vector3 worldPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+                    game.getPlayerCam().unproject(worldPos);
+                    worldPos.scl(1 / Game.UNIT_SCALE);
+                    Slime slime = (Slime) EntityFactory.spawn(Slime.class, worldPos.x, worldPos.y);
+                    slime.init();
+                    slime.setCurrentLevel(player.getCurrentLevel());
+                    slime.setVisible(true);
+                }
+
+                // Interact key
+                if (keycode == Input.Keys.E) {
+                    player.interact();
+                }
             }
 
             // PLAY STATE SWITCH STATE TEST
@@ -164,28 +166,30 @@ public class InputManager implements InputProcessor {
         if (gsm.getCurrentState() instanceof PlayState) {
             player = gsm.getPlayState().getPlayer();
             // Released keys signal end of movement if player is not rooted
-            if (!player.isRooted()) {
-                if (keycode == Input.Keys.SHIFT_LEFT) {
-                    player.setSprinting(false);
+            if (player.isAlive()) {
+                if (!player.isRooted()) {
+                    if (keycode == Input.Keys.SHIFT_LEFT) {
+                        player.setSprinting(false);
+                    }
+
+                    if (keycode == Input.Keys.A) {
+                        player.getMovementState().add(1, 0);
+                    }
+                    if (keycode == Input.Keys.D) {
+                        player.getMovementState().add(-1, 0);
+                    }
+                    if (keycode == Input.Keys.W) {
+                        player.getMovementState().add(0, -1);
+                    }
+                    if (keycode == Input.Keys.S) {
+                        player.getMovementState().add(0, 1);
+                    }
                 }
 
-                if (keycode == Input.Keys.A) {
-                    player.getMovementState().add(1, 0);
+                // Resets jump flag if space bar is released - ready to jump again
+                if (keycode == Input.Keys.SPACE) {
+                    player.setIsJumping(false);
                 }
-                if (keycode == Input.Keys.D) {
-                    player.getMovementState().add(-1, 0);
-                }
-                if (keycode == Input.Keys.W) {
-                    player.getMovementState().add(0, -1);
-                }
-                if (keycode == Input.Keys.S) {
-                    player.getMovementState().add(0, 1);
-                }
-            }
-
-            // Resets jump flag if space bar is released - ready to jump again
-            if (keycode == Input.Keys.SPACE) {
-                player.setIsJumping(false);
             }
         }
         return false;

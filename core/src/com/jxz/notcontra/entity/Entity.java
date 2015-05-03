@@ -122,10 +122,10 @@ public abstract class Entity {
     }
 
     public void draw(Batch batch) {
-        batch.draw(this.sprite,
-                this.isFlipped ? ((this.position.x + this.sprite.getWidth()) * Game.UNIT_SCALE) - ((this.sprite.getWidth() - this.aabb.getWidth()) * Game.UNIT_SCALE) : this.position.x * Game.UNIT_SCALE,
-                this.position.y * Game.UNIT_SCALE,
-                this.isFlipped ? -this.sprite.getWidth() * Game.UNIT_SCALE : this.sprite.getWidth() * Game.UNIT_SCALE,
-                this.sprite.getHeight() * Game.UNIT_SCALE);
+        batch.draw(sprite,
+                isFlipped ? ((position.x + sprite.getWidth()) * Game.UNIT_SCALE) - ((sprite.getWidth() - aabb.getWidth()) * Game.UNIT_SCALE) : position.x * Game.UNIT_SCALE,
+                position.y * Game.UNIT_SCALE,
+                isFlipped ? -sprite.getWidth() * Game.UNIT_SCALE : sprite.getWidth() * Game.UNIT_SCALE,
+                sprite.getHeight() * Game.UNIT_SCALE);
     }
 }
