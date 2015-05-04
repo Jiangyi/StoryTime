@@ -24,7 +24,10 @@ public class Player extends LivingEntity {
     private PlayState playState;
     private PlayerStatusBar healthBar;
     private PlayerState state;
-    private float hurtTimer;
+    private float flickerTimer;
+    private int flickerCount;
+    private final float FLICKER_SECONDS = 1.5f;
+    private final int FLICKER_COUNT = 8;
 
     // Constructor
     public Player(PlayState playState) {
@@ -77,7 +80,8 @@ public class Player extends LivingEntity {
         mana = 200;
         maxMana = 200;
         state = PlayerState.ALIVE;
-        hurtTimer = 0f;
+        flickerTimer = 0f;
+        flickerCount = 0;
 
         // Jump parameters
         maxJumps = 2;
@@ -92,9 +96,7 @@ public class Player extends LivingEntity {
 
         // Initialize animated sprite for player
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
-
         this.playState = playState;
-
         this.healthBar = new PlayerStatusBar(this);
     }
 
@@ -132,11 +134,16 @@ public class Player extends LivingEntity {
         healthBar.update();
 
         if (state == PlayerState.HURT) {
-            hurtTimer += Gdx.graphics.getDeltaTime();
+            flickerTimer += Gdx.graphics.getDeltaTime();
         }
-        if (hurtTimer >= 1.5f) {
+        if (flickerTimer >= FLICKER_SECONDS / FLICKER_COUNT) {
+            flickerTimer = 0;
+            flickerCount += 1;
+        }
+        if (flickerCount >= FLICKER_COUNT) {
             state = PlayerState.ALIVE;
-            hurtTimer = 0f;
+            flickerTimer = 0;
+            flickerCount = 0;
         }
     }
 
@@ -290,8 +297,13 @@ public class Player extends LivingEntity {
 
     @Override
     public void draw(Batch batch) {
-
+        if (state == PlayerState.HURT && flickerCount % 2 == 0) {
+            batch.setColor(1f, 1f, 1f, 0.4f);
+        } else {
+            batch.setColor(1f, 1f, 1f, 1f);
+        }
         super.draw(batch);
+        batch.setColor(1f, 1f, 1f, 1f);
     }
 
     public boolean isAlive() {
