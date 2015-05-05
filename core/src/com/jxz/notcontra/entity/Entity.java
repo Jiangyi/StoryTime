@@ -53,6 +53,10 @@ public abstract class Entity {
         return isFlipped;
     }
 
+    public void setIsFlipped(boolean isFlipped) {
+        this.isFlipped = isFlipped;
+    }
+
     public int getId() {
         return id;
     }

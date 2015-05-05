@@ -1,5 +1,6 @@
 package com.jxz.notcontra.skill;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.entity.DynamicHitbox;
@@ -17,12 +18,14 @@ public abstract class Skill {
     protected String name;
     protected String animName;
     protected float time;
+    protected float cooldown;
     protected float damage;
     protected Vector2 hitboxSize;
     protected Vector2 hitboxOffset;
     protected Vector2 flipOffset;
-    protected DynamicHitbox hitbox;
     protected boolean rootWhileCasting;
+    protected boolean requiresCastPriority;
+    protected Animation animation;
     protected TextureAtlas vfx;
     protected Entity caster;
 
@@ -32,11 +35,14 @@ public abstract class Skill {
         hitboxOffset = new Vector2(0, 0);
         flipOffset = new Vector2(0, 0);
         hitboxSize = new Vector2(0, 0);
+        requiresCastPriority = true;
     }
 
     public abstract void use(LivingEntity caster);
 
     public abstract void hit(ArrayList<Entity> targets);
+
+    public abstract void hit(Entity target);
 
     public boolean isRootWhileCasting() {
         return rootWhileCasting;
@@ -78,7 +84,19 @@ public abstract class Skill {
         this.animName = animName;
     }
 
+    public void setAnimation(Animation anim) {
+        this.animation = anim;
+    }
+
     public void setHitboxSize(float x, float y) {
         hitboxSize.set(x, y);
+    }
+
+    public boolean isPriorityCast() {
+        return requiresCastPriority;
+    }
+
+    public float getMaxCooldown() {
+        return cooldown;
     }
 }

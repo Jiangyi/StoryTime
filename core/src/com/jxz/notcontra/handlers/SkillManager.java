@@ -2,7 +2,8 @@ package com.jxz.notcontra.handlers;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.jxz.notcontra.skill.MeleeAttack;
+import com.jxz.notcontra.skill.LinearProjectileSkill;
+import com.jxz.notcontra.skill.MeleeAttackSkill;
 import com.jxz.notcontra.skill.Skill;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class SkillManager {
         inventory = new ArrayList<Skill>();
 
         // Skill 1: Melee Attack
-        MeleeAttack basicMeleeAttack = new MeleeAttack("testmelee");
+        MeleeAttackSkill basicMeleeAttack = new MeleeAttackSkill("testmelee");
         basicMeleeAttack.setRootWhileCasting(true);
         TextureAtlas animFrames = (TextureAtlas) assetManager.getByName("swing");
         basicMeleeAttack.setVfx(animFrames);
@@ -41,14 +42,14 @@ public class SkillManager {
         basicMeleeAttack.setHitboxSize(98, 89);
         basicMeleeAttack.setHitboxOffset(-85, 0);
         basicMeleeAttack.setFlipOffset(115, 0);
-        basicMeleeAttack.setSwingAnimation(new Animation(1 / 10.0f,
+        basicMeleeAttack.setAnimation(new Animation(1 / 10.0f,
                 (animFrames.findRegion("0.swingD1.1", 0)),
                 (animFrames.findRegion("0.swingD1.1", 1))));
         basicMeleeAttack.setDamage(20);
         inventory.add(basicMeleeAttack);
 
         // Skill 2: Second Melee Attack
-        MeleeAttack secondMeleeAttack = new MeleeAttack("melee2");
+        MeleeAttackSkill secondMeleeAttack = new MeleeAttackSkill("melee2");
         secondMeleeAttack.setRootWhileCasting(true);
         animFrames = (TextureAtlas) assetManager.getByName("swing");
         secondMeleeAttack.setVfx(animFrames);
@@ -57,11 +58,29 @@ public class SkillManager {
         secondMeleeAttack.setHitboxSize(98, 89);
         secondMeleeAttack.setHitboxOffset(-65, 0);
         secondMeleeAttack.setFlipOffset(60, 0);
-        secondMeleeAttack.setSwingAnimation(new Animation(1 / 7.0f,
+        secondMeleeAttack.setAnimation(new Animation(1 / 7.0f,
                 (animFrames.findRegion("0.swingD2.1", 0)),
                 (animFrames.findRegion("0.swingD2.1", 1))));
         secondMeleeAttack.setDamage(10);
         inventory.add(secondMeleeAttack);
+
+        // Skill 3: Iceball thing
+        LinearProjectileSkill iceball = new LinearProjectileSkill("iceball");
+        iceball.setRootWhileCasting(true);
+        animFrames = (TextureAtlas) assetManager.getByName("iceball");
+        iceball.setVfx(animFrames);
+        iceball.setAnimName("ball");
+        iceball.setSpeed(5.5f);
+        iceball.setRange(8.0f);
+        iceball.setHitboxSize(100, 80); // orig 184-103
+        iceball.setHitboxOffset(0, 0);
+        iceball.setAnimation(new Animation(1 / 10f,
+                (animFrames.findRegion("ball", 0)),
+                (animFrames.findRegion("ball", 1)),
+                (animFrames.findRegion("ball", 2)),
+                (animFrames.findRegion("ball", 3))));
+        iceball.setDamage(30);
+        inventory.add(iceball);
 
     }
 }

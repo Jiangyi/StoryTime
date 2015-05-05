@@ -1,6 +1,7 @@
 package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.jxz.notcontra.skill.Skill;
 
 import java.util.ArrayList;
 
@@ -32,13 +33,26 @@ public class AttachedHitbox extends DynamicHitbox {
             time -= Gdx.graphics.getDeltaTime();
 
             // Check collisions
-            ArrayList<Entity> target = collisionCheck();
-            if (!target.isEmpty()) {
-                parent.hit(target);
+            if (isCollidable) {
+                ArrayList<Entity> target = collisionCheck();
+                if (!target.isEmpty()) {
+                    parent.hit(target);
+                }
             }
         } else {
             // Free hitbox is time runs out
             EntityFactory.free(this);
+        }
+    }
+
+    // Only attached hitboxes need to worry about being flipped
+    public void init(Skill parent, LivingEntity caster, float x, float y, boolean needsFlipping) {
+        super.init(parent, caster, x, y);
+        if (needsFlipping) {
+            isFlipped = !caster.isFlipped();
+            if (isFlipped) {
+                position.add(flipOffset);
+            }
         }
     }
 
@@ -48,11 +62,5 @@ public class AttachedHitbox extends DynamicHitbox {
         isVisible = false;
         sprite.setRegion(animTravel.getKeyFrame(0));
         hitEntities.clear();
-    }
-
-    @Override
-    public void animate() {
-        animStateTime += Gdx.graphics.getDeltaTime();
-        sprite.setRegion(animTravel.getKeyFrame(animStateTime, false));
     }
 }

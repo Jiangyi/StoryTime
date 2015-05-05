@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.jxz.notcontra.entity.*;
@@ -25,9 +26,13 @@ public class InputManager implements InputProcessor {
     private GameStateManager gsm;
     private static InputManager manager;
     private Player player;
+    private Vector2 tempPos;
+    private Vector3 tmp;
 
     private InputManager(Game game) {
         this.game = game;
+        tempPos = new Vector2(0, 0);
+        tmp = new Vector3(0, 0, 0);
         gsm = GameStateManager.getInstance(game);
     }
 
@@ -35,6 +40,10 @@ public class InputManager implements InputProcessor {
         if (manager == null) {
             manager = new InputManager(game);
         }
+        return manager;
+    }
+
+    public static InputManager getInstance() {
         return manager;
     }
 
@@ -71,9 +80,18 @@ public class InputManager implements InputProcessor {
                     }
                 }
 
+                // Jump if max jumps is not reached
+                if (keycode == Input.Keys.SPACE && !player.isJumping()) {
+                    player.jump();
+                }
+
                 // Attack | cast keys
+                if (keycode == Input.Keys.H) {
+                    player.getSkills().setActive(0, true);
+                }
+
                 if (keycode == Input.Keys.J) {
-                    player.cast(0);
+                    player.getSkills().setActive(1, true);
                 }
 
                 // K has become the "piss off everything on the map" button
@@ -88,10 +106,7 @@ public class InputManager implements InputProcessor {
                 }
                 if (keycode == Input.Keys.L) {
                     // Spawn some slimes
-                    Vector3 worldPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-                    game.getPlayerCam().unproject(worldPos);
-                    worldPos.scl(1 / Game.UNIT_SCALE);
-                    Slime slime = (Slime) EntityFactory.spawn(Slime.class, worldPos.x, worldPos.y);
+                    Slime slime = (Slime) EntityFactory.spawn(Slime.class, getCursorInWorld().x, getCursorInWorld().y);
                     slime.init();
                     slime.setCurrentLevel(player.getCurrentLevel());
                     slime.setVisible(true);
@@ -190,9 +205,23 @@ public class InputManager implements InputProcessor {
                 if (keycode == Input.Keys.SPACE) {
                     player.setIsJumping(false);
                 }
+                // Release active skills
+                if (keycode == Input.Keys.H) {
+                    player.getSkills().setActive(0, false);
+                }
+
+                if (keycode == Input.Keys.J) {
+                    player.getSkills().setActive(1, false);
+                }
+
+                // Resets jump flag if space bar is released - ready to jump again
+                if (keycode == Input.Keys.SPACE) {
+                    player.setIsJumping(false);
+                }
             }
         }
         return false;
+
     }
 
     @Override
@@ -225,4 +254,21 @@ public class InputManager implements InputProcessor {
         return false;
     }
 
+    public Vector2 getCursorInWorld() {
+        tmp.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        game.getPlayerCam().unproject(tmp);
+        tmp.scl(1 / Game.UNIT_SCALE);
+        tempPos.set(tmp.x, tmp.y);
+        return tempPos;
+    }
+
+    // Returns the normalized direction vector relative to the player
+    public Vector2 getCursorDirection() {
+        Vector2 centerPos = player.getPosition().cpy();//.add(player.getAABB().getWidth() / 2, 0);
+        return getCursorInWorld().sub(centerPos);
+    }
+
+    public Vector2 getCursorDirection(Vector2 relativePos) {
+        return getCursorInWorld().sub(relativePos);
+    }
 }

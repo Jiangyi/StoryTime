@@ -11,6 +11,7 @@ import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.SkillManager;
 import com.jxz.notcontra.hud.PlayerStatusBar;
+import com.jxz.notcontra.skill.Skill;
 import com.jxz.notcontra.states.PlayState;
 import com.jxz.notcontra.world.Level;
 
@@ -91,8 +92,8 @@ public class Player extends LivingEntity {
         jumpTime = 3;
 
         // Setup Skill
-        skillInventory[0] = SkillManager.getSkill("testmelee");
-        skillInventory[1] = SkillManager.getSkill("melee2");
+        skills.setInventory(0, "testmelee");
+        skills.setInventory(1, "iceball");
 
         // Initialize animated sprite for player
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
@@ -107,6 +108,16 @@ public class Player extends LivingEntity {
     @Override
     public void update() {
         boolean prevRooted = isRooted;
+
+        // Iterate through active skills to check what to cast
+        for (int i = 0; i < 5; i++) {
+            if (skills.getSkill(i) != null) {
+                if (skills.getActive(i) && skills.getCooldown(i) == 0) {
+                    cast(i);
+                }
+                skills.decreaseCooldown(i, Gdx.graphics.getDeltaTime());
+            }
+        }
         // Iterate through entities to check for touch damage
         if (forceDuration == 0) {
             for (Entity e : EntityManager.getInstance().getEntitiesList()) {
@@ -131,6 +142,8 @@ public class Player extends LivingEntity {
         if (prevRooted && !isRooted) {
             updateMovementState();
         }
+
+        // Update health bar
         healthBar.update();
 
         if (state == PlayerState.HURT) {
@@ -181,20 +194,28 @@ public class Player extends LivingEntity {
         this.camera = camera;
     }
 
-    public void cast(int skill) {
-        if (!isClimbing() && !isCasting) {
-            isCasting = true;
-            skillCasted = false;
-            currentSkill = skillInventory[skill];
+    public void cast(int index) {
+        Skill skill = skills.getSkill(index);
+        // Check if the player is casting already
+        if (skill.isPriorityCast()) {
+            if (!isClimbing() && !isCasting) {
+                isCasting = true;
+                skillCasted = false;
+                currentSkill = skills.getSkill(index);
 
-            if (skill != castType) {
-                castType = skill;
-                castStateTime = 0;
+                if (index != castType) {
+                    castType = index;
+                    castStateTime = 0;
+                }
+                if (isGrounded && currentSkill.isRootWhileCasting()) {
+                    // No motions persist through casting, unless one is already in the air
+                    movementState.set(0, 0);
+                }
             }
-            if (isGrounded && currentSkill.isRootWhileCasting()) {
-                // No motions persist through casting, unless one is already in the air
-                movementState.set(0, 0);
-            }
+        } else {
+            // Skill can be cast during other skills
+            skill.use(this);
+            skills.setCooldown(index, skill.getMaxCooldown());
         }
     }
 
@@ -224,6 +245,7 @@ public class Player extends LivingEntity {
         if (isCasting && !isClimbing) {
             castStateTime += Gdx.graphics.getDeltaTime();
             this.sprite.setRegion(animCast[castType].getKeyFrame(castStateTime, false));
+            // Only spawns skill after casting animation is finished
             if (animCast[castType].getKeyFrameIndex(castStateTime) == animCast[castType].getKeyFrameIndex(animCast[castType].getAnimationDuration()) && !skillCasted) {
                 currentSkill.use(this);
                 skillCasted = true;

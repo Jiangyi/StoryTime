@@ -1,5 +1,6 @@
 package com.jxz.notcontra.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
@@ -21,6 +22,8 @@ public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poola
     protected Skill parent; // Source of skill
     protected LivingEntity caster;  // Caster of source
     protected ArrayList<Entity> hitEntities;    // Keeps track of entities hit
+    protected boolean isCollidable; // If collisions should be handled
+    protected boolean targetLimited;    // Whether or not the hitbox should be disabled after targets are hit
 
     public DynamicHitbox() {
         super("dynHitbox");
@@ -30,7 +33,7 @@ public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poola
         super(name);
         hitEntities = new ArrayList<Entity>();
         flipOffset = new Vector2(0, 0);
-
+        isCollidable = true;
     }
 
     // Initialization upon retrieving from pool
@@ -38,13 +41,9 @@ public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poola
         isActive = true;
         isVisible = true;
         currentLevel = caster.getCurrentLevel();
-        isFlipped = !caster.isFlipped();
         animStateTime = 0;
         position.x = x + hitboxOffset.x;
         position.y = y + hitboxOffset.y;
-        if (isFlipped) {
-            position.add(flipOffset);
-        }
         setPosition(position);
         aabb.setPosition(position);
         this.parent = parent;
@@ -74,6 +73,12 @@ public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poola
         isVisible = false;
         sprite.setRegion(animTravel.getKeyFrame(0));
         hitEntities.clear();
+    }
+
+    @Override
+    public void animate() {
+        animStateTime += Gdx.graphics.getDeltaTime();
+        sprite.setRegion(animTravel.getKeyFrame(animStateTime, false));
     }
 
     public void setAnimTravel(Animation animTravel) {

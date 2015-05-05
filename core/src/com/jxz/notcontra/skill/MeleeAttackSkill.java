@@ -12,11 +12,14 @@ import java.util.ArrayList;
  * Created by Samuel on 23/04/2015.
  * Basic cast attack skill.
  */
-public class MeleeAttack extends Skill {
-    private Animation animSwing;
+public class MeleeAttackSkill extends Skill {
 
-    public MeleeAttack(String name) {
+    protected AttachedHitbox hitbox;
+
+    public MeleeAttackSkill(String name) {
         super(name);
+        requiresCastPriority = true;
+        cooldown = 0;
     }
 
     @Override
@@ -25,11 +28,12 @@ public class MeleeAttack extends Skill {
         hitbox = (AttachedHitbox) EntityFactory.spawn(AttachedHitbox.class);
         hitbox.setHitboxOffset(hitboxOffset.x, hitboxOffset.y);
         hitbox.setFlipOffset(flipOffset.x, flipOffset.y);
-        hitbox.init(this, caster, caster.getAABB().getX(), caster.getAABB().getY());
+        hitbox.init(this, caster, caster.getAABB().getX(), caster.getAABB().getY(), true);
         hitbox.setSprite(vfx.createSprite(animName));
-        hitbox.setAnimTravel(animSwing);
+        hitbox.setAnimTravel(animation);
         hitbox.setTime(time);
         hitbox.setSize(hitboxSize.x, hitboxSize.y);
+        caster.getSkills().setCooldown(this, cooldown);
     }
 
     @Override
@@ -43,7 +47,12 @@ public class MeleeAttack extends Skill {
         }
     }
 
-    public void setSwingAnimation(Animation animSwing) {
-        this.animSwing = animSwing;
+    @Override
+    public void hit(Entity target) {
+        if (target instanceof LivingEntity) {
+            LivingEntity le = (LivingEntity) target;
+            le.damage(damage, caster);
+            System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
+        }
     }
 }

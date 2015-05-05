@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AudioHelper;
+import com.jxz.notcontra.handlers.SkillInventory;
 import com.jxz.notcontra.skill.Skill;
 import com.jxz.notcontra.world.Level;
 
@@ -64,7 +65,7 @@ public abstract class LivingEntity extends AnimatedEntity {
     protected boolean skillCasted = false;
 
     // Skill Inventory
-    Skill[] skillInventory;
+    SkillInventory skills;
     Skill currentSkill;
 
     // Constructor - start with no movement in either direction
@@ -73,7 +74,7 @@ public abstract class LivingEntity extends AnimatedEntity {
         movementState = new Vector2(0, 0);
         forceVector = new Vector2(0, 0);
         forceDuration = 0;
-        skillInventory = new Skill[5];
+        skills = new SkillInventory(5);
     }
 
     @Override
@@ -456,6 +457,10 @@ public abstract class LivingEntity extends AnimatedEntity {
         this.forceVector = forceVector;
         this.forceDuration = duration;
         this.rootingForce = rootingForce;
+    }
+
+    public SkillInventory getSkills() {
+        return this.skills;
     }
 
 }
