@@ -4,5 +4,5 @@ grey_slime    textures/entities/monsters/grey_slime/grey_slime.pack    TextureAt
 
 
 # Level tile map
-level1  Maps/samplelevel.tmx    TiledMap
-level2	Maps/testlevel.tmx	TiledMap
+level1  Maps/level_a.tmx    TiledMap
+level2	Maps/level_b.tmx	TiledMap

@@ -14,8 +14,8 @@ import com.jxz.notcontra.shaders.Shaders;
 public class Game extends ApplicationAdapter {
     // Program Constants
     public static final String TITLE = "Test Game";
-    public static final int VID_WIDTH = 1120;
-    public static final int VID_HEIGHT = 630;
+    public static final int VID_WIDTH = 1280;
+    public static final int VID_HEIGHT = 704;
 
     private float accumulator;
     private static float fpsTimer;
@@ -28,9 +28,9 @@ public class Game extends ApplicationAdapter {
     private ShaderProgram shader;
 
     // Map Render Variables
-    public static final float UNIT_SCALE = 1 / 70f; // 1 ingame unit = 70 px (tile size)
-    public static final int VIEW_HEIGHT = 9; // TODO: Finalize tile count on screen
-    public static final int VIEW_WIDTH = 16; // TODO: Finalize tile count on screen x2
+    public static final float UNIT_SCALE = 1 / 32f; // 1 ingame unit = 70 px (tile size)
+    public static final int VIEW_HEIGHT = 22; // TODO: Finalize tile count on screen
+    public static final int VIEW_WIDTH = 40; // TODO: Finalize tile count on screen x2
 
 
 
