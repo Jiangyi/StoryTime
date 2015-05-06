@@ -28,9 +28,9 @@ public class Game extends ApplicationAdapter {
     private ShaderProgram shader;
 
     // Map Render Variables
-    public static final float UNIT_SCALE = 1 / 32f; // 1 ingame unit = 70 px (tile size)
-    public static final int VIEW_HEIGHT = 22; // TODO: Finalize tile count on screen
-    public static final int VIEW_WIDTH = 40; // TODO: Finalize tile count on screen x2
+    public static final float UNIT_SCALE = 1 / 32f; // 1 ingame unit = 32 px (tile size)
+    public static final int VIEW_HEIGHT = 22;
+    public static final int VIEW_WIDTH = 40;
 
 
 
@@ -46,7 +46,6 @@ public class Game extends ApplicationAdapter {
         hudCam.setToOrtho(false, VID_WIDTH, VID_HEIGHT);
         // Setup singleton manager classes
         gsm = GameStateManager.getInstance(this);
-        //shader = new ShaderProgram(Gdx.files.internal("shaders/sepia.vsh"), Gdx.files.internal("shaders/sepia.fsh"));
         shader = Shaders.vignetteShader;
     }
 

@@ -39,6 +39,8 @@ public class Slime extends Monster {
                 this.animFrames.findRegion("die1", 2),
                 this.animFrames.findRegion("die1", 3));
 
+        renderOffset = animIdle.getKeyFrame(0).getRegionWidth();
+
         // Initialize sprite stuff
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
 

@@ -74,6 +74,7 @@ public class Player extends LivingEntity {
         aabb.set(position.x, position.y, 30, 50);
         hitboxOffset.set(15, 9);
         speed = 3;
+        renderOffset = animIdle.getKeyFrame(0).getRegionWidth();
 
         // Health
         health = 200;

@@ -25,6 +25,7 @@ public abstract class Entity {
     protected EntityManager manager = EntityManager.getInstance();
     protected Rectangle aabb;
     protected Vector2 hitboxOffset;
+    protected float renderOffset;
 
     // Constructor - all entities must be registered through manager
     public Entity(String entityName) {
@@ -127,7 +128,7 @@ public abstract class Entity {
 
     public void draw(Batch batch) {
         batch.draw(sprite,
-                isFlipped ? ((position.x + sprite.getWidth()) * Game.UNIT_SCALE) - ((sprite.getWidth() - aabb.getWidth()) * Game.UNIT_SCALE) : position.x * Game.UNIT_SCALE,
+                isFlipped ? ((position.x + sprite.getWidth()) * Game.UNIT_SCALE) - ((sprite.getWidth() - this.renderOffset) * Game.UNIT_SCALE) : position.x * Game.UNIT_SCALE,
                 position.y * Game.UNIT_SCALE,
                 isFlipped ? -sprite.getWidth() * Game.UNIT_SCALE : sprite.getWidth() * Game.UNIT_SCALE,
                 sprite.getHeight() * Game.UNIT_SCALE);
