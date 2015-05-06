@@ -27,7 +27,7 @@ public class LoadState extends GameState {
     private GlyphLayout layout;
 
     private final String LOADING = "Loading Game: ";
-    private final String DONE_LOADING = "Done Loading!";
+    private final String DONE_LOADING = "Done Loading! Press ESC to enter game.";
 
     public LoadState(Game game) {
         super(game);
@@ -37,8 +37,9 @@ public class LoadState extends GameState {
         loadingBar = new LoadingBar();
         loadAtlas = (TextureAtlas) assetHandler.getByName("menu_loadingbar");
         logo_libgdx = loadAtlas.createSprite("libgdx");
+        // Define Asset Handler loading here
         assetHandler.loadFromFile("levels/general.txt");
-        assetHandler.loadFromFile("levels/level1.txt");
+        assetHandler.loadFromFile("levels/levels.txt");
         layout = new GlyphLayout();
     }
 
