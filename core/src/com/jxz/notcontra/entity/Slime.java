@@ -1,6 +1,7 @@
 package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -40,6 +41,7 @@ public class Slime extends Monster {
                 this.animFrames.findRegion("die1", 3));
 
         renderOffset = animIdle.getKeyFrame(0).getRegionWidth();
+        debug = new Sprite((Texture) assetHandler.getByName("hitbox"));
 
         // Initialize sprite stuff
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));

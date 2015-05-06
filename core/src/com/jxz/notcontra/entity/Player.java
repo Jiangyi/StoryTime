@@ -2,14 +2,17 @@ package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.EntityManager;
-import com.jxz.notcontra.handlers.SkillManager;
 import com.jxz.notcontra.hud.PlayerStatusBar;
 import com.jxz.notcontra.skill.Skill;
 import com.jxz.notcontra.states.PlayState;
@@ -67,12 +70,12 @@ public class Player extends LivingEntity {
                 (this.animFrames.findRegion("swingOF", 1)),
                 (this.animFrames.findRegion("swingOF", 2)),
                 (this.animFrames.findRegion("swingOF", 3)));
-
+        debug = new Sprite((Texture) assetHandler.getByName("hitbox"));
         movementState = new Vector2(0, 0);
 
         // Setup Hitbox
         aabb.set(position.x, position.y, 30, 50);
-        hitboxOffset.set(15, 9);
+        hitboxOffset.set((animIdle.getKeyFrame(0).getRegionWidth() - aabb.getWidth()) / 2.0f, 0);
         speed = 3;
         renderOffset = animIdle.getKeyFrame(0).getRegionWidth();
 

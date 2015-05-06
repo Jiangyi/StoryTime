@@ -8,3 +8,6 @@ swing	textures/entities/projectiles/swing/swing.pack	TextureAtlas
 
 #HUD Stuff
 hud_bars	textures/hud/bars/hud_bars.pack	TextureAtlas
+
+#Debug Rendering Hitbox
+hitbox      textures/debug.png     Texture
