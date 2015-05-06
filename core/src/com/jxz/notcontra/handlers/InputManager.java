@@ -264,7 +264,7 @@ public class InputManager implements InputProcessor {
 
     // Returns the normalized direction vector relative to the player
     public Vector2 getCursorDirection() {
-        Vector2 centerPos = player.getPosition().cpy();//.add(player.getAABB().getWidth() / 2, 0);
+        Vector2 centerPos = player.getPosition().cpy().add(player.getAABB().getWidth() / 2, player.getAABB().getHeight() / 2);
         return getCursorInWorld().sub(centerPos);
     }
 

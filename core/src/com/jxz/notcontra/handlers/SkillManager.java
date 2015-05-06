@@ -70,7 +70,7 @@ public class SkillManager {
         animFrames = (TextureAtlas) assetManager.getByName("iceball");
         iceball.setVfx(animFrames);
         iceball.setAnimName("ball");
-        iceball.setSpeed(5.5f);
+        iceball.setSpeed(8.5f);
         iceball.setRange(8.0f);
         iceball.setHitboxSize(100, 80); // orig 184-103
         iceball.setHitboxOffset(0, 0);

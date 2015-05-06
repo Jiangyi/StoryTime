@@ -11,6 +11,7 @@ import com.jxz.notcontra.world.Level;
 
 /**
  * Created by Kevin Xiao on 2015-04-23.
+ * Slime. Exemplifies "grunt" AI.
  */
 public class Slime extends Monster {
 
@@ -138,7 +139,7 @@ public class Slime extends Monster {
             case CHASING:
                 // If slime is blocked on the x axis for some reason, try jumping
                 // Although, don't jump if player is beneath the slime. That doesn't make sense.
-                if (deltaX == 0 && distToTarget.y >= 0) {
+                if (deltaX == 0 && distToTarget.y >= 0 && forceDuration == 0) {
                     jump();
                 }
                 // If target is dead, stop chasing them

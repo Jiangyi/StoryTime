@@ -30,7 +30,7 @@ public class Projectile extends DynamicHitbox {
             EntityFactory.free(this);
         } else {
             // Move projectile forwards
-            position.add(direction.x * speed, direction.y * speed);
+            position.add(direction.x * speed * Game.getFpsTimer(), direction.y * speed * Game.getFpsTimer());
             sprite.setPosition(position.x - hitboxOffset.x, position.y - hitboxOffset.y);
             sprite.setRotation(direction.angle());
             aabb.setPosition(position.x, position.y);

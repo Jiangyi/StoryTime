@@ -29,8 +29,8 @@ public class PlayerCamera extends OrthographicCamera {
         // Y-position
         float deltaY = position.y - player.getTilePosition().y + player.getAABB().getHeight() * Game.UNIT_SCALE;
         if (!isTracking) {
-            // Enables tracking when player is more than 1/4 screen height away
-            if (Math.abs(deltaY) > Game.VIEW_HEIGHT / 4) {
+            // Enables tracking when player is more than 1/6 screen height away
+            if (Math.abs(deltaY) > Game.VIEW_HEIGHT / 6) {
                 isTracking = true;
             }
         } else {

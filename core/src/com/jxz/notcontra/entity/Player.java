@@ -71,8 +71,8 @@ public class Player extends LivingEntity {
         movementState = new Vector2(0, 0);
 
         // Setup Hitbox
-        aabb.set(position.x, position.y, 49, 50);
-        hitboxOffset.set(6, 9);
+        aabb.set(position.x, position.y, 30, 50);
+        hitboxOffset.set(15, 9);
         speed = 3;
 
         // Health

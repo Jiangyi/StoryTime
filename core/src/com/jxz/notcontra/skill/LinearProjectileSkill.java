@@ -26,29 +26,27 @@ public class LinearProjectileSkill extends Skill{
         this.caster = caster;
         hitbox = (Projectile) EntityFactory.spawn(Projectile.class);
         hitbox.setSprite(vfx.createSprite(animName));
+        hitbox.getSprite().setOriginCenter();
         hitbox.setHitboxOffset(hitboxOffset.x, hitboxOffset.y);
-        Vector2 target = InputManager.getInstance().getCursorDirection();//.sub(hitboxSize.x / 2, hitboxSize.y / 2);
-        Vector2 initial = caster.getPosition().cpy();//.add(caster.getAABB().getWidth() / 2, 0);
+        Vector2 target = InputManager.getInstance().getCursorDirection();
+        Vector2 initial = caster.getPosition().cpy().add(caster.getAABB().getWidth() / 2, caster.getAABB().getHeight() / 2);
+        initial.sub(hitbox.getSprite().getWidth() / 2, hitbox.getSprite().getHeight() / 2);
 ;
-        // Handle flipping of player / projectile
+        // Handle flipping of caster - caster should face the way the spell is cast
         if (target.x > 0) {
-            // Fire from right side of caster - target is valid
             if (caster.isFlipped()) {
                 // Face the right side
                 caster.setIsFlipped(false);
             }
         } else {
-            // Fire from left side
-            initial.x -= hitbox.getSprite().getWidth() / 2;
-            // Re-evaluate direction vector
-
             if (!caster.isFlipped()) {
+                // Face the left side
                 caster.setIsFlipped(true);
             }
         }
 
-        target.set(InputManager.getInstance().getCursorDirection(initial).sub(hitboxSize.x / 2, hitboxSize.y / 2));
-
+        // Step the projectile forwards so it comes out properly
+        initial.add(target.nor().x * speed * 10, target.nor().y * speed * 10);
         hitbox.init(this, caster, initial.x, initial.y);
         hitbox.setDirection(target.cpy());
         hitbox.setAnimTravel(animation);
