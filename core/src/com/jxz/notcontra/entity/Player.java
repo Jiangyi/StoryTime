@@ -325,18 +325,15 @@ public class Player extends LivingEntity {
     public void draw(Batch batch) {
         if (state == PlayerState.HURT && flickerCount % 2 == 0) {
             batch.setColor(1f, 1f, 1f, 0.4f);
-        } else {
-            batch.setColor(1f, 1f, 1f, 1f);
+        } else if (!isAlive()){
+            batch.setColor(1f, 1f, 1f, 0.2f);
         }
         super.draw(batch);
         batch.setColor(1f, 1f, 1f, 1f);
     }
 
     public boolean isAlive() {
-        if (state == PlayerState.DEAD) {
-            return false;
-        }
-        return true;
+        return state != PlayerState.DEAD;
     }
 
 }
