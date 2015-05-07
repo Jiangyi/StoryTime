@@ -1,6 +1,9 @@
 package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
+import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.skill.Skill;
 
 import java.util.ArrayList;
@@ -20,11 +23,9 @@ public class AttachedHitbox extends DynamicHitbox {
         if (time > 0) {
             // Update visual with regards to caster
             isFlipped = !caster.isFlipped();
-            position = caster.getPosition().cpy();
-            position.add(hitboxOffset);
-            if (isFlipped) {
-                position.add(flipOffset);
-            }
+            position = caster.getPosition().cpy().add(caster.getAABB().getWidth() / 2, 0);
+            position.sub(sprite.getWidth() / 2, 0);
+            position.add(isFlipped ? hitboxOffset.x  : -hitboxOffset.x, 0);
             sprite.setPosition(position.x, position.y);
             aabb.setPosition(position.x, position.y);
             animate();
@@ -46,13 +47,10 @@ public class AttachedHitbox extends DynamicHitbox {
     }
 
     // Only attached hitboxes need to worry about being flipped
-    public void init(Skill parent, LivingEntity caster, float x, float y, boolean needsFlipping) {
-        super.init(parent, caster, x, y);
+    public void init(Skill parent, LivingEntity caster, boolean needsFlipping) {
+        super.init(parent, caster, 0, 0);
         if (needsFlipping) {
             isFlipped = !caster.isFlipped();
-            if (isFlipped) {
-                position.add(flipOffset);
-            }
         }
     }
 
@@ -62,5 +60,45 @@ public class AttachedHitbox extends DynamicHitbox {
         isVisible = false;
         sprite.setRegion(animTravel.getKeyFrame(0));
         hitEntities.clear();
+    }
+
+    @Override
+    public void draw(Batch batch) {
+        // Draw with rotational support
+        batch.draw(sprite.getTexture(),
+                this.position.x * Game.UNIT_SCALE,
+                this.position.y * Game.UNIT_SCALE,
+                sprite.getWidth() / 2 * Game.UNIT_SCALE,
+                sprite.getHeight() / 2 * Game.UNIT_SCALE,
+                this.sprite.getWidth() * Game.UNIT_SCALE,
+                this.sprite.getHeight() * Game.UNIT_SCALE,
+                1.0f,
+                1.0f,
+                0,
+                sprite.getRegionX(),
+                sprite.getRegionY(),
+                sprite.getRegionWidth(),
+                sprite.getRegionHeight(),
+                isFlipped, false
+        );
+
+        if (Game.getDebugMode()) {
+            batch.draw(debug.getTexture(),
+                    this.position.x * Game.UNIT_SCALE,
+                    this.position.y * Game.UNIT_SCALE,
+                    aabb.getWidth() / 2 * Game.UNIT_SCALE,
+                    aabb.getHeight() / 2 * Game.UNIT_SCALE,
+                    this.aabb.getWidth() * Game.UNIT_SCALE,
+                    this.aabb.getHeight() * Game.UNIT_SCALE,
+                    1.0f,
+                    1.0f,
+                    0,
+                    sprite.getRegionX(),
+                    sprite.getRegionY(),
+                    sprite.getRegionWidth(),
+                    sprite.getRegionHeight(),
+                    isFlipped, false
+            );
+        }
     }
 }

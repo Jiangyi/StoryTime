@@ -32,7 +32,8 @@ public class Game extends ApplicationAdapter {
     public static final int VIEW_HEIGHT = 22;
     public static final int VIEW_WIDTH = 40;
 
-
+    // Game variables
+    private static boolean debugMode = false;
 
     @Override
     public void create() {
@@ -95,4 +96,11 @@ public class Game extends ApplicationAdapter {
         return shader;
     }
 
+    public static void setDebugMode(boolean debugMode) {
+        Game.debugMode = debugMode;
+    }
+
+    public static boolean getDebugMode() {
+        return debugMode;
+    }
 }

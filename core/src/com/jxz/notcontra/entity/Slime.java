@@ -41,7 +41,6 @@ public class Slime extends Monster {
                 this.animFrames.findRegion("die1", 3));
 
         renderOffset = animIdle.getKeyFrame(0).getRegionWidth();
-        debug = new Sprite((Texture) assetHandler.getByName("hitbox"));
 
         // Initialize sprite stuff
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));

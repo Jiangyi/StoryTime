@@ -112,6 +112,11 @@ public class InputManager implements InputProcessor {
                     slime.setVisible(true);
                 }
 
+                // Debug Mode
+                if (keycode == Input.Keys.F) {
+                    Game.setDebugMode(!Game.getDebugMode());
+                }
+
                 // Interact key
                 if (keycode == Input.Keys.E) {
                     player.interact();

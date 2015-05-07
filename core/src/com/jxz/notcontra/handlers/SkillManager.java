@@ -40,9 +40,8 @@ public class SkillManager {
         basicMeleeAttack.setTime(0.1f);
         basicMeleeAttack.setAnimName("0.swingD1.1");
         basicMeleeAttack.setHitboxSize(98, 89);
-        basicMeleeAttack.setHitboxOffset(-85, 0);
-        basicMeleeAttack.setFlipOffset(115, 0);
-        basicMeleeAttack.setAnimation(new Animation(1 / 10.0f,
+        basicMeleeAttack.setHitboxOffset(55, 0);
+        basicMeleeAttack.setAnimation(new Animation(1 / 11.0f,
                 (animFrames.findRegion("0.swingD1.1", 0)),
                 (animFrames.findRegion("0.swingD1.1", 1))));
         basicMeleeAttack.setDamage(20);
@@ -56,8 +55,7 @@ public class SkillManager {
         secondMeleeAttack.setTime(0.2f);
         secondMeleeAttack.setAnimName("0.swingD2.1");
         secondMeleeAttack.setHitboxSize(98, 89);
-        secondMeleeAttack.setHitboxOffset(-65, 0);
-        secondMeleeAttack.setFlipOffset(60, 0);
+        secondMeleeAttack.setHitboxOffset(30, 0);
         secondMeleeAttack.setAnimation(new Animation(1 / 7.0f,
                 (animFrames.findRegion("0.swingD2.1", 0)),
                 (animFrames.findRegion("0.swingD2.1", 1))));
@@ -72,8 +70,7 @@ public class SkillManager {
         iceball.setAnimName("ball");
         iceball.setSpeed(8.5f);
         iceball.setRange(8.0f);
-        iceball.setHitboxSize(100, 80); // orig 184-103
-        iceball.setHitboxOffset(0, 0);
+        iceball.setHitboxSize(184, 103); // orig 184-103
         iceball.setAnimation(new Animation(1 / 10f,
                 (animFrames.findRegion("ball", 0)),
                 (animFrames.findRegion("ball", 1)),

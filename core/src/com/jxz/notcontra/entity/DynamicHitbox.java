@@ -1,7 +1,9 @@
 package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
@@ -17,7 +19,6 @@ import java.util.ArrayList;
 public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poolable {
     // Hitbox Fields
     protected float time;   // Limited by time
-    protected Vector2 flipOffset;   // Offset based on flip
     protected Animation animTravel; // Animation to use while moving
     protected Skill parent; // Source of skill
     protected LivingEntity caster;  // Caster of source
@@ -32,7 +33,6 @@ public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poola
     public DynamicHitbox(String name){
         super(name);
         hitEntities = new ArrayList<Entity>();
-        flipOffset = new Vector2(0, 0);
         isCollidable = true;
     }
 
@@ -95,9 +95,5 @@ public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poola
 
     public void setHitboxOffset(float x, float y) {
         hitboxOffset.set(x,y);
-    }
-
-    public void setFlipOffset(float x, float y) {
-        flipOffset.set(x, y);
     }
 }

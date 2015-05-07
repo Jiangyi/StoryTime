@@ -1,10 +1,12 @@
 package com.jxz.notcontra.entity;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.world.Level;
 
@@ -39,6 +41,7 @@ public abstract class Entity {
         isActive = true;
         isVisible = true;
         isFlipped = false;
+        debug = new Sprite((Texture) AssetHandler.getInstance().getByName("hitbox"));
     }
 
     public Entity(String entityName, float x, float y) {
@@ -133,6 +136,8 @@ public abstract class Entity {
                 sprite.getY() * Game.UNIT_SCALE,
                 isFlipped ? -sprite.getWidth() * Game.UNIT_SCALE : sprite.getWidth() * Game.UNIT_SCALE,
                 sprite.getHeight() * Game.UNIT_SCALE);
-        batch.draw(debug, position.x * Game.UNIT_SCALE, position.y * Game.UNIT_SCALE, aabb.getWidth() * Game.UNIT_SCALE, aabb.getHeight() * Game.UNIT_SCALE);
+        if (Game.getDebugMode()) {
+            batch.draw(debug, position.x * Game.UNIT_SCALE, position.y * Game.UNIT_SCALE, aabb.getWidth() * Game.UNIT_SCALE, aabb.getHeight() * Game.UNIT_SCALE);
+        }
     }
 }

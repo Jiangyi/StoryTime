@@ -22,7 +22,6 @@ public abstract class Skill {
     protected float damage;
     protected Vector2 hitboxSize;
     protected Vector2 hitboxOffset;
-    protected Vector2 flipOffset;
     protected boolean rootWhileCasting;
     protected boolean requiresCastPriority;
     protected Animation animation;
@@ -33,7 +32,6 @@ public abstract class Skill {
     public Skill(String name) {
         this.name = name;
         hitboxOffset = new Vector2(0, 0);
-        flipOffset = new Vector2(0, 0);
         hitboxSize = new Vector2(0, 0);
         requiresCastPriority = true;
     }
@@ -74,10 +72,6 @@ public abstract class Skill {
 
     public void setHitboxOffset(float x, float y) {
         hitboxOffset.set(x, y);
-    }
-
-    public void setFlipOffset(float x, float y) {
-        flipOffset.set(x, y);
     }
 
     public void setAnimName(String animName) {

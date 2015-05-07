@@ -70,7 +70,7 @@ public class Player extends LivingEntity {
                 (this.animFrames.findRegion("swingOF", 1)),
                 (this.animFrames.findRegion("swingOF", 2)),
                 (this.animFrames.findRegion("swingOF", 3)));
-        debug = new Sprite((Texture) assetHandler.getByName("hitbox"));
+
         movementState = new Vector2(0, 0);
 
         // Setup Hitbox

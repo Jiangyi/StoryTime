@@ -1,7 +1,9 @@
 package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.skill.Skill;
@@ -31,9 +33,7 @@ public class Projectile extends DynamicHitbox {
         } else {
             // Move projectile forwards
             position.add(direction.x * speed * Game.getFpsTimer(), direction.y * speed * Game.getFpsTimer());
-            sprite.setPosition(position.x - hitboxOffset.x, position.y - hitboxOffset.y);
-            sprite.setRotation(direction.angle());
-            aabb.setPosition(position.x, position.y);
+            aabb.setPosition(position.cpy().add(hitboxOffset));
             animate();
 
             // Update lifespan
@@ -93,6 +93,24 @@ public class Projectile extends DynamicHitbox {
                 sprite.getRegionHeight(),
                 false, isFlipped
         );
+
+        if (Game.getDebugMode()) {
+            batch.draw(debug.getTexture(),
+                    this.position.x * Game.UNIT_SCALE,
+                    this.position.y * Game.UNIT_SCALE,
+                    aabb.getWidth() / 2 * Game.UNIT_SCALE,
+                    aabb.getHeight() / 2 * Game.UNIT_SCALE,
+                    this.aabb.getWidth() * Game.UNIT_SCALE,
+                    this.aabb.getHeight() * Game.UNIT_SCALE,
+                    1.0f,
+                    1.0f,
+                    direction.angle(),
+                    sprite.getRegionX(),
+                    sprite.getRegionY(),
+                    sprite.getRegionWidth(),
+                    sprite.getRegionHeight(),
+                    false, isFlipped);
+        }
     }
 
 
