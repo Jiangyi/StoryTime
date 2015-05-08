@@ -1,6 +1,7 @@
 # To Do List: #
 
 ## HIGH PRIORITY: ##
+* Main Menu and UI
 * Interactable entities
 * Level format that allows for storage of important positions
 
@@ -10,6 +11,4 @@
 * Custom game configuration
 
 ## LOW PRIORITY: ##
-* Debug mode
 * Dialogue boxes
-* Main Menu
