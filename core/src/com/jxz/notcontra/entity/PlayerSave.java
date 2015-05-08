@@ -12,6 +12,8 @@ public class PlayerSave {
     public float y;
     public int health;
     public int mana;
+    public String mode;
+    public String level;
 
     public PlayerSave() {
 
@@ -33,5 +35,13 @@ public class PlayerSave {
 
     public void setMana(int mana) {
         this.mana = mana;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 }

@@ -31,6 +31,7 @@ public class InputManager implements InputProcessor {
     private Vector2 tempPos;
     private Vector3 tmp;
     private boolean isCtrlPressed;
+    private String changeKey;
 
     private InputManager(Game game) {
         this.game = game;
@@ -52,6 +53,11 @@ public class InputManager implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+
+        if (changeKey != null) {
+            keyPreferences.getInteger(changeKey, keycode);
+            changeKey = null;
+        }
         // Movement controls only operational if in play state
         if (gsm.getCurrentState() instanceof PlayState) {
 
@@ -318,5 +324,9 @@ public class InputManager implements InputProcessor {
             System.out.println(FILENAME + "does not exist!");
             return false;
         }
+    }
+
+    public void setChangeKey(String function) {
+        changeKey = function;
     }
 }

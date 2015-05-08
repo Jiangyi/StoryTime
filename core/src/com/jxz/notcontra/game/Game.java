@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jxz.notcontra.camera.PlayerCamera;
+import com.jxz.notcontra.entity.PlayerSave;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.handlers.InputManager;
+import com.jxz.notcontra.handlers.SaveGameHandler;
 import com.jxz.notcontra.shaders.Shaders;
 
 public class Game extends ApplicationAdapter {
@@ -104,5 +106,26 @@ public class Game extends ApplicationAdapter {
 
     public static boolean getDebugMode() {
         return debugMode;
+    }
+
+    public void executeCommand(String... cmds) {
+        if (cmds[0].equalsIgnoreCase("start")) {
+            String level = "";
+            String mode = "";
+            if (cmds[1].equalsIgnoreCase("new")) {
+                level = cmds[2];
+                mode = cmds[3];
+                // Start new logic here
+            } else if (cmds[1].equalsIgnoreCase("load")) {
+                String loadFile = cmds[2];
+                PlayerSave playerSave = SaveGameHandler.loadSave(loadFile);
+                level = playerSave.level;
+                mode = playerSave.mode;
+                // load save
+            }
+        } else if (cmds[0].equalsIgnoreCase("setKeyButton")) {
+            InputManager inputManager = InputManager.getInstance();
+            inputManager.setChangeKey(cmds[1]);
+        }
     }
 }
