@@ -83,7 +83,7 @@ public class PlayState extends GameState {
         // Front layer
         sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1.6f, 1.3f));
         sb.draw(currentLevel.getBackground()[2], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 3,
-                currentLevel.getBackground()[2].getWidth() / Game.VIEW_WIDTH * 10, currentLevel.getBackground()[2].getHeight() / Game.VIEW_HEIGHT, 0, 1, 9, 0);
+                currentLevel.getBackground()[2].getWidth() / Game.VIEW_WIDTH * 12, currentLevel.getBackground()[2].getHeight() / Game.VIEW_HEIGHT, 0, 1, 10, 0);
         sb.end();
 
         // Update projection matrices
