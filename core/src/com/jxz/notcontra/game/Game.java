@@ -39,7 +39,7 @@ public class Game extends ApplicationAdapter {
     public void create() {
         // Instantiate viewport and camera for rendering
         ShaderProgram.pedantic = false;
-        playerCam = new PlayerCamera();
+        playerCam = new PlayerCamera(VIEW_WIDTH, VIEW_HEIGHT);
         viewport = new FitViewport(VIEW_WIDTH, VIEW_HEIGHT, playerCam);
         viewport.apply();
         playerCam.setToOrtho(false, VIEW_WIDTH, VIEW_HEIGHT);

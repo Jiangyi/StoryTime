@@ -1,5 +1,6 @@
 package com.jxz.notcontra.world;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -7,12 +8,17 @@ import com.badlogic.gdx.utils.Array;
 import com.jxz.notcontra.entity.EntityFactory;
 import com.jxz.notcontra.entity.Slime;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.AssetHandler;
 
 /**
  * Created by Samuel on 04/04/2015.
  * Level
  */
 public class Level {
+
+    // Background
+    public Texture[] layers = new Texture[3];
+    private AssetHandler assetHandler = AssetHandler.getInstance();
 
     // Class constants
     public static final String STATIC_LAYER = "Static Map";     // Name of static collision map layer
@@ -31,6 +37,12 @@ public class Level {
         this.map = map;
         height = map.getProperties().get("height", int.class);
         width = map.getProperties().get("width", int.class);
+
+        layers[0] = (Texture)assetHandler.getByName("background_sky");
+        layers[1] = (Texture)assetHandler.getByName("background_fuji");
+        layers[2] = (Texture)assetHandler.getByName("background_sakura");
+        layers[2].setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
         loadedMaps.add(this);
         firstLoad = true;
     }
@@ -227,6 +239,10 @@ public class Level {
 
     public TiledMap getMap() {
         return map;
+    }
+
+    public Texture[] getBackground() {
+        return layers;
     }
 
     public boolean isFirstLoad() {

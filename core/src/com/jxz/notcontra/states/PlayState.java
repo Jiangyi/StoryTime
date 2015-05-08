@@ -2,13 +2,10 @@ package com.jxz.notcontra.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.jxz.notcontra.entity.EntityFactory;
-import com.jxz.notcontra.entity.Monster;
 import com.jxz.notcontra.entity.Player;
-import com.jxz.notcontra.entity.Slime;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.SkillManager;
@@ -69,8 +66,29 @@ public class PlayState extends GameState {
         Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
-        // Update projection matrices
+        sb.begin();
+        // Update player camera
         playerCam.update();
+
+        // Render Background
+        // Back layer
+        sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1f, 1f));
+        sb.draw(currentLevel.getBackground()[0], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 2f,
+                Game.VIEW_WIDTH, Game.VIEW_HEIGHT);
+
+
+        // Middle layer
+        sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1.1f, 1.03f));
+        sb.draw(currentLevel.getBackground()[1], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 1.5f,
+                currentLevel.getBackground()[1].getWidth() / Game.VIEW_WIDTH * 2, currentLevel.getBackground()[1].getHeight() / Game.VIEW_HEIGHT * 1.2f);
+
+
+        // Front layer
+        sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1.6f, 1.3f));
+        sb.draw(currentLevel.getBackground()[2], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 3,
+                currentLevel.getBackground()[2].getWidth() / Game.VIEW_WIDTH * 10, currentLevel.getBackground()[2].getHeight() / Game.VIEW_HEIGHT, 0, 1, 9, 0);
+
+        // Update projection matrices
         sb.setProjectionMatrix(hudCam.combined);
 
         // Render map
@@ -79,7 +97,7 @@ public class PlayState extends GameState {
 
         font.setColor(Color.WHITE);
         // Debug text - drawn to HUD Camera
-        sb.begin();
+
         font.draw(sb, "PLAY STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
         font.draw(sb, "X-position: " + player.getPosition().x, 500, 75);
         font.draw(sb, "Y-position: " + player.getPosition().y, 500, 50);

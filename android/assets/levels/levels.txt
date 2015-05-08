@@ -6,3 +6,9 @@ grey_slime    textures/entities/monsters/grey_slime/grey_slime.pack    TextureAt
 # Level tile map
 level1  Maps/level_a.tmx    TiledMap
 level2	Maps/level_b.tmx	TiledMap
+
+# Level Background
+background			textures/levels/background.pack		TextureAtlas
+background_sky      textures/levels/blue.png    Texture
+background_fuji     textures/levels/fuji.png     Texture
+background_sakura     textures/levels/sakuratrees.png      Texture
