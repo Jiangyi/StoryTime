@@ -2,7 +2,7 @@ package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -275,25 +275,27 @@ public class Player extends LivingEntity {
 
     // Polls keys to update movement state. Used from resuming lapses in motion updating.
     public void updateMovementState() {
+        Preferences keyPreferences = Gdx.app.getPreferences("InputManager");
         // Reset movement state
         movementState.set(0, 0);
 
         // Poll movement keys for updated movement state
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        if (Gdx.input.isKeyPressed(keyPreferences.getInteger("left", Input.Keys.A))) {
             movementState.add(-1, 0);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        if (Gdx.input.isKeyPressed(keyPreferences.getInteger("right", Input.Keys.D))) {
             movementState.add(1, 0);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        if (Gdx.input.isKeyPressed(keyPreferences.getInteger("up", Input.Keys.W))) {
             movementState.add(0, 1);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+        if (Gdx.input.isKeyPressed(keyPreferences.getInteger("down", Input.Keys.S))) {
             movementState.add(0, -1);
         }
 
-        isSprinting = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+        isSprinting = Gdx.input.isKeyPressed(keyPreferences.getInteger("sprint", Input.Keys.SHIFT_LEFT));
     }
+
 
     @Override
     public void setCurrentLevel(Level level) {
