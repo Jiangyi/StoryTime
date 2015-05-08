@@ -66,11 +66,8 @@ public class PlayState extends GameState {
         Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
-        sb.begin();
-        // Update player camera
-        playerCam.update();
-
         // Render Background
+        sb.begin();
         // Back layer
         sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1f, 1f));
         sb.draw(currentLevel.getBackground()[0], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 2f,
@@ -87,14 +84,16 @@ public class PlayState extends GameState {
         sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1.6f, 1.3f));
         sb.draw(currentLevel.getBackground()[2], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 3,
                 currentLevel.getBackground()[2].getWidth() / Game.VIEW_WIDTH * 10, currentLevel.getBackground()[2].getHeight() / Game.VIEW_HEIGHT, 0, 1, 9, 0);
+        sb.end();
 
         // Update projection matrices
+        playerCam.update();
         sb.setProjectionMatrix(hudCam.combined);
 
         // Render map
         currentMapRenderer.render();
         currentMapRenderer.setView(playerCam);
-
+        sb.begin();
         font.setColor(Color.WHITE);
         // Debug text - drawn to HUD Camera
 
