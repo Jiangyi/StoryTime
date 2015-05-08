@@ -2,7 +2,6 @@
 
 ## HIGH PRIORITY: ##
 * Interactable entities
-* Save state / Multi-level support
 * Level format that allows for storage of important positions
 
 ## MEDIUM PRIORITY: ##
