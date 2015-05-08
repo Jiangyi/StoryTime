@@ -38,38 +38,15 @@ public class Player extends LivingEntity {
         super("player");
         // Set up animations
         this.animFrames = (TextureAtlas) assetHandler.getByName("player");
-        animWalk = new Animation(1 / 6f,
-                (this.animFrames.findRegion("walk1", 0)),
-                (this.animFrames.findRegion("walk1", 1)),
-                (this.animFrames.findRegion("walk1", 2)),
-                (this.animFrames.findRegion("walk1", 3)));
-        animIdle = new Animation(1 / 1.5f,
-                (this.animFrames.findRegion("stand1", 0)),
-                (this.animFrames.findRegion("stand1", 1)),
-                (this.animFrames.findRegion("stand1", 2)),
-                (this.animFrames.findRegion("stand1", 3)),
-                (this.animFrames.findRegion("stand1", 4)));
-        animJump = new Animation(1, (this.animFrames.findRegion("jump", 0)));
-        animRope = new Animation(1 / 2f,
-                (this.animFrames.findRegion("rope", 0)),
-                (this.animFrames.findRegion("rope", 1)));
-        animLadder = new Animation(1 / 4f,
-                (this.animFrames.findRegion("ladder", 0)),
-                (this.animFrames.findRegion("ladder", 1)));
+        animWalk = new Animation(1 / 6f, this.animFrames.findRegions("walk1"));
+        animIdle = new Animation(1 / 1.5f, this.animFrames.findRegions("stand1"));
+        animJump = new Animation(1f, (this.animFrames.findRegions("jump")));
+        animRope = new Animation(1 / 2f, this.animFrames.findRegions("rope"));
+        animLadder = new Animation(1 / 4f, this.animFrames.findRegions("ladder"));
         animCast = new Animation[3];
-        animCast[0] = new Animation(1 / 4.2f,
-                (this.animFrames.findRegion("swingO1", 0)),
-                (this.animFrames.findRegion("swingO1", 1)),
-                (this.animFrames.findRegion("swingO1", 2)));
-        animCast[1] = new Animation(1 / 5f,
-                (this.animFrames.findRegion("swingO2", 0)),
-                (this.animFrames.findRegion("swingO2", 1)),
-                (this.animFrames.findRegion("swingO2", 2)));
-        animCast[2] = new Animation(1 / 7f,
-                (this.animFrames.findRegion("swingOF", 0)),
-                (this.animFrames.findRegion("swingOF", 1)),
-                (this.animFrames.findRegion("swingOF", 2)),
-                (this.animFrames.findRegion("swingOF", 3)));
+        animCast[0] = new Animation(1 / 4.2f, this.animFrames.findRegions("swingO1"));
+        animCast[1] = new Animation(1 / 5f, this.animFrames.findRegions("swingO2"));
+        animCast[2] = new Animation(1 / 7f, this.animFrames.findRegions("swingOF"));
 
         movementState = new Vector2(0, 0);
 
@@ -327,7 +304,7 @@ public class Player extends LivingEntity {
     public void draw(Batch batch) {
         if (state == PlayerState.HURT && flickerCount % 2 == 0) {
             batch.setColor(1f, 1f, 1f, 0.4f);
-        } else if (!isAlive()){
+        } else if (!isAlive()) {
             batch.setColor(1f, 1f, 1f, 0.2f);
         }
         super.draw(batch);
