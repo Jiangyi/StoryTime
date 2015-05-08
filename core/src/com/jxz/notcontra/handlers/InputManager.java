@@ -30,12 +30,13 @@ public class InputManager implements InputProcessor {
     private Player player;
     private Vector2 tempPos;
     private Vector3 tmp;
+    private boolean isCtrlPressed;
 
     private InputManager(Game game) {
         this.game = game;
         tempPos = new Vector2(0, 0);
         tmp = new Vector3(0, 0, 0);
-        gsm = GameStateManager.getInstance(game);
+        gsm = GameStateManager.getInstance();
     }
 
     public static InputManager getInstance(Game game) {
@@ -65,6 +66,14 @@ public class InputManager implements InputProcessor {
             if (keycode == Input.Keys.MINUS) {
                 keyPreferences.clear();
                 return true;
+            }
+
+            if (keycode == Input.Keys.CONTROL_LEFT || keycode == Input.Keys.CONTROL_RIGHT) {
+                isCtrlPressed = true;
+            }
+
+            if (keycode == keyPreferences.getInteger("save", Input.Keys.S) && isCtrlPressed) {
+                SaveGameHandler.saveCurrentStateToFile("save1.json");
             }
 
             player = gsm.getPlayState().getPlayer();
@@ -202,7 +211,9 @@ public class InputManager implements InputProcessor {
                     if (keycode == keyPreferences.getInteger("sprint", Input.Keys.SHIFT_LEFT)) {
                         player.setSprinting(false);
                     }
-
+                    if (keycode == Input.Keys.CONTROL_LEFT || keycode == Input.Keys.CONTROL_RIGHT) {
+                        isCtrlPressed = false;
+                    }
                     // Standard WASD Movement
                     if (keycode == keyPreferences.getInteger("left", Input.Keys.A)) {
                         player.getMovementState().add(1, 0);

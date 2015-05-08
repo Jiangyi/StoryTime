@@ -8,6 +8,7 @@ import com.jxz.notcontra.entity.EntityFactory;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
+import com.jxz.notcontra.handlers.SaveGameHandler;
 import com.jxz.notcontra.handlers.SkillManager;
 import com.jxz.notcontra.world.Level;
 import com.jxz.notcontra.world.LevelRenderer;
@@ -32,7 +33,7 @@ public class PlayState extends GameState {
         SkillManager.init();
 
         // Initialize player
-        player = new Player(this);
+        player = new Player(this, SaveGameHandler.loadSave("save1.json"));
         player.setCamera(playerCam);
         playerCam.setPlayer(player);
         load();

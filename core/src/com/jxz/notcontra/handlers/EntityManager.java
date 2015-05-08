@@ -21,12 +21,7 @@ public class EntityManager implements Disposable {
     }
 
     private EntityManager(String saveFile) {
-        // Initialize list
-        if (saveFile != null) {
-            masterList = SaveGameHandler.loadSave(saveFile);
-        } else {
-            masterList = new ObjectMap<String, Entity>();
-        }
+        masterList = new ObjectMap<String, Entity>();
     }
 
     public static EntityManager getInstance() {

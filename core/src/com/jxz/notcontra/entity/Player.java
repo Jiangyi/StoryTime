@@ -32,10 +32,20 @@ public class Player extends LivingEntity {
     private int flickerCount;
     private final float FLICKER_SECONDS = 1.5f;
     private final int FLICKER_COUNT = 8;
+    private PlayerSave playerSave;
 
     // Constructor
-    public Player(PlayState playState) {
+    public Player(PlayState playState, PlayerSave save) {
         super("player");
+
+        if (save != null) {
+            this.playerSave = save;
+            this.health = save.health;
+            this.mana = save.mana;
+        } else {
+            this.health = 100;
+            this.mana = 100;
+        }
         // Set up animations
         this.animFrames = (TextureAtlas) assetHandler.getByName("player");
         animWalk = new Animation(1 / 6f,
@@ -79,11 +89,8 @@ public class Player extends LivingEntity {
         speed = 3;
         renderOffset = animIdle.getKeyFrame(0).getRegionWidth();
 
-        // Health
-        health = 200;
-        maxHealth = 200;
-        mana = 200;
-        maxMana = 200;
+        maxHealth = 100;
+        maxMana = 100;
         state = PlayerState.ALIVE;
         flickerTimer = 0f;
         flickerCount = 0;
@@ -299,11 +306,16 @@ public class Player extends LivingEntity {
 
     @Override
     public void setCurrentLevel(Level level) {
-        float spawnX = Float.parseFloat(level.getMap().getProperties().get("spawnX", String.class));
-        float spawnY = Float.parseFloat(level.getMap().getProperties().get("spawnY", String.class));
-        position.set(spawnX / Game.UNIT_SCALE, spawnY / Game.UNIT_SCALE);
+        if (playerSave != null && currentLevel == null) {
+            position.set(playerSave.x, playerSave.y);
+        } else {
+            float spawnX = Float.parseFloat(level.getMap().getProperties().get("spawnX", String.class));
+            float spawnY = Float.parseFloat(level.getMap().getProperties().get("spawnY", String.class));
+            position.set(spawnX / Game.UNIT_SCALE, spawnY / Game.UNIT_SCALE);
+        }
         aabb.setPosition(position.x + hitboxOffset.x, position.y + hitboxOffset.y);
         currentLevel = level;
+
     }
 
     public void interact() {

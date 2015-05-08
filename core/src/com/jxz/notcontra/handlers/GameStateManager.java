@@ -23,16 +23,19 @@ public class GameStateManager {
         PLAY, LOAD, PAUSE
     }
 
-    private GameStateManager(Game game) {
-        this.game = game;
-        setState(State.LOAD);
+    private GameStateManager() {
+
     }
 
-    public static GameStateManager getInstance(Game game) {
+    public static GameStateManager getInstance() {
         if (gsm == null) {
-            gsm = new GameStateManager(game);
+            gsm = new GameStateManager();
         }
         return gsm;
+    }
+
+    public void setGameInstance(Game game) {
+        this.game = game;
     }
 
     public void update(float dt) {

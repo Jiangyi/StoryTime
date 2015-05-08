@@ -2,12 +2,10 @@ package com.jxz.notcontra.handlers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.jxz.notcontra.entity.Entity;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
+import com.jxz.notcontra.entity.Player;
+import com.jxz.notcontra.entity.PlayerSave;
 
 /**
  * Created by Andrew on 2015-04-19.
@@ -15,33 +13,39 @@ import java.io.ObjectOutputStream;
 public class SaveGameHandler {
 
     private static EntityManager entityManager = EntityManager.getInstance();
-    private static ObjectMap<String, Entity> list;
+
 
     public static void saveCurrentStateToFile(String filename) {
         FileHandle file = Gdx.files.local("saves/" + filename);
-        list = entityManager.getMasterObjectMap();
 
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(file.write(false));
-            oos.writeObject(list);
-            oos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Player player = GameStateManager.getInstance().getPlayState().getPlayer();
+        PlayerSave playerSave = new PlayerSave();
+        playerSave.setPosition(player.getPosition());
+        playerSave.setHealth(player.getHealth());
+        playerSave.setMana(player.getMana());
+
+        Json json = new Json();
+        json.setTypeName(null);
+        json.setUsePrototypes(false);
+        json.setIgnoreUnknownFields(true);
+        json.setOutputType(JsonWriter.OutputType.json);
+
+        file.writeString(json.prettyPrint(playerSave), false);
+
     }
 
-    public static ObjectMap<String, Entity> loadSave(String filename) {
+    public static PlayerSave loadSave(String filename) {
         FileHandle file = Gdx.files.local("saves/" + filename);
+        if (file.exists()) {
+            Json json = new Json();
+            json.setTypeName(null);
+            json.setUsePrototypes(false);
+            json.setIgnoreUnknownFields(true);
+            json.setOutputType(JsonWriter.OutputType.json);
 
-        try {
-            ObjectInputStream ois = new ObjectInputStream(file.read());
-            list = (ObjectMap<String, Entity>) ois.readObject();
-
-            return list;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            return json.fromJson(PlayerSave.class,file);
+        } else {
+            System.out.println("Savefile does not exist!");
         }
         return null;
     }

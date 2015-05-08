@@ -46,7 +46,9 @@ public class Game extends ApplicationAdapter {
         hudCam = new OrthographicCamera();
         hudCam.setToOrtho(false, VID_WIDTH, VID_HEIGHT);
         // Setup singleton manager classes
-        gsm = GameStateManager.getInstance(this);
+        gsm = GameStateManager.getInstance();
+        gsm.setGameInstance(this); // THIS IS EXTREMELY IMPORTANT.
+        gsm.setState(GameStateManager.State.LOAD);
         shader = Shaders.vignetteShader;
     }
 
