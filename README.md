@@ -1,16 +1,16 @@
 # To Do List: #
 
 ## HIGH PRIORITY: ##
-* Interactable entities
-* Save state / Multi-level support
+* Main Menu and UI
 * Level format that allows for storage of important positions
 
 ## MEDIUM PRIORITY: ##
 * Buffs/Skills
 * Proper HUD implementation
-* Custom game configuration
 
 ## LOW PRIORITY: ##
-* Debug mode
+* Fix ladders and platform
+
+## IF HAVE TIME: ##
+* Interactable entities
 * Dialogue boxes
-* Main Menu
