@@ -20,25 +20,11 @@ public class Slime extends Monster {
         super("slime");
         // Set up animations
         this.animFrames = (TextureAtlas) assetHandler.getByName("grey_slime");
-        animIdle = new Animation(1 / 6f,
-                this.animFrames.findRegion("stand", 0),
-                this.animFrames.findRegion("stand", 1),
-                this.animFrames.findRegion("stand", 2));
-        animWalk = new Animation(1 / 6f,
-                this.animFrames.findRegion("move", 0),
-                this.animFrames.findRegion("move", 1),
-                this.animFrames.findRegion("move", 2),
-                this.animFrames.findRegion("move", 3),
-                this.animFrames.findRegion("move", 4),
-                this.animFrames.findRegion("move", 5),
-                this.animFrames.findRegion("move", 6));
-        animHurt = new Animation(1 / 6f, this.animFrames.findRegion("hit1", 0));
-        animJump = new Animation(1 / 6f, this.animFrames.findRegion("jump", 0));
-        animDeath = new Animation(1 / 10f,
-                this.animFrames.findRegion("die1", 0),
-                this.animFrames.findRegion("die1", 1),
-                this.animFrames.findRegion("die1", 2),
-                this.animFrames.findRegion("die1", 3));
+        animIdle = new Animation(1 / 6f, this.animFrames.findRegions("stand"));
+        animWalk = new Animation(1 / 6f, this.animFrames.findRegions("move"));
+        animHurt = new Animation(1 / 6f, this.animFrames.findRegions("hit1"));
+        animJump = new Animation(1 / 6f, this.animFrames.findRegions("jump"));
+        animDeath = new Animation(1 / 10f, this.animFrames.findRegions("die1"));
 
         renderOffset = animIdle.getKeyFrame(0).getRegionWidth();
 
@@ -226,7 +212,7 @@ public class Slime extends Monster {
     }
 
     @Override
-    public void draw (Batch batch) {
+    public void draw(Batch batch) {
         if (state == AIState.DYING) {
             batch.setColor(1f, 1f, 1f, 1 - (animStateTime / animDeath.getAnimationDuration()));
         }
