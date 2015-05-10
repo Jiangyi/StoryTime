@@ -88,7 +88,7 @@ public class InputManager implements InputProcessor {
             }
 
             player = gsm.getPlayState().getPlayer();
-            if (player.isAlive()) {
+            if (player.isAlive() && !gsm.getPlayState().isPaused()) {
                 if (!player.isRooted()) {
                     // Update sprinting state
                     if (keycode == keyPreferences.getInteger("sprint", Input.Keys.SHIFT_LEFT) && player.getJumpState() == 0) {
@@ -156,20 +156,27 @@ public class InputManager implements InputProcessor {
 
             // PLAY STATE SWITCH STATE TEST
             if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE)) {
-                TextureRegion background = ScreenUtils.getFrameBufferTexture(game.getViewport().getScreenX(), game.getViewport().getScreenY(), game.getViewport().getScreenWidth(), game.getViewport().getScreenHeight());
-                gsm.setState(GameStateManager.State.PAUSE);
-                gsm.getPauseState().setBackground(background);
+                if  (!gsm.getPlayState().isPaused()) {
+                    // If game is not paused, then pause it
+                    gsm.getPlayState().setIsPaused(true);
+                } else {
+                    // If game is paused, then unpause it
+                    gsm.getPlayState().setIsPaused(false);
+                }
+                //TextureRegion background = ScreenUtils.getFrameBufferTexture(game.getViewport().getScreenX(), game.getViewport().getScreenY(), game.getViewport().getScreenWidth(), game.getViewport().getScreenHeight());
+                //gsm.getPlayState().setIsPaused(true);
+                //gsm.getPauseState().setBackground(background);
                 return true;
             }
         }
         // PAUSE STATE SWITCH STATE TEST
-        if (gsm.getCurrentState() instanceof PauseState) {
+        /*if (gsm.getCurrentState() instanceof PauseState) {
             if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE)) {
-                gsm.setState(GameStateManager.State.PLAY);
+                gsm.getPlayState().setIsPaused(true);
                 player.updateMovementState();
                 return true;
             }
-        }
+        }*/
         // LOAD STATE SWITCH STATE TEST
         if (gsm.getCurrentState() instanceof LoadState) {
             if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE)) {

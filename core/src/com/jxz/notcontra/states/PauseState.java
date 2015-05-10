@@ -16,10 +16,9 @@ public class PauseState extends GameState {
         super(game);
     }
 
-    public void update(float dt) {
+    public void update() {
         // Do nothing
     }
-
 
     public void render() {
         Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1);

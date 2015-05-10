@@ -22,7 +22,7 @@ public class MenuState extends GameState {
         currentMenu = new MainMenu();
     }
 
-    public void update(float dt) {
+    public void update() {
         // Do nothing
     }
 

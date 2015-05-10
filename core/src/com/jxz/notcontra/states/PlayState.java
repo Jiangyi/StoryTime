@@ -25,10 +25,12 @@ public class PlayState extends GameState {
     private Level currentLevel;
     private LevelRenderer currentMapRenderer;
     private TiledMap map;
+    private boolean isPaused;
 
     public PlayState(Game game) {
         super(game);
         // Initialize for the first time
+        isPaused = false;
         EntityFactory.init();
         SkillManager.init();
 
@@ -39,7 +41,13 @@ public class PlayState extends GameState {
         load();
     }
 
-    public void update(float dt) {
+    public void update() {
+        if (!isPaused) {
+            currentMapRenderer.update();
+
+            // Update camera position
+            playerCam.track();
+        }
     }
 
     public void load(String levelName) {
@@ -67,6 +75,7 @@ public class PlayState extends GameState {
         Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
+        sb.setShader(game.getShader());
         // Render Background
         sb.begin();
         // Back layer
@@ -86,6 +95,8 @@ public class PlayState extends GameState {
         sb.draw(currentLevel.getBackground()[2], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 3,
                 currentLevel.getBackground()[2].getWidth() / Game.VIEW_WIDTH * 12, currentLevel.getBackground()[2].getHeight() / Game.VIEW_HEIGHT, 0, 1, 10, 0);
         sb.end();
+
+        sb.setShader(null);
 
         // Update projection matrices
         playerCam.update();
@@ -111,13 +122,18 @@ public class PlayState extends GameState {
         font.draw(sb, "Slimes: " + currentLevel.getMonsterCount(), 500, 25);
         player.getHealthBar().draw(sb);
         sb.end();
-
-        // Update camera position
-        playerCam.track();
     }
 
     public Player getPlayer() {
         return player;
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public void setIsPaused(boolean pause) {
+        isPaused = pause;
     }
 
 }

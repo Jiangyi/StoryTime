@@ -42,7 +42,7 @@ public class LoadState extends GameState {
         layout = new GlyphLayout();
     }
 
-    public void update(float dt) {
+    public void update() {
         loadingBar.update();
     }
 

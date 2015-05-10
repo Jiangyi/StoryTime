@@ -13,4 +13,16 @@ import java.io.IOException;
 public class Shaders {
 
     public static ShaderProgram vignetteShader = new ShaderProgram(Gdx.files.internal("shaders/vignette.vsh"), Gdx.files.internal("shaders/vignette.fsh"));
+
+    public void begin() {
+        vignetteShader.begin();
+    }
+
+    public void end() {
+        vignetteShader.end();
+    }
+
+    public void setUniformf(String string, int width, int height) {
+        vignetteShader.setUniformf(string, width, height);
+    }
 }

@@ -25,7 +25,7 @@ public abstract class GameState {
         this.hudCam = this.game.getHudCam();
     }
 
-    public abstract void update(float dt);
+    public abstract void update();
 
     public abstract void render();
 

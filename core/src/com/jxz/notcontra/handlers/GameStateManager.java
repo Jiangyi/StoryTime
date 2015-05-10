@@ -36,8 +36,8 @@ public class GameStateManager {
         this.game = game;
     }
 
-    public void update(float dt) {
-        currentGameState.update(dt);
+    public void update() {
+        currentGameState.update();
     }
 
     public void render() {

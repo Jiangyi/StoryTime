@@ -19,7 +19,6 @@ public class Game extends ApplicationAdapter {
     public static final int VID_WIDTH = 1280;
     public static final int VID_HEIGHT = 704;
 
-    private float accumulator;
     private static float fpsTimer;
     private AssetHandler assetHandler = AssetHandler.getInstance();
     // Game-wide managers
@@ -27,7 +26,7 @@ public class Game extends ApplicationAdapter {
     private PlayerCamera playerCam;
     private FitViewport viewport;
     private OrthographicCamera hudCam;
-    private ShaderProgram shader;
+    private Shaders shader;
 
     // Map Render Variables
     public static final float UNIT_SCALE = 1 / 32f; // 1 ingame unit = 32 px (tile size)
@@ -52,14 +51,12 @@ public class Game extends ApplicationAdapter {
         gsm.setGameInstance(this); // THIS IS EXTREMELY IMPORTANT.
         gsm.setState(GameStateManager.State.MENU);
         setInputProcessor();
-        shader = Shaders.vignetteShader;
     }
 
     @Override
     public void render() {
-        accumulator += Gdx.graphics.getDeltaTime();
         fpsTimer = Gdx.graphics.getDeltaTime() * 60;
-        gsm.update(accumulator);
+        gsm.update();
         gsm.render();
     }
 
@@ -95,10 +92,6 @@ public class Game extends ApplicationAdapter {
 
     public FitViewport getViewport() {
         return viewport;
-    }
-
-    public ShaderProgram getShader() {
-        return shader;
     }
 
     public static void setDebugMode(boolean debugMode) {
