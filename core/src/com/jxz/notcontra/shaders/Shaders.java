@@ -1,11 +1,8 @@
 package com.jxz.notcontra.shaders;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.jxz.notcontra.game.Game;
 
-import java.io.IOException;
 
 /**
  * Created by Kevin Xiao on 2015-04-27.
@@ -94,7 +91,7 @@ public class Shaders {
                     "}";
 
     public enum ShaderType {
-        VIGNETTE, SEPIA
+        PASSTHROUGH, VIGNETTE, SEPIA
     }
 
     private ShaderProgram currentShader;
@@ -108,30 +105,16 @@ public class Shaders {
         bindShaders(width, height);
     }
 
-    public void begin() {
-        currentShader.begin();
-    }
-
-    public void end() {
-        currentShader.end();
-    }
-
-    public void setUniformf(String string, int width, int height) {
-        currentShader.setUniformf(string, width, height);
-    }
-
     public ShaderProgram getShaderType(ShaderType type) {
-        if (type == ShaderType.VIGNETTE) {
+        if (type == ShaderType.PASSTHROUGH) {
+            currentShader = shaderArray[0];
+        } else if (type == ShaderType.VIGNETTE) {
             currentShader = shaderArray[1];
         } else if (type == ShaderType.SEPIA) {
             currentShader = shaderArray[2];
         } else {
             currentShader = null;
         }
-        return currentShader;
-    }
-
-    public ShaderProgram getCurrentShader() {
         return currentShader;
     }
 

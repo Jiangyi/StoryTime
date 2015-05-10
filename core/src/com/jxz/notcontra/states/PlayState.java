@@ -42,15 +42,6 @@ public class PlayState extends GameState {
         load();
     }
 
-    public void update() {
-        if (!isPaused) {
-            currentMapRenderer.update();
-
-            // Update camera position
-            playerCam.track();
-        }
-    }
-
     public void load(String levelName) {
         map = (TiledMap) assetHandler.getByName(levelName);
         currentLevel = Level.getLevel(map);
@@ -70,6 +61,20 @@ public class PlayState extends GameState {
         load("level1");
     }
 
+    public void update() {
+        if (!isPaused) {
+            sb.setShader(game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH));
+            currentMapRenderer.getBatch().setShader(game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH));
+            currentMapRenderer.update();
+
+            // Update camera position
+            playerCam.track();
+        } else {
+            sb.setShader(game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE));
+            currentMapRenderer.getBatch().setShader(game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE));
+        }
+    }
+
     public void render() {
         // Clear screen
         Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
@@ -78,7 +83,6 @@ public class PlayState extends GameState {
 
 
         // Render Background
-        sb.setShader(game.getShaders().getShaderType(Shaders.ShaderType.SEPIA));
         sb.begin();
 
         // Back layer
@@ -106,23 +110,32 @@ public class PlayState extends GameState {
         // Render map
         currentMapRenderer.render();
         currentMapRenderer.setView(playerCam);
-        sb.begin();
-        font.setColor(Color.WHITE);
-        // Debug text - drawn to HUD Camera
 
-        font.draw(sb, "PLAY STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
-        font.draw(sb, "X-position: " + player.getPosition().x, 500, 75);
-        font.draw(sb, "Y-position: " + player.getPosition().y, 500, 50);
-        //font.draw(sb, "X tile: " + player.getPosition().x * Game.UNIT_SCALE, 300, 75);
-        //font.draw(sb, "Y tile: " + player.getPosition().y * Game.UNIT_SCALE, 300, 50);
-        //font.draw(sb, "MovementStateX: " + player.getMovementState().x, 500, 50);
-        font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
-        font.draw(sb, "Press O to turn on VSync, P to turn off", 700, 25);
-        font.draw(sb, "Press M to mute/unmute background music", 700, 50);
-        //font.draw(sb, "Grounded? : " + (player.isGrounded() ? "true" : "false"), 100, 25);
-        font.draw(sb, "Slimes: " + currentLevel.getMonsterCount(), 500, 25);
-        player.getHealthBar().draw(sb);
-        sb.end();
+        if (!isPaused()) {
+            sb.begin();
+            font.setColor(Color.WHITE);
+            // Debug text - drawn to HUD Camera
+
+            font.draw(sb, "PLAY STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
+            font.draw(sb, "X-position: " + player.getPosition().x, 500, 75);
+            font.draw(sb, "Y-position: " + player.getPosition().y, 500, 50);
+            //font.draw(sb, "X tile: " + player.getPosition().x * Game.UNIT_SCALE, 300, 75);
+            //font.draw(sb, "Y tile: " + player.getPosition().y * Game.UNIT_SCALE, 300, 50);
+            //font.draw(sb, "MovementStateX: " + player.getMovementState().x, 500, 50);
+            font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
+            font.draw(sb, "Press O to turn on VSync, P to turn off", 700, 25);
+            font.draw(sb, "Press M to mute/unmute background music", 700, 50);
+            //font.draw(sb, "Grounded? : " + (player.isGrounded() ? "true" : "false"), 100, 25);
+            font.draw(sb, "Slimes: " + currentLevel.getMonsterCount(), 500, 25);
+            player.getHealthBar().draw(sb);
+            sb.end();
+        } else {
+            sb.begin();
+            font.setColor(Color.WHITE);
+            font.draw(sb, "GAME PAUSED... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
+            font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
+            sb.end();
+        }
     }
 
     public Player getPlayer() {
