@@ -6,7 +6,6 @@ import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.menu.MainMenu;
 import com.jxz.notcontra.menu.Menu;
-import com.jxz.notcontra.menu.buttons.Button;
 
 /**
  * Created by Samuel on 2015-05-08.
@@ -32,10 +31,7 @@ public class MenuState extends GameState {
         //Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         sb.begin();
-        for (Button button : currentMenu.getButtonList()) {
-           // System.out.println(button.getName() + ": " + button.getCurrentState());
-            button.draw(sb);
-        }
+        currentMenu.renderMenu(sb);
         font.draw(sb, "MENU STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
         font.draw(sb, "DELTA TIME IN SECONDS: " + Gdx.graphics.getDeltaTime(), 100, 75);
 
