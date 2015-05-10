@@ -24,6 +24,11 @@ public class MeleeAttackSkill extends Skill {
     }
 
     @Override
+    public void preCast(LivingEntity caster) {
+        // Precast stuff. For melees, that would be the swing sound.
+    }
+
+    @Override
     public void use(LivingEntity caster) {
         this.caster = caster;
         hitbox = (AttachedHitbox) EntityFactory.spawn(AttachedHitbox.class);

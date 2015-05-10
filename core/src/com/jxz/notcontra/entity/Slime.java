@@ -77,8 +77,8 @@ public class Slime extends Monster {
                 // Approach target if not rooted
                 speed = chaseSpeed;
                 if (!isRooted) {
-                    distToTarget = target.getPosition().cpy().sub(position);
-                    if (Math.abs(distToTarget.x) > aabb.getWidth() / 2) {
+                    distToTarget = target.getCenterPosition().cpy().sub(this.getCenterPosition());
+                    if (Math.abs(distToTarget.x) > aabb.getWidth() / 4) {
                         movementState.set(distToTarget.x, 0).nor();
                     } else {
                         movementState.set(0, 0);

@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.jxz.notcontra.effect.Effect;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.EntityManager;
@@ -30,6 +32,9 @@ public abstract class Entity {
     protected float renderOffset;
     protected Sprite debug;
 
+    // Child object list -> Effects, health bars, etc.
+    protected Array<ChildObject> childObjects;
+
     // Constructor - all entities must be registered through manager
     public Entity(String entityName) {
         name = entityName;
@@ -41,6 +46,7 @@ public abstract class Entity {
         isActive = true;
         isVisible = true;
         isFlipped = false;
+        childObjects = new Array<ChildObject>();
         debug = new Sprite((Texture) AssetHandler.getInstance().getByName("hitbox"));
     }
 
@@ -82,7 +88,9 @@ public abstract class Entity {
         this.sprite = sprite;
     }
 
-    public abstract void update();
+    public void update() {
+        updateChildren();
+    };
 
     public boolean isVisible() {
         return isVisible;
@@ -108,15 +116,21 @@ public abstract class Entity {
         return aabb;
     }
 
-    // Temporary workarounds to differing camera and screen coordinates
-    public Vector2 getTileSize() {
-        return new Vector2(sprite.getWidth() * Game.UNIT_SCALE, sprite.getHeight() * Game.UNIT_SCALE);
-    }
-
     public Vector2 getTilePosition() {
         return new Vector2(position.x * Game.UNIT_SCALE, position.y * Game.UNIT_SCALE);
     }
 
+    public Vector2 getCenterPosition() {
+        return position.cpy().add(aabb.getWidth() / 2, aabb.getHeight() / 2);
+    }
+
+    public void setCenterPosition(Vector2 position) {
+        setCenterPosition(position.x, position.y);
+    }
+
+    public void setCenterPosition(float x, float y) {
+        this.position.set(x - aabb.getWidth() / 2, y - aabb.getHeight() / 2);
+    }
 
     public void setPosition(Vector2 position) {
         this.position = position;
@@ -128,6 +142,22 @@ public abstract class Entity {
 
     public boolean isActive() {
         return isActive;
+    }
+
+    public void addChild(ChildObject o) {
+        childObjects.add(o);
+    }
+
+    public void updateChildren() {
+        if (childObjects.size > 0) {
+            for (ChildObject co : childObjects) {
+                co.update();
+            }
+        }
+    }
+
+    public void removeChild(ChildObject co) {
+        childObjects.removeValue(co, true);
     }
 
     public void draw(Batch batch) {

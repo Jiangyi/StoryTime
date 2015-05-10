@@ -3,6 +3,8 @@ package com.jxz.notcontra.skill;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.jxz.notcontra.effect.Effect;
+import com.jxz.notcontra.entity.AttachedHitbox;
 import com.jxz.notcontra.entity.DynamicHitbox;
 import com.jxz.notcontra.entity.Entity;
 import com.jxz.notcontra.entity.LivingEntity;
@@ -17,6 +19,7 @@ public abstract class Skill {
     // Statistical Info
     protected String name;
     protected String animName;
+    protected String castName;
     protected float time;
     protected float cooldown;
     protected float damage;
@@ -25,18 +28,26 @@ public abstract class Skill {
     protected boolean rootWhileCasting;
     protected boolean requiresCastPriority;
     protected Animation animation;
+    protected Animation castAnimation;
     protected TextureAtlas vfx;
     protected Entity caster;
+    protected Effect castEffect;
+    protected Vector2 castOffset;
+    protected boolean hasCastEffect;
 
     // Constructor
     public Skill(String name) {
         this.name = name;
         hitboxOffset = new Vector2(0, 0);
         hitboxSize = new Vector2(0, 0);
+        castOffset = new Vector2(0, 0);
         requiresCastPriority = true;
+        hasCastEffect = false;
     }
 
     public abstract void use(LivingEntity caster);
+
+    public abstract void preCast(LivingEntity caster);
 
     public abstract void hit(ArrayList<Entity> targets);
 
@@ -78,8 +89,25 @@ public abstract class Skill {
         this.animName = animName;
     }
 
+    public void setCastName(String castName) {
+        this.castName = castName;
+    }
+
+    public String getCastName() {
+        return castName;
+    }
+
     public void setAnimation(Animation anim) {
         this.animation = anim;
+    }
+
+    public void setCastAnimation(Animation anim) {
+        this.castAnimation = anim;
+        hasCastEffect = true;
+    }
+
+    public void setCastOffset(float x, float y) {
+        castOffset.set(x, y);
     }
 
     public void setHitboxSize(float x, float y) {
