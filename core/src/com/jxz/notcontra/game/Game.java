@@ -50,7 +50,7 @@ public class Game extends ApplicationAdapter {
         // Setup singleton manager classes
         gsm = GameStateManager.getInstance();
         gsm.setGameInstance(this); // THIS IS EXTREMELY IMPORTANT.
-        gsm.setState(GameStateManager.State.MENU);
+        gsm.setState(GameStateManager.State.LOAD);
         setInputProcessor();
         shader = Shaders.vignetteShader;
     }
@@ -118,6 +118,7 @@ public class Game extends ApplicationAdapter {
 //                mode = cmds[3];
                 // FIXME Temp hacks
                 gsm.setState(GameStateManager.State.LOAD);
+                GameStateManager.getInstance().getLoadState().load("levels/levels.txt");
                 // Start new logic here
             } else if (cmds[1].equalsIgnoreCase("load")) {
                 String loadFile = cmds[2];

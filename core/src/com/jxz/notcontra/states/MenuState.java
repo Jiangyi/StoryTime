@@ -17,8 +17,6 @@ public class MenuState extends GameState {
 
     public MenuState(Game game) {
         super(game);
-        assetHandler.loadFromFile("textures/menu/main_menu.txt");
-        while (!assetHandler.update());
         currentMenu = new MainMenu();
     }
 
