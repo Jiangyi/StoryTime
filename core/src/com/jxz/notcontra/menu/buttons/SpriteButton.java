@@ -16,7 +16,10 @@ public class SpriteButton extends Button {
     public SpriteButton(String name, Sprite defaultSprite, Vector2 position) {
         this.name = name;
         this.defaultSprite = defaultSprite;
+        this.currentState = ButtonState.DEFAULT;
         this.position = position;
+        this.height = defaultSprite.getHeight();
+        this.width = defaultSprite.getWidth();
     }
 
     public SpriteButton(String name, Sprite defaultSprite, float x, float y) {
@@ -50,11 +53,11 @@ public class SpriteButton extends Button {
     @Override
     public void draw(Batch batch) {
         Sprite current = getCurrentStateSprite();
-        batch.draw(current.getTexture(), position.x, position.y, current.getWidth(), current.getHeight());
+        batch.draw(current != null ? current.getTexture() : getDefaultSprite().getTexture(), position.x, position.y, current.getWidth(), current.getHeight());
     }
 
     private Sprite getCurrentStateSprite() {
-       switch (state) {
+       switch (currentState) {
            case CLICK:
                return onClickSprite;
            case HOVER:

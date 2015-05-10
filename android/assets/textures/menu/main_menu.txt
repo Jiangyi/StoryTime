@@ -1,0 +1,9 @@
+button_play_click	textures/menu/buttons/button_play_click.png   Texture
+button_play_default	textures/menu/buttons/button_play_default.png   Texture
+button_play_hover	textures/menu/buttons/button_play_hover.png   Texture
+button_options_click	textures/menu/buttons/button_options_click.png   Texture
+button_options_default	textures/menu/buttons/button_options_default.png   Texture
+button_options_hover	textures/menu/buttons/button_options_hover.png   Texture
+button_exit_click	textures/menu/buttons/button_exit_click.png   Texture
+button_exit_default	textures/menu/buttons/button_exit_default.png   Texture
+button_exit_hover	textures/menu/buttons/button_exit_hover.png   Texture

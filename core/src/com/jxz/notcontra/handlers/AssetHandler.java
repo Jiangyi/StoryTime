@@ -85,6 +85,10 @@ public class AssetHandler extends AssetManager {
          return get(assetMap.get(name));
     }
 
+    public synchronized boolean isLoadedByName(String name) {
+        return assetMap.get(name) != null;
+    }
+
     // Unfortunately, Java does not provide a way to find a class by reflection
     // without providing the full classname as a string. And since these classes
     // are all in different sub-packages, this is the best I've got.

@@ -1,7 +1,6 @@
 package com.jxz.notcontra.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -75,7 +74,6 @@ public class LoadState extends GameState {
         layout.setText(font, DONE_LOADING);
         if (Math.round(progress * 100) == 100) {
             font.draw(sb, layout, Game.VID_WIDTH / 2 - layout.width / 2, Game.VID_HEIGHT / 2 - (45 - layout.height));
-            game.setInputProcessor();
         }
         sb.end();
     }

@@ -11,6 +11,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.jxz.notcontra.entity.*;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.menu.Menu;
+import com.jxz.notcontra.menu.buttons.Button;
 import com.jxz.notcontra.states.LoadState;
 import com.jxz.notcontra.states.MenuState;
 import com.jxz.notcontra.states.PauseState;
@@ -33,6 +35,8 @@ public class InputManager implements InputProcessor {
     private Vector3 tmp;
     private boolean isCtrlPressed;
     private String changeKey;
+    private Menu currentMenu;
+
 
     private InputManager(Game game) {
         this.game = game;
@@ -261,12 +265,28 @@ public class InputManager implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+        if (gsm.getCurrentState() instanceof MenuState) {
+            currentMenu = gsm.getMenuState().getCurrentMenu();
+            for (Button i : currentMenu.getButtonList()) {
+                if (i.isMouseWithinBoundary(screenX, screenY)) {
+                    i.setState(Button.ButtonState.CLICK);
+                }
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
+        if (gsm.getCurrentState() instanceof MenuState) {
+            currentMenu = gsm.getMenuState().getCurrentMenu();
+            for (Button i : currentMenu.getButtonList()) {
+                if (i.isMouseWithinBoundary(screenX, screenY)) {
+                    i.getInputListener().onClick();
+                }
+            }
+        }
+        return true;
     }
 
     @Override
@@ -277,9 +297,17 @@ public class InputManager implements InputProcessor {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         if (gsm.getCurrentState() instanceof MenuState) {
-            
+            currentMenu = gsm.getMenuState().getCurrentMenu();
+            for (Button i : currentMenu.getButtonList()) {
+                if (i.isMouseWithinBoundary(screenX, screenY)) {
+                    i.setState(Button.ButtonState.HOVER);
+                    i.getInputListener().onHover();
+                } else {
+                    i.setState(Button.ButtonState.DEFAULT);
+                }
+            }
         }
-        return false;
+        return true;
     }
 
     @Override

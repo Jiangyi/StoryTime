@@ -1,10 +1,7 @@
 package com.jxz.notcontra.handlers;
 
 import com.jxz.notcontra.game.Game;
-import com.jxz.notcontra.states.GameState;
-import com.jxz.notcontra.states.LoadState;
-import com.jxz.notcontra.states.PauseState;
-import com.jxz.notcontra.states.PlayState;
+import com.jxz.notcontra.states.*;
 
 /**
  * Created by Kevin Xiao on 2015-03-24.
@@ -18,9 +15,10 @@ public class GameStateManager {
     private static PlayState playState;
     private static LoadState loadState;
     private static PauseState pauseState;
+    private static MenuState menuState;
 
     public enum State {
-        PLAY, LOAD, PAUSE
+        PLAY, LOAD, PAUSE, MENU
     }
 
     private GameStateManager() {
@@ -62,6 +60,10 @@ public class GameStateManager {
         return pauseState;
     }
 
+    public MenuState getMenuState() {
+        return menuState;
+    }
+
     public void setState(State state) {
         if (state == State.PLAY) {
             AudioHelper.playBgMusic(true);
@@ -69,19 +71,22 @@ public class GameStateManager {
                 playState = new PlayState(game);
             }
             currentGameState = playState;
-        }
-        if (state == State.PAUSE) {
+        } else if (state == State.PAUSE) {
             AudioHelper.playBgMusic(false);
             if (pauseState == null) {
                 pauseState = new PauseState(game);
             }
             currentGameState = pauseState;
-        }
-        if (state == State.LOAD) {
+        } else if (state == State.LOAD) {
             if (pauseState == null) {
                 loadState = new LoadState(game);
             }
             currentGameState = loadState;
+        } else if (state == State.MENU) {
+            if (menuState == null) {
+                menuState = new MenuState(game);
+            }
+            currentGameState = menuState;
         }
     }
 

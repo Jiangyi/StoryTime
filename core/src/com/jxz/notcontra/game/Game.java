@@ -50,7 +50,8 @@ public class Game extends ApplicationAdapter {
         // Setup singleton manager classes
         gsm = GameStateManager.getInstance();
         gsm.setGameInstance(this); // THIS IS EXTREMELY IMPORTANT.
-        gsm.setState(GameStateManager.State.LOAD);
+        gsm.setState(GameStateManager.State.MENU);
+        setInputProcessor();
         shader = Shaders.vignetteShader;
     }
 
@@ -109,12 +110,14 @@ public class Game extends ApplicationAdapter {
     }
 
     public void executeCommand(String... cmds) {
-        if (cmds[0].equalsIgnoreCase("start")) {
+        if (cmds[0].equalsIgnoreCase("play")) {
             String level = "";
             String mode = "";
             if (cmds[1].equalsIgnoreCase("new")) {
-                level = cmds[2];
-                mode = cmds[3];
+//                level = cmds[2];
+//                mode = cmds[3];
+                // FIXME Temp hacks
+                gsm.setState(GameStateManager.State.LOAD);
                 // Start new logic here
             } else if (cmds[1].equalsIgnoreCase("load")) {
                 String loadFile = cmds[2];
@@ -126,6 +129,8 @@ public class Game extends ApplicationAdapter {
         } else if (cmds[0].equalsIgnoreCase("setKeyButton")) {
             InputManager inputManager = InputManager.getInstance();
             inputManager.setChangeKey(cmds[1]);
+        } else if (cmds[0].equalsIgnoreCase("Exit")) {
+            Gdx.app.exit();
         }
     }
 }
