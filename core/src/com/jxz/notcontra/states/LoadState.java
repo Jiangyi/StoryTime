@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
+import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.menu.LoadingBar;
 
 /**
@@ -24,6 +25,8 @@ public class LoadState extends GameState {
     private LoadingBar loadingBar;
     private float progress = 0f;
     private GlyphLayout layout;
+    private boolean isEnteringGame;
+    private boolean isDoneLoading;
 
     private final String LOADING = "Loading Game: ";
     private final String DONE_LOADING = "Done Loading! Press ESC to enter game.";
@@ -36,14 +39,25 @@ public class LoadState extends GameState {
         loadingBar = new LoadingBar();
         loadAtlas = (TextureAtlas) assetHandler.getByName("menu_loadingbar");
         logo_libgdx = loadAtlas.createSprite("libgdx");
-        // Define Asset Handler loading here
-        assetHandler.loadFromFile("levels/general.txt");
-        assetHandler.loadFromFile("levels/levels.txt");
+        assetHandler.loadFromFile("textures/menu/main_menu.txt");
         layout = new GlyphLayout();
+    }
+
+    public void load(String... filePaths) {
+        isEnteringGame = true;
+        // Load general level file
+        assetHandler.loadFromFile("levels/general.txt");
+        for (String i : filePaths) {
+            assetHandler.loadFromFile(i);
+        }
     }
 
     public void update() {
         loadingBar.update();
+        isDoneLoading = assetHandler.update();
+        if (isDoneLoading && !isEnteringGame) {
+            GameStateManager.getInstance().setState(GameStateManager.State.MENU);
+        }
     }
 
     public void render() {
@@ -75,8 +89,15 @@ public class LoadState extends GameState {
         if (Math.round(progress * 100) == 100) {
             font.draw(sb, layout, Game.VID_WIDTH / 2 - layout.width / 2, Game.VID_HEIGHT / 2 - (45 - layout.height));
         }
+
         sb.end();
     }
 
+    public boolean getIsDoneLoading() {
+        return isDoneLoading;
+    }
 
+    public boolean getIsEnteringGame() {
+        return isEnteringGame;
+    }
 }

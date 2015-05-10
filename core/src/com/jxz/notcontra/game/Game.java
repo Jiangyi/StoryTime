@@ -26,7 +26,7 @@ public class Game extends ApplicationAdapter {
     private PlayerCamera playerCam;
     private FitViewport viewport;
     private OrthographicCamera hudCam;
-    private Shaders shader;
+    private Shaders shaders;
 
     // Map Render Variables
     public static final float UNIT_SCALE = 1 / 32f; // 1 ingame unit = 32 px (tile size)
@@ -49,8 +49,9 @@ public class Game extends ApplicationAdapter {
         // Setup singleton manager classes
         gsm = GameStateManager.getInstance();
         gsm.setGameInstance(this); // THIS IS EXTREMELY IMPORTANT.
-        gsm.setState(GameStateManager.State.MENU);
+        gsm.setState(GameStateManager.State.LOAD);
         setInputProcessor();
+        shaders = new Shaders(VID_WIDTH, VID_HEIGHT);
     }
 
     @Override
@@ -62,9 +63,8 @@ public class Game extends ApplicationAdapter {
 
     public void resize(int width, int height) {
         viewport.update(width, height);
-        shader.begin();
-        shader.setUniformf("u_resolution", width, height);
-        shader.end();
+        shaders.bindShaders(width, height);
+        shaders.unbindShaders();
     }
 
     public void dispose() {
@@ -102,6 +102,10 @@ public class Game extends ApplicationAdapter {
         return debugMode;
     }
 
+    public Shaders getShaders() {
+        return shaders;
+    }
+
     public void executeCommand(String... cmds) {
         if (cmds[0].equalsIgnoreCase("play")) {
             String level = "";
@@ -111,6 +115,7 @@ public class Game extends ApplicationAdapter {
 //                mode = cmds[3];
                 // FIXME Temp hacks
                 gsm.setState(GameStateManager.State.LOAD);
+                GameStateManager.getInstance().getLoadState().load("levels/levels.txt");
                 // Start new logic here
             } else if (cmds[1].equalsIgnoreCase("load")) {
                 String loadFile = cmds[2];

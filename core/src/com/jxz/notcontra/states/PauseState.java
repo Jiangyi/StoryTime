@@ -25,11 +25,11 @@ public class PauseState extends GameState {
         //Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         sb.begin();
-        if (background != null) {
+        /*if (background != null) {
             sb.setShader(game.getShader());
             sb.draw(background, 0, 0, Game.VID_WIDTH, Game.VID_HEIGHT);
             sb.setShader(null);
-        }
+        }*/
         font.draw(sb, "PAUSE STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
         font.draw(sb, "DELTA TIME IN SECONDS: " + Gdx.graphics.getDeltaTime(), 100, 75);
         font.draw(sb, "PRESS ESC TO SWITCH STATES", 100, 50);

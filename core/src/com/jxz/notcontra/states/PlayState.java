@@ -10,6 +10,7 @@ import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.SaveGameHandler;
 import com.jxz.notcontra.handlers.SkillManager;
+import com.jxz.notcontra.shaders.Shaders;
 import com.jxz.notcontra.world.Level;
 import com.jxz.notcontra.world.LevelRenderer;
 
@@ -75,9 +76,11 @@ public class PlayState extends GameState {
         Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
-        sb.setShader(game.getShader());
+
         // Render Background
+        sb.setShader(game.getShaders().getShaderType(Shaders.ShaderType.SEPIA));
         sb.begin();
+
         // Back layer
         sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1f, 1f));
         sb.draw(currentLevel.getBackground()[0], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 2f,
@@ -89,14 +92,12 @@ public class PlayState extends GameState {
         sb.draw(currentLevel.getBackground()[1], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 1.5f,
                 currentLevel.getBackground()[1].getWidth() / Game.VIEW_WIDTH * 2, currentLevel.getBackground()[1].getHeight() / Game.VIEW_HEIGHT * 1.2f);
 
-
         // Front layer
         sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1.6f, 1.3f));
         sb.draw(currentLevel.getBackground()[2], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 3,
                 currentLevel.getBackground()[2].getWidth() / Game.VIEW_WIDTH * 12, currentLevel.getBackground()[2].getHeight() / Game.VIEW_HEIGHT, 0, 1, 10, 0);
-        sb.end();
-
         sb.setShader(null);
+        sb.end();
 
         // Update projection matrices
         playerCam.update();
