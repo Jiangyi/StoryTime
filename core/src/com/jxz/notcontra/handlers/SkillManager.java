@@ -69,6 +69,8 @@ public class SkillManager {
         iceball.setHitboxSize(184, 103); // orig 184-103
         iceball.setAnimation(new Animation(1 / 10f, animFrames.findRegions("ball")));
         iceball.setDamage(30);
+        iceball.setCastName("effect");
+        iceball.setCastAnimation(new Animation(1 / 25f, animFrames.findRegions(iceball.getCastName())));
         inventory.add(iceball);
 
     }

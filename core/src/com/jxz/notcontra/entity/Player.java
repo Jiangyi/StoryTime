@@ -159,7 +159,7 @@ public class Player extends LivingEntity {
             super.damage(dmg, source);
 
             // Knock back player
-            forceVector = this.position.cpy().sub(source.getPosition()).nor();
+            forceVector = this.getCenterPosition().cpy().sub(source.getCenterPosition()).nor();
             forceVector.set(forceVector.x, 0.6f);
             forceVector.scl(8);
             applyForce(forceVector, 0.8f);
@@ -190,6 +190,7 @@ public class Player extends LivingEntity {
                 isCasting = true;
                 skillCasted = false;
                 currentSkill = skills.getSkill(index);
+                currentSkill.preCast(this);
 
                 if (index != castType) {
                     castType = index;

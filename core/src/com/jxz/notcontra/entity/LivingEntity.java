@@ -2,8 +2,11 @@ package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.jxz.notcontra.effect.Effect;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.handlers.SkillInventory;
@@ -85,11 +88,13 @@ public abstract class LivingEntity extends AnimatedEntity {
 
         // Previous State storage
         boolean prevGrounded = isGrounded;
-        boolean prevRooted = isRooted;
 
         // Update pre-positional fields
         centerX = position.x + aabb.getWidth() / 2;
         centerY = position.y + aabb.getHeight() / 2;
+
+        int height = (int) Math.ceil(aabb.getHeight() * Game.UNIT_SCALE); // Tile height, rounded up
+        int width = (int) Math.ceil(aabb.getWidth() * Game.UNIT_SCALE); // Gets tile width, rounded up, of the entity
 
         /** Step X coordinate */
         // Step X for static tile data
@@ -105,7 +110,6 @@ public abstract class LivingEntity extends AnimatedEntity {
         }
 
         // Check collision bounds
-        int height = (int) Math.ceil(aabb.getHeight() * Game.UNIT_SCALE);
         float boundingEdgeDelta = (deltaX > 0 ? 1 : -1) * aabb.getWidth() / 2;
         float dist;
 
@@ -116,8 +120,9 @@ public abstract class LivingEntity extends AnimatedEntity {
 
         // X collision check
         float maxDist = Math.abs(deltaX);
+        int slopeFactor = isOnSlope ? 5 : 0;
         for (int i = 0; i <= height; i++) {
-            dist = currentLevel.distToObstacle(centerX + boundingEdgeDelta, position.y + i * (1 / Game.UNIT_SCALE), deltaX, false);
+            dist = currentLevel.distToObstacle(centerX + boundingEdgeDelta, position.y + i * (1 / Game.UNIT_SCALE) + slopeFactor, deltaX, false);
             if (dist < maxDist) {
                 maxDist = dist;
             }
@@ -137,7 +142,11 @@ public abstract class LivingEntity extends AnimatedEntity {
         if (isOnSlope) {
             slopeLeft = currentLevel.getSlopeOfTile(position.x, position.y);
             slopeRight = currentLevel.getSlopeOfTile(position.x + aabb.getWidth(), position.y);
-            position.y += ((Game.getFpsTimer() > 1) ? deltaX : deltaX * Game.getFpsTimer()) * (Math.abs(slopeLeft) > Math.abs(slopeRight) ? slopeLeft : slopeRight);
+            float currentSlope = (Math.abs(slopeLeft) > Math.abs(slopeRight) ? slopeLeft : slopeRight);
+            if (currentLevel.getTileAt(position.x, position.y, Level.DYNAMIC_LAYER) == currentLevel.getTileAt(position.x + aabb.getWidth(), position.y, Level.DYNAMIC_LAYER)) {
+                position.y += currentSlope * 5;
+            }
+            position.y += ((Game.getFpsTimer() > 1) ? deltaX : deltaX * Game.getFpsTimer()) * currentSlope;
         }
 
         // Player can grab onto a ladder if the center of the player is within a ladder tile
@@ -158,7 +167,7 @@ public abstract class LivingEntity extends AnimatedEntity {
         /** Step Y coordinate */
         if (movementState.y != 0 && canClimb) {
             // Lock X-position to center of ladder and start climbing, disabling any persisting jump velocity
-            if (movementState.y < 0 && isGrounded) {
+            if (movementState.y < 0 && isGrounded && !isOnPlatform) {
                 isClimbing = false;
             } else {
                 isClimbing = true;
@@ -185,89 +194,89 @@ public abstract class LivingEntity extends AnimatedEntity {
             }
         }
 
-        // Jump if jump time is not 0
-        if (jumpState > 0) {
-            float jumpDist = jumpMultiplier * (float) Math.pow(jumpState, 2);
-            float leftDist = currentLevel.distToObstacle(position.x, position.y + height / Game.UNIT_SCALE, jumpDist, true);
-            float rightDist = currentLevel.distToObstacle(position.x + aabb.getWidth(), position.y + height / Game.UNIT_SCALE, jumpDist, true);
-            if (leftDist < Math.floor(jumpDist) || rightDist < Math.floor(jumpDist)) {
+        float currentDist, currentSlope; // local variables
+        currentGravity += currentLevel.getGravity() * Gdx.graphics.getDeltaTime(); // Step gravity
+        maxDist = 9999; // Reset max distance
+        // Iterates through all intersecting Y tiles
+        for (int i = 0; i <= width; i++) {
+            // Jump if jump time is not zero
+            if (jumpState > 0) {
+                float jumpDist = jumpMultiplier * (float) Math.pow(jumpState, 2);
+                currentDist = currentLevel.distToObstacle(position.x + i * (1 / Game.UNIT_SCALE), position.y + height / Game.UNIT_SCALE, jumpDist, true);
+                if (currentDist < Math.floor(jumpDist)) {
+                    jumpState = 0;
+                } else {
+                    jumpState -= Gdx.graphics.getDeltaTime() * 2;
+                }
+                deltaY += currentDist;
+            } else if (jumpState < 0) {
                 jumpState = 0;
+            }
+
+            // Updates position due to gravity, if applicable (not climbing)
+            if (!isGrounded && !isClimbing) {
+                deltaY -= currentGravity;
             } else {
-                jumpState -= Gdx.graphics.getDeltaTime() * 2;
-            }
-            deltaY += (leftDist < rightDist ? leftDist : rightDist);
-        } else if (jumpState < 0) {
-            jumpState = 0;
-        }
-
-        // Updates position due to gravity, if applicable (not climbing)
-        if (!isGrounded && !isClimbing) {
-            currentGravity += currentLevel.getGravity() * Gdx.graphics.getDeltaTime();
-            deltaY -= currentGravity;
-        } else {
-            // Resets jump counter if player is already grounded
-            jumpCounter = 0;
-            currentGravity = 0;
-        }
-
-        // Apply Force Vector
-        if (forceDuration > 0) {
-           deltaY += forceVector.y * forceDuration;
-        }
-
-        // Low fps check - ensures collisions are handled properly when FPS < 60
-        if (Game.getFpsTimer() > 1) {
-            deltaY *= Game.getFpsTimer();
-        }
-
-        // Y-check
-        // Static Collision Check:
-        boundingEdgeDelta = (deltaY > 0 ? 1 : -1) * aabb.getHeight() / 2; // Defines either the top edge of the AABB or bottom edge, depending on direction
-        float leftDist = currentLevel.distToObstacle(position.x, centerY + boundingEdgeDelta, deltaY, true);
-        float rightDist = currentLevel.distToObstacle(position.x + aabb.getWidth(), centerY + boundingEdgeDelta, deltaY, true);
-        dist = (leftDist > rightDist ? rightDist : leftDist); // dist stores maximum possible distance before obstacles
-
-        // Dynamic collision check
-        // Slope / One way platform check only applies if player is moving down
-        if (deltaY <= 0) {
-            // One way platform check
-            leftDist = currentLevel.distToPlatform(position.x, position.y, Math.abs(deltaY));
-            rightDist = currentLevel.distToPlatform(position.x + aabb.getWidth(), position.y, Math.abs(deltaY));
-            if (leftDist < dist || rightDist < dist) {
-                dist = (leftDist > rightDist ? rightDist : leftDist);
+                // Resets jump counter if player is already grounded
+                jumpCounter = 0;
+                currentGravity = 0;
             }
 
-            // Slope Check - scan downwards until a slope tile is found
-            leftDist = currentLevel.distToObstacle(position.x, position.y, deltaY, true, Level.DYNAMIC_LAYER, "slope");
-            rightDist = currentLevel.distToObstacle(position.x + aabb.getWidth(), position.y, deltaY, true, Level.DYNAMIC_LAYER, "slope");
+            // Stick player to slope
+            if (deltaX != 0 && isOnSlope && jumpState == 0) {
+                deltaY -= Math.abs(deltaX) * currentLevel.getGravity();
+            }
 
-            // Get y-coordinate of nearest slope to the left and right sides
-            slopeLeft = currentLevel.getSlopePosition(position.x, position.y - leftDist);
-            slopeRight = currentLevel.getSlopePosition(position.x + aabb.getWidth(), position.y - rightDist);
+            // Apply Force Vector
+            if (forceDuration > 0) {
+                deltaY += forceVector.y * forceDuration;
+            }
 
-            // Calculate differences
-            leftDist = position.y - slopeLeft;
-            rightDist = position.y - slopeRight;
+            // Low fps check - ensures collisions are handled properly when FPS < 60
+            if (Game.getFpsTimer() > 1) {
+                deltaY *= Game.getFpsTimer();
+            }
 
-            // If player is within correcting distance under the slope, correct them onto the slope
-            if (leftDist < 0 && leftDist > -3) {
-                dist = 0;
-                position.y = slopeLeft + 1;
-            } else if (rightDist < 0 && rightDist > -3) {
-                dist = 0;
-                position.y = slopeRight + 1;
-            } else if (leftDist < dist || rightDist < dist) {
-                // If not, get the maximum distance that can be travelled
-                dist = leftDist > rightDist ? rightDist : leftDist;
+            // Y-check
+            // Static Collision Check:
+            boundingEdgeDelta = (deltaY > 0 ? 1 : -1) * aabb.getHeight() / 2; // Defines either the top edge of the AABB or bottom edge, depending on direction
+            dist = currentLevel.distToObstacle(position.x + i * (1 / Game.UNIT_SCALE), centerY + boundingEdgeDelta, deltaY, true);
+
+            // Dynamic collision check
+            // Slope / One way platform check only applies if player is moving down
+            if (deltaY <= 0) {
+                // One way platform check
+                currentDist = currentLevel.distToPlatform(position.x + i * (1 / Game.UNIT_SCALE), position.y, Math.abs(deltaY));
+                if (currentDist < dist) {
+                    dist = currentDist;
+                }
+
+                // Slope Check - scan downwards until a slope tile is found
+                currentDist = currentLevel.distToObstacle(position.x + i * (1 / Game.UNIT_SCALE), position.y, deltaY, true, Level.DYNAMIC_LAYER, "slope");
+
+                // Get y-coordinate of nearest slope
+                currentSlope = currentLevel.getSlopePosition(position.x + i * (1 / Game.UNIT_SCALE), position.y - currentDist);
+
+                // Calculate differences
+                currentDist = position.y - currentSlope;
+
+                if (currentDist < dist) {
+                    dist = currentDist;
+                }
+            }
+
+            // Update max possible distance travelled
+            if (dist < maxDist) {
+                maxDist = dist;
             }
         }
 
         // Finalize delta Y based on lowest distance
-        deltaY = (deltaY > 0 ? 1 : -1) * dist;
+        deltaY = (deltaY > 0 ? 1 : -1) * maxDist;
         position.y += (Game.getFpsTimer() > 1) ? deltaY : deltaY * Game.getFpsTimer();
 
         // Fix Y so that player is on a uniform y-level when not moving
-        if (deltaY == 0) {
+        if (aabb.getY() - position.y == 0) {
             if (position.y % (1 / Game.UNIT_SCALE) < 1 || (1 / Game.UNIT_SCALE) - (position.y % (1 / Game.UNIT_SCALE)) < 1) {
                 position.y = Math.round(position.y * Game.UNIT_SCALE) / Game.UNIT_SCALE;
             }
@@ -293,7 +302,9 @@ public abstract class LivingEntity extends AnimatedEntity {
         // If player is in a slope tile, they are also grounded if they are in the proper y-position
         if (currentLevel.getSlopeOfTile(position.x, position.y) != 0 || currentLevel.getSlopeOfTile(position.x + aabb.getWidth(), position.y) != 0) {
             slopeLeft = currentLevel.getSlopePosition(position.x, position.y);
+            System.out.println(position.y - slopeLeft + " left");
             slopeRight = currentLevel.getSlopePosition(position.x + aabb.getWidth(), position.y);
+            System.out.println(position.y - slopeRight + " right");
             isOnSlope = (position.y - slopeLeft < 2) || (position.y - slopeRight < 2);
         } else {
             // Check edge case where player is technically not on slope tile, but is still on the slope
@@ -306,8 +317,8 @@ public abstract class LivingEntity extends AnimatedEntity {
             }
         }
 
-        // If player is not grounded on static ground, isGrounded is updated based on platform ground
-        if (!isGrounded && deltaY <= 0) {
+        // If player is not grounded on static ground, isGrounded is updated based on platform ground or slope ground
+        if (!isGrounded) {
             isGrounded = isOnPlatform || isOnSlope;
         }
 
@@ -343,6 +354,7 @@ public abstract class LivingEntity extends AnimatedEntity {
         /** Update final positions */
         sprite.setPosition(position.x - hitboxOffset.x, position.y - hitboxOffset.y);
         aabb.setPosition(position);
+        super.update();
 
         this.animate();
     }
@@ -372,6 +384,22 @@ public abstract class LivingEntity extends AnimatedEntity {
             isGrounded = false;
             isJumping = true;
         }
+    }
+
+    @Override
+    public void draw(Batch batch) {
+        super.draw(batch);
+        if (childObjects.size > 0) {
+            for (ChildObject co : childObjects) {
+                if (co.isActive()) {
+                    co.draw(batch);
+                }
+            }
+        }
+    }
+
+    public boolean isOnSlope() {
+        return isOnSlope;
     }
 
     public float getJumpState() {

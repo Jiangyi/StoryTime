@@ -29,6 +29,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     public Monster(String entityName) {
         super(entityName);
         this.healthbar = new OSHealthBar(this);
+        addChild(healthbar);
         distToTarget = new Vector2(0, 0);
     }
 
@@ -47,7 +48,6 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     @Override
     public void update() {
         super.update();
-        healthbar.update();
     }
 
     @Override
@@ -59,9 +59,6 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     @Override
     public void draw(Batch batch) {
         super.draw(batch);
-        if (state == AIState.CHASING) {
-            this.healthbar.draw(batch);
-        }
     }
 
     @Override

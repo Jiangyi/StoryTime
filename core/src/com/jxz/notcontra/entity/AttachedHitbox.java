@@ -26,7 +26,6 @@ public class AttachedHitbox extends DynamicHitbox {
             position = caster.getPosition().cpy().add(caster.getAABB().getWidth() / 2, 0);
             position.sub(sprite.getWidth() / 2, 0);
             position.add(isFlipped ? hitboxOffset.x  : -hitboxOffset.x, 0);
-            sprite.setPosition(position.x, position.y);
             aabb.setPosition(position.x, position.y);
             animate();
 

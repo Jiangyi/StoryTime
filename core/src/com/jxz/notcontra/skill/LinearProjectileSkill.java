@@ -1,6 +1,8 @@
 package com.jxz.notcontra.skill;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pools;
+import com.jxz.notcontra.effect.SpriteEffect;
 import com.jxz.notcontra.entity.*;
 import com.jxz.notcontra.handlers.InputManager;
 
@@ -12,13 +14,16 @@ import java.util.ArrayList;
  */
 public class LinearProjectileSkill extends Skill{
     protected Projectile hitbox;
+    protected SpriteEffect castEffect;
     protected float range;
     protected float speed;
+    protected Vector2 target;
 
     public LinearProjectileSkill(String name) {
         super(name);
         requiresCastPriority = true;
         cooldown = 0;
+        target = new Vector2(0, 0);
     }
 
     @Override
@@ -28,11 +33,30 @@ public class LinearProjectileSkill extends Skill{
         hitbox.setSprite(vfx.createSprite(animName));
         hitbox.getSprite().setOriginCenter();
         hitbox.setHitboxOffset(hitboxOffset.x, hitboxOffset.y);
-        Vector2 target = InputManager.getInstance().getCursorDirection();
-        Vector2 initial = caster.getPosition().cpy().add(caster.getAABB().getWidth() / 2, caster.getAABB().getHeight() / 2);
+        Vector2 initial = caster.getCenterPosition().cpy();
         initial.sub(hitbox.getSprite().getWidth() / 2, hitbox.getSprite().getHeight() / 2);
-;
-        // Handle flipping of caster - caster should face the way the spell is cast
+
+        // Step the projectile forwards so it comes out properly
+        initial.add(target.nor().x * speed * 10, target.nor().y * speed * 10);
+
+        // Initialize hitbox variables
+        hitbox.init(this, caster, initial.x, initial.y);
+        hitbox.setDirection(target.cpy());
+        hitbox.setAnimTravel(animation);
+        hitbox.setSpeed(speed);
+        hitbox.setRange(range);
+        hitbox.setSize(hitboxSize.x, hitboxSize.y);
+        caster.getSkills().setCooldown(this, cooldown);
+    }
+
+    public void use(LivingEntity caster, Entity target) {
+
+    }
+
+    @Override
+    public void preCast(LivingEntity caster) {
+    // Handle flipping of caster - caster should face the way the spell is cast
+        target = InputManager.getInstance().getCursorDirection();
         if (target.x > 0) {
             if (caster.isFlipped()) {
                 // Face the right side
@@ -45,19 +69,17 @@ public class LinearProjectileSkill extends Skill{
             }
         }
 
-        // Step the projectile forwards so it comes out properly
-        initial.add(target.nor().x * speed * 10, target.nor().y * speed * 10);
-        hitbox.init(this, caster, initial.x, initial.y);
-        hitbox.setDirection(target.cpy());
-        hitbox.setAnimTravel(animation);
-        hitbox.setSpeed(speed);
-        hitbox.setRange(range);
-        hitbox.setSize(hitboxSize.x, hitboxSize.y);
-        caster.getSkills().setCooldown(this, cooldown);
-    }
-
-    public void use(LivingEntity caster, Entity target) {
-
+        // Spawn cast effect if there is one
+        if (hasCastEffect) {
+            castEffect = Pools.obtain(SpriteEffect.class);
+            castEffect.init();
+            castEffect.setParent(caster);
+            caster.addChild(castEffect);
+            castEffect.setSprite(vfx.createSprite(castName));
+            castEffect.setOffset(castOffset.x, castOffset.y);
+            castEffect.setAnimation(castAnimation);
+            castEffect.setDirection(target);
+        }
     }
 
 
