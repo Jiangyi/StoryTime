@@ -29,7 +29,7 @@ public class Level {
     private static Array<Level> loadedMaps = new Array<Level>();    // Static list of Levels to avoid duplicates
     private TiledMap map;
     private int height, width;
-    private float gravity = 0.15f / Game.UNIT_SCALE;
+    private float gravity = 0.25f / Game.UNIT_SCALE;
     private boolean firstLoad;
     private int monsterCount;
 
