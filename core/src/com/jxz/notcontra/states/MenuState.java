@@ -3,14 +3,19 @@ package com.jxz.notcontra.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL30;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.AssetHandler;
 
 /**
  * Created by Samuel on 2015-05-08.
  */
 public class MenuState extends GameState {
 
+    private AssetHandler assetHandler = AssetHandler.getInstance();
+
     public MenuState(Game game) {
         super(game);
+        assetHandler.loadFromFile("assets/textures/menu/menu.txt");
+        while (!assetHandler.update());
     }
 
     public void update(float dt) {

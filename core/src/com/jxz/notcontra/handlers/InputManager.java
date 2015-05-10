@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.jxz.notcontra.entity.*;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.states.LoadState;
+import com.jxz.notcontra.states.MenuState;
 import com.jxz.notcontra.states.PauseState;
 import com.jxz.notcontra.states.PlayState;
 
@@ -275,6 +276,9 @@ public class InputManager implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        if (gsm.getCurrentState() instanceof MenuState) {
+            
+        }
         return false;
     }
 
