@@ -110,7 +110,7 @@ public class InputManager implements InputProcessor {
                 }
 
                 // Jump if max jumps is not reached
-                if (keycode == keyPreferences.getInteger("jump", Input.Keys.SPACE) && !player.isJumping()) {
+                if (keycode == keyPreferences.getInteger("jump", Input.Keys.SPACE) && !player.isJumping() && !gsm.getPlayState().isPaused()) {
                     player.jump();
                 }
                 // Attack | cast keys
