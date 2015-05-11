@@ -5,17 +5,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.jxz.notcontra.entity.*;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.menu.Menu;
 import com.jxz.notcontra.menu.buttons.Button;
 import com.jxz.notcontra.states.LoadState;
 import com.jxz.notcontra.states.MenuState;
-import com.jxz.notcontra.states.PauseState;
 import com.jxz.notcontra.states.PlayState;
 
 import java.io.BufferedReader;
@@ -88,7 +85,7 @@ public class InputManager implements InputProcessor {
             }
 
             player = gsm.getPlayState().getPlayer();
-            if (player.isAlive() && !gsm.getPlayState().isPaused()) {
+            if (player.isAlive()) {
                 if (!player.isRooted()) {
                     // Update sprinting state
                     if (keycode == keyPreferences.getInteger("sprint", Input.Keys.SHIFT_LEFT) && player.getJumpState() == 0) {
@@ -156,13 +153,8 @@ public class InputManager implements InputProcessor {
 
             // PLAY STATE SWITCH STATE TEST
             if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE)) {
-                if  (!gsm.getPlayState().isPaused()) {
-                    // If game is not paused, then pause it
-                    gsm.getPlayState().setIsPaused(true);
-                } else {
-                    // If game is paused, then unpause it
-                    gsm.getPlayState().setIsPaused(false);
-                }
+                // Change game between play and pause
+                gsm.getPlayState().setIsPaused(!gsm.getPlayState().isPaused());
                 //TextureRegion background = ScreenUtils.getFrameBufferTexture(game.getViewport().getScreenX(), game.getViewport().getScreenY(), game.getViewport().getScreenWidth(), game.getViewport().getScreenHeight());
                 //gsm.getPlayState().setIsPaused(true);
                 //gsm.getPauseState().setBackground(background);
