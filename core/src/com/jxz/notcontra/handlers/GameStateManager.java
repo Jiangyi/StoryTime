@@ -14,11 +14,10 @@ public class GameStateManager {
     private static GameState currentGameState;
     private static PlayState playState;
     private static LoadState loadState;
-    private static PauseState pauseState;
     private static MenuState menuState;
 
     public enum State {
-        PLAY, LOAD, PAUSE, MENU
+        PLAY, LOAD, MENU
     }
 
     private GameStateManager() {
@@ -56,10 +55,6 @@ public class GameStateManager {
         return loadState;
     }
 
-    public PauseState getPauseState() {
-        return pauseState;
-    }
-
     public MenuState getMenuState() {
         return menuState;
     }
@@ -71,14 +66,8 @@ public class GameStateManager {
                 playState = new PlayState(game);
             }
             currentGameState = playState;
-        } else if (state == State.PAUSE) {
-            AudioHelper.playBgMusic(false);
-            if (pauseState == null) {
-                pauseState = new PauseState(game);
-            }
-            currentGameState = pauseState;
         } else if (state == State.LOAD) {
-            if (pauseState == null) {
+            if (loadState == null) {
                 loadState = new LoadState(game);
             }
             currentGameState = loadState;

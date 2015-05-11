@@ -155,20 +155,9 @@ public class InputManager implements InputProcessor {
             if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE)) {
                 // Change game between play and pause
                 gsm.getPlayState().setIsPaused(!gsm.getPlayState().isPaused());
-                //TextureRegion background = ScreenUtils.getFrameBufferTexture(game.getViewport().getScreenX(), game.getViewport().getScreenY(), game.getViewport().getScreenWidth(), game.getViewport().getScreenHeight());
-                //gsm.getPlayState().setIsPaused(true);
-                //gsm.getPauseState().setBackground(background);
                 return true;
             }
         }
-        // PAUSE STATE SWITCH STATE TEST
-        /*if (gsm.getCurrentState() instanceof PauseState) {
-            if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE)) {
-                gsm.getPlayState().setIsPaused(true);
-                player.updateMovementState();
-                return true;
-            }
-        }*/
         // LOAD STATE SWITCH STATE TEST
         if (gsm.getCurrentState() instanceof LoadState) {
             if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE) && gsm.getLoadState().getIsDoneLoading() && gsm.getLoadState().getIsEnteringGame()) {
