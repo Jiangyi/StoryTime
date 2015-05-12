@@ -3,6 +3,8 @@ package com.jxz.notcontra.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.GameStateManager;
@@ -14,27 +16,25 @@ import com.jxz.notcontra.menu.buttons.SpriteButton;
  */
 public class MainMenu extends Menu {
 
+    private TextureAtlas menuButtons;
+    private TextureRegion[] regions;
+
     public MainMenu(String filePath) {
         this();
         this.file = Gdx.files.internal(filePath); // For when we implement parsing from XML
     }
 
     public MainMenu() {
-        setUpButton("Play", new Vector2(900, 300));
-        setUpButton("Options", new Vector2(900, 200));
-        setUpButton("Exit", new Vector2(900, 100));
+        this.menuButtons = (TextureAtlas) assetHandler.getByName("menu_buttons");
+        setUpButton("Play", new Vector2(Game.VID_WIDTH / 2 - menuButtons.findRegion("button_play").getRegionWidth() / 2, 275), "button_play");
+        setUpButton("Options", new Vector2(Game.VID_WIDTH / 2 - menuButtons.findRegion("button_options").getRegionWidth() / 2, 175), "button_options");
+        setUpButton("Exit", new Vector2(Game.VID_WIDTH / 2 - menuButtons.findRegion("button_quit").getRegionWidth() / 2, 75), "button_quit");
     }
 
-    protected void setUpButton(String name, Vector2 position) {
-        String spriteBaseName = "button_" + name.toLowerCase();
-        final SpriteButton button = new SpriteButton(name, new Sprite((Texture) assetHandler.getByName(spriteBaseName + "_default")), position);
-        if (assetHandler.isLoadedByName(spriteBaseName + "_click")) {
-            button.setOnClickSprite(new Sprite((Texture) assetHandler.getByName(spriteBaseName + "_click")));
-        }
-
-        if (assetHandler.isLoadedByName(spriteBaseName + "_hover")) {
-            button.setOnHoverSprite(new Sprite((Texture) assetHandler.getByName(spriteBaseName + "_hover")));
-        }
+    protected void setUpButton(String name, Vector2 position, String atlasRegion) {
+        final SpriteButton button = new SpriteButton(name, menuButtons.findRegion(atlasRegion, 0), position);
+        button.setOnHoverSprite(menuButtons.findRegion(atlasRegion, 1));
+        button.setOnClickSprite(menuButtons.findRegion(atlasRegion, 2));
         Button.InputListener listener;
 
         if (button.getName().equalsIgnoreCase("Play")) {
