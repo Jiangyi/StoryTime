@@ -33,13 +33,10 @@ public class LoadState extends GameState {
 
     public LoadState(Game game) {
         super(game);
-        assetHandler.loadFromFile("textures/menu/loading_screen.txt");
-        while (!assetHandler.update());
         // Load and parse assets
         loadingBar = new LoadingBar();
         loadAtlas = (TextureAtlas) assetHandler.getByName("menu_loadingbar");
         logo_libgdx = loadAtlas.createSprite("libgdx");
-        assetHandler.loadFromFile("textures/menu/main_menu.txt");
         layout = new GlyphLayout();
     }
 
@@ -66,7 +63,7 @@ public class LoadState extends GameState {
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
         assetHandler.update();
-        progress = Interpolation.linear.apply(progress, assetHandler.getProgress(), 0.06f);
+        progress = Interpolation.swingOut.apply(progress, assetHandler.getProgress(), 0.06f);
 
         sb.begin();
         //Draw libgdx logo

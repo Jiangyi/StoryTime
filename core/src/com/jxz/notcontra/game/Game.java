@@ -49,7 +49,7 @@ public class Game extends ApplicationAdapter {
         // Setup singleton manager classes
         gsm = GameStateManager.getInstance();
         gsm.setGameInstance(this); // THIS IS EXTREMELY IMPORTANT.
-        gsm.setState(GameStateManager.State.LOAD);
+        gsm.setState(GameStateManager.State.MENU);
         setInputProcessor();
         shaders = new Shaders(VID_WIDTH, VID_HEIGHT);
     }

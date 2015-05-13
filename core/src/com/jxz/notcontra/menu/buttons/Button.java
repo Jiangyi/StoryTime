@@ -38,8 +38,8 @@ public abstract class Button {
 
     public boolean isMouseWithinBoundary(int x, int y) {
         int newY = Game.VID_HEIGHT - y;
-        System.out.println("X bounds: " + position.x + " - " + (position.x + width));
-        System.out.println("Y bounds: " + position.y + " - " + (position.y + width));
+        //System.out.println("X bounds: " + position.x + " - " + (position.x + width));
+        //System.out.println("Y bounds: " + position.y + " - " + (position.y + width));
         // LibGDX goes from top to bottom for y for input management,
         // but bottom to top for y for rendering. Whut.
         return (position.x < x && x < position.x + width &&
