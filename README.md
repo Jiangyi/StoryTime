@@ -1,8 +1,16 @@
 # To Do List: #
 
 ## HIGH PRIORITY: ##
-* Main Menu and UI
-* Level format that allows for storage of important positions
+* Options Menu
+* Quit to Main Menu from Pause
+* Fix the ladder-platform interaction
+* Load option
+* Ranged / Boss AI / Non-stupid grunt AI
+* Game mode implementation / scoring system
+* Level spawn polylines
+* Map selection / character selection
+* Damage formula and damage numbers
+* Fall damage
 
 ## MEDIUM PRIORITY: ##
 * Buffs/Skills
@@ -14,3 +22,7 @@
 ## IF HAVE TIME: ##
 * Interactable entities
 * Dialogue boxes
+
+## IF WE REALLY HAVE TIME: ##
+* Qayum coins
+* Drag and drop skill sets

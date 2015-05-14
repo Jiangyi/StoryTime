@@ -3,7 +3,9 @@ package com.jxz.notcontra.menu.buttons;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.GameStateManager;
 
 /**
  * Created by Samuel on 2015-05-08.
@@ -21,6 +23,7 @@ public abstract class Button {
     protected float height;
     protected float width;
 
+    protected Viewport viewport = GameStateManager.getInstance().getGame().getViewport();
     public abstract void draw(Batch batch);
 
     public interface InputListener {
@@ -38,14 +41,15 @@ public abstract class Button {
     }
 
     public boolean isMouseWithinBoundary(int x, int y) {
-        float newY = Gdx.graphics.getHeight() - y;
+        float newY = (Gdx.graphics.getHeight() - y - viewport.getTopGutterHeight()) * (float) Game.VID_HEIGHT / ((float) Gdx.graphics.getHeight() - viewport.getTopGutterHeight() - viewport.getBottomGutterHeight());
+        float newX = (x - viewport.getLeftGutterWidth()) * (float) Game.VID_WIDTH / ((float) Gdx.graphics.getWidth() - viewport.getLeftGutterWidth() - viewport.getRightGutterWidth());
         System.out.println((float)Gdx.graphics.getWidth() / (float)Game.VID_WIDTH);
         System.out.println("\nX bounds: " + position.x * (float)Gdx.graphics.getWidth() / (float)Game.VID_WIDTH + " - " + (position.x + width) * (float)Gdx.graphics.getWidth() / (float)Game.VID_WIDTH);
         System.out.println("Y bounds: " + position.y + " - " + (position.y + width));
         // LibGDX goes from top to bottom for y for input management,
         // but bottom to top for y for rendering. Whut.
-        return (position.x * (float)Gdx.graphics.getWidth() / (float)Game.VID_WIDTH < x && x < (position.x + width) * (float)Gdx.graphics.getWidth() / (float)Game.VID_WIDTH &&
-                position.y * (float)Gdx.graphics.getHeight() / (float)Game.VID_HEIGHT < newY && newY < (position.y + height) * (float)Gdx.graphics.getHeight() / (float)Game.VID_HEIGHT);
+        return (position.x < newX && newX < (position.x + width) &&
+                position.y < newY && newY < (position.y + height));
     }
 
     public void setState(ButtonState state) {
