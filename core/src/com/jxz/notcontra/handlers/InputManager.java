@@ -270,6 +270,9 @@ public class InputManager implements InputProcessor {
             for (Button i : currentMenu.getButtonList()) {
                 if (i.isMouseWithinBoundary(screenX, screenY)) {
                     i.getInputListener().onClick();
+                    if (i.getCurrentState() == Button.ButtonState.CLICK) {
+                        i.setState(Button.ButtonState.HOVER);
+                    }
                 }
             }
         }
