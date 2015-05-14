@@ -1,1 +1,2 @@
 menu_buttons	textures/menu/buttons/menu_buttons.pack		TextureAtlas
+menu_background		textures/menu/background/background.png		Texture

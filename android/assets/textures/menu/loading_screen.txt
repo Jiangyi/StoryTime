@@ -1,2 +1,1 @@
-loadingbar   textures/menu/loading.pack   TextureAtlas
-menu_loadingbar    textures/menu/menu_loadingbar.pack    TextureAtlas
+menu_loadingbar    textures/menu/loadingbar/menu_loadingbar.pack    TextureAtlas

@@ -65,9 +65,10 @@ public class LoadState extends GameState {
         assetHandler.update();
         progress = Interpolation.swingOut.apply(progress, assetHandler.getProgress(), 0.06f);
 
+        sb.setProjectionMatrix(hudCam.combined);
         sb.begin();
         //Draw libgdx logo
-        sb.draw(logo_libgdx, Game.VID_WIDTH - logo_libgdx.getWidth() / 2 - 5, 5, 150, 25);
+        sb.draw(logo_libgdx, Gdx.graphics.getWidth() - logo_libgdx.getWidth() / 2 - 5, 5, 150, 25);
         // Drawing loading frame and bar
         sb.draw(loadingBar.getFrameSprite(), loadingBar.getPositionX(), loadingBar.getPositionY(), loadingBar.getBarSprite().getWidth(), loadingBar.getBarSprite().getHeight());
         sb.draw(loadingBar.getBarSprite().getTexture(),

@@ -1,6 +1,8 @@
 package com.jxz.notcontra.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
@@ -13,6 +15,7 @@ import com.jxz.notcontra.menu.buttons.SpriteButton;
  */
 public class MainMenu extends Menu {
 
+    private Texture background;
     private TextureAtlas menuButtons;
 
     public MainMenu(String filePath) {
@@ -30,6 +33,9 @@ public class MainMenu extends Menu {
         setUpButton("Play", new Vector2(Game.VID_WIDTH / 2 - menuButtons.findRegion("button_play").getRegionWidth() / 2, 275), "button_play");
         setUpButton("Options", new Vector2(Game.VID_WIDTH / 2 - menuButtons.findRegion("button_options").getRegionWidth() / 2, 175), "button_options");
         setUpButton("Exit", new Vector2(Game.VID_WIDTH / 2 - menuButtons.findRegion("button_quit").getRegionWidth() / 2, 75), "button_quit");
+
+        // Background texture setup
+        this.background = (Texture) assetHandler.getByName("menu_background");
     }
 
     protected void setUpButton(String name, Vector2 position, String atlasRegion) {
@@ -85,5 +91,12 @@ public class MainMenu extends Menu {
             button.setInputListener(listener);
         }
         buttons.add(button);
+    }
+
+    @Override
+    public void renderMenu(Batch batch) {
+        batch.draw(this.background, 0, 0);
+        super.renderMenu(batch);
+        // TODO: RENDER CLOUDS
     }
 }

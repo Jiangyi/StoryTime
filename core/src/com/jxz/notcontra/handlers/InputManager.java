@@ -34,7 +34,6 @@ public class InputManager implements InputProcessor {
     private String changeKey;
     private Menu currentMenu;
 
-
     private InputManager(Game game) {
         this.game = game;
         tempPos = new Vector2(0, 0);
