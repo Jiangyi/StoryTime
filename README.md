@@ -7,7 +7,6 @@
 * Load option
 * Ranged / Boss AI / Non-stupid grunt AI
 * Game mode implementation / scoring system
-* Level spawn polylines
 * Map selection / character selection
 * Damage formula and damage numbers
 * Fall damage

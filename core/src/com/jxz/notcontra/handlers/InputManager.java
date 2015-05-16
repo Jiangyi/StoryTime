@@ -133,10 +133,7 @@ public class InputManager implements InputProcessor {
                 }
                 if (keycode == keyPreferences.getInteger("spawnMonster", Input.Keys.L)) {
                     // Spawn some slimes
-                    Slime slime = (Slime) EntityFactory.spawn(Slime.class, getCursorInWorld().x, getCursorInWorld().y);
-                    slime.init();
-                    slime.setCurrentLevel(player.getCurrentLevel());
-                    slime.setVisible(true);
+                    player.getCurrentLevel().spawn();
                 }
 
                 // Debug Mode

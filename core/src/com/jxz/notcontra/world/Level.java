@@ -1,9 +1,12 @@
 package com.jxz.notcontra.world;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.jxz.notcontra.entity.EntityFactory;
 import com.jxz.notcontra.entity.Slime;
@@ -24,27 +27,44 @@ public class Level {
     public static final String STATIC_LAYER = "Static Map";     // Name of static collision map layer
     public static final String DYNAMIC_LAYER = "Dynamic Map";   // Name of dynamic collision layers (platforms and slopes)
     public static final String TRIGGER_LAYER = "Trigger Tile";  // Name of trigger layer (ladders/ropes)
+    public static final String SPAWN_LAYER = "Spawn";            // Name of spawn point poly-line layer
 
     // Class Variables
     private static Array<Level> loadedMaps = new Array<Level>();    // Static list of Levels to avoid duplicates
+    private SpawnPointList spawnPointList;
     private TiledMap map;
     private int height, width;
     private float gravity = 0.25f / Game.UNIT_SCALE;
     private boolean firstLoad;
     private int monsterCount;
+    private int waveCount;
+    private float spawnTimer;
+
 
     protected Level(TiledMap map) {
         this.map = map;
         height = map.getProperties().get("height", int.class);
         width = map.getProperties().get("width", int.class);
 
-        layers[0] = (Texture)assetHandler.getByName("background_sky");
-        layers[1] = (Texture)assetHandler.getByName("background_fuji");
-        layers[2] = (Texture)assetHandler.getByName("background_sakura");
+        // Load parallax backgrounds from map file
+        layers[0] = (Texture)assetHandler.getByName(map.getProperties().get("parallaxBackground", String.class));
+        layers[1] = (Texture)assetHandler.getByName(map.getProperties().get("parallaxMidground", String.class));
+        layers[2] = (Texture)assetHandler.getByName(map.getProperties().get("parallaxForeground", String.class));
         layers[2].setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
+        // Load array of polyline spawn points
+        spawnPointList = new SpawnPointList();
+        for (MapObject object : map.getLayers().get(SPAWN_LAYER).getObjects()) {
+            if (object instanceof PolylineMapObject) {
+                spawnPointList.addLine((PolylineMapObject) object);
+            }
+        }
 
         loadedMaps.add(this);
         firstLoad = true;
+
+        // Test variable setting
+        waveCount = 5;
     }
 
     /**
@@ -63,13 +83,18 @@ public class Level {
     }
 
     /**
-     * Reads from the map file to spawn a predetermined number of entities in random valid spawn rectangles.
+     * Spawns stuff based on random line
      */
     public void spawn() {
-        for (int i = 0; i < 5; i++) {
+        spawn(waveCount);
+    }
+
+    public void spawn(int monsters) {
+        for (int i = 0; i < monsters; i++) {
+            Vector2 spawnPos = spawnPointList.randomSpawn();
             Slime slime = (Slime) EntityFactory.spawn(Slime.class);
             slime.init();
-            slime.setPosition(i * 250, 750);
+            slime.setPosition(spawnPos);
             slime.setCurrentLevel(this);
         }
     }

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="48" tilewidth="32" tileheight="32" nextobjectid="17">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="48" tilewidth="32" tileheight="32" nextobjectid="33">
  <properties>
+  <property name="parallaxBackground" value="background_sky"/>
+  <property name="parallaxForeground" value="background_sakura"/>
+  <property name="parallaxMidground" value="background_fuji"/>
   <property name="spawnX" value="51"/>
   <property name="spawnY" value="22"/>
  </properties>
@@ -59,29 +62,41 @@
   </data>
  </layer>
  <objectgroup name="Spawn">
-  <object id="7" x="1370.67" y="987.333">
-   <polyline points="0,0 439.333,0"/>
+  <object id="20" x="192" y="1472">
+   <polyline points="0,0 384,0"/>
   </object>
-  <object id="8" x="215.333" y="1467.33">
-   <polyline points="0,0 389.333,-0.666667 572,-181.333"/>
+  <object id="21" x="1216" y="1472">
+   <polyline points="0,0 448,0"/>
   </object>
-  <object id="10" x="996" y="1274">
-   <polyline points="0,0 35.3333,-0.666667 221.333,190.667 855.333,192"/>
+  <object id="22" x="1312" y="1184">
+   <polyline points="0,0 480,0"/>
   </object>
-  <object id="11" x="772.667" y="1147.33">
-   <polyline points="0,0 277.333,-0.666667"/>
+  <object id="23" x="1344" y="992">
+   <polyline points="0,0 416,0"/>
   </object>
-  <object id="13" x="1415.33" y="859.333">
-   <polyline points="0,0 274,-1.33333"/>
+  <object id="24" x="1408" y="864">
+   <polyline points="0,0 160,0"/>
   </object>
-  <object id="14" x="1323.33" y="1176.67">
-   <polyline points="0,0 548.667,-2"/>
+  <object id="25" x="928" y="768">
+   <polyline points="0,0 32,0"/>
   </object>
-  <object id="15" x="740" y="985.333">
-   <polyline points="0,0 24,0"/>
+  <object id="27" x="1024" y="704">
+   <polyline points="0,0 32,0"/>
   </object>
-  <object id="16" x="1122.67" y="631.333">
-   <polyline points="0,0 26.6667,0"/>
+  <object id="28" x="1120" y="640">
+   <polyline points="0,0 32,0"/>
+  </object>
+  <object id="29" x="832" y="832">
+   <polyline points="0,0 32,0"/>
+  </object>
+  <object id="30" x="800" y="1152">
+   <polyline points="0,0 192,0"/>
+  </object>
+  <object id="31" x="768" y="1472">
+   <polyline points="0,0 256,0"/>
+  </object>
+  <object id="32" x="736" y="992">
+   <polyline points="0,0 32,0"/>
   </object>
  </objectgroup>
 </map>
