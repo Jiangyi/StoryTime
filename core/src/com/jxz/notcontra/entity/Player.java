@@ -13,6 +13,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.EntityManager;
+import com.jxz.notcontra.handlers.GameStateManager;
+import com.jxz.notcontra.handlers.SaveGameHandler;
 import com.jxz.notcontra.hud.PlayerStatusBar;
 import com.jxz.notcontra.skill.Skill;
 import com.jxz.notcontra.states.PlayState;
@@ -35,13 +37,12 @@ public class Player extends LivingEntity {
     private PlayerSave playerSave;
 
     // Constructor
-    public Player(PlayState playState, PlayerSave save) {
+    public Player(PlayState playState) {
         super("player");
 
-        if (save != null) {
-            this.playerSave = save;
-            this.health = save.health;
-            this.mana = save.mana;
+        String saveFile = GameStateManager.getInstance().getGame().getLoadSaveFile();
+        if (saveFile != null) {
+            loadSave(SaveGameHandler.loadSave(saveFile));
         } else {
             this.health = 100;
             this.mana = 100;
@@ -87,6 +88,16 @@ public class Player extends LivingEntity {
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
         this.playState = playState;
         this.healthBar = new PlayerStatusBar(this);
+    }
+
+
+    public void loadSave(PlayerSave save) {
+        this.playerSave = save;
+        this.health = save.health;
+        this.mana = save.mana;
+        this.setPosition(save.x, save.y);
+        // Reset the save file string after loading
+        GameStateManager.getInstance().getGame().resetLoadSaveFile();
     }
 
     public enum PlayerState {

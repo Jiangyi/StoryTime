@@ -255,7 +255,7 @@ public class InputManager implements InputProcessor {
         if (gsm.getCurrentState() instanceof MenuState) {
             currentMenu = gsm.getMenuState().getCurrentMenu();
             for (Button i : currentMenu.getButtonList()) {
-                if (i.isMouseWithinBoundary(screenX, screenY)) {
+                if (i.isMouseWithinBoundary(screenX, screenY) && i.getInputListener() != null) {
                     i.setState(Button.ButtonState.CLICK);
                 }
             }
@@ -268,7 +268,7 @@ public class InputManager implements InputProcessor {
         if (gsm.getCurrentState() instanceof MenuState) {
             currentMenu = gsm.getMenuState().getCurrentMenu();
             for (Button i : currentMenu.getButtonList()) {
-                if (i.isMouseWithinBoundary(screenX, screenY)) {
+                if (i.isMouseWithinBoundary(screenX, screenY) && i.getInputListener() != null) {
                     i.getInputListener().onClick();
                     if (i.getCurrentState() == Button.ButtonState.CLICK) {
                         i.setState(Button.ButtonState.HOVER);
@@ -289,7 +289,7 @@ public class InputManager implements InputProcessor {
         if (gsm.getCurrentState() instanceof MenuState) {
             currentMenu = gsm.getMenuState().getCurrentMenu();
             for (Button i : currentMenu.getButtonList()) {
-                if (i.isMouseWithinBoundary(screenX, screenY)) {
+                if (i.isMouseWithinBoundary(screenX, screenY) && i.getInputListener() != null) {
                     i.setState(Button.ButtonState.HOVER);
                     i.getInputListener().onHover();
                 } else {

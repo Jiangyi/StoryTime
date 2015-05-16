@@ -2,34 +2,27 @@ package com.jxz.notcontra.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.menu.buttons.Button;
 import com.jxz.notcontra.menu.buttons.SpriteButton;
+import com.jxz.notcontra.states.MenuState;
 
 /**
  * Created by Andrew on 2015-05-10.
  */
 public class MainMenu extends Menu {
 
-    private Texture background;
-    private TextureAtlas menuButtons;
-
-    public MainMenu(String filePath) {
-        this();
+    public MainMenu(MenuState menuState, String filePath) {
+        this(menuState);
         this.file = Gdx.files.internal(filePath); // For when we implement parsing from XML
     }
 
-    public MainMenu() {
-        assetHandler.loadFromFile("textures/menu/main_menu.txt");
-        assetHandler.loadFromFile("textures/menu/loading_screen.txt");
-        while (!assetHandler.update()) ; // Load stuff for main menu and loading screen
-
+    public MainMenu(MenuState menuState) {
         // Button set up for main menu
-        this.menuButtons = (TextureAtlas) assetHandler.getByName("menu_buttons");
+        this.menuState = menuState;
+        menuButtons = menuState.getMenuButtonTextures();
         setUpButton("Play", new Vector2(Game.VID_WIDTH / 2 - menuButtons.findRegion("button_play").getRegionWidth() / 2, 275), "button_play");
         setUpButton("Options", new Vector2(Game.VID_WIDTH / 2 - menuButtons.findRegion("button_options").getRegionWidth() / 2, 175), "button_options");
         setUpButton("Exit", new Vector2(Game.VID_WIDTH / 2 - menuButtons.findRegion("button_quit").getRegionWidth() / 2, 75), "button_quit");
@@ -49,7 +42,9 @@ public class MainMenu extends Menu {
 
                 @Override
                 public void onClick() {
-                    game.executeCommand("Play", "New");
+                    Menu menu = new PlayMenu(menuState);
+                    menu.setPrevMenu(MainMenu.this);
+                    GameStateManager.getInstance().getMenuState().setCurrentMenu(menu);
                 }
 
                 @Override
@@ -91,12 +86,5 @@ public class MainMenu extends Menu {
             button.setInputListener(listener);
         }
         buttons.add(button);
-    }
-
-    @Override
-    public void renderMenu(Batch batch) {
-        batch.draw(this.background, 0, 0);
-        super.renderMenu(batch);
-        // TODO: RENDER CLOUDS
     }
 }

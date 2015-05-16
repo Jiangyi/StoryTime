@@ -31,6 +31,7 @@ public class LoadState extends GameState {
     private final String LOADING = "Loading Game: ";
     private final String DONE_LOADING = "Done Loading! Press ESC to enter game.";
 
+
     public LoadState(Game game) {
         super(game);
         // Load and parse assets

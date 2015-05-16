@@ -6,11 +6,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jxz.notcontra.camera.PlayerCamera;
-import com.jxz.notcontra.entity.PlayerSave;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.handlers.InputManager;
-import com.jxz.notcontra.handlers.SaveGameHandler;
 import com.jxz.notcontra.shaders.Shaders;
 
 public class Game extends ApplicationAdapter {
@@ -27,6 +25,9 @@ public class Game extends ApplicationAdapter {
     private FitViewport viewport;
     private OrthographicCamera hudCam;
     private Shaders shaders;
+
+    // String to keep track of loading save files
+    private String loadSaveFile;
 
     // Map Render Variables
     public static final float UNIT_SCALE = 1 / 32f; // 1 ingame unit = 32 px (tile size)
@@ -114,21 +115,29 @@ public class Game extends ApplicationAdapter {
 //                level = cmds[2];
 //                mode = cmds[3];
                 // FIXME Temp hacks
-                gsm.setState(GameStateManager.State.LOAD);
-                GameStateManager.getInstance().getLoadState().load("levels/levels.txt");
+
                 // Start new logic here
             } else if (cmds[1].equalsIgnoreCase("load")) {
-                String loadFile = cmds[2];
-                PlayerSave playerSave = SaveGameHandler.loadSave(loadFile);
-                level = playerSave.level;
-                mode = playerSave.mode;
+                loadSaveFile = cmds[2];
+//                level = playerSave.level;
+//                mode = playerSave.mode;
                 // load save
             }
+            gsm.setState(GameStateManager.State.LOAD);
+            GameStateManager.getInstance().getLoadState().load("levels/levels.txt");
         } else if (cmds[0].equalsIgnoreCase("setKeyButton")) {
             InputManager inputManager = InputManager.getInstance();
             inputManager.setChangeKey(cmds[1]);
         } else if (cmds[0].equalsIgnoreCase("Exit")) {
             Gdx.app.exit();
         }
+    }
+
+    public String getLoadSaveFile() {
+        return loadSaveFile;
+    }
+
+    public void resetLoadSaveFile() {
+        loadSaveFile = null;
     }
 }

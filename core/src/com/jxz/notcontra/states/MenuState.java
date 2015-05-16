@@ -2,6 +2,7 @@ package com.jxz.notcontra.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL30;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.menu.MainMenu;
@@ -14,10 +15,16 @@ public class MenuState extends GameState {
 
     private AssetHandler assetHandler = AssetHandler.getInstance();
     private Menu currentMenu;
+    private TextureAtlas menuButtonTextures;
 
     public MenuState(Game game) {
         super(game);
-        currentMenu = new MainMenu();
+        assetHandler.loadFromFile("textures/menu/main_menu.txt");
+        assetHandler.loadFromFile("textures/menu/loading_screen.txt");
+        while (!assetHandler.update()) ; // Load stuff for main menu and loading screen
+        menuButtonTextures = (TextureAtlas) assetHandler.getByName("menu_buttons");
+        currentMenu = new MainMenu(this);
+
     }
 
     public void update() {
@@ -39,6 +46,18 @@ public class MenuState extends GameState {
 
     public Menu getCurrentMenu() {
         return currentMenu;
+    }
+
+    public void setCurrentMenu(Menu menu) {
+        currentMenu = menu;
+    }
+
+    public TextureAtlas getMenuButtonTextures() {
+        return menuButtonTextures;
+    }
+
+    public void setMenuButtonTextures(TextureAtlas menuButtonTextures) {
+        this.menuButtonTextures = menuButtonTextures;
     }
 }
 
