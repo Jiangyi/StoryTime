@@ -10,7 +10,9 @@ public class EntityFactory {
 
     // Spawn method
     public static Entity spawn(Class type) {
+        System.out.println(Pools.get(type).peak);
         return (Entity) Pools.obtain(type);
+
     }
 
     // Overloaded spawn method - contains coordinates
@@ -30,7 +32,5 @@ public class EntityFactory {
       //  entityPool.set(Slime.class, slimePool);
        // entityPool.set(Projectile.class, projectilePool);
     }
-
-
 
 }

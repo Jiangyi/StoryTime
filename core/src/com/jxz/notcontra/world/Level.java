@@ -40,7 +40,6 @@ public class Level {
     private int waveCount;
     private float spawnTimer;
 
-
     protected Level(TiledMap map) {
         this.map = map;
         height = map.getProperties().get("height", int.class);
@@ -284,5 +283,16 @@ public class Level {
 
     public void decMonsterCount() {
         monsterCount--;
+    }
+
+    public void dispose() {
+        for (Texture i : layers) {
+            i.dispose();
+        }
+        for (Level i : loadedMaps) {
+            i.map.dispose();
+        }
+        loadedMaps.clear();
+
     }
 }

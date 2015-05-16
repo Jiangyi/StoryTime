@@ -61,9 +61,16 @@ public class EntityManager implements Disposable {
         ObjectMap.Entries entries = masterList.entries();
         while (entries.hasNext()) {
             Entity e = (Entity) entries.next().value;
+
+            // TODO Determine whether during reset, it's better to free the objects and then clear the free pool, or just leave them be.
+//            if (e instanceof Pool.Poolable) {
+//                EntityFactory.free(e);
+//                Pools.get(e.getClass()).clear();
+//            }
             e.getSprite().getTexture().dispose();
         }
 
         masterList.clear();
+        id = 0;
     }
 }

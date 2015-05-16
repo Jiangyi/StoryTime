@@ -2,7 +2,6 @@ package com.jxz.notcontra.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -26,15 +25,12 @@ public class Menu {
     protected FileHandle file;
     protected Menu prevMenu;
     protected MenuState menuState;
-    protected Texture background;
     protected TextureAtlas menuButtons;
     protected String menuFile;
 
-    public Menu(MenuState menuState, String menuFile) {
-        this.menuState = menuState;
+    public Menu(String menuFile) {
         this.menuFile = menuFile;
-        this.menuButtons = menuState.getMenuButtonTextures();
-        this.background = (Texture) assetHandler.getByName("menu_background");
+        this.menuButtons = (TextureAtlas) assetHandler.getByName("menu_buttons");
 
         parseFromFile();
     }
@@ -44,7 +40,6 @@ public class Menu {
     }
 
     public void renderMenu(Batch batch) {
-        batch.draw(this.background, 0, 0);
         for (Button i : buttons) {
             i.draw(batch);
         }
@@ -102,8 +97,14 @@ public class Menu {
                             if (onClickType.equalsIgnoreCase("setMenu")) {
                                 if (onClick.getText().equalsIgnoreCase("Previous")) {
                                     menuState.setCurrentMenu(Menu.this.getPrevMenu());
+                                } else if (onClick.getText().equalsIgnoreCase("MainMenu")) {
+                                    GameStateManager gsm = GameStateManager.getInstance();
+                                    gsm.getMenuState().setCurrentMenu(gsm.getMenuState().getRootMenu());
+                                    gsm.setState(GameStateManager.State.MENU);
+                                    gsm.getPlayState().dispose();
+                                    gsm.resetGameState(GameStateManager.State.PLAY);
                                 } else {
-                                    Menu menu = new Menu(menuState, onClick.getText() + ".xml");
+                                    Menu menu = new Menu(onClick.getText() + ".xml");
                                     menu.setPrevMenu(Menu.this);
                                     menuState.setCurrentMenu(menu);
                                 }
@@ -129,5 +130,9 @@ public class Menu {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setMenuState(MenuState menuState) {
+        this.menuState = menuState;
     }
 }

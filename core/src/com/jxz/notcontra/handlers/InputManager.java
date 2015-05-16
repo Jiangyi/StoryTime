@@ -161,6 +161,12 @@ public class InputManager implements InputProcessor {
                 return true;
             }
         }
+        if (gsm.getCurrentState() instanceof MenuState) {
+            Menu prevMenu = gsm.getMenuState().getCurrentMenu().getPrevMenu();
+            if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE) && prevMenu != null) {
+                gsm.getMenuState().setCurrentMenu(prevMenu);
+            }
+        }
         if (keycode == Input.Keys.P) {
             Gdx.graphics.setVSync(false);
             return true;
@@ -251,12 +257,18 @@ public class InputManager implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (gsm.getCurrentState() instanceof MenuState) {
             currentMenu = gsm.getMenuState().getCurrentMenu();
+        } else if (gsm.getCurrentState() instanceof PlayState && gsm.getPlayState().isPaused()) {
+            currentMenu = gsm.getPlayState().getPauseMenu();
+        }
+
+        if (currentMenu != null) {
             for (Button i : currentMenu.getButtonList()) {
                 if (i.isMouseWithinBoundary(screenX, screenY) && i.getInputListener() != null) {
                     i.setState(Button.ButtonState.CLICK);
                 }
             }
         }
+        currentMenu = null;
         return true;
     }
 
@@ -264,6 +276,11 @@ public class InputManager implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (gsm.getCurrentState() instanceof MenuState) {
             currentMenu = gsm.getMenuState().getCurrentMenu();
+        } else if (gsm.getCurrentState() instanceof PlayState && gsm.getPlayState().isPaused()) {
+            currentMenu = gsm.getPlayState().getPauseMenu();
+        }
+
+        if (currentMenu != null) {
             for (Button i : currentMenu.getButtonList()) {
                 if (i.isMouseWithinBoundary(screenX, screenY) && i.getInputListener() != null) {
                     i.getInputListener().onClick();
@@ -273,6 +290,7 @@ public class InputManager implements InputProcessor {
                 }
             }
         }
+        currentMenu = null;
         return true;
     }
 
@@ -285,6 +303,11 @@ public class InputManager implements InputProcessor {
     public boolean mouseMoved(int screenX, int screenY) {
         if (gsm.getCurrentState() instanceof MenuState) {
             currentMenu = gsm.getMenuState().getCurrentMenu();
+        } else if (gsm.getCurrentState() instanceof PlayState && gsm.getPlayState().isPaused()) {
+            currentMenu = gsm.getPlayState().getPauseMenu();
+        }
+
+        if (currentMenu != null) {
             for (Button i : currentMenu.getButtonList()) {
                 if (i.isMouseWithinBoundary(screenX, screenY) && i.getInputListener() != null) {
                     i.setState(Button.ButtonState.HOVER);
@@ -294,6 +317,7 @@ public class InputManager implements InputProcessor {
                 }
             }
         }
+        currentMenu = null;
         return true;
     }
 

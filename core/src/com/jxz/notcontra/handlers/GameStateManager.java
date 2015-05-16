@@ -1,7 +1,10 @@
 package com.jxz.notcontra.handlers;
 
 import com.jxz.notcontra.game.Game;
-import com.jxz.notcontra.states.*;
+import com.jxz.notcontra.states.GameState;
+import com.jxz.notcontra.states.LoadState;
+import com.jxz.notcontra.states.MenuState;
+import com.jxz.notcontra.states.PlayState;
 
 /**
  * Created by Kevin Xiao on 2015-03-24.
@@ -81,5 +84,15 @@ public class GameStateManager {
 
     public GameState getCurrentState() {
         return currentGameState;
+    }
+
+    public void resetGameState(State state) {
+        if (state == State.PLAY) {
+            playState = null;
+        } else if (state == State.LOAD) {
+            loadState = null;
+        } else if (state == State.MENU) {
+            menuState = null;
+        }
     }
 }

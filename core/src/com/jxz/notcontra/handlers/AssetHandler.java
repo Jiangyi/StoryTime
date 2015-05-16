@@ -89,6 +89,26 @@ public class AssetHandler extends AssetManager {
         return assetMap.get(name) != null;
     }
 
+    public void unloadByFile(String filePath) {
+        FileHandle fileHandle = Gdx.files.internal(filePath);
+        BufferedReader br = new BufferedReader(fileHandle.reader());
+
+        String line;
+        String[] tmp;
+        try {
+            while ((line = br.readLine()) != null) {
+                // Only parse uncommented lines
+                if (!line.trim().startsWith("#") && line.trim().length() > 0) {
+                    // Regex for whitespace and tabs
+                    tmp = line.split("\\s+");
+                    unload(tmp[PATH]);
+                    assetMap.remove(tmp[NAME]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     // Unfortunately, Java does not provide a way to find a class by reflection
     // without providing the full classname as a string. And since these classes
     // are all in different sub-packages, this is the best I've got.

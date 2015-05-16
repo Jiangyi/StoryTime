@@ -4,11 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.jxz.notcontra.entity.EntityFactory;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.game.Game;
-import com.jxz.notcontra.handlers.AssetHandler;
-import com.jxz.notcontra.handlers.SkillManager;
+import com.jxz.notcontra.handlers.*;
+import com.jxz.notcontra.menu.Menu;
 import com.jxz.notcontra.shaders.Shaders;
 import com.jxz.notcontra.world.Level;
 import com.jxz.notcontra.world.LevelRenderer;
@@ -26,12 +25,12 @@ public class PlayState extends GameState {
     private LevelRenderer currentMapRenderer;
     private TiledMap map;
     private boolean isPaused;
+    private Menu pauseMenu;
 
     public PlayState(Game game) {
         super(game);
         // Initialize for the first time
         isPaused = false;
-        EntityFactory.init();
         SkillManager.init();
 
         // Initialize player
@@ -39,6 +38,8 @@ public class PlayState extends GameState {
         player.setCamera(playerCam);
         playerCam.setPlayer(player);
         load();
+        pauseMenu = new Menu("PauseMenu.xml");
+        pauseMenu.setMenuState(GameStateManager.getInstance().getMenuState());
     }
 
     public void load(String levelName) {
@@ -65,12 +66,14 @@ public class PlayState extends GameState {
             sb.setShader(game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH));
             currentMapRenderer.getBatch().setShader(game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH));
             currentMapRenderer.update();
+            AudioHelper.playBgMusic(true);
 
             // Update camera position
             playerCam.track();
         } else {
             sb.setShader(game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE));
             currentMapRenderer.getBatch().setShader(game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE));
+            AudioHelper.playBgMusic(false);
         }
     }
 
@@ -133,6 +136,7 @@ public class PlayState extends GameState {
             font.setColor(Color.WHITE);
             font.draw(sb, "GAME PAUSED... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
             font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
+            pauseMenu.renderMenu(sb);
             sb.end();
         }
     }
@@ -149,4 +153,14 @@ public class PlayState extends GameState {
         isPaused = pause;
     }
 
+    public void dispose() {
+        assetHandler.unloadByFile("levels/levels.txt");
+        assetHandler.unloadByFile("levels/general.txt");
+        currentLevel.dispose();
+        EntityManager.getInstance().dispose();
+    }
+
+    public Menu getPauseMenu() {
+        return pauseMenu;
+    }
 }

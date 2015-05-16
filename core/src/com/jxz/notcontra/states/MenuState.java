@@ -2,6 +2,7 @@ package com.jxz.notcontra.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL30;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
@@ -15,15 +16,18 @@ public class MenuState extends GameState {
     private AssetHandler assetHandler = AssetHandler.getInstance();
     private Menu currentMenu;
     private TextureAtlas menuButtonTextures;
+    private Menu rootMenu;
+    private Texture background;
 
     public MenuState(Game game) {
         super(game);
         assetHandler.loadFromFile("textures/menu/main_menu.txt");
         assetHandler.loadFromFile("textures/menu/loading_screen.txt");
         while (!assetHandler.update()) ; // Load stuff for main menu and loading screen
-        menuButtonTextures = (TextureAtlas) assetHandler.getByName("menu_buttons");
-        currentMenu = new Menu(this, "MainMenu.xml");
-
+        this.background = (Texture) assetHandler.getByName("menu_background");
+        rootMenu = new Menu("MainMenu.xml");
+        rootMenu.setMenuState(this);
+        setCurrentMenu(rootMenu);
     }
 
     public void update() {
@@ -36,6 +40,7 @@ public class MenuState extends GameState {
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         sb.setProjectionMatrix(hudCam.combined);
         sb.begin();
+        sb.draw(this.background, 0, 0);
         currentMenu.renderMenu(sb);
         font.draw(sb, "MENU STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
         font.draw(sb, "DELTA TIME IN SECONDS: " + Gdx.graphics.getDeltaTime(), 100, 75);
@@ -49,6 +54,14 @@ public class MenuState extends GameState {
 
     public void setCurrentMenu(Menu menu) {
         currentMenu = menu;
+    }
+
+    public Menu getRootMenu() {
+        return rootMenu;
+    }
+
+    public void setRootMenu(Menu menu) {
+        rootMenu = menu;
     }
 
     public TextureAtlas getMenuButtonTextures() {
