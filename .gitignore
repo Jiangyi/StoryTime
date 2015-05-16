@@ -63,3 +63,6 @@ build/
 ## OS Specific
 .DS_Store
 Thumbs.db
+
+## Project Specific
+android/assets/saves
