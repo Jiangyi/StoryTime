@@ -128,7 +128,7 @@ public class Game extends ApplicationAdapter {
         } else if (cmds[0].equalsIgnoreCase("setKeyButton")) {
             InputManager inputManager = InputManager.getInstance();
             inputManager.setChangeKey(cmds[1]);
-        } else if (cmds[0].equalsIgnoreCase("Exit")) {
+        } else if (cmds[0].equalsIgnoreCase("Quit")) {
             Gdx.app.exit();
         }
     }

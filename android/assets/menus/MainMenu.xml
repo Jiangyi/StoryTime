@@ -1,0 +1,17 @@
+<menu>
+    <button x="centre" y="275">
+        <name>Play</name>
+        <textureName>button_play</textureName>
+        <onClick type="setMenu">PlayMenu</onClick>
+    </button>
+    <button x="centre" y="175">
+        <name>Options</name>
+        <textureName>button_options</textureName>
+        <onClick type="null" />
+    </button>
+    <button x="centre" y="75">
+        <name>Quit</name>
+        <textureName>button_quit</textureName>
+        <onClick type="cmd">Quit</onClick>
+    </button>
+</menu>

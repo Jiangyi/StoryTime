@@ -1,0 +1,17 @@
+<menu>
+    <button x="centre" y="275">
+        <name>New</name>
+        <textureName>button_new</textureName>
+        <onClick type="cmd">play,new</onClick>
+    </button>
+    <button x="centre" y="175">
+        <name>Load</name>
+        <textureName>button_load</textureName>
+        <onClick type="cmd">play,load,save1.json</onClick>
+    </button>
+    <button x="centre" y="75">
+        <name>Back</name>
+        <textureName>button_quit</textureName>
+        <onClick type="setMenu">Previous</onClick>
+    </button>
+</menu>

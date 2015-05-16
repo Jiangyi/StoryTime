@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
-import com.jxz.notcontra.menu.MainMenu;
 import com.jxz.notcontra.menu.Menu;
 
 /**
@@ -23,7 +22,7 @@ public class MenuState extends GameState {
         assetHandler.loadFromFile("textures/menu/loading_screen.txt");
         while (!assetHandler.update()) ; // Load stuff for main menu and loading screen
         menuButtonTextures = (TextureAtlas) assetHandler.getByName("menu_buttons");
-        currentMenu = new MainMenu(this);
+        currentMenu = new Menu(this, "MainMenu.xml");
 
     }
 
