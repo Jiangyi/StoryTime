@@ -1,17 +1,19 @@
 package com.jxz.notcontra.world;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.jxz.notcontra.entity.EntityFactory;
 import com.jxz.notcontra.entity.Slime;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
+import com.jxz.notcontra.handlers.GameStateManager;
+import com.jxz.notcontra.states.PlayState;
 
 /**
  * Created by Samuel on 04/04/2015.
@@ -38,6 +40,7 @@ public class Level {
     private boolean firstLoad;
     private int monsterCount;
     private int waveCount;
+    private int subWaveCount;
     private float spawnTimer;
 
     protected Level(TiledMap map) {
@@ -46,9 +49,9 @@ public class Level {
         width = map.getProperties().get("width", int.class);
 
         // Load parallax backgrounds from map file
-        layers[0] = (Texture)assetHandler.getByName(map.getProperties().get("parallaxBackground", String.class));
-        layers[1] = (Texture)assetHandler.getByName(map.getProperties().get("parallaxMidground", String.class));
-        layers[2] = (Texture)assetHandler.getByName(map.getProperties().get("parallaxForeground", String.class));
+        layers[0] = (Texture) assetHandler.getByName(map.getProperties().get("parallaxBackground", String.class));
+        layers[1] = (Texture) assetHandler.getByName(map.getProperties().get("parallaxMidground", String.class));
+        layers[2] = (Texture) assetHandler.getByName(map.getProperties().get("parallaxForeground", String.class));
         layers[2].setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
         // Load array of polyline spawn points
@@ -68,6 +71,7 @@ public class Level {
 
     /**
      * Returns a level instance, given a TiledMap. Prevents duplicate levels from existing.
+     *
      * @param map TiledMap for the level.
      * @return A reference to the Level object corresponding to the map.
      */
@@ -82,6 +86,33 @@ public class Level {
     }
 
     /**
+     * Update method called to handle respawns
+     */
+    public void update() {
+        // Updates spawn timers and behaviour based on game mode
+        switch (GameStateManager.getInstance().getPlayState().getPlayMode()) {
+            case STANDARD:
+                // Standard game mode: Respawns don't occur, unless specifically triggered.
+                break;
+            case SURVIVAL:
+                // Survival game mode: Waves respawn occur after each wave is dead
+                // Sub waves spawn every 5 seconds until it reaches a maximum
+                if (monsterCount == 0 || spawnTimer <= 0) {
+                    spawn();
+                    spawnTimer = 5;
+                }
+                break;
+            case REST:
+                // Re-add frame time to the timer
+                spawnTimer += Gdx.graphics.getDeltaTime();
+                break;
+        }
+
+        spawnTimer -= Gdx.graphics.getDeltaTime();
+
+    }
+
+    /**
      * Spawns stuff based on random line
      */
     public void spawn() {
@@ -90,19 +121,23 @@ public class Level {
 
     public void spawn(int monsters) {
         for (int i = 0; i < monsters; i++) {
-            Vector2 spawnPos = spawnPointList.randomSpawn();
             Slime slime = (Slime) EntityFactory.spawn(Slime.class);
             slime.init();
-            slime.setPosition(spawnPos);
+            slime.setPosition(spawnPointList.randomSpawn());
             slime.setCurrentLevel(this);
+
+            // Automatically aggro to players in survival
+          if (GameStateManager.getInstance().getPlayState().getPlayMode() == PlayState.PlayMode.SURVIVAL) {
+                slime.setTarget(GameStateManager.getInstance().getPlayState().getPlayer());
+          }
         }
     }
 
     /**
      * Checks for a tile at target pixel coordinates. Defaults to static tile without layer parameter.
      *
-     * @param x X-coordinate of the target tile in pixels.
-     * @param y Y-coordinate of the target tile in pixels.
+     * @param x     X-coordinate of the target tile in pixels.
+     * @param y     Y-coordinate of the target tile in pixels.
      * @param layer Layer to check. See constants for more information.
      * @return Returns null if there is no tile. Returns tile(0,0) if out of bounds. In any other case, returns the target tile.
      */
@@ -163,8 +198,9 @@ public class Level {
 
     /**
      * Returns the distance downwards (in pixels) to the nearest one-way platform.
-     * @param x X-coordinate of the check, in pixels.
-     * @param y Y-coordinate of the initial check, in pixels.
+     *
+     * @param x        X-coordinate of the check, in pixels.
+     * @param y        Y-coordinate of the initial check, in pixels.
      * @param distance Distance downwards to scan, in pixels.
      * @return Returns the whole number of pixels away from the nearest platform.
      */
@@ -219,8 +255,8 @@ public class Level {
     /**
      * Convenience method to find the target y-position of a sloped tile, given an x value.
      *
-     * @param x     X-coordinate (in pixels) of the tile to check.
-     * @param y     Y-coordinate (in pixels) of the tile to check.
+     * @param x X-coordinate (in pixels) of the tile to check.
+     * @param y Y-coordinate (in pixels) of the tile to check.
      * @return Returns the calculated y-position of the slope at the desired x-y coordinate pair.
      */
     public float getSlopePosition(float x, float y) {
@@ -294,5 +330,9 @@ public class Level {
         }
         loadedMaps.clear();
 
+    }
+
+    public float getSpawnTimer() {
+        return spawnTimer;
     }
 }

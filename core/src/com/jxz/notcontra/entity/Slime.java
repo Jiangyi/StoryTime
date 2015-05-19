@@ -1,7 +1,6 @@
 package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -59,8 +58,8 @@ public class Slime extends Monster {
         isVisible = true;
         isActive = true;
         hitboxOffset.set(0, 0);
-        state = AIState.PATROLLING;
-        aiStateTime = 2.0f; // Start off idle for 2 seconds
+        state = AIState.SPAWNING;
+        aiStateTime = 0.5f; // Start off idle for 0.5 seconds
         currentAnimation = animIdle;
     }
 
@@ -69,6 +68,14 @@ public class Slime extends Monster {
     public void update() {
         switch (state) {
             // Pre-movement checks
+            case SPAWNING:
+                if (aiStateTime <= 0) {
+                    if (target != null) {
+                        state = AIState.CHASING;
+                    } else {
+                        state = AIState.PATROLLING;
+                    }
+                }
             case IDLE:
                 // Idle. Don't move.
                 movementState.set(0, 0);
@@ -115,7 +122,6 @@ public class Slime extends Monster {
                             movementState.set(-movementState.x, 0);
                         }
                     }
-                    aiStateTime -= Gdx.graphics.getDeltaTime();
                 }
                 break;
         }
@@ -155,6 +161,9 @@ public class Slime extends Monster {
             state = AIState.DYING;
             movementState.set(0, 0);
         }
+
+        // Update state time
+        aiStateTime -= Gdx.graphics.getDeltaTime();
     }
 
     @Override
@@ -216,6 +225,11 @@ public class Slime extends Monster {
         if (state == AIState.DYING) {
             batch.setColor(1f, 1f, 1f, 1 - (animStateTime / animDeath.getAnimationDuration()));
         }
+
+        if (state == AIState.SPAWNING) {
+            batch.setColor(1f, 1f, 1f, 1 - (aiStateTime / 0.5f));
+        }
+
         super.draw(batch);
         batch.setColor(1f, 1f, 1f, 1f);
     }

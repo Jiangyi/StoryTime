@@ -1,7 +1,6 @@
 package com.jxz.notcontra.world;
 
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.jxz.notcontra.entity.Entity;
@@ -24,6 +23,7 @@ public class LevelRenderer extends OrthogonalTiledMapRenderer {
     }
 
     public void update() {
+        // Update all active entities in renderer
         for (Entity e : EntityManager.getInstance().getEntitiesList()) {
             if (e.getCurrentLevel() == currentLevel) {
                 if (e.isActive()) {
@@ -31,6 +31,9 @@ public class LevelRenderer extends OrthogonalTiledMapRenderer {
                 }
             }
         }
+
+        // Update level timers
+        currentLevel.update();
     }
 
     @Override

@@ -25,11 +25,13 @@ public class SpawnPointList {
     // Fields
     private Array<SpawnPointLine> spawnList;
     private float currentIndex;
+    private Vector2 tmp; // Temporary vector used for calculations, so that a new instance doesn't need to be declared per calculation
 
     // Constructor
     public SpawnPointList() {
         spawnList = new Array<SpawnPointLine>();
         currentIndex = 0;
+        tmp = new Vector2();
     }
 
     public void addLine(PolylineMapObject line) {
@@ -52,7 +54,8 @@ public class SpawnPointList {
             }
         }
 
+        tmp.set(MathUtils.random(targetLine.line.getTransformedVertices()[0], targetLine.line.getTransformedVertices()[2]), MathUtils.random(targetLine.line.getTransformedVertices()[1], targetLine.line.getTransformedVertices()[3]));
         // Return a random position between the two vertices of the line
-        return new Vector2(MathUtils.random(targetLine.line.getTransformedVertices()[0], targetLine.line.getTransformedVertices()[2]), MathUtils.random(targetLine.line.getTransformedVertices()[1], targetLine.line.getTransformedVertices()[3]));
+        return tmp.cpy();
     }
 }

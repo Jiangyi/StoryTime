@@ -26,18 +26,30 @@ public class PlayState extends GameState {
     private TiledMap map;
     private boolean isPaused;
     private Menu pauseMenu;
+    private PlayMode playMode;
+    private int difficulty; // (Will eventually) Determine the health scaling, respawn timer, and wave density of monsters.
+    private int wave; // Which wave the player is facing. Monster count = floor(0.5x + 5)
+    private int subWave; // Waves are divided into subwaves, such that it doesn't feel overwhelming
+    private int killCounter;
+
+    public enum PlayMode {
+        SURVIVAL, STANDARD, REST
+    }
 
     public PlayState(Game game) {
         super(game);
         // Initialize for the first time
         isPaused = false;
         SkillManager.init();
+        playMode = PlayMode.SURVIVAL;
+        difficulty = 1;
+        wave = 0;
+        subWave = 0;
 
         // Initialize player
         player = new Player(this);
         player.setCamera(playerCam);
         playerCam.setPlayer(player);
-        load();
         pauseMenu = new Menu("PauseMenu.xml");
         pauseMenu.setMenuState(GameStateManager.getInstance().getMenuState());
     }
@@ -75,6 +87,14 @@ public class PlayState extends GameState {
             currentMapRenderer.getBatch().setShader(game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE));
             AudioHelper.playBgMusic(false);
         }
+    }
+
+    public PlayMode getPlayMode() {
+        return playMode;
+    }
+
+    public void setPlayMode(PlayMode mode) {
+        this.playMode = mode;
     }
 
     public void render() {
@@ -127,7 +147,7 @@ public class PlayState extends GameState {
             font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
             font.draw(sb, "Press O to turn on VSync, P to turn off", 700, 25);
             font.draw(sb, "Press M to mute/unmute background music", 700, 50);
-            //font.draw(sb, "Grounded? : " + (player.isGrounded() ? "true" : "false"), 100, 25);
+            font.draw(sb, "Time to next spawn: " + (currentLevel.getSpawnTimer()), 500, 125);
             font.draw(sb, "Slimes: " + currentLevel.getMonsterCount(), 500, 25);
             player.getHealthBar().draw(sb);
             sb.end();
@@ -162,5 +182,32 @@ public class PlayState extends GameState {
 
     public Menu getPauseMenu() {
         return pauseMenu;
+    }
+    public int getKills() {
+        return killCounter;
+    }
+
+    public void incKills() {
+        killCounter++;
+    }
+
+    public void setKills(int kills) {
+        killCounter = kills;
+    }
+
+    public int getSubWave() {
+        return subWave;
+    }
+
+    public void setSubWave(int subWave) {
+        this.subWave = subWave;
+    }
+
+    public int getWave() {
+        return wave;
+    }
+
+    public void setWave(int wave) {
+        this.wave = wave;
     }
 }
