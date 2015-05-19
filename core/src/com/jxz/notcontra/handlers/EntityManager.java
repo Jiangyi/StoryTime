@@ -1,9 +1,8 @@
 package com.jxz.notcontra.handlers;
 
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.*;
 import com.jxz.notcontra.entity.Entity;
+import com.jxz.notcontra.entity.EntityFactory;
 import com.jxz.notcontra.game.Game;
 
 /**
@@ -63,10 +62,10 @@ public class EntityManager implements Disposable {
             Entity e = (Entity) entries.next().value;
 
             // TODO Determine whether during reset, it's better to free the objects and then clear the free pool, or just leave them be.
-//            if (e instanceof Pool.Poolable) {
-//                EntityFactory.free(e);
-//                Pools.get(e.getClass()).clear();
-//            }
+            if (e instanceof Pool.Poolable) {
+                EntityFactory.free(e);
+                Pools.get(e.getClass()).clear();
+            }
             e.getSprite().getTexture().dispose();
         }
 
