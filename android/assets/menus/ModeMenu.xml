@@ -1,13 +1,13 @@
 <menu>
     <button x="centre" y="275">
-        <name>New</name>
+        <name>Story</name>
         <textureName>button_new</textureName>
-        <onClick type="setMenu">ModeMenu</onClick>
+        <onClick type="cmd">play,new,standard</onClick>
     </button>
     <button x="centre" y="175">
-        <name>Load</name>
+        <name>Survival</name>
         <textureName>button_load</textureName>
-        <onClick type="cmd">play,load,save1.json</onClick>
+        <onClick type="cmd">play,new,survival</onClick>
     </button>
     <button x="centre" y="75">
         <name>Back</name>

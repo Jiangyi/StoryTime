@@ -50,6 +50,9 @@ public class AudioHelper {
         return bgMusic.isPlaying();
     }
 
+    public static void resetBackgroundMusic() {
+        bgMusic.setPosition(0f);
+    }
     public static void playSoundEffect(String soundName) {
         sound = (Sound) assetHandler.getByName(soundName);
         sound.play();

@@ -14,7 +14,6 @@ import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.GameStateManager;
-import com.jxz.notcontra.handlers.SaveGameHandler;
 import com.jxz.notcontra.hud.PlayerStatusBar;
 import com.jxz.notcontra.skill.Skill;
 import com.jxz.notcontra.states.PlayState;
@@ -39,10 +38,9 @@ public class Player extends LivingEntity {
     // Constructor
     public Player(PlayState playState) {
         super("player");
-
-        String saveFile = GameStateManager.getInstance().getGame().getLoadSaveFile();
-        if (saveFile != null) {
-            loadSave(SaveGameHandler.loadSave(saveFile));
+        playerSave = GameStateManager.getInstance().getGame().getLoadSaveObject();
+        if (playerSave != null) {
+            loadSave();
         } else {
             this.health = 100;
             this.mana = 100;
@@ -91,13 +89,10 @@ public class Player extends LivingEntity {
     }
 
 
-    public void loadSave(PlayerSave save) {
-        this.playerSave = save;
-        this.health = save.health;
-        this.mana = save.mana;
-        this.setPosition(save.x, save.y);
-        // Reset the save file string after loading
-        GameStateManager.getInstance().getGame().resetLoadSaveFile();
+    public void loadSave() {
+        this.health = playerSave.health;
+        this.mana = playerSave.mana;
+        this.setPosition(playerSave.x, playerSave.y);
     }
 
     public enum PlayerState {

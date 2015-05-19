@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jxz.notcontra.camera.PlayerCamera;
+import com.jxz.notcontra.entity.PlayerSave;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.handlers.InputManager;
+import com.jxz.notcontra.handlers.SaveGameHandler;
 import com.jxz.notcontra.shaders.Shaders;
 
 public class Game extends ApplicationAdapter {
@@ -27,7 +29,13 @@ public class Game extends ApplicationAdapter {
     private Shaders shaders;
 
     // String to keep track of loading save files
-    private String loadSaveFile;
+    private PlayerSave save;
+
+    // Enum for the mode we are currently in in the game
+    public enum PlayMode {
+        SURVIVAL, STANDARD, REST
+    }
+    private PlayMode playMode;
 
     // Map Render Variables
     public static final float UNIT_SCALE = 1 / 32f; // 1 ingame unit = 32 px (tile size)
@@ -109,19 +117,14 @@ public class Game extends ApplicationAdapter {
 
     public void executeCommand(String... cmds) {
         if (cmds[0].equalsIgnoreCase("play")) {
-            String level = "";
-            String mode = "";
+            resetLoadSaveObject();
             if (cmds[1].equalsIgnoreCase("new")) {
-//                level = cmds[2];
-//                mode = cmds[3];
-                // FIXME Temp hacks
-
-                // Start new logic here
+                playMode = PlayMode.valueOf(cmds[2].toUpperCase());
+                // String level = cmds[3];
             } else if (cmds[1].equalsIgnoreCase("load")) {
-                loadSaveFile = cmds[2];
+                save = SaveGameHandler.loadSave(cmds[2]);
+                playMode = PlayMode.valueOf(save.mode);
 //                level = playerSave.level;
-//                mode = playerSave.mode;
-                // load save
             }
             gsm.setState(GameStateManager.State.LOAD);
             GameStateManager.getInstance().getLoadState().load("levels/levels.txt");
@@ -135,11 +138,19 @@ public class Game extends ApplicationAdapter {
         }
     }
 
-    public String getLoadSaveFile() {
-        return loadSaveFile;
+    public PlayerSave getLoadSaveObject() {
+        return save;
     }
 
-    public void resetLoadSaveFile() {
-        loadSaveFile = null;
+    private void resetLoadSaveObject() {
+        playMode = null;
+    }
+
+    public PlayMode getPlayMode() {
+        return playMode;
+    }
+
+    public void setPlayMode(PlayMode mode) {
+        this.playMode = mode;
     }
 }

@@ -13,7 +13,6 @@ import com.jxz.notcontra.entity.Slime;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.GameStateManager;
-import com.jxz.notcontra.states.PlayState;
 
 /**
  * Created by Samuel on 04/04/2015.
@@ -90,7 +89,7 @@ public class Level {
      */
     public void update() {
         // Updates spawn timers and behaviour based on game mode
-        switch (GameStateManager.getInstance().getPlayState().getPlayMode()) {
+        switch (GameStateManager.getInstance().getGame().getPlayMode()) {
             case STANDARD:
                 // Standard game mode: Respawns don't occur, unless specifically triggered.
                 break;
@@ -127,7 +126,7 @@ public class Level {
             slime.setCurrentLevel(this);
 
             // Automatically aggro to players in survival
-          if (GameStateManager.getInstance().getPlayState().getPlayMode() == PlayState.PlayMode.SURVIVAL) {
+          if (GameStateManager.getInstance().getGame().getPlayMode() == Game.PlayMode.SURVIVAL) {
                 slime.setTarget(GameStateManager.getInstance().getPlayState().getPlayer());
           }
         }

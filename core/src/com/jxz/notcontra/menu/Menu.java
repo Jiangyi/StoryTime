@@ -106,6 +106,7 @@ public class Menu {
                                 } else {
                                     Menu menu = new Menu(onClick.getText() + ".xml");
                                     menu.setPrevMenu(Menu.this);
+                                    menu.setMenuState(menuState);
                                     menuState.setCurrentMenu(menu);
                                 }
                             } else if (onClickType.equalsIgnoreCase("cmd")) {

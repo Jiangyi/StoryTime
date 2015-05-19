@@ -26,22 +26,17 @@ public class PlayState extends GameState {
     private TiledMap map;
     private boolean isPaused;
     private Menu pauseMenu;
-    private PlayMode playMode;
+
     private int difficulty; // (Will eventually) Determine the health scaling, respawn timer, and wave density of monsters.
     private int wave; // Which wave the player is facing. Monster count = floor(0.5x + 5)
     private int subWave; // Waves are divided into subwaves, such that it doesn't feel overwhelming
     private int killCounter;
-
-    public enum PlayMode {
-        SURVIVAL, STANDARD, REST
-    }
 
     public PlayState(Game game) {
         super(game);
         // Initialize for the first time
         isPaused = false;
         SkillManager.init();
-        playMode = PlayMode.SURVIVAL;
         difficulty = 1;
         wave = 0;
         subWave = 0;
@@ -52,6 +47,9 @@ public class PlayState extends GameState {
         playerCam.setPlayer(player);
         pauseMenu = new Menu("PauseMenu.xml");
         pauseMenu.setMenuState(GameStateManager.getInstance().getMenuState());
+
+        // Reset music
+        AudioHelper.resetBackgroundMusic();
     }
 
     public void load(String levelName) {
@@ -78,23 +76,18 @@ public class PlayState extends GameState {
             sb.setShader(game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH));
             currentMapRenderer.getBatch().setShader(game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH));
             currentMapRenderer.update();
-            AudioHelper.playBgMusic(true);
-
+            if (!AudioHelper.isBgMusicPlaying()) {
+                AudioHelper.playBgMusic(true);
+            }
             // Update camera position
             playerCam.track();
         } else {
             sb.setShader(game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE));
             currentMapRenderer.getBatch().setShader(game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE));
-            AudioHelper.playBgMusic(false);
+            if (AudioHelper.isBgMusicPlaying()) {
+                AudioHelper.playBgMusic(false);
+            }
         }
-    }
-
-    public PlayMode getPlayMode() {
-        return playMode;
-    }
-
-    public void setPlayMode(PlayMode mode) {
-        this.playMode = mode;
     }
 
     public void render() {
@@ -147,9 +140,12 @@ public class PlayState extends GameState {
             font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
             font.draw(sb, "Press O to turn on VSync, P to turn off", 700, 25);
             font.draw(sb, "Press M to mute/unmute background music", 700, 50);
-            font.draw(sb, "Time to next spawn: " + (currentLevel.getSpawnTimer()), 500, 125);
             font.draw(sb, "Slimes: " + currentLevel.getMonsterCount(), 500, 25);
             player.getHealthBar().draw(sb);
+
+            if (game.getPlayMode() == Game.PlayMode.SURVIVAL) {
+                font.draw(sb, "Time to next spawn: " + (currentLevel.getSpawnTimer()), 500, 125);
+            }
             sb.end();
         } else {
             sb.begin();
