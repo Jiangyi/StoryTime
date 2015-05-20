@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-import com.jxz.notcontra.effect.Effect;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.handlers.SkillInventory;
@@ -413,7 +411,9 @@ public abstract class LivingEntity extends AnimatedEntity {
                 jumpCounter = maxJumps;
             } else {
                 jumpState = jumpTime;
-                AudioHelper.playSoundEffect("jump");
+                if (this instanceof Player) {
+                    AudioHelper.playSoundEffect("jump");
+                }
             }
             resetGravity();
             jumpCounter += 1;
