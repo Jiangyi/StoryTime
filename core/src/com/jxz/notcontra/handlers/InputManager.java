@@ -7,7 +7,9 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.jxz.notcontra.entity.*;
+import com.jxz.notcontra.entity.Entity;
+import com.jxz.notcontra.entity.Monster;
+import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.menu.Menu;
 import com.jxz.notcontra.menu.buttons.Button;
@@ -147,9 +149,8 @@ public class InputManager implements InputProcessor {
                 }
             }
 
-            // PLAY STATE SWITCH STATE TEST
-            if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE) && gsm.getPlayState().getPlayer().isAlive()) {
-                // Change game between play and pause
+            // PAUSE GAME FROM PLAY STATE
+            if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE)) {
                 gsm.getPlayState().setIsPaused(!gsm.getPlayState().isPaused());
                 return true;
             }

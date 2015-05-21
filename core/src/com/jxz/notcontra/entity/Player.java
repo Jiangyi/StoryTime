@@ -101,6 +101,12 @@ public class Player extends LivingEntity {
 
     @Override
     public void update() {
+        if (health <= 0 && state != PlayerState.DEAD) {
+            health = 0;
+            state = PlayerState.DEAD;
+            movementState.set(0, 0);
+        }
+
         boolean prevRooted = isRooted;
 
         // Iterate through active skills to check what to cast
@@ -156,11 +162,6 @@ public class Player extends LivingEntity {
 
     @Override
     public void damage(float dmg, Entity source) {
-        if (health <= 0 && state == PlayerState.ALIVE) {
-            health = 0;
-            state = PlayerState.DEAD;
-            movementState.set(0, 0);
-        }
         if (state == PlayerState.ALIVE) {
             super.damage(dmg, source);
 

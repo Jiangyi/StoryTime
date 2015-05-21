@@ -57,6 +57,7 @@ public class PlayState extends GameState {
         currentLevel = Level.getLevel(map);
         currentMapRenderer = new LevelRenderer(currentLevel, Game.UNIT_SCALE);
         currentMapRenderer.setView(playerCam);
+        LevelRenderer.setCamera(playerCam);
 
         // Initialize Player object
         player.setCurrentLevel(currentLevel);
@@ -75,11 +76,11 @@ public class PlayState extends GameState {
 
         if (!player.isAlive()) {
             pauseMenu.getButtonList().remove("Back");
-            setIsPaused(true);
+            // setIsPaused(true);
         }
         if (!isPaused) {
             sb.setShader(game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH));
-            currentMapRenderer.getBatch().setShader(game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH));
+            currentMapRenderer.getBatch().setShader(player.isAlive() ? game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH) : game.getShaders().getShaderType(Shaders.ShaderType.SEPIA));
             currentMapRenderer.update();
             if (!AudioHelper.isBgMusicPlaying()) {
                 AudioHelper.playBgMusic(true);
@@ -88,7 +89,7 @@ public class PlayState extends GameState {
             playerCam.track();
         } else {
             sb.setShader(game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE));
-            currentMapRenderer.getBatch().setShader(game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE));
+            currentMapRenderer.getBatch().setShader(player.isAlive() ? game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE) : game.getShaders().getShaderType(Shaders.ShaderType.SEPIA));
             if (AudioHelper.isBgMusicPlaying()) {
                 AudioHelper.playBgMusic(false);
             }
@@ -103,9 +104,10 @@ public class PlayState extends GameState {
 
 
         // Render Background
-        sb.begin();
+        //sb.begin();
 
         // Back layer
+        /**
         sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1f, 1f));
         sb.draw(currentLevel.getBackground()[0], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 2f,
                 Game.VIEW_WIDTH, Game.VIEW_HEIGHT);
@@ -122,6 +124,7 @@ public class PlayState extends GameState {
                 currentLevel.getBackground()[2].getWidth() / Game.VIEW_WIDTH * 12, currentLevel.getBackground()[2].getHeight() / Game.VIEW_HEIGHT, 0, 1, 10, 0);
         sb.setShader(null);
         sb.end();
+         */
 
         // Update projection matrices
         playerCam.update();
@@ -131,8 +134,8 @@ public class PlayState extends GameState {
         currentMapRenderer.render();
         currentMapRenderer.setView(playerCam);
 
+        sb.begin();
         if (!isPaused()) {
-            sb.begin();
             font.setColor(Color.WHITE);
             // Debug text - drawn to HUD Camera
 
@@ -151,18 +154,16 @@ public class PlayState extends GameState {
             if (game.getPlayMode() == Game.PlayMode.SURVIVAL) {
                 font.draw(sb, "Time to next spawn: " + (currentLevel.getSpawnTimer()), 500, 125);
             }
-            sb.end();
         } else {
-            sb.begin();
             font.setColor(Color.WHITE);
             font.draw(sb, "GAME PAUSED... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
             font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
-            if (!player.isAlive()) {
-                font.draw(sb, "YOU LOSE!", 600, 550);
-            }
             pauseMenu.renderMenu(sb);
-            sb.end();
         }
+        if (!player.isAlive()) {
+            font.draw(sb, "YOU ARE DEAD.", 600, 550);
+        }
+        sb.end();
     }
 
     public Player getPlayer() {
