@@ -6,12 +6,12 @@
     </button>
     <button x="centre" y="175">
         <name>Back</name>
-        <textureName>button_quit</textureName>
+        <textureName>button_back</textureName>
         <onClick type="cmd">unPauseGame</onClick>
     </button>
     <button x="centre" y="75">
         <name>Quit</name>
-        <textureName>button_quit</textureName>
+        <textureName>button_mainmenu</textureName>
         <onClick type="setMenu">MainMenu</onClick>
     </button>
 </menu>

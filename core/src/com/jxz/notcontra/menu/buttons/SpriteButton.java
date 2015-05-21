@@ -2,12 +2,8 @@ package com.jxz.notcontra.menu.buttons;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import javafx.animation.Animation;
-
-import javax.xml.soap.Text;
-import java.util.Vector;
 
 /**
  * Created by jiangyi on 09/05/15.
@@ -19,20 +15,20 @@ public class SpriteButton extends Button {
     protected Sprite defaultSprite;
 
     // Define a non-changing, default sprite button only
-    public SpriteButton(String name, Sprite defaultSprite, Vector2 position) {
-        this.name = name;
-        this.currentState = ButtonState.DEFAULT;
-        this.position = position;
-        this.defaultSprite = new Sprite(defaultSprite);
-        this.height = defaultSprite.getRegionHeight();
-        this.width = defaultSprite.getRegionWidth();
+    public SpriteButton(String name, TextureAtlas buttonSprites, String atlasRegion, Vector2 position) {
+        this(name, buttonSprites.createSprite(atlasRegion, 0), buttonSprites.createSprite(atlasRegion, 1), buttonSprites.createSprite(atlasRegion, 2), position);
     }
 
     // Define a button with sprites for all modes
     public SpriteButton(String name, Sprite defaultRegion, Sprite onHoverRegion, Sprite onClickRegion, Vector2 position) {
-        this(name, defaultRegion, position);
-        this.onHoverSprite = new Sprite(onHoverRegion);
-        this.onClickSprite = new Sprite(onClickRegion);
+        this.name = name;
+        this.currentState = ButtonState.DEFAULT;
+        this.position = position;
+        this.defaultSprite = defaultRegion;
+        this.onHoverSprite = onHoverRegion;
+        this.onClickSprite = onClickRegion;
+        this.height = defaultSprite.getRegionHeight();
+        this.width = defaultSprite.getRegionWidth();
     }
 
     public void setDefaultSprite(Sprite defaultSprite) {

@@ -1,17 +1,17 @@
 <menu>
     <button x="centre" y="275">
         <name>Story</name>
-        <textureName>button_new</textureName>
+        <textureName>button_story</textureName>
         <onClick type="cmd">play,new,standard</onClick>
     </button>
     <button x="centre" y="175">
         <name>Survival</name>
-        <textureName>button_load</textureName>
+        <textureName>button_survival</textureName>
         <onClick type="cmd">play,new,survival</onClick>
     </button>
     <button x="centre" y="75">
         <name>Back</name>
-        <textureName>button_quit</textureName>
+        <textureName>button_back</textureName>
         <onClick type="setMenu">Previous</onClick>
     </button>
 </menu>

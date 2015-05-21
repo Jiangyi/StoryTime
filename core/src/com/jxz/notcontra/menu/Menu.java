@@ -84,7 +84,7 @@ public class Menu {
                 y = i.getFloat("y");
 
                 // Initialize button
-                final SpriteButton button = new SpriteButton(name, menuButtons.createSprite(atlasRegion, 0), menuButtons.createSprite(atlasRegion, 1), menuButtons.createSprite(atlasRegion, 2), new Vector2(x, y));
+                final SpriteButton button = new SpriteButton(name, menuButtons, atlasRegion, new Vector2(x, y));
 
                 // Check for inputListener parameters
                 final XmlReader.Element onClick = i.getChildByName("onClick");

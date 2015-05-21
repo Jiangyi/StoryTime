@@ -11,7 +11,7 @@
     </button>
     <button x="centre" y="75">
         <name>Back</name>
-        <textureName>button_quit</textureName>
+        <textureName>button_back</textureName>
         <onClick type="setMenu">Previous</onClick>
     </button>
 </menu>
