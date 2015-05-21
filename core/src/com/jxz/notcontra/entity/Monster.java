@@ -3,7 +3,7 @@ package com.jxz.notcontra.entity;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
-import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.hud.OSHealthBar;
 import com.jxz.notcontra.world.Level;
 
@@ -53,6 +53,8 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     @Override
     public void die() {
         super.die();
+        int score = GameStateManager.getInstance().getPlayState().getPlayer().getScore();
+        GameStateManager.getInstance().getPlayState().getPlayer().setScore(score + 5);
         currentLevel.decMonsterCount();
     }
 

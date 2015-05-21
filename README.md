@@ -2,6 +2,7 @@
 
 ## HIGH PRIORITY: ##
 * Options Menu
+* Player death animation
 * Fix the ladder-platform interaction
 * Ranged / Boss AI / Non-stupid grunt AI
 * Game mode implementation / scoring system
@@ -9,6 +10,7 @@
 * Damage formula and damage numbers
 * Fall damage
 * Wave spawning formula
+* Particools
 
 ## MEDIUM PRIORITY: ##
 * Buffs/Skills

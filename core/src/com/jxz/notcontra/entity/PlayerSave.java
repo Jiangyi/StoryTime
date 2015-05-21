@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class PlayerSave {
 
+    public String spriteName;
+    public int score;
     public float x;
     public float y;
     public int health;

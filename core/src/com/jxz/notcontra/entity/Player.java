@@ -33,6 +33,7 @@ public class Player extends LivingEntity {
     private int flickerCount;
     private final float FLICKER_SECONDS = 1.5f;
     private final int FLICKER_COUNT = 8;
+    private int score;
     private PlayerSave playerSave;
 
     // Constructor
@@ -44,9 +45,11 @@ public class Player extends LivingEntity {
         } else {
             this.health = 100;
             this.mana = 100;
+            this.score = 0;
+            this.animFrames = (TextureAtlas) assetHandler.getByName("player");
         }
         // Set up animations
-        this.animFrames = (TextureAtlas) assetHandler.getByName("player");
+
         animWalk = new Animation(1 / 6f, this.animFrames.findRegions("walk1"));
         animIdle = new Animation(1 / 1.5f, this.animFrames.findRegions("stand1"));
         animJump = new Animation(1f, (this.animFrames.findRegions("jump")));
@@ -90,8 +93,10 @@ public class Player extends LivingEntity {
 
 
     public void loadSave() {
+        this.animFrames = (TextureAtlas) assetHandler.getByName(playerSave.spriteName);
         this.health = playerSave.health;
         this.mana = playerSave.mana;
+        this.score = playerSave.score;
         this.setPosition(playerSave.x, playerSave.y);
     }
 
@@ -333,6 +338,14 @@ public class Player extends LivingEntity {
 
     public boolean isAlive() {
         return state != PlayerState.DEAD;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getScore() {
+        return score;
     }
 
 }
