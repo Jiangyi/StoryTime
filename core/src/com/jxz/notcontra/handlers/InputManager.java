@@ -148,7 +148,7 @@ public class InputManager implements InputProcessor {
             }
 
             // PLAY STATE SWITCH STATE TEST
-            if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE)) {
+            if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE) && gsm.getPlayState().getPlayer().isAlive()) {
                 // Change game between play and pause
                 gsm.getPlayState().setIsPaused(!gsm.getPlayState().isPaused());
                 return true;
@@ -262,7 +262,7 @@ public class InputManager implements InputProcessor {
         }
 
         if (currentMenu != null) {
-            for (Button i : currentMenu.getButtonList()) {
+            for (Button i : currentMenu.getButtonList().values()) {
                 if (i.isMouseWithinBoundary(screenX, screenY) && i.getInputListener() != null) {
                     i.setState(Button.ButtonState.CLICK);
                 }
@@ -281,7 +281,7 @@ public class InputManager implements InputProcessor {
         }
 
         if (currentMenu != null) {
-            for (Button i : currentMenu.getButtonList()) {
+            for (Button i : currentMenu.getButtonList().values()) {
                 if (i.isMouseWithinBoundary(screenX, screenY) && i.getInputListener() != null) {
                     i.getInputListener().onClick();
                     if (i.getCurrentState() == Button.ButtonState.CLICK) {
@@ -308,7 +308,7 @@ public class InputManager implements InputProcessor {
         }
 
         if (currentMenu != null) {
-            for (Button i : currentMenu.getButtonList()) {
+            for (Button i : currentMenu.getButtonList().values()) {
                 if (i.isMouseWithinBoundary(screenX, screenY) && i.getInputListener() != null) {
                     i.setState(Button.ButtonState.HOVER);
                     i.getInputListener().onHover();

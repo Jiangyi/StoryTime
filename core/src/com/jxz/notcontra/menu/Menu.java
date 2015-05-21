@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.XmlReader;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
@@ -21,7 +22,7 @@ import java.io.IOException;
  */
 public class Menu {
     protected AssetHandler assetHandler = AssetHandler.getInstance();
-    protected Array<Button> buttons = new Array<Button>();
+    protected ObjectMap<String, Button> buttons = new ObjectMap<String, Button>();
     protected FileHandle file;
     protected Menu prevMenu;
     protected MenuState menuState;
@@ -35,21 +36,17 @@ public class Menu {
         parseFromFile();
     }
 
-    public Array<Button> getButtons() {
-        return buttons;
-    }
-
     public void renderMenu(Batch batch) {
-        for (Button i : buttons) {
+        for (Button i : buttons.values()) {
             i.draw(batch);
         }
     }
 
-    protected void addButton(Button button) {
-        buttons.add(button);
+    protected void addButton(String name, Button button) {
+        buttons.put(name, button);
     }
 
-    public Array<Button> getButtonList() {
+    public ObjectMap<String, Button> getButtonList() {
         return buttons;
     }
 
@@ -84,7 +81,7 @@ public class Menu {
                 y = i.getFloat("y");
 
                 // Initialize button
-                final SpriteButton button = new SpriteButton(name, menuButtons, atlasRegion, new Vector2(x, y));
+                final SpriteButton button = new SpriteButton(menuButtons, atlasRegion, new Vector2(x, y));
 
                 // Check for inputListener parameters
                 final XmlReader.Element onClick = i.getChildByName("onClick");
@@ -125,7 +122,7 @@ public class Menu {
                     };
                     button.setInputListener(listener);
                 }
-                buttons.add(button);
+                buttons.put(name, button);
 
             }
         } catch (IOException e) {

@@ -16,7 +16,6 @@ public abstract class Button {
         HOVER, CLICK, DEFAULT;
     }
 
-    protected String name;
     protected ButtonState currentState;
     protected InputListener inputListener;
     protected Vector2 position;
@@ -58,13 +57,5 @@ public abstract class Button {
 
     public ButtonState getCurrentState() {
         return currentState;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

@@ -72,6 +72,11 @@ public class PlayState extends GameState {
     }
 
     public void update() {
+
+        if (!player.isAlive()) {
+            pauseMenu.getButtonList().remove("Back");
+            setIsPaused(true);
+        }
         if (!isPaused) {
             sb.setShader(game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH));
             currentMapRenderer.getBatch().setShader(game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH));
@@ -152,6 +157,9 @@ public class PlayState extends GameState {
             font.setColor(Color.WHITE);
             font.draw(sb, "GAME PAUSED... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
             font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
+            if (!player.isAlive()) {
+                font.draw(sb, "YOU LOSE!", 600, 550);
+            }
             pauseMenu.renderMenu(sb);
             sb.end();
         }

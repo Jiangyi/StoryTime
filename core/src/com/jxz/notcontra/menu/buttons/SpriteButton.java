@@ -15,13 +15,12 @@ public class SpriteButton extends Button {
     protected Sprite defaultSprite;
 
     // Define a non-changing, default sprite button only
-    public SpriteButton(String name, TextureAtlas buttonSprites, String atlasRegion, Vector2 position) {
-        this(name, buttonSprites.createSprite(atlasRegion, 0), buttonSprites.createSprite(atlasRegion, 1), buttonSprites.createSprite(atlasRegion, 2), position);
+    public SpriteButton(TextureAtlas buttonSprites, String atlasRegion, Vector2 position) {
+        this(buttonSprites.createSprite(atlasRegion, 0), buttonSprites.createSprite(atlasRegion, 1), buttonSprites.createSprite(atlasRegion, 2), position);
     }
 
     // Define a button with sprites for all modes
-    public SpriteButton(String name, Sprite defaultRegion, Sprite onHoverRegion, Sprite onClickRegion, Vector2 position) {
-        this.name = name;
+    public SpriteButton(Sprite defaultRegion, Sprite onHoverRegion, Sprite onClickRegion, Vector2 position) {
         this.currentState = ButtonState.DEFAULT;
         this.position = position;
         this.defaultSprite = defaultRegion;
