@@ -2,14 +2,13 @@
 
 ## HIGH PRIORITY: ##
 * Options Menu
-* Quit to Main Menu from Pause
 * Fix the ladder-platform interaction
-* Load option
 * Ranged / Boss AI / Non-stupid grunt AI
 * Game mode implementation / scoring system
 * Map selection / character selection
 * Damage formula and damage numbers
 * Fall damage
+* Wave spawning formula
 
 ## MEDIUM PRIORITY: ##
 * Buffs/Skills
