@@ -2,7 +2,6 @@
 
 ## HIGH PRIORITY: ##
 * Options Menu
-* Player death animation
 * Fix the ladder-platform interaction
 * Ranged / Boss AI / Non-stupid grunt AI
 * Game mode implementation / scoring system

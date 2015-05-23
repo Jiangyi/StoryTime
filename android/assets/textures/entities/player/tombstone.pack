@@ -1,0 +1,145 @@
+
+tombstone.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fall
+  rotate: false
+  xy: 1, 50
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 0
+fall
+  rotate: false
+  xy: 1, 1
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 1
+fall
+  rotate: false
+  xy: 1, 1
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 19
+fall
+  rotate: false
+  xy: 104, 50
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 10
+fall
+  rotate: false
+  xy: 104, 1
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 11
+fall
+  rotate: false
+  xy: 207, 50
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 12
+fall
+  rotate: false
+  xy: 207, 1
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 13
+fall
+  rotate: false
+  xy: 310, 50
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 14
+fall
+  rotate: false
+  xy: 310, 1
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 15
+fall
+  rotate: false
+  xy: 310, 1
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 16
+fall
+  rotate: false
+  xy: 413, 50
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 17
+fall
+  rotate: false
+  xy: 413, 1
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 18
+fall
+  rotate: false
+  xy: 516, 50
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 2
+fall
+  rotate: false
+  xy: 516, 1
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 3
+fall
+  rotate: false
+  xy: 619, 50
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 4
+fall
+  rotate: false
+  xy: 619, 1
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 5
+fall
+  rotate: false
+  xy: 722, 50
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 6
+fall
+  rotate: false
+  xy: 722, 1
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 7
+fall
+  rotate: false
+  xy: 825, 50
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 8
+fall
+  rotate: false
+  xy: 825, 1
+  size: 101, 47
+  orig: 101, 47
+  offset: 0, 0
+  index: 9

@@ -21,8 +21,8 @@ public class MenuState extends GameState {
 
     public MenuState(Game game) {
         super(game);
-        assetHandler.loadFromFile("textures/menu/main_menu.txt");
-        assetHandler.loadFromFile("textures/menu/loading_screen.txt");
+        assetHandler.loadFromFile("menus/main_menu.txt");
+        assetHandler.loadFromFile("menus/loading_screen.txt");
         while (!assetHandler.update()) ; // Load stuff for main menu and loading screen
         this.background = (Texture) assetHandler.getByName("menu_background");
         rootMenu = new Menu("MainMenu.xml");

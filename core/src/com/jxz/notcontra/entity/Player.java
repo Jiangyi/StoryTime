@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.hud.PlayerStatusBar;
@@ -35,6 +36,7 @@ public class Player extends LivingEntity {
     private final int FLICKER_COUNT = 8;
     private int score;
     private PlayerSave playerSave;
+    private Animation animDeath;
 
     // Constructor
     public Player(PlayState playState) {
@@ -49,7 +51,6 @@ public class Player extends LivingEntity {
             this.animFrames = (TextureAtlas) assetHandler.getByName("player");
         }
         // Set up animations
-
         animWalk = new Animation(1 / 6f, this.animFrames.findRegions("walk1"));
         animIdle = new Animation(1 / 1.5f, this.animFrames.findRegions("stand1"));
         animJump = new Animation(1f, (this.animFrames.findRegions("jump")));
@@ -59,6 +60,7 @@ public class Player extends LivingEntity {
         animCast[0] = new Animation(1 / 4.2f, this.animFrames.findRegions("swingO1"));
         animCast[1] = new Animation(1 / 5f, this.animFrames.findRegions("swingO2"));
         animCast[2] = new Animation(1 / 7f, this.animFrames.findRegions("swingOF"));
+        animDeath = new Animation(1 / 2f, this.animFrames.findRegions("dead1"), Animation.PlayMode.LOOP);
 
         movementState = new Vector2(0, 0);
 
@@ -106,12 +108,6 @@ public class Player extends LivingEntity {
 
     @Override
     public void update() {
-        if (health <= 0 && state != PlayerState.DEAD) {
-            health = 0;
-            state = PlayerState.DEAD;
-            movementState.set(0, 0);
-        }
-
         boolean prevRooted = isRooted;
 
         // Iterate through active skills to check what to cast
@@ -163,13 +159,24 @@ public class Player extends LivingEntity {
             flickerTimer = 0;
             flickerCount = 0;
         }
+
+        // Kill player after coming to rest from taking damage
+        if (state != PlayerState.DEAD && health <= 0 && forceDuration <= 0 && isGrounded) {
+            health = 0;
+            movementState.set(0, 0);
+            state = PlayerState.DEAD;
+            Tombstone tombstone = (Tombstone) EntityFactory.spawn(Tombstone.class);
+            tombstone.setCurrentLevel(currentLevel);
+            tombstone.setTombStone(this.position.x - (tombstone.getSprite().getWidth() - this.sprite.getWidth()) / 2 - 10, this.position.y);
+            AudioHelper.playSoundEffect("player_death");
+        }
     }
 
     @Override
     public void damage(float dmg, Entity source) {
+        // Player takes damage first
         if (state == PlayerState.ALIVE) {
             super.damage(dmg, source);
-
             // Knock back player
             forceVector = this.getCenterPosition().cpy().sub(source.getCenterPosition()).nor();
             forceVector.set(forceVector.x, 0.6f);
@@ -187,7 +194,6 @@ public class Player extends LivingEntity {
             }
             resetGravity();
         }
-
     }
 
     public void setCamera(PlayerCamera camera) {
@@ -225,40 +231,44 @@ public class Player extends LivingEntity {
         animStateTime += Gdx.graphics.getDeltaTime();
 
         // Changes animation based on current frame time
-        if (isGrounded && !isCasting) {
-            climbingStateTime = 0;
-            if (movementState.x == 0) {
-                this.sprite.setRegion(animIdle.getKeyFrame(animStateTime, true));
-            } else {
-                this.sprite.setRegion(animWalk.getKeyFrame(animStateTime, true));
-            }
-        } else if (!isGrounded && isClimbing) {
-            animStateTime = 0;
-            if (movementState.y != 0) {
-                climbingStateTime += Gdx.graphics.getDeltaTime();
-            }
-            this.sprite.setRegion(animLadder.getKeyFrame(climbingStateTime, true));
-        } else {
-            this.sprite.setRegion(animJump.getKeyFrame(animStateTime, true));
-        }
-
-        // Attack
-        if (isCasting && !isClimbing) {
-            castStateTime += Gdx.graphics.getDeltaTime();
-            this.sprite.setRegion(animCast[castType].getKeyFrame(castStateTime, false));
-            // Only spawns skill after casting animation is finished
-            if (animCast[castType].getKeyFrameIndex(castStateTime) == animCast[castType].getKeyFrameIndex(animCast[castType].getAnimationDuration()) && !skillCasted) {
-                currentSkill.use(this);
-                skillCasted = true;
-            }
-            if (animCast[castType].isAnimationFinished(castStateTime)) {
-                isCasting = false;
-                castStateTime = 0;
-                if (currentSkill.isRootWhileCasting()) {
-                    isRooted = false;
+        if (isAlive()) {
+            if (isGrounded && !isCasting) {
+                climbingStateTime = 0;
+                if (movementState.x == 0) {
+                    this.sprite.setRegion(animIdle.getKeyFrame(animStateTime, true));
+                } else {
+                    this.sprite.setRegion(animWalk.getKeyFrame(animStateTime, true));
                 }
-                updateMovementState();
+            } else if (!isGrounded && isClimbing) {
+                animStateTime = 0;
+                if (movementState.y != 0) {
+                    climbingStateTime += Gdx.graphics.getDeltaTime();
+                }
+                this.sprite.setRegion(animLadder.getKeyFrame(climbingStateTime, true));
+            } else {
+                this.sprite.setRegion(animJump.getKeyFrame(animStateTime, true));
             }
+
+            // Attack
+            if (isCasting && !isClimbing) {
+                castStateTime += Gdx.graphics.getDeltaTime();
+                this.sprite.setRegion(animCast[castType].getKeyFrame(castStateTime, false));
+                // Only spawns skill after casting animation is finished
+                if (animCast[castType].getKeyFrameIndex(castStateTime) == animCast[castType].getKeyFrameIndex(animCast[castType].getAnimationDuration()) && !skillCasted) {
+                    currentSkill.use(this);
+                    skillCasted = true;
+                }
+                if (animCast[castType].isAnimationFinished(castStateTime)) {
+                    isCasting = false;
+                    castStateTime = 0;
+                    if (currentSkill.isRootWhileCasting()) {
+                        isRooted = false;
+                    }
+                    updateMovementState();
+                }
+            }
+        } else {
+            this.sprite.setRegion(animDeath.getKeyFrame(animStateTime));
         }
 
         // Flip sprite if facing left
@@ -330,7 +340,7 @@ public class Player extends LivingEntity {
         if (state == PlayerState.HURT && flickerCount % 2 == 0) {
             batch.setColor(1f, 1f, 1f, 0.4f);
         } else if (!isAlive()) {
-            batch.setColor(1f, 1f, 1f, 0.2f);
+            batch.setColor(1f, 1f, 1f, 1f);
         }
         super.draw(batch);
         batch.setColor(1f, 1f, 1f, 1f);

@@ -5,707 +5,742 @@ filter: Nearest,Nearest
 repeat: none
 swingPF
   rotate: false
-  xy: 1, 403
+  xy: 1, 910
   size: 91, 94
   orig: 91, 94
   offset: 0, 0
   index: 0
 swingPF
   rotate: false
-  xy: 1, 307
+  xy: 1, 814
   size: 91, 94
   orig: 91, 94
   offset: 0, 0
   index: 1
 swingPF
   rotate: false
-  xy: 94, 403
+  xy: 94, 910
   size: 91, 94
   orig: 91, 94
   offset: 0, 0
   index: 2
 swingPF
+  rotate: false
+  xy: 1, 718
+  size: 91, 94
+  orig: 91, 94
+  offset: 0, 0
+  index: 3
+stabTF
+  rotate: false
+  xy: 94, 813
+  size: 78, 95
+  orig: 78, 95
+  offset: 0, 0
+  index: 0
+stabTF
+  rotate: false
+  xy: 1, 621
+  size: 78, 95
+  orig: 78, 95
+  offset: 0, 0
+  index: 1
+stabTF
+  rotate: false
+  xy: 1, 524
+  size: 78, 95
+  orig: 78, 95
+  offset: 0, 0
+  index: 2
+stabTF
+  rotate: false
+  xy: 1, 427
+  size: 78, 95
+  orig: 78, 95
+  offset: 0, 0
+  index: 3
+swingOF
+  rotate: false
+  xy: 187, 924
+  size: 92, 80
+  orig: 92, 80
+  offset: 0, 0
+  index: 0
+swingOF
+  rotate: false
+  xy: 281, 924
+  size: 92, 80
+  orig: 92, 80
+  offset: 0, 0
+  index: 1
+swingOF
+  rotate: false
+  xy: 375, 924
+  size: 92, 80
+  orig: 92, 80
+  offset: 0, 0
+  index: 2
+swingOF
+  rotate: false
+  xy: 94, 731
+  size: 92, 80
+  orig: 92, 80
+  offset: 0, 0
+  index: 3
+swingP2
+  rotate: false
+  xy: 1, 355
+  size: 86, 70
+  orig: 86, 70
+  offset: 0, 0
+  index: 0
+swingP2
+  rotate: false
+  xy: 1, 283
+  size: 86, 70
+  orig: 86, 70
+  offset: 0, 0
+  index: 1
+swingP2
   rotate: false
   xy: 1, 211
-  size: 91, 94
-  orig: 91, 94
-  offset: 0, 0
-  index: 3
-stabTF
-  rotate: false
-  xy: 94, 306
-  size: 78, 95
-  orig: 78, 95
-  offset: 0, 0
-  index: 0
-stabTF
-  rotate: false
-  xy: 1, 114
-  size: 78, 95
-  orig: 78, 95
-  offset: 0, 0
-  index: 1
-stabTF
-  rotate: false
-  xy: 1, 17
-  size: 78, 95
-  orig: 78, 95
-  offset: 0, 0
-  index: 2
-stabTF
-  rotate: false
-  xy: 187, 402
-  size: 78, 95
-  orig: 78, 95
-  offset: 0, 0
-  index: 3
-swingOF
-  rotate: false
-  xy: 267, 417
-  size: 92, 80
-  orig: 92, 80
-  offset: 0, 0
-  index: 0
-swingOF
-  rotate: false
-  xy: 361, 417
-  size: 92, 80
-  orig: 92, 80
-  offset: 0, 0
-  index: 1
-swingOF
-  rotate: false
-  xy: 455, 417
-  size: 92, 80
-  orig: 92, 80
-  offset: 0, 0
-  index: 2
-swingOF
-  rotate: false
-  xy: 549, 417
-  size: 92, 80
-  orig: 92, 80
-  offset: 0, 0
-  index: 3
-stabOF
-  rotate: false
-  xy: 643, 429
-  size: 98, 68
-  orig: 98, 68
-  offset: 0, 0
-  index: 0
-stabOF
-  rotate: false
-  xy: 743, 429
-  size: 98, 68
-  orig: 98, 68
-  offset: 0, 0
-  index: 1
-stabOF
-  rotate: false
-  xy: 843, 429
-  size: 98, 68
-  orig: 98, 68
-  offset: 0, 0
-  index: 2
-swingP2
-  rotate: false
-  xy: 94, 234
   size: 86, 70
   orig: 86, 70
   offset: 0, 0
+  index: 2
+stabOF
+  rotate: false
+  xy: 1, 141
+  size: 98, 68
+  orig: 98, 68
+  offset: 0, 0
   index: 0
+stabOF
+  rotate: false
+  xy: 1, 71
+  size: 98, 68
+  orig: 98, 68
+  offset: 0, 0
+  index: 1
+stabOF
+  rotate: false
+  xy: 1, 1
+  size: 98, 68
+  orig: 98, 68
+  offset: 0, 0
+  index: 2
+swingO1
+  rotate: false
+  xy: 187, 855
+  size: 88, 67
+  orig: 88, 67
+  offset: 0, 0
+  index: 0
+swingO1
+  rotate: false
+  xy: 277, 855
+  size: 88, 67
+  orig: 88, 67
+  offset: 0, 0
+  index: 1
+swingO1
+  rotate: false
+  xy: 367, 855
+  size: 88, 67
+  orig: 88, 67
+  offset: 0, 0
+  index: 2
+swingT2
+  rotate: false
+  xy: 188, 785
+  size: 85, 68
+  orig: 85, 68
+  offset: 0, 0
+  index: 0
+swingT2
+  rotate: false
+  xy: 275, 785
+  size: 85, 68
+  orig: 85, 68
+  offset: 0, 0
+  index: 1
+swingT2
+  rotate: false
+  xy: 362, 785
+  size: 85, 68
+  orig: 85, 68
+  offset: 0, 0
+  index: 2
+swingTF
+  rotate: false
+  xy: 188, 713
+  size: 83, 70
+  orig: 83, 70
+  offset: 0, 0
+  index: 0
+swingTF
+  rotate: false
+  xy: 273, 713
+  size: 83, 70
+  orig: 83, 70
+  offset: 0, 0
+  index: 1
+swingTF
+  rotate: false
+  xy: 358, 713
+  size: 83, 70
+  orig: 83, 70
+  offset: 0, 0
+  index: 2
+swingTF
+  rotate: false
+  xy: 94, 659
+  size: 83, 70
+  orig: 83, 70
+  offset: 0, 0
+  index: 3
 stabT2
   rotate: false
-  xy: 943, 432
+  xy: 81, 592
   size: 78, 65
   orig: 78, 65
   offset: 0, 0
   index: 0
-swingP2
-  rotate: false
-  xy: 174, 330
-  size: 86, 70
-  orig: 86, 70
-  offset: 0, 0
-  index: 1
-swingP2
-  rotate: false
-  xy: 182, 258
-  size: 86, 70
-  orig: 86, 70
-  offset: 0, 0
-  index: 2
-swingO1
-  rotate: false
-  xy: 182, 189
-  size: 88, 67
-  orig: 88, 67
-  offset: 0, 0
-  index: 0
-swingT2
-  rotate: false
-  xy: 94, 164
-  size: 85, 68
-  orig: 85, 68
-  offset: 0, 0
-  index: 0
-swingO1
-  rotate: false
-  xy: 81, 95
-  size: 88, 67
-  orig: 88, 67
-  offset: 0, 0
-  index: 1
-swingO1
-  rotate: false
-  xy: 81, 26
-  size: 88, 67
-  orig: 88, 67
-  offset: 0, 0
-  index: 2
-swingT2
-  rotate: false
-  xy: 181, 119
-  size: 85, 68
-  orig: 85, 68
-  offset: 0, 0
-  index: 1
-swingT2
-  rotate: false
-  xy: 171, 49
-  size: 85, 68
-  orig: 85, 68
-  offset: 0, 0
-  index: 2
-swingTF
-  rotate: false
-  xy: 267, 345
-  size: 83, 70
-  orig: 83, 70
-  offset: 0, 0
-  index: 0
-swingTF
-  rotate: false
-  xy: 352, 345
-  size: 83, 70
-  orig: 83, 70
-  offset: 0, 0
-  index: 1
-swingTF
-  rotate: false
-  xy: 437, 345
-  size: 83, 70
-  orig: 83, 70
-  offset: 0, 0
-  index: 2
-swingTF
-  rotate: false
-  xy: 522, 345
-  size: 83, 70
-  orig: 83, 70
-  offset: 0, 0
-  index: 3
 stabT2
   rotate: false
-  xy: 270, 278
+  xy: 81, 525
   size: 78, 65
   orig: 78, 65
   offset: 0, 0
   index: 1
 stabT2
   rotate: false
-  xy: 350, 278
+  xy: 81, 458
   size: 78, 65
   orig: 78, 65
   offset: 0, 0
   index: 2
 stabT1
   rotate: false
-  xy: 430, 279
+  xy: 179, 647
   size: 76, 64
   orig: 76, 64
   offset: 0, 0
   index: 0
 stabT1
   rotate: false
-  xy: 508, 279
+  xy: 257, 647
   size: 76, 64
   orig: 76, 64
   offset: 0, 0
   index: 1
+stabT1
+  rotate: false
+  xy: 335, 647
+  size: 76, 64
+  orig: 76, 64
+  offset: 0, 0
+  index: 2
 swingP1
   rotate: false
-  xy: 272, 208
+  xy: 161, 577
   size: 75, 68
   orig: 75, 68
   offset: 0, 0
   index: 0
 swingP1
   rotate: false
-  xy: 349, 208
+  xy: 161, 507
   size: 75, 68
   orig: 75, 68
   offset: 0, 0
   index: 1
-fly
-  rotate: false
-  xy: 607, 342
-  size: 49, 73
-  orig: 49, 73
-  offset: 0, 0
-  index: 0
 swingP1
   rotate: false
-  xy: 658, 359
+  xy: 238, 577
   size: 75, 68
   orig: 75, 68
   offset: 0, 0
   index: 2
 swingT1
   rotate: false
-  xy: 735, 359
+  xy: 238, 507
   size: 74, 68
   orig: 74, 68
   offset: 0, 0
   index: 0
 swingT1
   rotate: false
-  xy: 811, 359
+  xy: 315, 577
   size: 74, 68
   orig: 74, 68
   offset: 0, 0
   index: 1
-heal
-  rotate: false
-  xy: 887, 359
-  size: 57, 68
-  orig: 57, 68
-  offset: 0, 0
-  index: 0
 swingT1
   rotate: false
-  xy: 946, 362
+  xy: 314, 507
   size: 74, 68
   orig: 74, 68
   offset: 0, 0
   index: 2
+swingO3
+  rotate: false
+  xy: 161, 441
+  size: 74, 64
+  orig: 74, 64
+  offset: 0, 0
+  index: 0
+swingO3
+  rotate: false
+  xy: 237, 441
+  size: 74, 64
+  orig: 74, 64
+  offset: 0, 0
+  index: 1
+swingO3
+  rotate: false
+  xy: 313, 441
+  size: 74, 64
+  orig: 74, 64
+  offset: 0, 0
+  index: 2
+stabO1
+  rotate: false
+  xy: 89, 390
+  size: 66, 66
+  orig: 66, 66
+  offset: 0, 0
+  index: 0
 stabO2
   rotate: false
-  xy: 586, 271
+  xy: 89, 319
   size: 71, 69
   orig: 71, 69
   offset: 0, 0
   index: 0
 stabO2
   rotate: false
-  xy: 659, 288
+  xy: 89, 248
   size: 71, 69
   orig: 71, 69
   offset: 0, 0
   index: 1
-stabT1
-  rotate: false
-  xy: 732, 293
-  size: 76, 64
-  orig: 76, 64
-  offset: 0, 0
-  index: 2
-swingO3
-  rotate: false
-  xy: 810, 293
-  size: 74, 64
-  orig: 74, 64
-  offset: 0, 0
-  index: 0
-stabO1
-  rotate: false
-  xy: 886, 291
-  size: 66, 66
-  orig: 66, 66
-  offset: 0, 0
-  index: 0
-stabO1
-  rotate: false
-  xy: 954, 294
-  size: 66, 66
-  orig: 66, 66
-  offset: 0, 0
-  index: 1
-swingO3
-  rotate: false
-  xy: 272, 142
-  size: 74, 64
-  orig: 74, 64
-  offset: 0, 0
-  index: 1
-swingO3
-  rotate: false
-  xy: 348, 142
-  size: 74, 64
-  orig: 74, 64
-  offset: 0, 0
-  index: 2
 proneStab
   rotate: false
-  xy: 171, 5
+  xy: 157, 397
   size: 63, 42
   orig: 63, 42
   offset: 0, 0
   index: 0
 prone
   rotate: false
-  xy: 171, 5
+  xy: 157, 397
   size: 63, 42
   orig: 63, 42
   offset: 0, 0
   index: 0
+swingO2
+  rotate: false
+  xy: 162, 327
+  size: 61, 68
+  orig: 61, 68
+  offset: 0, 0
+  index: 0
+swingO2
+  rotate: false
+  xy: 162, 257
+  size: 61, 68
+  orig: 61, 68
+  offset: 0, 0
+  index: 1
+proneStab
+  rotate: false
+  xy: 222, 397
+  size: 63, 42
+  orig: 63, 42
+  offset: 0, 0
+  index: 1
+swingO2
+  rotate: false
+  xy: 225, 327
+  size: 61, 68
+  orig: 61, 68
+  offset: 0, 0
+  index: 2
 swingT3
   rotate: false
-  xy: 268, 73
+  xy: 225, 258
   size: 64, 67
   orig: 64, 67
   offset: 0, 0
   index: 0
-swingT3
-  rotate: false
-  xy: 334, 73
-  size: 64, 67
-  orig: 64, 67
-  offset: 0, 0
-  index: 1
 alert
   rotate: false
-  xy: 400, 73
+  xy: 413, 644
   size: 47, 67
   orig: 47, 67
   offset: 0, 0
   index: 0
 alert
   rotate: false
-  xy: 400, 73
+  xy: 413, 644
   size: 47, 67
   orig: 47, 67
   offset: 0, 0
   index: 4
+stabO1
+  rotate: false
+  xy: 391, 576
+  size: 66, 66
+  orig: 66, 66
+  offset: 0, 0
+  index: 1
+shootF
+  rotate: false
+  xy: 459, 572
+  size: 52, 70
+  orig: 52, 70
+  offset: 0, 0
+  index: 0
 swingT3
   rotate: false
-  xy: 659, 219
+  xy: 390, 507
+  size: 64, 67
+  orig: 64, 67
+  offset: 0, 0
+  index: 1
+swingT3
+  rotate: false
+  xy: 389, 438
   size: 64, 67
   orig: 64, 67
   offset: 0, 0
   index: 2
-proneStab
+shootF
   rotate: false
-  xy: 258, 29
-  size: 63, 42
-  orig: 63, 42
+  xy: 456, 500
+  size: 52, 70
+  orig: 52, 70
   offset: 0, 0
   index: 1
-swingO2
+shootF
   rotate: false
-  xy: 323, 3
-  size: 61, 68
-  orig: 61, 68
+  xy: 456, 500
+  size: 52, 70
+  orig: 52, 70
+  offset: 0, 0
+  index: 2
+walk1
+  rotate: false
+  xy: 455, 430
+  size: 52, 68
+  orig: 52, 68
   offset: 0, 0
   index: 0
-swingO2
+ladder
   rotate: false
-  xy: 386, 3
-  size: 61, 68
-  orig: 61, 68
+  xy: 443, 713
+  size: 49, 70
+  orig: 49, 70
   offset: 0, 0
-  index: 1
+  index: 0
 alert
   rotate: false
-  xy: 725, 219
+  xy: 462, 644
   size: 47, 67
   orig: 47, 67
   offset: 0, 0
   index: 1
 alert
   rotate: false
-  xy: 725, 219
+  xy: 462, 644
   size: 47, 67
   orig: 47, 67
   offset: 0, 0
   index: 3
-swingO2
+dead1
   rotate: false
-  xy: 774, 223
-  size: 61, 68
-  orig: 61, 68
+  xy: 449, 785
+  size: 49, 68
+  orig: 49, 68
   offset: 0, 0
-  index: 2
+  index: 0
+dead1
+  rotate: false
+  xy: 449, 785
+  size: 49, 68
+  orig: 49, 68
+  offset: 0, 0
+  index: 4
 alert
   rotate: false
-  xy: 837, 224
+  xy: 457, 855
   size: 47, 67
   orig: 47, 67
   offset: 0, 0
   index: 2
 heal
   rotate: false
-  xy: 886, 221
+  xy: 101, 178
+  size: 57, 68
+  orig: 57, 68
+  offset: 0, 0
+  index: 0
+heal
+  rotate: false
+  xy: 101, 108
   size: 57, 68
   orig: 57, 68
   offset: 0, 0
   index: 1
+heal
+  rotate: false
+  xy: 101, 38
+  size: 57, 68
+  orig: 57, 68
+  offset: 0, 0
+  index: 2
 fly
   rotate: false
-  xy: 945, 216
+  xy: 288, 366
+  size: 49, 73
+  orig: 49, 73
+  offset: 0, 0
+  index: 0
+shoot2
+  rotate: false
+  xy: 339, 370
+  size: 48, 69
+  orig: 48, 69
+  offset: 0, 0
+  index: 0
+walk1
+  rotate: false
+  xy: 389, 368
+  size: 52, 68
+  orig: 52, 68
+  offset: 0, 0
+  index: 1
+walk1
+  rotate: false
+  xy: 443, 360
+  size: 52, 68
+  orig: 52, 68
+  offset: 0, 0
+  index: 2
+fly
+  rotate: false
+  xy: 291, 291
   size: 49, 73
   orig: 49, 73
   offset: 0, 0
   index: 1
-heal
-  rotate: false
-  xy: 426, 208
-  size: 57, 68
-  orig: 57, 68
-  offset: 0, 0
-  index: 2
-shootF
-  rotate: false
-  xy: 485, 207
-  size: 52, 70
-  orig: 52, 70
-  offset: 0, 0
-  index: 0
 sit
   rotate: false
-  xy: 539, 215
+  xy: 342, 306
   size: 45, 62
   orig: 45, 62
   offset: 0, 0
   index: 0
-shootF
-  rotate: false
-  xy: 586, 199
-  size: 52, 70
-  orig: 52, 70
-  offset: 0, 0
-  index: 1
-shootF
-  rotate: false
-  xy: 586, 199
-  size: 52, 70
-  orig: 52, 70
-  offset: 0, 0
-  index: 2
 walk1
   rotate: false
-  xy: 774, 153
+  xy: 389, 298
+  size: 52, 68
+  orig: 52, 68
+  offset: 0, 0
+  index: 3
+walk2
+  rotate: false
+  xy: 443, 290
   size: 52, 68
   orig: 52, 68
   offset: 0, 0
   index: 0
-ladder
+dead1
   rotate: false
-  xy: 828, 151
-  size: 49, 70
-  orig: 49, 70
-  offset: 0, 0
-  index: 0
-walk1
-  rotate: false
-  xy: 879, 151
-  size: 52, 68
-  orig: 52, 68
+  xy: 291, 221
+  size: 49, 68
+  orig: 49, 68
   offset: 0, 0
   index: 1
-walk1
+dead1
   rotate: false
-  xy: 933, 146
-  size: 52, 68
-  orig: 52, 68
+  xy: 291, 221
+  size: 49, 68
+  orig: 49, 68
   offset: 0, 0
-  index: 2
+  index: 3
+shoot1
+  rotate: false
+  xy: 342, 226
+  size: 51, 70
+  orig: 51, 70
+  offset: 0, 0
+  index: 0
 rope
   rotate: false
-  xy: 449, 73
+  xy: 395, 225
   size: 46, 71
   orig: 46, 71
   offset: 0, 0
   index: 0
-ladder
+walk2
   rotate: false
-  xy: 449, 1
-  size: 49, 70
-  orig: 49, 70
+  xy: 443, 220
+  size: 52, 68
+  orig: 52, 68
   offset: 0, 0
   index: 1
 rope
   rotate: false
-  xy: 497, 73
+  xy: 160, 175
   size: 46, 71
   orig: 46, 71
   offset: 0, 0
   index: 1
-shoot1
+ladder
   rotate: false
-  xy: 500, 1
-  size: 51, 70
-  orig: 51, 70
+  xy: 160, 103
+  size: 49, 70
+  orig: 49, 70
   offset: 0, 0
-  index: 0
+  index: 1
+dead1
+  rotate: false
+  xy: 160, 33
+  size: 49, 68
+  orig: 49, 68
+  offset: 0, 0
+  index: 2
 shoot1
   rotate: false
-  xy: 545, 74
+  xy: 208, 185
   size: 51, 70
   orig: 51, 70
   offset: 0, 0
   index: 1
 shoot1
   rotate: false
-  xy: 553, 2
+  xy: 211, 113
   size: 51, 70
   orig: 51, 70
   offset: 0, 0
   index: 2
-shoot2
+walk2
   rotate: false
-  xy: 598, 75
-  size: 48, 69
-  orig: 48, 69
-  offset: 0, 0
-  index: 0
-shoot2
-  rotate: false
-  xy: 606, 4
-  size: 48, 69
-  orig: 48, 69
-  offset: 0, 0
-  index: 1
-shoot2
-  rotate: false
-  xy: 648, 75
-  size: 48, 69
-  orig: 48, 69
+  xy: 211, 43
+  size: 52, 68
+  orig: 52, 68
   offset: 0, 0
   index: 2
-shoot2
+walk2
   rotate: false
-  xy: 656, 4
-  size: 48, 69
-  orig: 48, 69
-  offset: 0, 0
-  index: 3
-shoot2
-  rotate: false
-  xy: 698, 75
-  size: 48, 69
-  orig: 48, 69
-  offset: 0, 0
-  index: 4
-stand1
-  rotate: false
-  xy: 706, 5
-  size: 49, 68
-  orig: 49, 68
-  offset: 0, 0
-  index: 0
-stand1
-  rotate: false
-  xy: 706, 5
-  size: 49, 68
-  orig: 49, 68
-  offset: 0, 0
-  index: 4
-walk1
-  rotate: false
-  xy: 748, 83
+  xy: 264, 151
   size: 52, 68
   orig: 52, 68
   offset: 0, 0
   index: 3
-stand1
+shoot2
   rotate: false
-  xy: 757, 13
-  size: 49, 68
-  orig: 49, 68
+  xy: 318, 150
+  size: 48, 69
+  orig: 48, 69
   offset: 0, 0
   index: 1
-stand1
-  rotate: false
-  xy: 757, 13
-  size: 49, 68
-  orig: 49, 68
-  offset: 0, 0
-  index: 3
 jump
   rotate: false
-  xy: 802, 83
+  xy: 368, 157
   size: 51, 66
   orig: 51, 66
   offset: 0, 0
   index: 0
-walk2
+stand1
   rotate: false
-  xy: 855, 81
-  size: 52, 68
-  orig: 52, 68
+  xy: 421, 150
+  size: 49, 68
+  orig: 49, 68
   offset: 0, 0
   index: 0
-walk2
+stand1
   rotate: false
-  xy: 909, 76
-  size: 52, 68
-  orig: 52, 68
+  xy: 421, 150
+  size: 49, 68
+  orig: 49, 68
+  offset: 0, 0
+  index: 4
+shoot2
+  rotate: false
+  xy: 265, 80
+  size: 48, 69
+  orig: 48, 69
+  offset: 0, 0
+  index: 2
+stand1
+  rotate: false
+  xy: 315, 80
+  size: 49, 68
+  orig: 49, 68
   offset: 0, 0
   index: 1
 stand1
   rotate: false
-  xy: 963, 76
+  xy: 315, 80
+  size: 49, 68
+  orig: 49, 68
+  offset: 0, 0
+  index: 3
+stand1
+  rotate: false
+  xy: 265, 10
   size: 49, 68
   orig: 49, 68
   offset: 0, 0
   index: 2
-walk2
+shoot2
   rotate: false
-  xy: 808, 11
-  size: 52, 68
-  orig: 52, 68
-  offset: 0, 0
-  index: 2
-walk2
-  rotate: false
-  xy: 862, 6
-  size: 52, 68
-  orig: 52, 68
+  xy: 316, 9
+  size: 48, 69
+  orig: 48, 69
   offset: 0, 0
   index: 3
+shoot2
+  rotate: false
+  xy: 366, 79
+  size: 48, 69
+  orig: 48, 69
+  offset: 0, 0
+  index: 4
 stand2
   rotate: false
-  xy: 916, 6
+  xy: 366, 9
   size: 49, 68
   orig: 49, 68
   offset: 0, 0
   index: 0
 stand2
   rotate: false
-  xy: 916, 6
+  xy: 366, 9
   size: 49, 68
   orig: 49, 68
   offset: 0, 0
   index: 4
 stand2
   rotate: false
-  xy: 967, 6
+  xy: 416, 80
   size: 49, 68
   orig: 49, 68
   offset: 0, 0
   index: 1
 stand2
   rotate: false
-  xy: 967, 6
+  xy: 416, 80
   size: 49, 68
   orig: 49, 68
   offset: 0, 0
   index: 3
 stand2
   rotate: false
-  xy: 640, 149
+  xy: 417, 10
   size: 49, 68
   orig: 49, 68
   offset: 0, 0

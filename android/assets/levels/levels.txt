@@ -1,11 +1,12 @@
 # Atlas for player
 player  textures/entities/player/player.pack    TextureAtlas
+tombstone	textures/entities/player/tombstone.pack		TextureAtlas
 grey_slime    textures/entities/monsters/grey_slime/grey_slime.pack    TextureAtlas
 
 
 # Level tile map
-level1  Maps/level_a.tmx    TiledMap
-level2	Maps/level_b.tmx	TiledMap
+level1  levels/level_a.tmx    TiledMap
+level2	levels/level_b.tmx	TiledMap
 
 # Level Background
 background_sky      textures/levels/blue.png    Texture

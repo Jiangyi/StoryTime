@@ -1,13 +1,16 @@
+# Music
 bgmusic	Music/peaceful_forest.mp3	Music
 
+# SFX
 jump	sfx/jump.wav	Sound
+player_death	sfx/player_death.wav	Sound
 
-#Projectiles
+# Projectiles
 iceball	textures/entities/projectiles/iceball/iceball.pack	TextureAtlas
 swing	textures/entities/projectiles/swing/swing.pack	TextureAtlas
 
-#HUD Stuff
+# HUD Stuff
 hud_bars	textures/hud/bars/hud_bars.pack	TextureAtlas
 
-#Debug Rendering Hitbox
+# Debug Rendering Hitbox
 hitbox      textures/debug.png     Texture

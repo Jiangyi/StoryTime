@@ -180,7 +180,7 @@ public class PlayState extends GameState {
 
     public void dispose() {
         assetHandler.unloadByFile("levels/levels.txt");
-        assetHandler.unloadByFile("levels/general.txt");
+        assetHandler.unloadByFile("general.txt");
         currentLevel.dispose();
         EntityManager.getInstance().dispose();
     }

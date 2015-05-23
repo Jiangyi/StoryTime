@@ -44,7 +44,7 @@ public class LoadState extends GameState {
     public void load(String... filePaths) {
         isEnteringGame = true;
         // Load general level file
-        assetHandler.loadFromFile("levels/general.txt");
+        assetHandler.loadFromFile("general.txt");
         for (String i : filePaths) {
             assetHandler.loadFromFile(i);
         }
