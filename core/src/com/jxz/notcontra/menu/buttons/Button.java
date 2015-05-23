@@ -16,6 +16,7 @@ public abstract class Button {
         HOVER, CLICK, DEFAULT;
     }
 
+    protected String name;
     protected ButtonState currentState;
     protected InputListener inputListener;
     protected Vector2 position;

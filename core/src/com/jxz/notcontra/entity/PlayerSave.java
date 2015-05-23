@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class PlayerSave {
 
-    public String spriteName;
+    public String name;
     public int score;
     public float x;
     public float y;
@@ -19,6 +19,14 @@ public class PlayerSave {
 
     public PlayerSave() {
 
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public void setPosition(Vector2 position) {

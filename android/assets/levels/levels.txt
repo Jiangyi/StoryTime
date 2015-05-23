@@ -1,5 +1,3 @@
-# Atlas for player
-player  textures/entities/player/player.pack    TextureAtlas
 tombstone	textures/entities/player/tombstone.pack		TextureAtlas
 grey_slime    textures/entities/monsters/grey_slime/grey_slime.pack    TextureAtlas
 

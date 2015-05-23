@@ -8,6 +8,7 @@ import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.*;
 import com.jxz.notcontra.menu.Menu;
+import com.jxz.notcontra.menu.ParseMenu;
 import com.jxz.notcontra.shaders.Shaders;
 import com.jxz.notcontra.world.Level;
 import com.jxz.notcontra.world.LevelRenderer;
@@ -45,7 +46,7 @@ public class PlayState extends GameState {
         player = new Player(this);
         player.setCamera(playerCam);
         playerCam.setPlayer(player);
-        pauseMenu = new Menu("PauseMenu.xml");
+        pauseMenu = new ParseMenu("PauseMenu.xml");
         pauseMenu.setMenuState(GameStateManager.getInstance().getMenuState());
 
         // Reset music

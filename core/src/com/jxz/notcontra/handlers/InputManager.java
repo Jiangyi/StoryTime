@@ -275,6 +275,8 @@ public class InputManager implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        Vector2 position = getCursorInWorld();
+        System.out.println("X: " + position.x + "Y: " + position.y);
         if (gsm.getCurrentState() instanceof MenuState) {
             currentMenu = gsm.getMenuState().getCurrentMenu();
         } else if (gsm.getCurrentState() instanceof PlayState && gsm.getPlayState().isPaused()) {

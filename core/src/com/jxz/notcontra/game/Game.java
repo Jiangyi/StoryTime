@@ -30,6 +30,11 @@ public class Game extends ApplicationAdapter {
 
     // String to keep track of loading save files
     private PlayerSave save;
+    private String playerSpriteName;
+
+    public String getPlayerSpriteName() {
+        return playerSpriteName;
+    }
 
     // Enum for the mode we are currently in in the game
     public enum PlayMode {
@@ -120,10 +125,12 @@ public class Game extends ApplicationAdapter {
             resetLoadSaveObject();
             if (cmds[1].equalsIgnoreCase("new")) {
                 playMode = PlayMode.valueOf(cmds[2].toUpperCase());
-                // String level = cmds[3];
+                playerSpriteName = cmds[3];
+                // String level = cmds[4];
             } else if (cmds[1].equalsIgnoreCase("load")) {
                 save = SaveGameHandler.loadSave(cmds[2]);
                 playMode = PlayMode.valueOf(save.mode);
+                playerSpriteName = save.name;
 //                level = playerSave.level;
             }
             gsm.setState(GameStateManager.State.LOAD);
@@ -138,10 +145,16 @@ public class Game extends ApplicationAdapter {
         }
     }
 
+    public void executeCommand(String cmd) {
+        // Assume it's comma separated
+        executeCommand(cmd.split(","));
+    }
     public PlayerSave getLoadSaveObject() {
         return save;
     }
-
+    public void resetSaveObject() {
+        this.save = null;
+    }
     private void resetLoadSaveObject() {
         playMode = null;
     }

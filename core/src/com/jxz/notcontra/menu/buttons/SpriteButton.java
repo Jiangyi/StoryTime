@@ -13,6 +13,7 @@ public class SpriteButton extends Button {
     protected Sprite onHoverSprite;
     protected Sprite onClickSprite;
     protected Sprite defaultSprite;
+    protected boolean isFlipped;
 
     // Define a non-changing, default sprite button only
     public SpriteButton(TextureAtlas buttonSprites, String atlasRegion, Vector2 position) {
@@ -30,6 +31,13 @@ public class SpriteButton extends Button {
         this.width = defaultSprite.getRegionWidth();
     }
 
+    public void setIsFlipped(boolean isFlipped) {
+        this.isFlipped = isFlipped;
+    }
+
+    public boolean getIsFlipped() {
+        return isFlipped;
+    }
     public void setDefaultSprite(Sprite defaultSprite) {
         this.defaultSprite = new Sprite(defaultSprite);
     }
@@ -56,7 +64,7 @@ public class SpriteButton extends Button {
 
     @Override
     public void draw(Batch batch) {
-        batch.draw(getCurrentStateSprite(), position.x, position.y, getCurrentStateSprite().getWidth(), getCurrentStateSprite().getHeight());
+        batch.draw(getCurrentStateSprite(), isFlipped ? position.x + getCurrentStateSprite().getWidth() : position.x, position.y, isFlipped ? -getCurrentStateSprite().getWidth() : getCurrentStateSprite().getWidth(), getCurrentStateSprite().getHeight());
     }
 
     private Sprite getCurrentStateSprite() {

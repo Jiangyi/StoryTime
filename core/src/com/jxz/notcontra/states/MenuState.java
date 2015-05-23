@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.menu.Menu;
+import com.jxz.notcontra.menu.ParseMenu;
 
 /**
  * Created by Samuel on 2015-05-08.
@@ -25,7 +26,7 @@ public class MenuState extends GameState {
         assetHandler.loadFromFile("menus/loading_screen.txt");
         while (!assetHandler.update()) ; // Load stuff for main menu and loading screen
         this.background = (Texture) assetHandler.getByName("menu_background");
-        rootMenu = new Menu("MainMenu.xml");
+        rootMenu = new ParseMenu("MainMenu.xml");
         rootMenu.setMenuState(this);
         setCurrentMenu(rootMenu);
     }

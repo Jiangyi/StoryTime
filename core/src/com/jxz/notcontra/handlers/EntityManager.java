@@ -3,6 +3,7 @@ package com.jxz.notcontra.handlers;
 import com.badlogic.gdx.utils.*;
 import com.jxz.notcontra.entity.Entity;
 import com.jxz.notcontra.entity.EntityFactory;
+import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.game.Game;
 
 /**
@@ -66,7 +67,11 @@ public class EntityManager implements Disposable {
                 EntityFactory.free(e);
                 Pools.get(e.getClass()).clear();
             }
-            e.getSprite().getTexture().dispose();
+
+            // Only dispose the texture if it's not a player texture; We need that for the menu.
+            if (!(e instanceof Player)) {
+                e.getSprite().getTexture().dispose();
+            }
         }
 
         masterList.clear();

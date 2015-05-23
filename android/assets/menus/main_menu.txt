@@ -1,2 +1,6 @@
 menu_buttons	textures/menu/buttons/menu_buttons.pack		TextureAtlas
 menu_background		textures/menu/background/background.png		Texture
+
+# Atlas for player
+player    textures/entities/player/player.pack    TextureAtlas
+Alice    textures/entities/player/Alice.pack    TextureAtlas

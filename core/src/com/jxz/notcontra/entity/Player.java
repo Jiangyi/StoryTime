@@ -40,17 +40,21 @@ public class Player extends LivingEntity {
 
     // Constructor
     public Player(PlayState playState) {
-        super("player");
+        super(GameStateManager.getInstance().getGame().getPlayerSpriteName());
         playerSave = GameStateManager.getInstance().getGame().getLoadSaveObject();
         if (playerSave != null) {
-            loadSave();
+            this.health = playerSave.health;
+            this.mana = playerSave.mana;
+            this.score = playerSave.score;
+            this.setPosition(playerSave.x, playerSave.y);
+            GameStateManager.getInstance().getGame().resetSaveObject();
         } else {
             this.health = 100;
             this.mana = 100;
             this.score = 0;
-            this.animFrames = (TextureAtlas) assetHandler.getByName("player");
         }
         // Set up animations
+        this.animFrames = (TextureAtlas) assetHandler.getByName(name);
         animWalk = new Animation(1 / 6f, this.animFrames.findRegions("walk1"));
         animIdle = new Animation(1 / 1.5f, this.animFrames.findRegions("stand1"));
         animJump = new Animation(1f, (this.animFrames.findRegions("jump")));
@@ -91,15 +95,6 @@ public class Player extends LivingEntity {
         this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
         this.playState = playState;
         this.healthBar = new PlayerStatusBar(this);
-    }
-
-
-    public void loadSave() {
-        this.animFrames = (TextureAtlas) assetHandler.getByName(playerSave.spriteName);
-        this.health = playerSave.health;
-        this.mana = playerSave.mana;
-        this.score = playerSave.score;
-        this.setPosition(playerSave.x, playerSave.y);
     }
 
     public enum PlayerState {
@@ -357,5 +352,4 @@ public class Player extends LivingEntity {
     public int getScore() {
         return score;
     }
-
 }
