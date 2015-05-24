@@ -10,7 +10,6 @@ public class EntityFactory {
 
     // Spawn method
     public static Entity spawn(Class type) {
-        System.out.println(Pools.get(type).peak);
         return (Entity) Pools.obtain(type);
 
     }

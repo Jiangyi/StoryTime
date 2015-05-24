@@ -255,3 +255,24 @@ button_quit
   orig: 128, 64
   offset: 0, 0
   index: 2
+button_save
+  rotate: false
+  xy: 881, 133
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 0
+button_save
+  rotate: false
+  xy: 881, 67
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 1
+button_save
+  rotate: false
+  xy: 163, 3
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 2

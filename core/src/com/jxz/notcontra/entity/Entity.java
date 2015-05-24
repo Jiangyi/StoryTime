@@ -39,7 +39,7 @@ public abstract class Entity {
     public Entity(String entityName) {
         name = entityName;
         id = EntityManager.id;
-        manager.register(name + id, this);
+        manager.register(this);
         position = new Vector2(0, 0);
         hitboxOffset = new Vector2(0, 0);
         aabb = new Rectangle(0, 0, 0, 0);

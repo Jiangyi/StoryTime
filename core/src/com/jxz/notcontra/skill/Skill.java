@@ -4,10 +4,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.effect.Effect;
-import com.jxz.notcontra.entity.AttachedHitbox;
-import com.jxz.notcontra.entity.DynamicHitbox;
 import com.jxz.notcontra.entity.Entity;
 import com.jxz.notcontra.entity.LivingEntity;
+import com.jxz.notcontra.game.Game;
 
 import java.util.ArrayList;
 
@@ -49,9 +48,23 @@ public abstract class Skill {
 
     public abstract void preCast(LivingEntity caster);
 
-    public abstract void hit(ArrayList<Entity> targets);
+    public void hit(ArrayList<Entity> list) {
+        for (Entity e : list) {
+            if (e instanceof LivingEntity) {
+                LivingEntity le = (LivingEntity) e;
+                le.damage(damage, caster);
+                if (Game.DBG) System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
+            }
+        }
+    }
 
-    public abstract void hit(Entity target);
+    public void hit(Entity target) {
+        if (target instanceof LivingEntity) {
+            LivingEntity le = (LivingEntity) target;
+            le.damage(damage, caster);
+            if (Game.DBG) System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
+        }
+    }
 
     public boolean isRootWhileCasting() {
         return rootWhileCasting;

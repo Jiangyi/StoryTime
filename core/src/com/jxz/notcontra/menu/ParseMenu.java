@@ -80,11 +80,7 @@ public class ParseMenu extends Menu {
                                 menu.setPrevMenu(ParseMenu.this);
                                 menuState.setCurrentMenu(menu);
                             } else if (onClickType.equalsIgnoreCase("cmd")) {
-                                if (onClick.getText().contains(",")) {
-                                    GameStateManager.getInstance().getGame().executeCommand(onClick.getText().split(","));
-                                } else {
-                                    GameStateManager.getInstance().getGame().executeCommand(onClick.getText());
-                                }
+                                GameStateManager.getInstance().getGame().executeCommand(onClick.getText());
                             }
                         }
 

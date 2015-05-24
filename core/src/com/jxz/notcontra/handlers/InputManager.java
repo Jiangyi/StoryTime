@@ -64,25 +64,26 @@ public class InputManager implements InputProcessor {
         // Movement controls only operational if in play state
         if (gsm.getCurrentState() instanceof PlayState) {
 
-            // Load saved key preferences
-            // TODO: Remove this when we get a proper key config UI
-            if (keycode == Input.Keys.PLUS) {
-                setSavedKeyPreferences();
-                return true;
-            }
+            if (Game.DBG) {
+                if (keycode == keyPreferences.getInteger("save", Input.Keys.S) && isCtrlPressed) {
+                    SaveGameHandler.saveCurrentStateToFile("save1.json");
+                }
+                // Load saved key preferences
+                // TODO: Remove this when we get a proper key config UI
+                if (keycode == Input.Keys.PLUS) {
+                    setSavedKeyPreferences();
+                    return true;
+                }
 
-            // Clear all saved key preferences
-            if (keycode == Input.Keys.MINUS) {
-                keyPreferences.clear();
-                return true;
+                // Clear all saved key preferences
+                if (keycode == Input.Keys.MINUS) {
+                    keyPreferences.clear();
+                    return true;
+                }
             }
 
             if (keycode == Input.Keys.CONTROL_LEFT || keycode == Input.Keys.CONTROL_RIGHT) {
                 isCtrlPressed = true;
-            }
-
-            if (keycode == keyPreferences.getInteger("save", Input.Keys.S) && isCtrlPressed) {
-                SaveGameHandler.saveCurrentStateToFile("save1.json");
             }
 
             player = gsm.getPlayState().getPlayer();
@@ -123,29 +124,31 @@ public class InputManager implements InputProcessor {
                     player.getSkills().setActive(1, true);
                 }
 
-                // K has become the "piss off everything on the map" button
-                if (keycode == keyPreferences.getInteger("aggroAll", Input.Keys.K)) {
-                    for (Entity e : EntityManager.getInstance().getEntitiesList()) {
-                        if (e instanceof Monster) {
-                            Monster m = (Monster) e;
-                            m.setTarget(player);
-                            m.setAIState(Monster.AIState.CHASING);
-                        }
-                    }
-                }
-                if (keycode == keyPreferences.getInteger("spawnMonster", Input.Keys.L)) {
-                    // Spawn some slimes
-                    player.getCurrentLevel().spawn();
-                }
-
-                // Debug Mode
-                if (keycode == keyPreferences.getInteger("setDebug", Input.Keys.F)) {
-                    Game.setDebugMode(!Game.getDebugMode());
-                }
-
                 // Interact key
                 if (keycode == keyPreferences.getInteger("interact", Input.Keys.E)) {
                     player.interact();
+                }
+
+                if (Game.DBG) {
+                    // K has become the "piss off everything on the map" button
+                    if (keycode == keyPreferences.getInteger("aggroAll", Input.Keys.K)) {
+                        for (Entity e : EntityManager.getInstance().getEntitiesListIteration()) {
+                            if (e instanceof Monster) {
+                                Monster m = (Monster) e;
+                                m.setTarget(player);
+                                m.setAIState(Monster.AIState.CHASING);
+                            }
+                        }
+                    }
+                    if (keycode == keyPreferences.getInteger("spawnMonster", Input.Keys.L)) {
+                        // Spawn some slimes
+                        player.getCurrentLevel().spawn();
+                    }
+
+                    // Debug Mode
+                    if (keycode == keyPreferences.getInteger("setDebug", Input.Keys.F)) {
+                        Game.setDebugMode(!Game.getDebugMode());
+                    }
                 }
             }
 
@@ -275,8 +278,10 @@ public class InputManager implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        Vector2 position = getCursorInWorld();
-        System.out.println("X: " + position.x + "Y: " + position.y);
+        if (Game.DBG) {
+            Vector2 position = getCursorInWorld();
+            System.out.println("X: " + position.x + "Y: " + position.y);
+        }
         if (gsm.getCurrentState() instanceof MenuState) {
             currentMenu = gsm.getMenuState().getCurrentMenu();
         } else if (gsm.getCurrentState() instanceof PlayState && gsm.getPlayState().isPaused()) {
@@ -356,7 +361,7 @@ public class InputManager implements InputProcessor {
         String[] tmp;
         try {
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
+                if (Game.DBG) System.out.println(line);
                 // Only parse uncommented lines
                 if (!line.trim().startsWith("#") && line.trim().length() > 0) {
                     // Regex for whitespace and tabs

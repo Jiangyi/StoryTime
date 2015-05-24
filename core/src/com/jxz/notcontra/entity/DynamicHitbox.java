@@ -1,12 +1,10 @@
 package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
+import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.skill.Skill;
 
@@ -53,13 +51,13 @@ public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poola
     // Returns a list of non-self targets that intersect with the projectile
     public ArrayList<Entity> collisionCheck() {
         ArrayList<Entity> targets = new ArrayList<Entity>();
-        for (Entity e : EntityManager.getInstance().getEntitiesList()) {
+        for (Entity e : EntityManager.getInstance().getEntitiesListIteration()) {
             if (!(e.equals(caster)) && e.isActive() && !e.equals(this) && e.getCurrentLevel().equals(caster.getCurrentLevel())) {
                 if (!hitEntities.contains(e)) {
                     if (Intersector.overlaps(e.getAABB(), aabb)) {
                         targets.add(e);
                         hitEntities.add(e);
-                        System.out.println(e.getName() + e.getId() + " was hit");
+                        if (Game.DBG) System.out.println(e.getName() + e.getId() + " was hit");
                     }
                 }
             }

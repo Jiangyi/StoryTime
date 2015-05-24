@@ -2,6 +2,7 @@ package com.jxz.notcontra.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -18,6 +19,7 @@ public class Game extends ApplicationAdapter {
     public static final String TITLE = "Test Game";
     public static final int VID_WIDTH = 1280;
     public static final int VID_HEIGHT = 704;
+    public static final boolean DBG = true;
 
     private static float fpsTimer;
     private AssetHandler assetHandler = AssetHandler.getInstance();
@@ -120,7 +122,15 @@ public class Game extends ApplicationAdapter {
         return shaders;
     }
 
-    public void executeCommand(String... cmds) {
+    public void executeCommand(String cmd) {
+        String[] cmds;
+        if (cmd.contains(",")) {
+            // Assume comma separated chain of commands
+            cmds = cmd.split(",");
+        } else {
+            // Singular command
+            cmds = new String[] { cmd };
+        }
         if (cmds[0].equalsIgnoreCase("play")) {
             resetLoadSaveObject();
             if (cmds[1].equalsIgnoreCase("new")) {
@@ -140,15 +150,22 @@ public class Game extends ApplicationAdapter {
             inputManager.setChangeKey(cmds[1]);
         } else if (cmds[0].equalsIgnoreCase("unPauseGame")) {
             gsm.getPlayState().setIsPaused(false);
+        } else if (cmds[0].equalsIgnoreCase("saveGame")) {
+            Gdx.input.getTextInput(new Input.TextInputListener() {
+                @Override
+                public void input(String text) {
+                    SaveGameHandler.saveCurrentStateToFile(text);
+                }
+
+                @Override
+                public void canceled() {
+                }
+            }, "Save Game", "" ,"File Name");
         } else if (cmds[0].equalsIgnoreCase("Quit")) {
             Gdx.app.exit();
         }
     }
 
-    public void executeCommand(String cmd) {
-        // Assume it's comma separated
-        executeCommand(cmd.split(","));
-    }
     public PlayerSave getLoadSaveObject() {
         return save;
     }

@@ -27,7 +27,7 @@ public class LevelRenderer extends OrthogonalTiledMapRenderer {
 
     public void update() {
         // Update all active entities in renderer
-        for (Entity e : EntityManager.getInstance().getEntitiesList()) {
+        for (Entity e : EntityManager.getInstance().getEntitiesListIteration()) {
             if (e.getCurrentLevel() == currentLevel) {
                 if (e.isActive()) {
                     e.update();
@@ -68,7 +68,7 @@ public class LevelRenderer extends OrthogonalTiledMapRenderer {
                     currentLayer++;
 
                     if (currentLayer == SPRITE_LAYER) {
-                        for (Entity e : EntityManager.getInstance().getEntitiesList()) {
+                        for (Entity e : EntityManager.getInstance().getEntitiesListIteration()) {
                             if (e.getCurrentLevel() == currentLevel) {
                                 if (e.isVisible()) {
                                     e.draw(batch);

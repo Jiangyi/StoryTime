@@ -16,6 +16,7 @@ public class PlayerSave {
     public int mana;
     public String mode;
     public String level;
+    public long timestamp = System.currentTimeMillis();
 
     public PlayerSave() {
 

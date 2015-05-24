@@ -3,16 +3,17 @@ package com.jxz.notcontra.skill;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pools;
 import com.jxz.notcontra.effect.SpriteEffect;
-import com.jxz.notcontra.entity.*;
+import com.jxz.notcontra.entity.Entity;
+import com.jxz.notcontra.entity.EntityFactory;
+import com.jxz.notcontra.entity.LivingEntity;
+import com.jxz.notcontra.entity.Projectile;
 import com.jxz.notcontra.handlers.InputManager;
-
-import java.util.ArrayList;
 
 /**
  * Created by Samuel on 04/05/2015.
  * Basic projectile skill class.
  */
-public class LinearProjectileSkill extends Skill{
+public class LinearProjectileSkill extends Skill {
     protected Projectile hitbox;
     protected SpriteEffect castEffect;
     protected float range;
@@ -55,7 +56,7 @@ public class LinearProjectileSkill extends Skill{
 
     @Override
     public void preCast(LivingEntity caster) {
-    // Handle flipping of caster - caster should face the way the spell is cast
+        // Handle flipping of caster - caster should face the way the spell is cast
         target = InputManager.getInstance().getCursorDirection();
         if (target.x > 0) {
             if (caster.isFlipped()) {
@@ -79,27 +80,6 @@ public class LinearProjectileSkill extends Skill{
             castEffect.setOffset(castOffset.x, castOffset.y);
             castEffect.setAnimation(castAnimation);
             castEffect.setDirection(target);
-        }
-    }
-
-
-    @Override
-    public void hit(ArrayList<Entity> list) {
-        for (Entity e : list) {
-            if (e instanceof LivingEntity) {
-                LivingEntity le = (LivingEntity) e;
-                le.damage(damage, caster);
-                System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
-            }
-        }
-    }
-
-    @Override
-    public void hit(Entity target) {
-        if (target instanceof LivingEntity) {
-            LivingEntity le = (LivingEntity) target;
-            le.damage(damage, caster);
-            System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
         }
     }
 

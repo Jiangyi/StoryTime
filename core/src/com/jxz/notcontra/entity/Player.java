@@ -121,7 +121,7 @@ public class Player extends LivingEntity {
         }
         // Iterate through entities to check for touch damage
         if (forceDuration == 0) {
-            for (Entity e : EntityManager.getInstance().getEntitiesList()) {
+            for (Entity e : EntityManager.getInstance().getEntitiesListIteration()) {
                 if (e.isActive()) {
                     if (e.getCurrentLevel().equals(currentLevel)) {
                         if (e instanceof Monster && !e.equals(this)) {

@@ -1,13 +1,18 @@
 <menu>
+    <button x="centre" y="375">
+        <name>Back</name>
+        <textureName>button_back</textureName>
+        <onClick type="cmd">unPauseGame</onClick>
+    </button>
+    <button x="centre" y="275">
+        <name>Save</name>
+        <textureName>button_save</textureName>
+        <onClick type="cmd">saveGame</onClick>
+    </button>
     <button x="centre" y="175">
         <name>Options</name>
         <textureName>button_options</textureName>
         <onClick type="null" />
-    </button>
-    <button x="centre" y="275">
-        <name>Back</name>
-        <textureName>button_back</textureName>
-        <onClick type="cmd">unPauseGame</onClick>
     </button>
     <button x="centre" y="75">
         <name>Quit</name>

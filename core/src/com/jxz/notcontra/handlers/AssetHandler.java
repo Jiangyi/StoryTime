@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.jxz.notcontra.game.Game;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -61,7 +62,7 @@ public class AssetHandler extends AssetManager {
         String[] tmp;
         try {
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
+                if (Game.DBG) System.out.println(line);
                 // Only parse uncommented lines
                 if (!line.trim().startsWith("#") && line.trim().length() > 0) {
                     // Regex for whitespace and tabs

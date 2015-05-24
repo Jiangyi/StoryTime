@@ -109,22 +109,22 @@ public class PlayState extends GameState {
 
         // Back layer
         /**
-        sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1f, 1f));
-        sb.draw(currentLevel.getBackground()[0], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 2f,
-                Game.VIEW_WIDTH, Game.VIEW_HEIGHT);
+         sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1f, 1f));
+         sb.draw(currentLevel.getBackground()[0], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 2f,
+         Game.VIEW_WIDTH, Game.VIEW_HEIGHT);
 
 
-        // Middle layer
-        sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1.1f, 1.03f));
-        sb.draw(currentLevel.getBackground()[1], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 1.5f,
-                currentLevel.getBackground()[1].getWidth() / Game.VIEW_WIDTH * 2, currentLevel.getBackground()[1].getHeight() / Game.VIEW_HEIGHT * 1.2f);
+         // Middle layer
+         sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1.1f, 1.03f));
+         sb.draw(currentLevel.getBackground()[1], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 1.5f,
+         currentLevel.getBackground()[1].getWidth() / Game.VIEW_WIDTH * 2, currentLevel.getBackground()[1].getHeight() / Game.VIEW_HEIGHT * 1.2f);
 
-        // Front layer
-        sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1.6f, 1.3f));
-        sb.draw(currentLevel.getBackground()[2], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 3,
-                currentLevel.getBackground()[2].getWidth() / Game.VIEW_WIDTH * 12, currentLevel.getBackground()[2].getHeight() / Game.VIEW_HEIGHT, 0, 1, 10, 0);
-        sb.setShader(null);
-        sb.end();
+         // Front layer
+         sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1.6f, 1.3f));
+         sb.draw(currentLevel.getBackground()[2], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 3,
+         currentLevel.getBackground()[2].getWidth() / Game.VIEW_WIDTH * 12, currentLevel.getBackground()[2].getHeight() / Game.VIEW_HEIGHT, 0, 1, 10, 0);
+         sb.setShader(null);
+         sb.end();
          */
 
         // Update projection matrices
@@ -136,32 +136,35 @@ public class PlayState extends GameState {
         currentMapRenderer.setView(playerCam);
 
         sb.begin();
+        font.setColor(Color.WHITE);
         if (!isPaused()) {
-            font.setColor(Color.WHITE);
-            // Debug text - drawn to HUD Camera
-
-            font.draw(sb, "PLAY STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
-            font.draw(sb, "X-position: " + player.getPosition().x, 500, 75);
-            font.draw(sb, "Y-position: " + player.getPosition().y, 500, 50);
-            //font.draw(sb, "X tile: " + player.getPosition().x * Game.UNIT_SCALE, 300, 75);
-            //font.draw(sb, "Y tile: " + player.getPosition().y * Game.UNIT_SCALE, 300, 50);
-            //font.draw(sb, "MovementStateX: " + player.getMovementState().x, 500, 50);
-            font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
-            font.draw(sb, "Press O to turn on VSync, P to turn off", 700, 25);
-            font.draw(sb, "Press M to mute/unmute background music", 700, 50);
-            font.draw(sb, "Slimes: " + currentLevel.getMonsterCount(), 500, 25);
-            font.draw(sb, "isClimbing: " + player.isClimbing() + "    isOnPlatform: " + player.isOnPlatform() + "    isGrounded: "+ player.isGrounded() + "    jumpState" + player.getJumpState(), 500, 125);
-            font.draw(sb, "MovementStateY: " + player.getMovementState().y, 1100, 25);
             player.getHealthBar().draw(sb);
 
             if (game.getPlayMode() == Game.PlayMode.SURVIVAL) {
                 font.draw(sb, "Time to next spawn: " + (currentLevel.getSpawnTimer()), 500, 125);
             }
+
+            if (Game.DBG) {
+                // Debug text - drawn to HUD Camera
+                font.draw(sb, "PLAY STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
+                font.draw(sb, "X-position: " + player.getPosition().x, 500, 75);
+                font.draw(sb, "Y-position: " + player.getPosition().y, 500, 50);
+                //font.draw(sb, "X tile: " + player.getPosition().x * Game.UNIT_SCALE, 300, 75);
+                //font.draw(sb, "Y tile: " + player.getPosition().y * Game.UNIT_SCALE, 300, 50);
+                //font.draw(sb, "MovementStateX: " + player.getMovementState().x, 500, 50);
+                font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
+                font.draw(sb, "Press O to turn on VSync, P to turn off", 700, 25);
+                font.draw(sb, "Press M to mute/unmute background music", 700, 50);
+                font.draw(sb, "Slimes: " + currentLevel.getMonsterCount(), 500, 25);
+                font.draw(sb, "isClimbing: " + player.isClimbing() + "    isOnPlatform: " + player.isOnPlatform() + "    isGrounded: " + player.isGrounded() + "    jumpState" + player.getJumpState(), 500, 125);
+                font.draw(sb, "MovementStateY: " + player.getMovementState().y, 1100, 25);
+            }
         } else {
-            font.setColor(Color.WHITE);
-            font.draw(sb, "GAME PAUSED... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
-            font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
             pauseMenu.renderMenu(sb);
+            if (Game.DBG) {
+                font.draw(sb, "GAME PAUSED... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
+                font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
+            }
         }
         if (!player.isAlive()) {
             font.draw(sb, "YOU ARE DEAD.", 600, 550);
@@ -191,6 +194,7 @@ public class PlayState extends GameState {
     public Menu getPauseMenu() {
         return pauseMenu;
     }
+
     public int getKills() {
         return killCounter;
     }
