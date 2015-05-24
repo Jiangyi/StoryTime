@@ -139,6 +139,7 @@ public class Player extends LivingEntity {
         }
         super.update();
 
+        // Calculate fall damage
         fallDamage();
 
         // Re-poll for movement if root state updated
@@ -178,12 +179,12 @@ public class Player extends LivingEntity {
         // Sets fall damage value over a certain gravity threshold
         if (!isGrounded && !isClimbing) {
             if (currentGravity > FALL_DMG_GRAVITY_MIN) {
-                fallDamage = currentGravity;
+                fallDamage = currentGravity - FALL_DMG_GRAVITY_MIN;
             }
         }
         // Damages player only when grounded after fall
         if (isGrounded && fallDamage > 0.0f) {
-            this.damage(MathUtils.ceil(fallDamage * 2.2f), this);
+            this.damage(MathUtils.ceil(15f + fallDamage * 8f), this);
             fallDamage = 0;
         }
 
