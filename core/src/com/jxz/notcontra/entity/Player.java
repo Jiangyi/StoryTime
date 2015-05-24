@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.game.Game;
@@ -32,11 +33,15 @@ public class Player extends LivingEntity {
     private PlayerState state;
     private float flickerTimer;
     private int flickerCount;
-    private final float FLICKER_SECONDS = 1.5f;
-    private final int FLICKER_COUNT = 8;
     private int score;
     private PlayerSave playerSave;
     private Animation animDeath;
+    private float fallDamage = 0;
+
+    // Constants
+    private final float FALL_DMG_GRAVITY_MIN = 11f;
+    private final float FLICKER_SECONDS = 1.5f;
+    private final int FLICKER_COUNT = 8;
 
     // Constructor
     public Player(PlayState playState) {
@@ -134,6 +139,8 @@ public class Player extends LivingEntity {
         }
         super.update();
 
+        fallDamage();
+
         // Re-poll for movement if root state updated
         if (prevRooted && !isRooted) {
             updateMovementState();
@@ -165,6 +172,21 @@ public class Player extends LivingEntity {
             tombstone.setTombStone(this.position.x - (tombstone.getSprite().getWidth() - this.sprite.getWidth()) / 2 - 10, this.position.y);
             AudioHelper.playSoundEffect("player_death");
         }
+    }
+
+    public void fallDamage() {
+        // Sets fall damage value over a certain gravity threshold
+        if (!isGrounded && !isClimbing) {
+            if (currentGravity > FALL_DMG_GRAVITY_MIN) {
+                fallDamage = currentGravity;
+            }
+        }
+        // Damages player only when grounded after fall
+        if (isGrounded && fallDamage > 0.0f) {
+            this.damage(MathUtils.ceil(fallDamage * 2.2f), this);
+            fallDamage = 0;
+        }
+
     }
 
     @Override
