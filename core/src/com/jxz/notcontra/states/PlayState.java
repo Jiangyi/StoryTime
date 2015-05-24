@@ -150,6 +150,8 @@ public class PlayState extends GameState {
             font.draw(sb, "Press O to turn on VSync, P to turn off", 700, 25);
             font.draw(sb, "Press M to mute/unmute background music", 700, 50);
             font.draw(sb, "Slimes: " + currentLevel.getMonsterCount(), 500, 25);
+            font.draw(sb, "isClimbing: " + player.isClimbing() + "    isOnPlatform: " + player.isOnPlatform() + "    isGrounded: "+ player.isGrounded() + "    jumpState" + player.getJumpState(), 500, 125);
+            font.draw(sb, "MovementStateY: " + player.getMovementState().y, 1100, 25);
             player.getHealthBar().draw(sb);
 
             if (game.getPlayMode() == Game.PlayMode.SURVIVAL) {

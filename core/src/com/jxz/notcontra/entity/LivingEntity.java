@@ -150,7 +150,7 @@ public abstract class LivingEntity extends AnimatedEntity {
             if (currentLevel.getTileAt(position.x, position.y, Level.DYNAMIC_LAYER) == currentLevel.getTileAt(position.x + aabb.getWidth(), position.y, Level.DYNAMIC_LAYER)) {
                 //deltaY += currentSlope;
             }
-           position.y += ((Game.getFpsTimer() > 1) ? deltaX : deltaX * Game.getFpsTimer()) * currentSlope;
+            position.y += ((Game.getFpsTimer() > 1) ? deltaX : deltaX * Game.getFpsTimer()) * currentSlope;
         }
 
         // Player can grab onto a ladder if the center of the player is within a ladder tile
@@ -179,21 +179,21 @@ public abstract class LivingEntity extends AnimatedEntity {
             }
             jumpState = 0;
             deltaY += speed * 0.8 * movementState.y;
-        } else if (movementState.y < 0 && isOnPlatform()) {
+        } else if (movementState.y < 0 && isOnPlatform) {
             // Allows stepping down from one way platforms with a downwards jump
             if (jumpState == jumpTime) {
                 jumpState = 0;
                 position.y -= 1;
                 isOnPlatform = false;
-            } else {
-                // Downward jumps are not needed if player is above a climbable tile
-                bottomTile = currentLevel.getTileAt(centerX, position.y - 1, Level.TRIGGER_LAYER);
-                if (bottomTile != null) {
-                    if (bottomTile.getProperties().containsKey("climbable")) {
-                        position.y -= 1;
-                        isOnPlatform = false;
-                        isClimbing = true;
-                    }
+            }
+            // Downward jumps are not needed if player is above a climbable tile
+            bottomTile = currentLevel.getTileAt(centerX, position.y - 1, Level.TRIGGER_LAYER);
+            if (bottomTile != null) {
+                System.out.println(currentLevel.getTileAt(centerX, position.y - 1, Level.TRIGGER_LAYER).getProperties().containsKey("climbable"));
+                if (bottomTile.getProperties().containsKey("climbable")) {
+                    position.y -= 1;
+                    isOnPlatform = false;
+                    isClimbing = true;
                 }
             }
         }
@@ -349,6 +349,17 @@ public abstract class LivingEntity extends AnimatedEntity {
 
         // If player is not grounded on static ground, isGrounded is updated based on platform ground or slope ground
         if (!isGrounded && deltaY <= 0) {
+            if (movementState.y < 0 && isOnPlatform) {
+                // TODO: Fix the damn ladder + platform bug for real
+                bottomTile = currentLevel.getTileAt(centerX, position.y - 1, Level.TRIGGER_LAYER);
+                if (bottomTile != null) {
+                    if (bottomTile.getProperties().containsKey("climbable")) {
+                        position.y -= 1;
+                        isOnPlatform = false;
+                        isClimbing = true;
+                    }
+                }
+            }
             isGrounded = isOnPlatform;
         }
 
@@ -380,7 +391,7 @@ public abstract class LivingEntity extends AnimatedEntity {
         // If casting, player is rooted
         if (isCasting && currentSkill.isRootWhileCasting()) {
             isRooted = true;
-        } else if (forceDuration == 0 && rootingForce){
+        } else if (forceDuration == 0 && rootingForce) {
             isRooted = false;
             rootingForce = false;
         }
