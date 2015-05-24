@@ -53,6 +53,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     @Override
     public void die() {
         super.die();
+        target = null;
         int score = GameStateManager.getInstance().getPlayState().getPlayer().getScore();
         GameStateManager.getInstance().getPlayState().getPlayer().setScore(score + 5);
         currentLevel.decMonsterCount();
