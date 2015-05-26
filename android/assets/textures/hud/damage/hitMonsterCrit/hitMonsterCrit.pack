@@ -1,0 +1,152 @@
+
+hitMonsterCrit.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+hitMonsterCrit
+  rotate: false
+  xy: 1, 1
+  size: 62, 57
+  orig: 62, 57
+  offset: 0, 0
+  index: 20
+hitMonsterCrit
+  rotate: false
+  xy: 65, 10
+  size: 43, 48
+  orig: 43, 48
+  offset: 0, 0
+  index: 10
+hitMonsterCrit
+  rotate: false
+  xy: 110, 13
+  size: 43, 45
+  orig: 43, 45
+  offset: 0, 0
+  index: 14
+hitMonsterCrit
+  rotate: false
+  xy: 155, 13
+  size: 43, 45
+  orig: 43, 45
+  offset: 0, 0
+  index: 16
+hitMonsterCrit
+  rotate: false
+  xy: 200, 12
+  size: 42, 46
+  orig: 42, 46
+  offset: 0, 0
+  index: 19
+hitMonsterCrit
+  rotate: false
+  xy: 244, 12
+  size: 41, 46
+  orig: 41, 46
+  offset: 0, 0
+  index: 18
+hitMonsterCrit
+  rotate: false
+  xy: 287, 12
+  size: 40, 46
+  orig: 40, 46
+  offset: 0, 0
+  index: 13
+hitMonsterCrit
+  rotate: false
+  xy: 329, 13
+  size: 40, 45
+  orig: 40, 45
+  offset: 0, 0
+  index: 12
+hitMonsterCrit
+  rotate: false
+  xy: 371, 13
+  size: 40, 45
+  orig: 40, 45
+  offset: 0, 0
+  index: 17
+hitMonsterCrit
+  rotate: false
+  xy: 413, 12
+  size: 39, 46
+  orig: 39, 46
+  offset: 0, 0
+  index: 15
+hitMonsterCrit
+  rotate: false
+  xy: 454, 20
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: 0
+hitMonsterCrit
+  rotate: false
+  xy: 493, 20
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: 4
+hitMonsterCrit
+  rotate: false
+  xy: 532, 20
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: 6
+hitMonsterCrit
+  rotate: false
+  xy: 571, 20
+  size: 36, 38
+  orig: 36, 38
+  offset: 0, 0
+  index: 9
+hitMonsterCrit
+  rotate: false
+  xy: 609, 20
+  size: 34, 38
+  orig: 34, 38
+  offset: 0, 0
+  index: 2
+hitMonsterCrit
+  rotate: false
+  xy: 645, 19
+  size: 34, 39
+  orig: 34, 39
+  offset: 0, 0
+  index: 8
+hitMonsterCrit
+  rotate: false
+  xy: 681, 20
+  size: 33, 38
+  orig: 33, 38
+  offset: 0, 0
+  index: 3
+hitMonsterCrit
+  rotate: false
+  xy: 716, 20
+  size: 33, 38
+  orig: 33, 38
+  offset: 0, 0
+  index: 5
+hitMonsterCrit
+  rotate: false
+  xy: 751, 20
+  size: 33, 38
+  orig: 33, 38
+  offset: 0, 0
+  index: 7
+hitMonsterCrit
+  rotate: false
+  xy: 786, 14
+  size: 29, 44
+  orig: 29, 44
+  offset: 0, 0
+  index: 11
+hitMonsterCrit
+  rotate: false
+  xy: 817, 20
+  size: 25, 38
+  orig: 25, 38
+  offset: 0, 0
+  index: 1

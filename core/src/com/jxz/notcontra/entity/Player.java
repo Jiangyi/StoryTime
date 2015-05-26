@@ -16,6 +16,7 @@ import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.GameStateManager;
+import com.jxz.notcontra.hud.DamageNumber;
 import com.jxz.notcontra.hud.PlayerStatusBar;
 import com.jxz.notcontra.skill.Skill;
 import com.jxz.notcontra.states.PlayState;
@@ -37,6 +38,7 @@ public class Player extends LivingEntity {
     private PlayerSave playerSave;
     private Animation animDeath;
     private float fallDamage = 0;
+    private DamageNumber damageNumber;
 
     // Constants
     private final float FALL_DMG_GRAVITY_MIN = 11f;
@@ -79,11 +81,14 @@ public class Player extends LivingEntity {
         speed = 3;
         renderOffset = animIdle.getKeyFrame(0).getRegionWidth();
 
+        // Player stats setup
         maxHealth = 100;
         maxMana = 100;
         state = PlayerState.ALIVE;
         flickerTimer = 0f;
         flickerCount = 0;
+        this.damageNumber = new DamageNumber(this, "hitPlayer");
+        addChild(damageNumber);
 
         // Jump parameters
         maxJumps = 2;
@@ -195,6 +200,8 @@ public class Player extends LivingEntity {
         // Player takes damage first
         if (state == PlayerState.ALIVE) {
             super.damage(dmg, source);
+            // Display damage
+            damageNumber.init(dmg);
             // Knock back player
             forceVector = this.getCenterPosition().cpy().sub(source.getCenterPosition()).nor();
             forceVector.set(forceVector.x, 0.6f);

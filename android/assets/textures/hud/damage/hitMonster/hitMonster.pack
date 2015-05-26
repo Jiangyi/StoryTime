@@ -1,0 +1,159 @@
+
+hitMonster.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+hitMonster
+  rotate: false
+  xy: 1, 2
+  size: 107, 38
+  orig: 107, 38
+  offset: 0, 0
+  index: 21
+hitMonster
+  rotate: false
+  xy: 110, 2
+  size: 98, 38
+  orig: 98, 38
+  offset: 0, 0
+  index: 20
+hitMonster
+  rotate: false
+  xy: 210, 2
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: 10
+hitMonster
+  rotate: false
+  xy: 249, 2
+  size: 36, 38
+  orig: 36, 38
+  offset: 0, 0
+  index: 16
+hitMonster
+  rotate: false
+  xy: 287, 1
+  size: 36, 39
+  orig: 36, 39
+  offset: 0, 0
+  index: 18
+hitMonster
+  rotate: false
+  xy: 325, 2
+  size: 36, 38
+  orig: 36, 38
+  offset: 0, 0
+  index: 19
+hitMonster
+  rotate: false
+  xy: 363, 3
+  size: 36, 37
+  orig: 36, 37
+  offset: 0, 0
+  index: 14
+hitMonster
+  rotate: false
+  xy: 401, 2
+  size: 34, 38
+  orig: 34, 38
+  offset: 0, 0
+  index: 12
+hitMonster
+  rotate: false
+  xy: 437, 2
+  size: 34, 38
+  orig: 34, 38
+  offset: 0, 0
+  index: 15
+hitMonster
+  rotate: false
+  xy: 473, 2
+  size: 33, 38
+  orig: 33, 38
+  offset: 0, 0
+  index: 13
+hitMonster
+  rotate: false
+  xy: 508, 2
+  size: 33, 38
+  orig: 33, 38
+  offset: 0, 0
+  index: 17
+hitMonster
+  rotate: false
+  xy: 543, 7
+  size: 31, 33
+  orig: 31, 33
+  offset: 0, 0
+  index: 0
+hitMonster
+  rotate: false
+  xy: 576, 7
+  size: 31, 33
+  orig: 31, 33
+  offset: 0, 0
+  index: 4
+hitMonster
+  rotate: false
+  xy: 609, 7
+  size: 31, 33
+  orig: 31, 33
+  offset: 0, 0
+  index: 6
+hitMonster
+  rotate: false
+  xy: 642, 7
+  size: 31, 33
+  orig: 31, 33
+  offset: 0, 0
+  index: 8
+hitMonster
+  rotate: false
+  xy: 675, 7
+  size: 31, 33
+  orig: 31, 33
+  offset: 0, 0
+  index: 9
+hitMonster
+  rotate: false
+  xy: 708, 7
+  size: 29, 33
+  orig: 29, 33
+  offset: 0, 0
+  index: 2
+hitMonster
+  rotate: false
+  xy: 739, 8
+  size: 29, 32
+  orig: 29, 32
+  offset: 0, 0
+  index: 5
+hitMonster
+  rotate: false
+  xy: 770, 8
+  size: 29, 32
+  orig: 29, 32
+  offset: 0, 0
+  index: 7
+hitMonster
+  rotate: false
+  xy: 801, 8
+  size: 28, 32
+  orig: 28, 32
+  offset: 0, 0
+  index: 3
+hitMonster
+  rotate: false
+  xy: 831, 3
+  size: 25, 37
+  orig: 25, 37
+  offset: 0, 0
+  index: 11
+hitMonster
+  rotate: false
+  xy: 858, 8
+  size: 22, 32
+  orig: 22, 32
+  offset: 0, 0
+  index: 1
