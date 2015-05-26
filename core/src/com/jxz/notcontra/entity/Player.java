@@ -293,7 +293,9 @@ public class Player extends LivingEntity {
                 }
             }
         } else {
-            this.sprite.setRegion(animDeath.getKeyFrame(animStateTime));
+            if (animFrames.findRegions("dead1").size != 0) {
+                this.sprite.setRegion(animDeath.getKeyFrame(animStateTime));
+            }
         }
 
         // Flip sprite if facing left
