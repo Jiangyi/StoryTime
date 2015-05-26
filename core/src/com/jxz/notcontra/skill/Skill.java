@@ -50,11 +50,7 @@ public abstract class Skill {
 
     public void hit(ArrayList<Entity> list) {
         for (Entity e : list) {
-            if (e instanceof LivingEntity) {
-                LivingEntity le = (LivingEntity) e;
-                le.damage(damage, caster);
-                if (Game.getDebugMode()) System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
-            }
+            hit(e);
         }
     }
 
