@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Pools;
 import com.jxz.notcontra.entity.ChildObject;
 import com.jxz.notcontra.entity.Entity;
 import com.jxz.notcontra.entity.LivingEntity;
@@ -27,17 +28,18 @@ public class DamageNumber implements ChildObject, Pool.Poolable {
     private float stateTime;
     private float offset;
 
-    public DamageNumber(LivingEntity le, String hitTextureString) {
-        this.hitTextureName = hitTextureString;
+    public DamageNumber() {
         this.columnNumber = new Sprite[0];
         this.isActive = false;
-        this.hitTextureAtlas = (TextureAtlas) assetHandler.getByName(this.hitTextureName);
-        this.parent = le;
         this.position = new Vector2();
         this.offset = 0;
     }
 
-    public void init(float dmg) {
+    public void init(LivingEntity le, String hitTextureString, float dmg) {
+        this.parent = le;
+        this.hitTextureName = hitTextureString;
+        this.hitTextureAtlas = (TextureAtlas) assetHandler.getByName(this.hitTextureName);
+
         stateTime = 0;
         String str = Integer.toString((int)dmg);
         if (dmg > 0) {
@@ -58,8 +60,8 @@ public class DamageNumber implements ChildObject, Pool.Poolable {
             this.position.y = parent.getTilePosition().y + (parent.getSprite().getHeight() + this.columnNumber[0].getHeight()) * Game.UNIT_SCALE;
 
             // Stop displaying damage after a certain time
-            if (stateTime >= 2.5f) {
-                this.reset();
+            if (stateTime >= 1.5f) {
+                Pools.free(this);
                 // TODO: add fading to damage numbers
             }
         }
@@ -67,6 +69,7 @@ public class DamageNumber implements ChildObject, Pool.Poolable {
 
     public void draw(Batch batch) {
         // Draw damage numbers
+        batch.setColor(1f, 1f, 1f, 1f);
         for (int i = 0; i < columnNumber.length; i++) {
             batch.draw(columnNumber[i],
                     position.x + offset,
@@ -98,6 +101,7 @@ public class DamageNumber implements ChildObject, Pool.Poolable {
         stateTime = 0;
         columnNumber = new Sprite[0];
         offset = 0;
+        parent.removeChild(this);
     }
 
     public boolean isActive() {

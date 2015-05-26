@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pools;
 import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AudioHelper;
@@ -87,8 +88,6 @@ public class Player extends LivingEntity {
         state = PlayerState.ALIVE;
         flickerTimer = 0f;
         flickerCount = 0;
-        this.damageNumber = new DamageNumber(this, "hitPlayer");
-        addChild(damageNumber);
 
         // Jump parameters
         maxJumps = 2;
@@ -201,7 +200,10 @@ public class Player extends LivingEntity {
         if (state == PlayerState.ALIVE) {
             super.damage(dmg, source);
             // Display damage
-            damageNumber.init(dmg);
+            damageNumber = Pools.obtain(DamageNumber.class);
+            damageNumber.init(this, "hitPlayer", dmg);
+            addChild(damageNumber);
+
             // Knock back player
             forceVector = this.getCenterPosition().cpy().sub(source.getCenterPosition()).nor();
             forceVector.set(forceVector.x, 0.6f);

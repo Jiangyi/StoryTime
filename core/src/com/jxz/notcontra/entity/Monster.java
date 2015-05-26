@@ -3,7 +3,9 @@ package com.jxz.notcontra.entity;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Pools;
 import com.jxz.notcontra.handlers.GameStateManager;
+import com.jxz.notcontra.hud.DamageNumber;
 import com.jxz.notcontra.hud.OSHealthBar;
 import com.jxz.notcontra.world.Level;
 
@@ -21,6 +23,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     protected Vector2 distToTarget;
     protected Entity target;
     protected float deathLerp;
+    protected DamageNumber damageNumber;
 
     public enum AIState {
         IDLE, PATROLLING, CHASING, DYING, SPAWNING
@@ -67,6 +70,10 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     @Override
     public void damage(float dmg, Entity source) {
         super.damage(dmg, source);
+        damageNumber = Pools.obtain(DamageNumber.class);
+        damageNumber.init(this, "hitMonster", dmg);
+        addChild(damageNumber);
+
         // If monster isn't already dying, proc hit animation
         if (state != AIState.DYING) {
             if (dmg > kbThreshold) {

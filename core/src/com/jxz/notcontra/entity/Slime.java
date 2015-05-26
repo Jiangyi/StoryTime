@@ -36,7 +36,7 @@ public class Slime extends Monster {
         kbThreshold = 15;
 
         // Combat stats
-        damage = 4444567;
+        damage = 5;
         maxHealth = 50;
         speed = 3 + MathUtils.random(-0.5f, 0.5f);
 
