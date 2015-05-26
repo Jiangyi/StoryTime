@@ -23,6 +23,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     protected Vector2 distToTarget;
     protected Entity target;
     protected float deathLerp;
+    protected DamageNumber damageNumber;
 
     public enum AIState {
         IDLE, PATROLLING, CHASING, DYING, SPAWNING
@@ -69,7 +70,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     @Override
     public void damage(float dmg, Entity source) {
         super.damage(dmg, source);
-        DamageNumber damageNumber = Pools.obtain(DamageNumber.class);
+        damageNumber = Pools.obtain(DamageNumber.class);
         damageNumber.init(this, "hitMonster", dmg);
         addChild(damageNumber);
 
