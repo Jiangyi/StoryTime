@@ -19,7 +19,7 @@ public class Game extends ApplicationAdapter {
     public static final String TITLE = "Test Game";
     public static final int VID_WIDTH = 1280;
     public static final int VID_HEIGHT = 704;
-    public static final boolean DBG = true;
+    private static boolean debugMode = true;
 
     private static float fpsTimer;
     private AssetHandler assetHandler = AssetHandler.getInstance();
@@ -48,9 +48,6 @@ public class Game extends ApplicationAdapter {
     public static final float UNIT_SCALE = 1 / 32f; // 1 ingame unit = 32 px (tile size)
     public static final int VIEW_HEIGHT = 22;
     public static final int VIEW_WIDTH = 40;
-
-    // Game variables
-    private static boolean debugMode = false;
 
     @Override
     public void create() {

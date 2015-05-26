@@ -57,7 +57,7 @@ public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poola
                     if (Intersector.overlaps(e.getAABB(), aabb)) {
                         targets.add(e);
                         hitEntities.add(e);
-                        if (Game.DBG) System.out.println(e.getName() + e.getId() + " was hit");
+                        if (Game.getDebugMode()) System.out.println(e.getName() + e.getId() + " was hit");
                     }
                 }
             }

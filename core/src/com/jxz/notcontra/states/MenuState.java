@@ -43,7 +43,7 @@ public class MenuState extends GameState {
         sb.begin();
         sb.draw(this.background, 0, 0);
         currentMenu.renderMenu(sb);
-        if (Game.DBG) {
+        if (Game.getDebugMode()) {
             font.draw(sb, "MENU STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
             font.draw(sb, "DELTA TIME IN SECONDS: " + Gdx.graphics.getDeltaTime(), 100, 75);
         }

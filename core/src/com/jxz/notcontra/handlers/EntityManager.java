@@ -32,7 +32,7 @@ public class EntityManager implements Disposable {
         // Add entities to master list, and add the appropriate physics body to the world
         masterList.add(e);
         id++;
-        if (Game.DBG) System.out.println(e.getName() + id + " has registered");
+        if (Game.getDebugMode()) System.out.println(e.getName() + id + " has registered");
     }
 
     public Array<Entity> getEntitiesListIteration() {

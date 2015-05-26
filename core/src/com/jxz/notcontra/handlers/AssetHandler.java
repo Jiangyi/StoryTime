@@ -62,7 +62,7 @@ public class AssetHandler extends AssetManager {
         String[] tmp;
         try {
             while ((line = br.readLine()) != null) {
-                if (Game.DBG) System.out.println(line);
+                if (Game.getDebugMode()) System.out.println(line);
                 // Only parse uncommented lines
                 if (!line.trim().startsWith("#") && line.trim().length() > 0) {
                     // Regex for whitespace and tabs

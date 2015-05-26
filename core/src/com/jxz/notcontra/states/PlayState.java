@@ -144,7 +144,7 @@ public class PlayState extends GameState {
                 font.draw(sb, "Time to next spawn: " + (currentLevel.getSpawnTimer()), 500, 125);
             }
 
-            if (Game.DBG) {
+            if (Game.getDebugMode()) {
                 // Debug text - drawn to HUD Camera
                 font.draw(sb, "PLAY STATE... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
                 font.draw(sb, "X-position: " + player.getPosition().x, 500, 75);
@@ -161,7 +161,7 @@ public class PlayState extends GameState {
             }
         } else {
             pauseMenu.renderMenu(sb);
-            if (Game.DBG) {
+            if (Game.getDebugMode()) {
                 font.draw(sb, "GAME PAUSED... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
                 font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
             }

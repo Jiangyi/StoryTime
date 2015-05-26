@@ -57,6 +57,11 @@ public class InputManager implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
 
+        // Debug Mode
+        if (keycode == keyPreferences.getInteger("setDebug", Input.Keys.F)) {
+            Game.setDebugMode(!Game.getDebugMode());
+        }
+
         if (changeKey != null) {
             keyPreferences.getInteger(changeKey, keycode);
             changeKey = null;
@@ -64,7 +69,7 @@ public class InputManager implements InputProcessor {
         // Movement controls only operational if in play state
         if (gsm.getCurrentState() instanceof PlayState) {
 
-            if (Game.DBG) {
+            if (Game.getDebugMode()) {
                 if (keycode == keyPreferences.getInteger("save", Input.Keys.S) && isCtrlPressed) {
                     SaveGameHandler.saveCurrentStateToFile("save1.json");
                 }
@@ -129,7 +134,7 @@ public class InputManager implements InputProcessor {
                     player.interact();
                 }
 
-                if (Game.DBG) {
+                if (Game.getDebugMode()) {
                     // K has become the "piss off everything on the map" button
                     if (keycode == keyPreferences.getInteger("aggroAll", Input.Keys.K)) {
                         for (Entity e : EntityManager.getInstance().getEntitiesListIteration()) {
@@ -145,10 +150,6 @@ public class InputManager implements InputProcessor {
                         player.getCurrentLevel().spawn();
                     }
 
-                    // Debug Mode
-                    if (keycode == keyPreferences.getInteger("setDebug", Input.Keys.F)) {
-                        Game.setDebugMode(!Game.getDebugMode());
-                    }
                 }
             }
 
@@ -278,7 +279,7 @@ public class InputManager implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (Game.DBG) {
+        if (Game.getDebugMode()) {
             Vector2 position = getCursorInWorld();
             System.out.println("X: " + position.x + "Y: " + position.y);
         }
@@ -361,7 +362,7 @@ public class InputManager implements InputProcessor {
         String[] tmp;
         try {
             while ((line = br.readLine()) != null) {
-                if (Game.DBG) System.out.println(line);
+                if (Game.getDebugMode()) System.out.println(line);
                 // Only parse uncommented lines
                 if (!line.trim().startsWith("#") && line.trim().length() > 0) {
                     // Regex for whitespace and tabs

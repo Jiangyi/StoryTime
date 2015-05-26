@@ -411,7 +411,7 @@ public abstract class LivingEntity extends AnimatedEntity {
     public void die() {
         isActive = false;
         isVisible = false;
-        if (Game.DBG) System.out.println(name + id + " has been slain.");
+        if (Game.getDebugMode()) System.out.println(name + id + " has been slain.");
     }
 
     public void jump() {

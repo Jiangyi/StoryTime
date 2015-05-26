@@ -53,7 +53,7 @@ public abstract class Skill {
             if (e instanceof LivingEntity) {
                 LivingEntity le = (LivingEntity) e;
                 le.damage(damage, caster);
-                if (Game.DBG) System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
+                if (Game.getDebugMode()) System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
             }
         }
     }
@@ -62,7 +62,7 @@ public abstract class Skill {
         if (target instanceof LivingEntity) {
             LivingEntity le = (LivingEntity) target;
             le.damage(damage, caster);
-            if (Game.DBG) System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
+            if (Game.getDebugMode()) System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
         }
     }
 
