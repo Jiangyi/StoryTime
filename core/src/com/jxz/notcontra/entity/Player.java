@@ -39,7 +39,6 @@ public class Player extends LivingEntity {
     private PlayerSave playerSave;
     private Animation animDeath;
     private float fallDamage = 0;
-    private DamageNumber damageNumber;
 
     // Constants
     private final float FALL_DMG_GRAVITY_MIN = 11f;
@@ -200,7 +199,7 @@ public class Player extends LivingEntity {
         if (state == PlayerState.ALIVE) {
             super.damage(dmg, source);
             // Display damage
-            damageNumber = Pools.obtain(DamageNumber.class);
+            DamageNumber damageNumber = Pools.obtain(DamageNumber.class);
             damageNumber.init(this, "hitPlayer", dmg);
             addChild(damageNumber);
 
