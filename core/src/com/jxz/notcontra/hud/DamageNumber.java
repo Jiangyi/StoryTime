@@ -28,6 +28,9 @@ public class DamageNumber implements ChildObject, Pool.Poolable {
     private float stateTime;
     private float offset;
 
+    private final float BEGIN_FADE_TIME = 1.25f;
+    private final float END_FADE_TIME = 1.5f;
+
     public DamageNumber() {
         this.columnNumber = new Sprite[0];
         this.isActive = false;
@@ -60,16 +63,19 @@ public class DamageNumber implements ChildObject, Pool.Poolable {
             this.position.y = parent.getTilePosition().y + (parent.getSprite().getHeight() + this.columnNumber[0].getHeight()) * Game.UNIT_SCALE;
 
             // Stop displaying damage after a certain time
-            if (stateTime >= 1.5f) {
+            if (stateTime >= END_FADE_TIME) {
                 Pools.free(this);
-                // TODO: add fading to damage numbers
             }
         }
     }
 
     public void draw(Batch batch) {
         // Draw damage numbers
-        batch.setColor(1f, 1f, 1f, 1f);
+        if (stateTime >= BEGIN_FADE_TIME) {
+            batch.setColor(1f, 1f, 1f, (END_FADE_TIME - stateTime) / (END_FADE_TIME - BEGIN_FADE_TIME));
+        } else {
+            batch.setColor(1f, 1f, 1f, 1f);
+        }
         for (int i = 0; i < columnNumber.length; i++) {
             batch.draw(columnNumber[i],
                     position.x + offset,
