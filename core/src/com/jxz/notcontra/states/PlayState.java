@@ -139,6 +139,7 @@ public class PlayState extends GameState {
         font.setColor(Color.WHITE);
         if (!isPaused()) {
             player.getHealthBar().draw(sb);
+            font.draw(sb, "Score: " + player.getScore(), 1200, 700);
 
             if (game.getPlayMode() == Game.PlayMode.SURVIVAL) {
                 font.draw(sb, "Time to next spawn: " + (currentLevel.getSpawnTimer()), 500, 125);

@@ -24,6 +24,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     protected Entity target;
     protected float deathLerp;
     protected DamageNumber damageNumber;
+    protected int deathScore;
 
     public enum AIState {
         IDLE, PATROLLING, CHASING, DYING, SPAWNING
@@ -58,8 +59,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
         super.die();
         target = null;
         removeChild(damageNumber);
-        int score = GameStateManager.getInstance().getPlayState().getPlayer().getScore();
-        GameStateManager.getInstance().getPlayState().getPlayer().setScore(score + 5);
+        GameStateManager.getInstance().getPlayState().getPlayer().addScore(deathScore);
         currentLevel.decMonsterCount();
     }
 

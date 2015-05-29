@@ -17,6 +17,9 @@ public class Slime extends Monster {
 
     public Slime() {
         super("slime");
+
+        // Set up score
+        deathScore = 5;
         // Set up animations
         this.animFrames = (TextureAtlas) assetHandler.getByName("grey_slime");
         animIdle = new Animation(1 / 6f, this.animFrames.findRegions("stand"));
