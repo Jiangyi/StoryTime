@@ -1,0 +1,19 @@
+<menu>
+
+    <animatedScrollPane x="215" y="500" width="850">
+        <idleAnimName duration=".667">stand1</idleAnimName>
+        <activeAnimName duration=".167">walk1</activeAnimName>
+        <values>Alice</values>
+        <values>player</values>
+    </animatedScrollPane>
+    <button x="150" y="100">
+        <name>Back</name>
+        <textureName>button_back</textureName>
+        <onClick type="setMenu">previous</onClick>
+    </button>
+    <button x="975" y="100">
+        <name>Start</name>
+        <textureName>button_start</textureName>
+        <onClick type="getScrollPaneParam" />
+    </button>
+</menu>

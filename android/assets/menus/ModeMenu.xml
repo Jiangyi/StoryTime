@@ -2,12 +2,12 @@
     <button x="centre" y="275">
         <name>Story</name>
         <textureName>button_story</textureName>
-        <onClick type="setMenuInternal" file="charSelection.txt" cmd="play,new,standard">CharSelectMenu</onClick>
+        <onClick type="setMenu" prevCmd="play,new,standard">SelectMenu</onClick>
     </button>
     <button x="centre" y="175">
         <name>Survival</name>
         <textureName>button_survival</textureName>
-        <onClick type="setMenuInternal" file="charSelection.txt" cmd="play,new,survival">CharSelectMenu</onClick>
+        <onClick type="setMenu" prevCmd="play,new,survival">SelectMenu</onClick>
     </button>
     <button x="centre" y="75">
         <name>Back</name>

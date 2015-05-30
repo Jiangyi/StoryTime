@@ -161,7 +161,7 @@ public class PlayState extends GameState {
                 font.draw(sb, "MovementStateY: " + player.getMovementState().y, 1100, 25);
             }
         } else {
-            pauseMenu.renderMenu(sb);
+            pauseMenu.renderMenu(sb, font);
             if (Game.getDebugMode()) {
                 font.draw(sb, "GAME PAUSED... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
                 font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);

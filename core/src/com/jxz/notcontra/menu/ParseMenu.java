@@ -30,6 +30,13 @@ public class ParseMenu extends Menu {
         try {
             XmlReader.Element root = new XmlReader().parse(file);
             Array<XmlReader.Element> buttonElements = root.getChildrenByName("button");
+            XmlReader.Element paneElement = root.getChildByName("animatedScrollPane");
+            if (paneElement != null) {
+                pane = new AnimatedScrollPane(paneElement);
+                Button[] navButtons = pane.getNavButtons();
+                buttons.put("leftNav", navButtons[0]);
+                buttons.put("rightNav", navButtons[1]);
+            }
 
             String name, atlasRegion;
             float x, y;
@@ -69,18 +76,17 @@ public class ParseMenu extends Menu {
                                 } else {
                                     ParseMenu menu = new ParseMenu(onClick.getText() + ".xml");
                                     menu.setPrevMenu(ParseMenu.this);
+                                    menu.setPrevCmd(onClick.getAttribute("prevCmd", null));
                                     menu.setMenuState(menuState);
                                     menuState.setCurrentMenu(menu);
                                 }
-                            } else if (onClickType.equalsIgnoreCase("setMenuInternal")) {
-                                String filePath = "menus/selectMenu/" + onClick.get("file");
-                                String cmd = onClick.get("cmd");
-                                SelectMenu menu = new SelectMenu(filePath, cmd);
-                                menu.setMenuState(menuState);
-                                menu.setPrevMenu(ParseMenu.this);
-                                menuState.setCurrentMenu(menu);
                             } else if (onClickType.equalsIgnoreCase("cmd")) {
                                 GameStateManager.getInstance().getGame().executeCommand(onClick.getText());
+                            } else if (onClickType.equalsIgnoreCase("getScrollPaneParam")) {
+                                if (prevCmd != null && pane != null) {
+                                    System.out.println(prevCmd + "," + pane.getCurrentCmd());
+                                    GameStateManager.getInstance().getGame().executeCommand(prevCmd + "," + pane.getCurrentCmd());
+                                }
                             }
                         }
 
