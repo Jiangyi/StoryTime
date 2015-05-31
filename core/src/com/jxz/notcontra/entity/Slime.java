@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.MathUtils;
+import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.world.Level;
 
 /**
@@ -57,7 +59,9 @@ public class Slime extends Monster {
 
     public void init() {
         aabb.set(position.x, position.y, sprite.getWidth(), sprite.getHeight());
-        health = 50;
+        maxHealth = Math.round(50 * Game.getDifficultyMultiplier());
+        health = maxHealth;
+        damage = Math.round(5 * Game.getDifficultyMultiplier());
         isVisible = true;
         isActive = true;
         hitboxOffset.set(0, 0);

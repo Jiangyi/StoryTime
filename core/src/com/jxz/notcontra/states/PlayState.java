@@ -28,9 +28,6 @@ public class PlayState extends GameState {
     private boolean isPaused;
     private Menu pauseMenu;
 
-    private int difficulty; // (Will eventually) Determine the health scaling, respawn timer, and wave density of monsters.
-    private int wave; // Which wave the player is facing. Monster count = floor(0.5x + 5)
-    private int subWave; // Waves are divided into subwaves, such that it doesn't feel overwhelming
     private int killCounter;
 
     public PlayState(Game game) {
@@ -38,9 +35,6 @@ public class PlayState extends GameState {
         // Initialize for the first time
         isPaused = false;
         SkillManager.init();
-        difficulty = 1;
-        wave = 0;
-        subWave = 0;
 
         // Initialize player
         player = new Player(this);
@@ -142,7 +136,8 @@ public class PlayState extends GameState {
             font.draw(sb, "Score: " + player.getScore(), 1200, 700);
 
             if (game.getPlayMode() == Game.PlayMode.SURVIVAL) {
-                font.draw(sb, "Time to next spawn: " + (currentLevel.getSpawnTimer()), 500, 125);
+                font.draw(sb, "Time to next spawn: " + (currentLevel.getSpawnTimer()), 500, 250);
+                font.draw(sb, "Current Wave: " + currentLevel.getCurrentWave() + " Diff: " + Game.getDifficultyMultiplier(), 750, 250);
             }
 
             if (Game.getDebugMode()) {
@@ -206,21 +201,5 @@ public class PlayState extends GameState {
 
     public void setKills(int kills) {
         killCounter = kills;
-    }
-
-    public int getSubWave() {
-        return subWave;
-    }
-
-    public void setSubWave(int subWave) {
-        this.subWave = subWave;
-    }
-
-    public int getWave() {
-        return wave;
-    }
-
-    public void setWave(int wave) {
-        this.wave = wave;
     }
 }

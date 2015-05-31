@@ -19,6 +19,7 @@ public class Game extends ApplicationAdapter {
     public static final String TITLE = "Test Game";
     public static final int VID_WIDTH = 1280;
     public static final int VID_HEIGHT = 704;
+    public static final float REST_DURATION = 10.0f;
     private static boolean debugMode = true;
 
     private static float fpsTimer;
@@ -42,7 +43,9 @@ public class Game extends ApplicationAdapter {
     public enum PlayMode {
         SURVIVAL, STANDARD, REST
     }
+
     private PlayMode playMode;
+    private static float difficultyMultiplier = 1.0f;
 
     // Map Render Variables
     public static final float UNIT_SCALE = 1 / 32f; // 1 ingame unit = 32 px (tile size)
@@ -179,5 +182,13 @@ public class Game extends ApplicationAdapter {
 
     public void setPlayMode(PlayMode mode) {
         this.playMode = mode;
+    }
+
+    public static float getDifficultyMultiplier() {
+        return difficultyMultiplier;
+    }
+
+    public static void setDifficultyMultiplier(float difficultyMultiplier) {
+        Game.difficultyMultiplier = difficultyMultiplier;
     }
 }

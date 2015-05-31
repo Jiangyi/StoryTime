@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.jxz.notcontra.entity.EntityFactory;
 import com.jxz.notcontra.entity.Slime;
@@ -30,6 +31,9 @@ public class Level {
     public static final String TRIGGER_LAYER = "Trigger Tile";  // Name of trigger layer (ladders/ropes)
     public static final String SPAWN_LAYER = "Spawn";            // Name of spawn point poly-line layer
 
+    public static final float MAX_SECONDS_TO_SPAWN = 8.0f;
+    public static final float MIN_SECONDS_TO_SPAWN = 3.0f;
+
     // Class Variables
     private static Array<Level> loadedMaps = new Array<Level>();    // Static list of Levels to avoid duplicates
     private SpawnPointList spawnPointList;
@@ -38,14 +42,22 @@ public class Level {
     private float gravity = 0.25f / Game.UNIT_SCALE;
     private boolean firstLoad;
     private int monsterCount;
-    private int waveCount;
-    private int subWaveCount;
+    private int currentWave;
+    private int subWavesRemaining;
+    private int monstersPerWave;
+    private Game game;
     private float spawnTimer;
 
     protected Level(TiledMap map) {
         this.map = map;
         height = map.getProperties().get("height", int.class);
         width = map.getProperties().get("width", int.class);
+        game = GameStateManager.getInstance().getGame();
+
+        subWavesRemaining = 3;
+        spawnTimer = 5;
+        currentWave = 1;
+        monstersPerWave = 5;
 
         // Load parallax backgrounds from map file
         layers[0] = (Texture) assetHandler.getByName(map.getProperties().get("parallaxBackground", String.class));
@@ -63,9 +75,6 @@ public class Level {
 
         loadedMaps.add(this);
         firstLoad = true;
-
-        // Test variable setting
-        waveCount = 5;
     }
 
     /**
@@ -89,33 +98,50 @@ public class Level {
      */
     public void update() {
         // Updates spawn timers and behaviour based on game mode
-        switch (GameStateManager.getInstance().getGame().getPlayMode()) {
+        switch (game.getPlayMode()) {
             case STANDARD:
                 // Standard game mode: Respawns don't occur, unless specifically triggered.
                 break;
             case SURVIVAL:
                 // Survival game mode: Waves respawn occur after each wave is dead
-                // Sub waves spawn every 5 seconds until it reaches a maximum
-                if (monsterCount == 0 || spawnTimer <= 0) {
-                    spawn();
-                    spawnTimer = 5;
+                // Sub waves spawn every 8 seconds, decreasing by 1 second every 10 waves, down to a minimum of 3
+                if (subWavesRemaining > 1) {
+                    if (monsterCount == 0 || spawnTimer <= 0) {
+                        spawn(monstersPerWave);
+                        spawnTimer = MathUtils.clamp(MAX_SECONDS_TO_SPAWN - (currentWave / 10), MIN_SECONDS_TO_SPAWN, MAX_SECONDS_TO_SPAWN);
+                        subWavesRemaining--;
+                    }
+                } else if (monsterCount == 0) {
+                    // Subwaves complete. Next wave.
+                    currentWave++;
+                    // Monsters per subwave increases by 1 every 3 waves, up to 25
+                    monstersPerWave = MathUtils.clamp(5 + (currentWave / 3), 5, 25);
+                    // Number of subwaves start at 3, increasing by 1 every 2 waves
+                    subWavesRemaining = 3 + (currentWave / 2);
+                    // Increase difficulty value by 5% every wave
+                    Game.setDifficultyMultiplier(Game.getDifficultyMultiplier() + 0.05f * currentWave);
+                    spawnTimer = Game.REST_DURATION;
+                    game.setPlayMode(Game.PlayMode.REST);
+                    // Show some sort of image here, saying wave x complete
                 }
                 break;
             case REST:
-                // Re-add frame time to the timer
-                spawnTimer += Gdx.graphics.getDeltaTime();
+                // If rest is complete, return to survival
+                if (spawnTimer < 0) {
+                    game.setPlayMode(Game.PlayMode.SURVIVAL);
+                    // Show some sort of image here, saying Wave x has started
+                }
                 break;
         }
-
+        // Update internal level timer
         spawnTimer -= Gdx.graphics.getDeltaTime();
-
     }
 
     /**
      * Spawns stuff based on random line
      */
     public void spawn() {
-        spawn(waveCount);
+        spawn(currentWave);
     }
 
     public void spawn(int monsters) {
@@ -126,9 +152,9 @@ public class Level {
             slime.setCurrentLevel(this);
 
             // Automatically aggro to players in survival
-          if (GameStateManager.getInstance().getGame().getPlayMode() == Game.PlayMode.SURVIVAL) {
+            if (GameStateManager.getInstance().getGame().getPlayMode() == Game.PlayMode.SURVIVAL) {
                 slime.setTarget(GameStateManager.getInstance().getPlayState().getPlayer());
-          }
+            }
         }
     }
 
@@ -333,5 +359,9 @@ public class Level {
 
     public float getSpawnTimer() {
         return spawnTimer;
+    }
+
+    public int getCurrentWave() {
+        return currentWave;
     }
 }
