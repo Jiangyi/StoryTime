@@ -17,8 +17,10 @@ import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.GameStateManager;
-import com.jxz.notcontra.hud.DamageNumber;
+import com.jxz.notcontra.handlers.ParticleManager;
+import com.jxz.notcontra.particles.DamageNumber;
 import com.jxz.notcontra.hud.PlayerStatusBar;
+import com.jxz.notcontra.particles.ParticleFactory;
 import com.jxz.notcontra.skill.Skill;
 import com.jxz.notcontra.states.PlayState;
 import com.jxz.notcontra.world.Level;
@@ -39,10 +41,9 @@ public class Player extends LivingEntity {
     private PlayerSave playerSave;
     private Animation animDeath;
     private float fallDamage = 0;
-    private DamageNumber damageNumber;
 
     // Constants
-    private final float FALL_DMG_GRAVITY_MIN = 11f;
+    private final float FALL_DMG_GRAVITY_MIN = 11.5f;
     private final float FLICKER_SECONDS = 1.5f;
     private final int FLICKER_COUNT = 8;
 
@@ -200,9 +201,8 @@ public class Player extends LivingEntity {
         if (state == PlayerState.ALIVE) {
             super.damage(dmg, source);
             // Display damage
-            damageNumber = Pools.obtain(DamageNumber.class);
-            damageNumber.init(this, "hitPlayer", dmg);
-            addChild(damageNumber);
+            DamageNumber damageNumber = (DamageNumber) ParticleFactory.spawn(DamageNumber.class);
+            damageNumber.init("hitPlayer", dmg, this);
 
             // Knock back player
             forceVector = this.getCenterPosition().cpy().sub(source.getCenterPosition()).nor();

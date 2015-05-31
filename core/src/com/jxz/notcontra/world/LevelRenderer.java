@@ -7,6 +7,8 @@ import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.entity.Entity;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.EntityManager;
+import com.jxz.notcontra.handlers.ParticleManager;
+import com.jxz.notcontra.particles.Particle;
 
 /**
  * Created by Samuel on 15/04/2015.
@@ -79,6 +81,12 @@ public class LevelRenderer extends OrthogonalTiledMapRenderer {
                 }
             }
 
+        }
+
+        for (Particle p : ParticleManager.getInstance().getParticlesListIteration()) {
+            if (p.isVisible()) {
+                p.draw(batch);
+            }
         }
 
         endRender();

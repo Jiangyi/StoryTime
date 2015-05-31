@@ -10,6 +10,7 @@ import com.jxz.notcontra.effect.Effect;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.EntityManager;
+import com.jxz.notcontra.handlers.ParticleManager;
 import com.jxz.notcontra.world.Level;
 
 /**

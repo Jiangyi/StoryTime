@@ -5,8 +5,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 import com.jxz.notcontra.handlers.GameStateManager;
-import com.jxz.notcontra.hud.DamageNumber;
+import com.jxz.notcontra.handlers.ParticleManager;
+import com.jxz.notcontra.particles.DamageNumber;
 import com.jxz.notcontra.hud.OSHealthBar;
+import com.jxz.notcontra.particles.ParticleFactory;
 import com.jxz.notcontra.world.Level;
 
 /**
@@ -23,7 +25,6 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     protected Vector2 distToTarget;
     protected Entity target;
     protected float deathLerp;
-    protected DamageNumber damageNumber;
     protected int deathScore;
 
     public enum AIState {
@@ -58,7 +59,6 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     public void die() {
         super.die();
         target = null;
-        removeChild(damageNumber);
         GameStateManager.getInstance().getPlayState().getPlayer().addScore(deathScore);
         currentLevel.decMonsterCount();
     }
@@ -71,9 +71,9 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     @Override
     public void damage(float dmg, Entity source) {
         super.damage(dmg, source);
-        damageNumber = Pools.obtain(DamageNumber.class);
-        damageNumber.init(this, "hitMonster", dmg);
-        addChild(damageNumber);
+        // Display damage numbers
+        DamageNumber damageNumber = (DamageNumber) ParticleFactory.spawn(DamageNumber.class);
+        damageNumber.init("hitMonster", dmg, this);
 
         // If monster isn't already dying, proc hit animation
         if (state != AIState.DYING) {
