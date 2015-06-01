@@ -138,14 +138,28 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
 
     @Override
     public void damage(float dmg, Entity source) {
-        super.damage(dmg, source);
-        // Display damage numbers
+        boolean doCrit = false;
+        float newDmg;
+
+        // Calculate critical hit and display damage numbers
+        if (source instanceof Player) {
+            doCrit = calculateCrit((LivingEntity) source);
+        }
+
         DamageNumber damageNumber = (DamageNumber) ParticleFactory.spawn(DamageNumber.class);
-        damageNumber.init("hitMonster", dmg, this);
+
+        if (doCrit) {
+            newDmg = this.calculateDamage(dmg * 2f);
+            damageNumber.init("hitMonsterCrit", newDmg, this);
+        } else {
+            newDmg = this.calculateDamage(dmg);
+            damageNumber.init("hitMonster", newDmg, this);
+        }
+        super.damage(newDmg, source);
 
         // If monster isn't already dying, proc hit animation
         if (state != AIState.DYING) {
-            if (dmg > kbThreshold) {
+            if (newDmg > kbThreshold) {
                 forceVector = this.position.cpy().sub(source.getPosition()).nor();
                 forceVector.set(forceVector.x, 0);
                 forceVector.scl(kbDistance);

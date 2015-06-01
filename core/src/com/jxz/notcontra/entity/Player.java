@@ -88,7 +88,7 @@ public class Player extends LivingEntity {
         flickerTimer = 0f;
         flickerCount = 0;
         damageMultiplier = 1;
-        criticalChance = 0.25f;
+        criticalChance = 0.2f; // Percentage in decimal form
 
         // Jump parameters
         maxJumps = 2;
@@ -197,12 +197,13 @@ public class Player extends LivingEntity {
 
     @Override
     public void damage(float dmg, Entity source) {
+        float newDmg = this.calculateDamage(dmg);
         // Player takes damage first
         if (state == PlayerState.ALIVE) {
-            super.damage(dmg, source);
+            super.damage(newDmg, source);
             // Display damage
             DamageNumber damageNumber = (DamageNumber) ParticleFactory.spawn(DamageNumber.class);
-            damageNumber.init("hitPlayer", dmg, this);
+            damageNumber.init("hitPlayer", newDmg, this);
 
             // Knock back player
             forceVector = this.getCenterPosition().cpy().sub(source.getCenterPosition()).nor();
@@ -388,7 +389,6 @@ public class Player extends LivingEntity {
     public int getScore() {
         return score;
     }
-
 
     public void addScore(int score) {
         this.score += score;

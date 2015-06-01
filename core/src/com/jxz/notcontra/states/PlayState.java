@@ -75,7 +75,7 @@ public class PlayState extends GameState {
         }
         if (!isPaused) {
             sb.setShader(game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH));
-            currentMapRenderer.getBatch().setShader(player.isAlive() ? game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH) : game.getShaders().getShaderType(Shaders.ShaderType.SEPIA));
+            currentMapRenderer.getBatch().setShader(player.isAlive() ? game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH) : game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE));
             currentMapRenderer.update();
             if (!AudioHelper.isBgMusicPlaying()) {
                 AudioHelper.playBgMusic(true);
@@ -84,7 +84,7 @@ public class PlayState extends GameState {
             playerCam.track();
         } else {
             sb.setShader(game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE));
-            currentMapRenderer.getBatch().setShader(player.isAlive() ? game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE) : game.getShaders().getShaderType(Shaders.ShaderType.SEPIA));
+            currentMapRenderer.getBatch().setShader(player.isAlive() ? game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE) : game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE));
             if (AudioHelper.isBgMusicPlaying()) {
                 AudioHelper.playBgMusic(false);
             }
@@ -96,30 +96,6 @@ public class PlayState extends GameState {
         Gdx.gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
         Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-
-
-        // Render Background
-        //sb.begin();
-
-        // Back layer
-        /**
-         sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1f, 1f));
-         sb.draw(currentLevel.getBackground()[0], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 2f,
-         Game.VIEW_WIDTH, Game.VIEW_HEIGHT);
-
-
-         // Middle layer
-         sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1.1f, 1.03f));
-         sb.draw(currentLevel.getBackground()[1], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 1.5f,
-         currentLevel.getBackground()[1].getWidth() / Game.VIEW_WIDTH * 2, currentLevel.getBackground()[1].getHeight() / Game.VIEW_HEIGHT * 1.2f);
-
-         // Front layer
-         sb.setProjectionMatrix(playerCam.calculateParallaxMatrix(1.6f, 1.3f));
-         sb.draw(currentLevel.getBackground()[2], playerCam.position.x - playerCam.viewportWidth / 2, playerCam.position.y - playerCam.viewportHeight / 3,
-         currentLevel.getBackground()[2].getWidth() / Game.VIEW_WIDTH * 12, currentLevel.getBackground()[2].getHeight() / Game.VIEW_HEIGHT, 0, 1, 10, 0);
-         sb.setShader(null);
-         sb.end();
-         */
 
         // Update projection matrices
         playerCam.update();

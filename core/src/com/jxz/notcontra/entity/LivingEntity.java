@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AudioHelper;
@@ -25,6 +26,8 @@ public abstract class LivingEntity extends AnimatedEntity {
     protected float damageMultiplier;
     protected float baseDamage;
     protected float criticalChance;
+
+    private final float DAMAGE_RANGE_PERCENTAGE = 0.15f;
 
     // Sprite fields
     protected float centerX, centerY;
@@ -410,6 +413,17 @@ public abstract class LivingEntity extends AnimatedEntity {
 
     public void damage(float dmg, Entity source) {
         this.health -= dmg;
+    }
+
+    public boolean calculateCrit(LivingEntity source) {
+        if (MathUtils.random(0.0f, 1.0f) <= source.getCriticalChance()) {
+            return true;
+        }
+        return false;
+    }
+
+    public int calculateDamage(float dmg) {
+        return MathUtils.ceil(MathUtils.random(dmg - (dmg * DAMAGE_RANGE_PERCENTAGE), dmg + (dmg * DAMAGE_RANGE_PERCENTAGE)));
     }
 
     public void die() {
