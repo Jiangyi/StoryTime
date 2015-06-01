@@ -3,6 +3,8 @@ package com.jxz.notcontra.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.MathUtils;
+import com.jxz.notcontra.handlers.SkillInventory;
+import com.jxz.notcontra.skill.Skill;
 import com.jxz.notcontra.world.Level;
 
 /**
@@ -11,18 +13,62 @@ import com.jxz.notcontra.world.Level;
 public abstract class RangedMonster extends Monster {
 
     protected float attackRange; // Effective range of the monster, it will approach until in this range
+    protected int skillCount;
+    protected boolean canCast;
 
-    public RangedMonster(String name) {
+    public RangedMonster(String name, int skillCount) {
         super(name);
+        this.skillCount = skillCount;
+        skills = new SkillInventory(skillCount);
     }
 
     @Override
-    public void cast(int skill) {
-        // wip.
+    public void cast(int index) {
+        // Cast type is constant in AI, since we're only dealing with 1 cast animation
+        Skill skill = skills.getSkill(index);
+        // Check if the player is casting already
+        if (skill.isPriorityCast()) {
+            if (!isCasting) {
+                isCasting = true;
+                skillCasted = false;
+                currentSkill = skills.getSkill(index);
+                currentSkill.preCast(this);
+                castType = 0;
+                castStateTime = 0;
+
+                animCast[0].setFrameDuration(currentSkill.getAnimation().getAnimationDuration() / currentSkill.getAnimation().getKeyFrames().length);
+
+                if (isGrounded && currentSkill.isRootWhileCasting()) {
+                    // No motions persist through casting, unless one is already in the air
+                    movementState.set(0, 0);
+                }
+            }
+        } else {
+            // Skill can be cast during other skills
+            skill.use(this);
+            skills.setCooldown(index, skill.getMaxCooldown());
+        }
     }
 
     @Override
     public void preCollisionAiUpdate() {
+        boolean skillsAvailable = false;
+
+        // Iterate through active skills to check what to cast
+        for (int i = 0; i < skillCount; i++) {
+            if (skills.getSkill(i) != null) {
+                if (skills.getCooldown(i) == 0) {
+                    canCast = true;
+                    skillsAvailable = true;
+                }
+                skills.decreaseCooldown(i, Gdx.graphics.getDeltaTime());
+            }
+        }
+
+        if (!skillsAvailable) {
+            canCast = false;
+        }
+
         switch (state) {
             // Pre-movement checks
             case SPAWNING:
@@ -44,13 +90,13 @@ public abstract class RangedMonster extends Monster {
                     // Only recalculate at update intervals
                     if (lastUpdateTime > UPDATE_INTERVAL) {
                         distToTarget = target.getCenterPosition().cpy().sub(this.getCenterPosition());
-                        if (Math.abs(distToTarget.x) > attackRange) {
-                            // Approach attack range if out of attack range, or if spells are on cooldown (wip)
+                        if (Math.abs(distToTarget.len2()) > attackRange * attackRange || !canCast) {
+                            // Approach attack range if out of attack range, or if spells are on cooldown
                             movementState.set(distToTarget.x, 0).nor();
                         } else {
                             // Cast a spell here
+                            cast(skills.getAvailableSkillIndex());
                             movementState.set(0, 0);
-
                         }
                         lastUpdateTime = 0;
                     }
@@ -95,8 +141,23 @@ public abstract class RangedMonster extends Monster {
         // Update animation time
         animStateTime += Gdx.graphics.getDeltaTime();
 
-        // Hurt > Death > Movement/Idle
-        if (forceDuration > 0) {
+        // Casting > Hurt > Death > Movement/Idle
+        if (isCasting) {
+            castStateTime += Gdx.graphics.getDeltaTime();
+            this.sprite.setRegion(animCast[castType].getKeyFrame(castStateTime, false));
+            // Only spawns skill after casting animation is finished
+            if (animCast[castType].getKeyFrameIndex(castStateTime) == animCast[castType].getKeyFrameIndex(animCast[castType].getAnimationDuration()) && !skillCasted) {
+                currentSkill.use(this);
+                skillCasted = true;
+            }
+            if (animCast[castType].isAnimationFinished(castStateTime)) {
+                isCasting = false;
+                castStateTime = 0;
+                if (currentSkill.isRootWhileCasting()) {
+                    isRooted = false;
+                }
+            }
+        } else if (forceDuration > 0) {
             if (currentAnimation != animHurt) {
                 animStateTime = 0;
             }

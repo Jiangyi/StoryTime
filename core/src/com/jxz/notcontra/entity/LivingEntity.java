@@ -78,7 +78,6 @@ public abstract class LivingEntity extends AnimatedEntity {
         movementState = new Vector2(0, 0);
         forceVector = new Vector2(0, 0);
         forceDuration = 0;
-        skills = new SkillInventory(5);
     }
 
     @Override

@@ -9,19 +9,22 @@ import com.badlogic.gdx.math.MathUtils;
  * Created by Samuel on 01/06/2015.
  * First ranged AI monster.
  */
-public class MagicSlime extends RangedMonster {
+public class Alien extends RangedMonster {
 
-    public MagicSlime() {
-        super("magicSlime");
+    public Alien() {
+        super("alien", 1);
         // Set up score
         deathScore = 10;
         // Set up animations
-        this.animFrames = (TextureAtlas) assetHandler.getByName("grey_slime");
+        this.animFrames = (TextureAtlas) assetHandler.getByName("alien");
         animIdle = new Animation(1 / 6f, this.animFrames.findRegions("stand"));
         animWalk = new Animation(1 / 6f, this.animFrames.findRegions("move"));
         animHurt = new Animation(1 / 6f, this.animFrames.findRegions("hit1"));
         animJump = new Animation(1 / 6f, this.animFrames.findRegions("jump"));
         animDeath = new Animation(1 / 10f, this.animFrames.findRegions("die1"));
+        animCast = new Animation[1];
+        animCast[0] = new Animation(1 / 10f, this.animFrames.findRegions("attack1"));
+        canCast = true;
 
         renderOffset = animIdle.getKeyFrame(0).getRegionWidth();
 
@@ -36,14 +39,16 @@ public class MagicSlime extends RangedMonster {
         // Combat stats
         baseDamage = 10;
         baseHealth = 75;
-        speed = 3 + MathUtils.random(-0.5f, 0.5f);
+        speed = 2 + MathUtils.random(-0.5f, 0.5f);
         damageMultiplier = 1;
+        aimRadius = 95;
+        attackRange = 500;
 
         // Jump parameters
         maxJumps = 1;
         jumpCounter = 0;
         jumpState = 0;
-        jumpMultiplier = 0.9f;
+        jumpMultiplier = 1.2f;
         jumpTime = 3f;
 
         // Speed parameters
@@ -52,9 +57,5 @@ public class MagicSlime extends RangedMonster {
 
         // Magic skills and stuff
         skills.setInventory(0, "iceball");
-    }
-    @Override
-    public void init() {
-
     }
 }

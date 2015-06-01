@@ -1,5 +1,6 @@
 tombstone	textures/entities/player/tombstone.pack		TextureAtlas
 grey_slime    textures/entities/monsters/grey_slime/grey_slime.pack    TextureAtlas
+alien		textures/entities/monsters/alien/alien.pack	TextureAtlas
 
 
 # Level tile map
