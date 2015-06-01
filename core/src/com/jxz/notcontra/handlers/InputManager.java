@@ -162,6 +162,7 @@ public class InputManager implements InputProcessor {
         // LOAD STATE SWITCH STATE TEST
         if (gsm.getCurrentState() instanceof LoadState) {
             if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE) && gsm.getLoadState().getIsDoneLoading() && gsm.getLoadState().getIsEnteringGame()) {
+                gsm.getLoadState().resetLoadingBar();
                 gsm.setState(GameStateManager.State.PLAY);
                 return true;
             }
