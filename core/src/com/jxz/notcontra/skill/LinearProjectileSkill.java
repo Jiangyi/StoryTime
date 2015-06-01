@@ -1,12 +1,11 @@
 package com.jxz.notcontra.skill;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pools;
 import com.jxz.notcontra.effect.SpriteEffect;
-import com.jxz.notcontra.entity.Entity;
-import com.jxz.notcontra.entity.EntityFactory;
-import com.jxz.notcontra.entity.LivingEntity;
-import com.jxz.notcontra.entity.Projectile;
+import com.jxz.notcontra.entity.*;
+import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.handlers.InputManager;
 
 /**
@@ -50,14 +49,24 @@ public class LinearProjectileSkill extends Skill {
         caster.getSkills().setCooldown(this, cooldown);
     }
 
-    public void use(LivingEntity caster, Entity target) {
-
-    }
-
     @Override
     public void preCast(LivingEntity caster) {
+        if (caster instanceof Player) {
+            // All player casts are towards cursor
+            preCast(caster, InputManager.getInstance().getCursorDirection());
+        } else if (caster instanceof Monster){
+            // Assuming all future casts are towards a certain radius of the player
+            Monster m = (Monster) caster;
+            target = GameStateManager.getInstance().getPlayState().getPlayer().getCenterPosition().cpy();
+            target.add(MathUtils.random(-m.getAimRadius(), m.getAimRadius()), MathUtils.random(-m.getAimRadius(), m.getAimRadius()));
+            target.sub(caster.getCenterPosition());
+            preCast(caster, target);
+        }
+    }
+
+    public void preCast(LivingEntity caster, Vector2 target) {
         // Handle flipping of caster - caster should face the way the spell is cast
-        target = InputManager.getInstance().getCursorDirection();
+        this.target = target;
         if (target.x > 0) {
             if (caster.isFlipped()) {
                 // Face the right side

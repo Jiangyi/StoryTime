@@ -1,0 +1,285 @@
+
+alien.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+attack1
+  rotate: false
+  xy: 1, 367
+  size: 157, 120
+  orig: 157, 120
+  offset: 0, 0
+  index: 0
+attack1
+  rotate: false
+  xy: 1, 367
+  size: 157, 120
+  orig: 157, 120
+  offset: 0, 0
+  index: 10
+attack1
+  rotate: false
+  xy: 1, 245
+  size: 157, 120
+  orig: 157, 120
+  offset: 0, 0
+  index: 1
+attack1
+  rotate: false
+  xy: 1, 245
+  size: 157, 120
+  orig: 157, 120
+  offset: 0, 0
+  index: 9
+attack1
+  rotate: false
+  xy: 160, 367
+  size: 157, 120
+  orig: 157, 120
+  offset: 0, 0
+  index: 2
+attack1
+  rotate: false
+  xy: 160, 367
+  size: 157, 120
+  orig: 157, 120
+  offset: 0, 0
+  index: 8
+attack1
+  rotate: false
+  xy: 1, 123
+  size: 157, 120
+  orig: 157, 120
+  offset: 0, 0
+  index: 3
+attack1
+  rotate: false
+  xy: 160, 245
+  size: 157, 120
+  orig: 157, 120
+  offset: 0, 0
+  index: 4
+attack1
+  rotate: false
+  xy: 319, 367
+  size: 157, 120
+  orig: 157, 120
+  offset: 0, 0
+  index: 5
+attack1
+  rotate: false
+  xy: 1, 1
+  size: 157, 120
+  orig: 157, 120
+  offset: 0, 0
+  index: 6
+attack1
+  rotate: false
+  xy: 160, 123
+  size: 157, 120
+  orig: 157, 120
+  offset: 0, 0
+  index: 7
+move
+  rotate: false
+  xy: 319, 256
+  size: 86, 109
+  orig: 86, 109
+  offset: 0, 0
+  index: 0
+move
+  rotate: false
+  xy: 478, 378
+  size: 86, 109
+  orig: 86, 109
+  offset: 0, 0
+  index: 1
+move
+  rotate: false
+  xy: 160, 12
+  size: 86, 109
+  orig: 86, 109
+  offset: 0, 0
+  index: 2
+move
+  rotate: false
+  xy: 319, 145
+  size: 86, 109
+  orig: 86, 109
+  offset: 0, 0
+  index: 3
+jump
+  rotate: false
+  xy: 407, 251
+  size: 70, 114
+  orig: 70, 114
+  offset: 0, 0
+  index: 0
+die1
+  rotate: false
+  xy: 566, 389
+  size: 74, 98
+  orig: 74, 98
+  offset: 0, 0
+  index: 0
+die1
+  rotate: false
+  xy: 642, 389
+  size: 74, 98
+  orig: 74, 98
+  offset: 0, 0
+  index: 1
+die1
+  rotate: false
+  xy: 718, 389
+  size: 74, 98
+  orig: 74, 98
+  offset: 0, 0
+  index: 2
+die1
+  rotate: false
+  xy: 794, 389
+  size: 74, 98
+  orig: 74, 98
+  offset: 0, 0
+  index: 3
+die1
+  rotate: false
+  xy: 870, 389
+  size: 74, 98
+  orig: 74, 98
+  offset: 0, 0
+  index: 4
+die1
+  rotate: false
+  xy: 946, 389
+  size: 74, 98
+  orig: 74, 98
+  offset: 0, 0
+  index: 5
+die1
+  rotate: false
+  xy: 407, 151
+  size: 74, 98
+  orig: 74, 98
+  offset: 0, 0
+  index: 6
+stand
+  rotate: false
+  xy: 248, 10
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 0
+stand
+  rotate: false
+  xy: 248, 10
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 11
+stand
+  rotate: false
+  xy: 248, 10
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 14
+die1
+  rotate: false
+  xy: 479, 278
+  size: 74, 98
+  orig: 74, 98
+  offset: 0, 0
+  index: 7
+stand
+  rotate: false
+  xy: 483, 165
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 1
+stand
+  rotate: false
+  xy: 483, 165
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 12
+stand
+  rotate: false
+  xy: 544, 165
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 10
+stand
+  rotate: false
+  xy: 544, 165
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 8
+stand
+  rotate: false
+  xy: 309, 10
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 13
+stand
+  rotate: false
+  xy: 309, 10
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 2
+stand
+  rotate: false
+  xy: 370, 32
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 3
+stand
+  rotate: false
+  xy: 431, 38
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 4
+stand
+  rotate: false
+  xy: 492, 52
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 5
+stand
+  rotate: false
+  xy: 553, 52
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 6
+hit1
+  rotate: false
+  xy: 555, 291
+  size: 82, 85
+  orig: 82, 85
+  offset: 0, 0
+  index: 0
+stand
+  rotate: false
+  xy: 639, 276
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 7
+stand
+  rotate: false
+  xy: 639, 276
+  size: 59, 111
+  orig: 59, 111
+  offset: 0, 0
+  index: 9

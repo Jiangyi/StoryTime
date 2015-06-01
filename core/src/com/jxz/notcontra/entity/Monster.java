@@ -20,6 +20,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     public static final float UPDATE_INTERVAL = 1.0f; // Constant for AI update tick rate
     protected AIState state;
     protected OSHealthBar healthbar;
+    protected float aimRadius;
     protected float aiStateTime;
     protected float lastUpdateTime;
     protected float damage;
@@ -198,6 +199,13 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
         this.target = target;
     }
 
+    public float getAimRadius() {
+        return aimRadius;
+    }
+
+    public void setAimRadius(float aimRadius) {
+        this.aimRadius = aimRadius;
+    }
 }
 
 

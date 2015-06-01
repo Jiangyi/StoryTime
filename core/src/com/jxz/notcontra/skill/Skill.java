@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.effect.Effect;
 import com.jxz.notcontra.entity.Entity;
 import com.jxz.notcontra.entity.LivingEntity;
+import com.jxz.notcontra.entity.Monster;
 import com.jxz.notcontra.game.Game;
 
 import java.util.ArrayList;
@@ -58,8 +59,10 @@ public abstract class Skill {
     public void hit(Entity target) {
         if (target instanceof LivingEntity) {
             LivingEntity le = (LivingEntity) target;
-            le.damage(damage, caster);
-            if (Game.getDebugMode()) System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
+            if (!(target instanceof Monster && caster instanceof Monster)) {
+                le.damage(damage, caster);
+                if (Game.getDebugMode()) System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
+            }
         }
     }
 
@@ -114,6 +117,13 @@ public abstract class Skill {
     public void setCastAnimation(Animation anim) {
         this.castAnimation = anim;
         hasCastEffect = true;
+    }
+
+    public Animation getAnimation() {
+        if (hasCastEffect) {
+            return this.castAnimation;
+        }
+        return null;
     }
 
     public void setCastOffset(float x, float y) {

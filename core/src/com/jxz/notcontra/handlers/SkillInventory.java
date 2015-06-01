@@ -77,4 +77,24 @@ public class SkillInventory {
     public float getWeighting(int index) {
         return weighting[index];
     }
+
+    public Skill getAvailableSkill() {
+        for (int i = 0; i < inventory.length; i++) {
+            if (getCooldown(i) == 0) {
+                return getSkill(i);
+            }
+        }
+
+        return null;
+    }
+
+    public int getAvailableSkillIndex() {
+        for (int i = 0; i < inventory.length; i++) {
+            if (getCooldown(i) == 0) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
 }

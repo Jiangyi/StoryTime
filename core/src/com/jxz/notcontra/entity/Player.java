@@ -16,6 +16,7 @@ import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.GameStateManager;
+import com.jxz.notcontra.handlers.SkillInventory;
 import com.jxz.notcontra.hud.PlayerStatusBar;
 import com.jxz.notcontra.particles.DamageNumber;
 import com.jxz.notcontra.particles.ParticleFactory;
@@ -98,6 +99,7 @@ public class Player extends LivingEntity {
         jumpTime = 3;
 
         // Setup Skill
+        skills = new SkillInventory(5);
         skills.setInventory(0, "testmelee");
         skills.setInventory(1, "iceball");
 

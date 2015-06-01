@@ -9,8 +9,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.jxz.notcontra.entity.Alien;
 import com.jxz.notcontra.entity.EntityFactory;
-import com.jxz.notcontra.entity.Slime;
+import com.jxz.notcontra.entity.Monster;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.GameStateManager;
@@ -145,14 +146,14 @@ public class Level {
 
     public void spawn(int monsters) {
         for (int i = 0; i < monsters; i++) {
-            Slime slime = (Slime) EntityFactory.spawn(Slime.class);
-            slime.init();
-            slime.setPosition(spawnPointList.randomSpawn());
-            slime.setCurrentLevel(this);
+            Monster monster = (Alien) EntityFactory.spawn(Alien.class);
+            monster.init();
+            monster.setPosition(spawnPointList.randomSpawn());
+            monster.setCurrentLevel(this);
 
             // Automatically aggro to players in survival
             if (GameStateManager.getInstance().getGame().getPlayMode() == Game.PlayMode.SURVIVAL) {
-                slime.setTarget(GameStateManager.getInstance().getPlayState().getPlayer());
+                monster.setTarget(GameStateManager.getInstance().getPlayState().getPlayer());
             }
         }
     }
