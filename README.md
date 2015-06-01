@@ -8,9 +8,8 @@
 * Ranged / Boss AI / Non-stupid grunt AI
 * Game mode implementation / scoring system
 * Map selection / character selection
-* Damage formula and damage numbers
+* Damage formula
 * Wave spawning formula
-* Particools
 
 ## MEDIUM PRIORITY: ##
 * Buffs/Skills
