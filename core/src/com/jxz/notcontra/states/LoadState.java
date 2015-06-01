@@ -92,6 +92,10 @@ public class LoadState extends GameState {
         sb.end();
     }
 
+    public void resetLoadingBar() {
+        progress = 0f;
+    }
+
     public boolean getIsDoneLoading() {
         return isDoneLoading;
     }
