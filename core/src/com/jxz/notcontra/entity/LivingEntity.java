@@ -18,9 +18,13 @@ public abstract class LivingEntity extends AnimatedEntity {
     // Fields specific to living entities
     protected int health;
     protected int maxHealth;
+    protected int baseHealth;
     protected int mana;
     protected int maxMana;
     protected float speed;
+    protected float damageMultiplier;
+    protected float baseDamage;
+    protected float criticalChance;
 
     // Sprite fields
     protected float centerX, centerY;
@@ -535,6 +539,10 @@ public abstract class LivingEntity extends AnimatedEntity {
 
     public SkillInventory getSkills() {
         return this.skills;
+    }
+
+    public float getCriticalChance() {
+        return criticalChance;
     }
 
 }

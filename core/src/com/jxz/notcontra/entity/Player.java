@@ -11,15 +11,13 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Pools;
 import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.handlers.EntityManager;
 import com.jxz.notcontra.handlers.GameStateManager;
-import com.jxz.notcontra.handlers.ParticleManager;
-import com.jxz.notcontra.particles.DamageNumber;
 import com.jxz.notcontra.hud.PlayerStatusBar;
+import com.jxz.notcontra.particles.DamageNumber;
 import com.jxz.notcontra.particles.ParticleFactory;
 import com.jxz.notcontra.skill.Skill;
 import com.jxz.notcontra.states.PlayState;
@@ -89,6 +87,8 @@ public class Player extends LivingEntity {
         state = PlayerState.ALIVE;
         flickerTimer = 0f;
         flickerCount = 0;
+        damageMultiplier = 1;
+        criticalChance = 0.25f;
 
         // Jump parameters
         maxJumps = 2;

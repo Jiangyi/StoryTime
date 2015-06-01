@@ -22,6 +22,7 @@ public abstract class Skill {
     protected float time;
     protected float cooldown;
     protected float damage;
+    protected float damageScaling;
     protected Vector2 hitboxSize;
     protected Vector2 hitboxOffset;
     protected boolean rootWhileCasting;
@@ -129,5 +130,13 @@ public abstract class Skill {
 
     public float getMaxCooldown() {
         return cooldown;
+    }
+
+    public float getDamageScaling() {
+        return damageScaling;
+    }
+
+    public void setDamageScaling(float damageScaling) {
+        this.damageScaling = damageScaling;
     }
 }

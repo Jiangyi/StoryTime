@@ -1,13 +1,14 @@
 package com.jxz.notcontra.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
-import com.badlogic.gdx.utils.Pools;
+import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.GameStateManager;
-import com.jxz.notcontra.handlers.ParticleManager;
-import com.jxz.notcontra.particles.DamageNumber;
 import com.jxz.notcontra.hud.OSHealthBar;
+import com.jxz.notcontra.particles.DamageNumber;
 import com.jxz.notcontra.particles.ParticleFactory;
 import com.jxz.notcontra.world.Level;
 
@@ -16,9 +17,11 @@ import com.jxz.notcontra.world.Level;
  */
 public abstract class Monster extends LivingEntity implements Pool.Poolable {
 
+    public static final float UPDATE_INTERVAL = 1.0f; // Constant for AI update tick rate
     protected AIState state;
     protected OSHealthBar healthbar;
     protected float aiStateTime;
+    protected float lastUpdateTime;
     protected float damage;
     protected float kbDuration, kbDistance, kbThreshold;
     protected float patrolSpeed, chaseSpeed;
@@ -36,9 +39,21 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
         this.healthbar = new OSHealthBar(this);
         addChild(healthbar);
         distToTarget = new Vector2(0, 0);
+        lastUpdateTime = UPDATE_INTERVAL;
     }
 
-    public abstract void init();
+    public void init() {
+        aabb.set(position.x, position.y, sprite.getWidth(), sprite.getHeight());
+        maxHealth = Math.round(baseHealth * Game.getDifficultyMultiplier());
+        health = maxHealth;
+        damage = Math.round(baseDamage * Game.getDifficultyMultiplier());
+        isVisible = true;
+        isActive = true;
+        hitboxOffset.set(0, 0);
+        state = AIState.SPAWNING;
+        aiStateTime = 0.5f; // Start off idle for 0.5 seconds
+        currentAnimation = animIdle;
+    }
 
     public abstract void cast(int skill);
 
@@ -52,7 +67,50 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
 
     @Override
     public void update() {
+        preCollisionAiUpdate();
         super.update();
+        postCollisionAiUpdate();
+    }
+
+    public abstract void preCollisionAiUpdate();
+
+    public void postCollisionAiUpdate() {
+        // Post Movement Checks
+        switch (state) {
+            case CHASING:
+                // If slime is blocked on the x axis for some reason, try jumping
+                // Although, don't jump if player is beneath the slime. That doesn't make sense.
+                if (deltaX == 0 && distToTarget.y >= 0 && forceDuration == 0) {
+                    jump();
+                }
+                // If target is dead, stop chasing them
+                if (target instanceof LivingEntity) {
+                    LivingEntity le = (LivingEntity) target;
+                    if (le.getHealth() <= 0) {
+                        target = null;
+                        state = AIState.PATROLLING;
+                    }
+                }
+                break;
+            case PATROLLING:
+                // If slime is blocked, stop for a bit
+                if (deltaX == 0 && movementState.x != 0) {
+                    aiStateTime = MathUtils.random(0.5f, 2.5f);
+                    movementState.set(0, 0);
+                }
+                break;
+        }
+
+        // Update states:
+        if (health <= 0) {
+            health = 0;
+            state = AIState.DYING;
+            movementState.set(0, 0);
+        }
+
+        // Update state time
+        aiStateTime -= Gdx.graphics.getDeltaTime();
+        lastUpdateTime += Gdx.graphics.getDeltaTime();
     }
 
     @Override
@@ -61,11 +119,21 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
         target = null;
         GameStateManager.getInstance().getPlayState().getPlayer().addScore(deathScore);
         currentLevel.decMonsterCount();
+        EntityFactory.free(this);
     }
 
     @Override
     public void draw(Batch batch) {
+        if (state == AIState.DYING) {
+            batch.setColor(1f, 1f, 1f, 1 - (animStateTime / animDeath.getAnimationDuration()));
+        }
+
+        if (state == AIState.SPAWNING) {
+            batch.setColor(1f, 1f, 1f, 1 - (aiStateTime / 0.5f));
+        }
+
         super.draw(batch);
+        batch.setColor(1f, 1f, 1f, 1f);
     }
 
     @Override
@@ -93,7 +161,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     }
 
     @Override
-    public void setCurrentLevel (Level level) {
+    public void setCurrentLevel(Level level) {
         this.currentLevel = level;
         level.incMonsterCount();
     }

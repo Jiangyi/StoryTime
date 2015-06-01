@@ -43,6 +43,7 @@ public class SkillManager {
         basicMeleeAttack.setHitboxOffset(55, 0);
         basicMeleeAttack.setAnimation(new Animation(1 / 11.0f, animFrames.findRegions("0.swingD1.1")));
         basicMeleeAttack.setDamage(20);
+        basicMeleeAttack.setDamageScaling(1.2f);
         inventory.add(basicMeleeAttack);
 
         // Skill 2: Second Melee Attack
@@ -56,6 +57,7 @@ public class SkillManager {
         secondMeleeAttack.setHitboxOffset(30, 0);
         secondMeleeAttack.setAnimation(new Animation(1 / 7.0f, animFrames.findRegions("0.swingD2.1")));
         secondMeleeAttack.setDamage(10);
+        secondMeleeAttack.setDamageScaling(1.5f);
         inventory.add(secondMeleeAttack);
 
         // Skill 3: Iceball thing
@@ -71,6 +73,7 @@ public class SkillManager {
         iceball.setDamage(30);
         iceball.setCastName("effect");
         iceball.setCastAnimation(new Animation(1 / 25f, animFrames.findRegions(iceball.getCastName())));
+        iceball.setDamageScaling(2.0f);
         inventory.add(iceball);
 
     }

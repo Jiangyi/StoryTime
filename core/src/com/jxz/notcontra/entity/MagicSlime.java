@@ -6,16 +6,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 
 /**
- * Created by Kevin Xiao on 2015-04-23.
- * Slime. Exemplifies "grunt" AI.
+ * Created by Samuel on 01/06/2015.
+ * First ranged AI monster.
  */
-public class Slime extends GruntMonster {
+public class MagicSlime extends RangedMonster {
 
-    public Slime() {
-        super("slime");
-
+    public MagicSlime() {
+        super("magicSlime");
         // Set up score
-        deathScore = 5;
+        deathScore = 10;
         // Set up animations
         this.animFrames = (TextureAtlas) assetHandler.getByName("grey_slime");
         animIdle = new Animation(1 / 6f, this.animFrames.findRegions("stand"));
@@ -35,8 +34,8 @@ public class Slime extends GruntMonster {
         kbThreshold = 15;
 
         // Combat stats
-        baseDamage = 5;
-        baseHealth = 50;
+        baseDamage = 10;
+        baseHealth = 75;
         speed = 3 + MathUtils.random(-0.5f, 0.5f);
         damageMultiplier = 1;
 
@@ -50,5 +49,12 @@ public class Slime extends GruntMonster {
         // Speed parameters
         patrolSpeed = 2.0f;
         chaseSpeed = 3.0f;
+
+        // Magic skills and stuff
+        skills.setInventory(0, "iceball");
+    }
+    @Override
+    public void init() {
+
     }
 }
