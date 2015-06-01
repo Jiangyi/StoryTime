@@ -56,7 +56,6 @@ public class Level {
 
         subWavesRemaining = 3;
         spawnTimer = 5;
-        currentWave = 1;
         monstersPerWave = 5;
 
         // Load parallax backgrounds from map file
@@ -119,7 +118,7 @@ public class Level {
                     // Number of subwaves start at 3, increasing by 1 every 2 waves
                     subWavesRemaining = 3 + (currentWave / 2);
                     // Increase difficulty value by 5% every wave
-                    Game.setDifficultyMultiplier(Game.getDifficultyMultiplier() + 0.05f * currentWave);
+                    Game.setDifficultyMultiplier(1 + 0.05f * (currentWave - 1));
                     spawnTimer = Game.REST_DURATION;
                     game.setPlayMode(Game.PlayMode.REST);
                     // Show some sort of image here, saying wave x complete
@@ -363,5 +362,10 @@ public class Level {
 
     public int getCurrentWave() {
         return currentWave;
+    }
+
+    public void setCurrentWave(int currentWave) {
+        this.currentWave = currentWave;
+        Game.setDifficultyMultiplier(1 + 0.05f * (currentWave - 1));
     }
 }

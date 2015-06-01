@@ -337,9 +337,11 @@ public class Player extends LivingEntity {
     public void setCurrentLevel(Level level) {
         if (playerSave != null && currentLevel == null) {
             position.set(playerSave.x, playerSave.y);
+            level.setCurrentWave(playerSave.wave);
         } else {
             float spawnX = Float.parseFloat(level.getMap().getProperties().get("spawnX", String.class));
             float spawnY = Float.parseFloat(level.getMap().getProperties().get("spawnY", String.class));
+            level.setCurrentWave(1);
             position.set(spawnX / Game.UNIT_SCALE, spawnY / Game.UNIT_SCALE);
         }
         aabb.setPosition(position.x + hitboxOffset.x, position.y + hitboxOffset.y);

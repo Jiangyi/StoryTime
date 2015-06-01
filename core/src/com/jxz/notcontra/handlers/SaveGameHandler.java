@@ -25,6 +25,7 @@ public class SaveGameHandler {
         playerSave.setMana(player.getMana());
         playerSave.setName(player.getName());
         playerSave.setScore(player.getScore());
+        playerSave.setWave(player.getCurrentLevel().getCurrentWave());
         playerSave.setMode(GameStateManager.getInstance().getGame().getPlayMode().toString());
 
         Json json = new Json();

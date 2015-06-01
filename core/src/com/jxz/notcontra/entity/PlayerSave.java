@@ -17,6 +17,7 @@ public class PlayerSave {
     public String mode;
     public String level;
     public long timestamp = System.currentTimeMillis();
+    public int wave;
 
     public PlayerSave() {
 
@@ -54,5 +55,13 @@ public class PlayerSave {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public void setWave(int wave) {
+        this.wave = wave;
+    }
+
+    public int getWave() {
+        return wave;
     }
 }
