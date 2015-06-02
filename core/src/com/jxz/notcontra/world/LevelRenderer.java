@@ -37,6 +37,13 @@ public class LevelRenderer extends OrthogonalTiledMapRenderer {
             }
         }
 
+        // Update all particles in renderer
+        for (Particle p : ParticleManager.getInstance().getParticlesListIteration()) {
+            if (p.isVisible()) {
+                p.update();
+            }
+        }
+
         // Update level timers
         currentLevel.update();
     }

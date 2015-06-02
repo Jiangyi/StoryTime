@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
+import com.jxz.notcontra.handlers.AudioHelper;
 
 /**
  * Created by Samuel on 01/06/2015.
@@ -57,5 +58,17 @@ public class Alien extends RangedMonster {
 
         // Magic skills and stuff
         skills.setInventory(0, "iceball");
+    }
+
+    @Override
+    public void damage(float dmg, Entity source){
+        AudioHelper.playSoundEffect("alien_hit");
+        super.damage(dmg, source);
+    }
+
+    public void playDeathSound() {
+        if (state != AIState.DYING) {
+            AudioHelper.playSoundEffect("alien_die");
+        }
     }
 }

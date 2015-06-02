@@ -1,13 +1,19 @@
 # FORMAT:
 # var name		path to file													type of file
 
-
 # Music
 bgmusic			Music/peaceful_forest.mp3										Music
 
 # SFX
 jump			sfx/jump.wav													Sound
 player_death	sfx/player_death.wav											Sound
+
+slime_hit		sfx/monsters/slime/slime_hit.wav								Sound
+slime_die		sfx/monsters/slime/slime_die.wav								Sound
+alien_attack	sfx/monsters/alien/alien_attack.wav								Sound
+alien_chardmg	sfx/monsters/alien/alien_chardmg.wav							Sound
+alien_hit		sfx/monsters/alien/alien_hit.wav								Sound
+alien_die		sfx/monsters/alien/alien_die.wav								Sound
 
 # Projectiles
 iceball			textures/entities/projectiles/iceball/iceball.pack				TextureAtlas

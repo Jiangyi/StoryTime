@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
+import com.jxz.notcontra.handlers.AudioHelper;
 
 /**
  * Created by Kevin Xiao on 2015-04-23.
@@ -51,4 +52,17 @@ public class Slime extends GruntMonster {
         patrolSpeed = 2.0f;
         chaseSpeed = 3.0f;
     }
+
+    @Override
+    public void damage(float dmg, Entity source) {
+        AudioHelper.playSoundEffect("slime_hit");
+        super.damage(dmg, source);
+    }
+
+    public void playDeathSound() {
+        if (state != AIState.DYING) {
+            AudioHelper.playSoundEffect("slime_die");
+        }
+    }
+
 }
