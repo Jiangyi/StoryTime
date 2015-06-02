@@ -13,6 +13,8 @@ import com.jxz.notcontra.shaders.Shaders;
 import com.jxz.notcontra.world.Level;
 import com.jxz.notcontra.world.LevelRenderer;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Kevin Xiao on 2015-03-24.
  * Play State
@@ -27,6 +29,7 @@ public class PlayState extends GameState {
     private TiledMap map;
     private boolean isPaused;
     private Menu pauseMenu;
+    private float timeSurvived;
 
     private int killCounter;
 
@@ -63,6 +66,10 @@ public class PlayState extends GameState {
     }
 
     public void update() {
+
+        if (game.getPlayMode() == Game.PlayMode.SURVIVAL && !isPaused && player.isAlive()) {
+            timeSurvived += Gdx.graphics.getDeltaTime();
+        }
 
         if (!player.isAlive()) {
             pauseMenu.getButtonList().remove("Back");
@@ -104,9 +111,11 @@ public class PlayState extends GameState {
         font.setColor(Color.WHITE);
         if (!isPaused()) {
             player.getHealthBar().draw(sb);
-            font.draw(sb, "Score: " + player.getScore(), 1200, 700);
+            font.draw(sb, "Score: " + player.getScore(), 1100, 680);
 
             if (game.getPlayMode() == Game.PlayMode.SURVIVAL) {
+                long minutes = TimeUnit.SECONDS.toMinutes((long) timeSurvived);
+                font.draw(sb, "Time survived: " + String.format("%02d:%02d", minutes, TimeUnit.SECONDS.toSeconds((long) timeSurvived - minutes * 60)), 1100, 700);
                 font.draw(sb, "Time to next spawn: " + (currentLevel.getSpawnTimer()), 500, 250);
                 font.draw(sb, "Current Wave: " + currentLevel.getCurrentWave() + " Diff: " + Game.getDifficultyMultiplier(), 750, 250);
             }

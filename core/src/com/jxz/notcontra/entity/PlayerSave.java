@@ -16,7 +16,7 @@ public class PlayerSave {
     public int mana;
     public String mode;
     public String level;
-    public long timestamp = System.currentTimeMillis();
+    public float timeSurvived;
     public int wave;
 
     public PlayerSave() {
@@ -61,6 +61,9 @@ public class PlayerSave {
         this.wave = wave;
     }
 
+    public void setTimeSurvived(float timeSurvived) {
+        this.timeSurvived = timeSurvived;
+    }
     public int getWave() {
         return wave;
     }
