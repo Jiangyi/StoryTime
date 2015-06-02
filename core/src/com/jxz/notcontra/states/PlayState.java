@@ -56,11 +56,6 @@ public class PlayState extends GameState {
 
         // Initialize Player object
         player.setCurrentLevel(currentLevel);
-
-        // Initialize monsters
-        if (currentLevel.isFirstLoad()) {
-            currentLevel.spawn();
-        }
     }
 
     public void load() {
