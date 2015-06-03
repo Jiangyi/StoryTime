@@ -9,6 +9,7 @@ import com.jxz.notcontra.world.Level;
 
 /**
  * Created by Samuel on 31/05/2015.
+ * Ranged monster AI. Any AI that can cast.
  */
 public abstract class RangedMonster extends Monster {
 
@@ -36,7 +37,9 @@ public abstract class RangedMonster extends Monster {
                 castType = 0;
                 castStateTime = 0;
 
-                animCast[0].setFrameDuration(currentSkill.getAnimation().getAnimationDuration() / currentSkill.getAnimation().getKeyFrames().length);
+                if (currentSkill.isHasCastEffect()) {
+                    animCast[0].setFrameDuration(currentSkill.getAnimation().getAnimationDuration() / currentSkill.getAnimation().getKeyFrames().length);
+                }
 
                 if (isGrounded && currentSkill.isRootWhileCasting()) {
                     // No motions persist through casting, unless one is already in the air
@@ -101,7 +104,7 @@ public abstract class RangedMonster extends Monster {
                         lastUpdateTime = 0;
                     }
                     // If you're going to run yourself off a platform, at least jump.
-                    if (isOnPlatform) {
+                    if (isOnPlatform && !isCasting) {
                         float boundingEdgeDelta = (movementState.x > 0 ? 1 : -1) * aabb.getWidth() / 2;
                         TiledMapTile targetTile = currentLevel.getTileAt(position.x + aabb.getWidth() / 2 + boundingEdgeDelta + (movementState.x * speed), position.y - 1, Level.DYNAMIC_LAYER);
                         if (targetTile == null) {

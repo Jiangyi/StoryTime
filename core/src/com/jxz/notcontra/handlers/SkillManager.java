@@ -21,7 +21,7 @@ public class SkillManager {
     public static Skill getSkill(String name) {
         for (Skill s : inventory) {
             if (s.getName().equals(name)) {
-                return s;
+                return s.clone();
             }
         }
         return null;

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
@@ -367,7 +366,9 @@ public class Player extends LivingEntity {
             if (target.getProperties().containsKey("interactable")) {
                 String command = target.getProperties().get("interactable", String.class);
                 if (command.equalsIgnoreCase("nextLevel")) {
-                    playState.load(target.getProperties().get("nextLevel", String.class));
+                    if (currentLevel.isComplete()) {
+                        playState.load(target.getProperties().get("nextLevel", String.class));
+                    }
                 }
             }
         }
