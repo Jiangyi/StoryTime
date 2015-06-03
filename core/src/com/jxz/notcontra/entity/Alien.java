@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
+import com.jxz.notcontra.animation.AnimationEx;
+import com.jxz.notcontra.animation.SpriteEx;
 import com.jxz.notcontra.handlers.AudioHelper;
 
 /**
@@ -12,25 +14,33 @@ import com.jxz.notcontra.handlers.AudioHelper;
  */
 public class Alien extends RangedMonster {
 
+    // Animation frame name values
+    private final String TEXTURE_ATLAS_NAME = "alien";
+    private final String ANIM_WALK = "move";
+    private final String ANIM_IDLE = "stand";
+    private final String ANIM_JUMP = "jump";
+    private final String ANIM_HURT = "hit1";
+    private final String ANIM_ATTACK = "attack1";
+    private final String ANIM_DEATH = "die1";
+
     public Alien() {
         super("alien", 1);
         // Set up score
         deathScore = 10;
         // Set up animations
-        this.animFrames = (TextureAtlas) assetHandler.getByName("alien");
-        animIdle = new Animation(1 / 6f, this.animFrames.findRegions("stand"));
-        animWalk = new Animation(1 / 6f, this.animFrames.findRegions("move"));
-        animHurt = new Animation(1 / 6f, this.animFrames.findRegions("hit1"));
-        animJump = new Animation(1 / 6f, this.animFrames.findRegions("jump"));
-        animDeath = new Animation(1 / 10f, this.animFrames.findRegions("die1"));
-        animCast = new Animation[1];
-        animCast[0] = new Animation(1 / 10f, this.animFrames.findRegions("attack1"));
-        canCast = true;
+        animIdle = new AnimationEx(1 / 6f, ANIM_IDLE, TEXTURE_ATLAS_NAME);
+        animWalk = new AnimationEx(1 / 6f, ANIM_WALK, TEXTURE_ATLAS_NAME);
+        animHurt = new AnimationEx(1 / 6f, ANIM_HURT, TEXTURE_ATLAS_NAME);
+        animJump = new AnimationEx(1 / 6f,  ANIM_JUMP, TEXTURE_ATLAS_NAME);
+        animDeath = new AnimationEx(1 / 10f, ANIM_DEATH, TEXTURE_ATLAS_NAME);
+        animCast = new AnimationEx[1];
+        animCast[0] = new AnimationEx(1 / 10f, ANIM_ATTACK, TEXTURE_ATLAS_NAME);
 
-        renderOffset = animIdle.getKeyFrame(0).getRegionWidth();
+        hitboxOffset.set(-aabb.getWidth() / 2f, 0);
+        renderOffset = 0;
 
         // Initialize sprite stuff
-        this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
+        this.sprite = new SpriteEx(animIdle.getKeyFrame(animStateTime, true));
 
         // Knock back values
         kbDuration = 0.4f;

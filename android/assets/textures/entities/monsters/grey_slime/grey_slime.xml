@@ -1,0 +1,18 @@
+<offset>
+	<move delay="200" x="-41" y="-94"/>
+	<move delay="50" x="-41" y="-94"/>
+	<move delay="150" x="-41" y="-94"/>
+	<move delay="150" x="-41" y="-94"/>
+	<move delay="100" x="-41" y="-94"/>
+	<move delay="100" x="-41" y="-94"/>
+	<move delay="300" x="-41" y="-94"/>
+	<stand delay="200" x="-41" y="-50"/>
+	<stand delay="300" x="-41" y="-50"/>
+	<stand delay="250" x="-41" y="-50"/>
+	<jump delay="150" x="-36" y="-54"/>
+	<hit1 delay="600" x="-40" y="-66"/>
+	<die1 delay="180" x="-35" y="-60"/>
+	<die1 delay="180" x="-35" y="-60"/>
+	<die1 delay="180" x="-35" y="-60"/>
+	<die1 delay="300" x="-35" y="-60"/>
+</offset>

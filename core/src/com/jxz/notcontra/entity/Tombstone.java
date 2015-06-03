@@ -5,27 +5,29 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector2;
+import com.jxz.notcontra.animation.AnimationEx;
+import com.jxz.notcontra.animation.SpriteEx;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.AssetHandler;
 
 /**
  * Created by Kevin Xiao on 2015-05-22.
  */
 public class Tombstone extends AnimatedEntity {
 
-    private Animation animFall;
+    private Vector2 offset = new Vector2(0, 0);
+    private AnimationEx animFall;
     private float offsetY;
 
     public Tombstone() {
         super("tombstone");
 
-        this.animFrames = (TextureAtlas) assetHandler.getByName("tombstone");
-        this.animFall = new Animation(1/20f, this.animFrames.findRegions("fall"));
+        this.animFall = new AnimationEx(1/20f, ((TextureAtlas)AssetHandler.getInstance().getByName("tombstone")).findRegions("fall"));
         isVisible = true;
-        isActive = true;
-        hitboxOffset.set(0, 0);
 
         // Initialize animated sprite for tombstone
-        this.sprite = new Sprite(animFall.getKeyFrame(animStateTime, true));
+        this.sprite = new SpriteEx(animFall.getKeyFrame(animStateTime, true));
     }
 
     public void update() {

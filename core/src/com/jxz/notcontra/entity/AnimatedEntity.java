@@ -10,7 +10,6 @@ import com.jxz.notcontra.handlers.AssetHandler;
  * Animated entity class.
  */
 public abstract class AnimatedEntity extends Entity {
-    protected TextureAtlas animFrames;
     protected float animStateTime;
     protected AssetHandler assetHandler = AssetHandler.getInstance();
 

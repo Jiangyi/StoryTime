@@ -1,8 +1,10 @@
 package com.jxz.notcontra.skill;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pools;
+import com.jxz.notcontra.animation.SpriteEx;
 import com.jxz.notcontra.effect.SpriteEffect;
 import com.jxz.notcontra.entity.*;
 import com.jxz.notcontra.handlers.GameStateManager;
@@ -30,7 +32,7 @@ public class LinearProjectileSkill extends Skill {
     public void use(LivingEntity caster) {
         this.caster = caster;
         hitbox = (Projectile) EntityFactory.spawn(Projectile.class);
-        hitbox.setSprite(vfx.createSprite(animName));
+        hitbox.setSprite(new SpriteEx(vfx.createSprite(animName)));
         hitbox.getSprite().setOriginCenter();
         hitbox.setHitboxOffset(hitboxOffset.x, hitboxOffset.y);
         Vector2 initial = caster.getCenterPosition().cpy();

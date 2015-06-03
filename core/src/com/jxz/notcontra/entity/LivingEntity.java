@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.jxz.notcontra.animation.AnimationEx;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.handlers.SkillInventory;
@@ -31,15 +32,15 @@ public abstract class LivingEntity extends AnimatedEntity {
 
     // Sprite fields
     protected float centerX, centerY;
-    protected Animation animWalk;
-    protected Animation animIdle;
-    protected Animation animJump;
-    protected Animation animRope;
-    protected Animation animLadder;
-    protected Animation[] animCast;
-    protected Animation animHurt;
-    protected Animation animDeath;
-    protected Animation currentAnimation;
+    protected AnimationEx animWalk;
+    protected AnimationEx animIdle;
+    protected AnimationEx animJump;
+    protected AnimationEx animRope;
+    protected AnimationEx animLadder;
+    protected AnimationEx[] animCast;
+    protected AnimationEx animHurt;
+    protected AnimationEx animDeath;
+    protected AnimationEx currentAnimation;
     protected float climbingStateTime;
     protected float castStateTime;
     protected int castType;

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.jxz.notcontra.animation.SpriteEx;
 import com.jxz.notcontra.effect.Effect;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
@@ -21,7 +22,7 @@ public abstract class Entity {
     // Base Entity fields
     protected int id = 0;
     protected String name;
-    protected Sprite sprite;
+    protected SpriteEx sprite;
     protected Vector2 position;
     protected boolean isVisible;
     protected boolean isActive;
@@ -30,7 +31,7 @@ public abstract class Entity {
     protected EntityManager manager = EntityManager.getInstance();
     protected Rectangle aabb;
     protected Vector2 hitboxOffset;
-    protected float renderOffset;
+    protected int renderOffset;
     protected Sprite debug;
 
     // Child object list -> Effects, health bars, etc.
@@ -49,6 +50,7 @@ public abstract class Entity {
         isFlipped = false;
         childObjects = new Array<ChildObject>();
         debug = new Sprite((Texture) AssetHandler.getInstance().getByName("hitbox"));
+        renderOffset = 0;
     }
 
     public Entity(String entityName, float x, float y) {
@@ -85,7 +87,7 @@ public abstract class Entity {
         return sprite;
     }
 
-    public void setSprite(Sprite sprite) {
+    public void setSprite(SpriteEx sprite) {
         this.sprite = sprite;
     }
 
@@ -163,10 +165,15 @@ public abstract class Entity {
 
     public void draw(Batch batch) {
         batch.draw(sprite,
+                isFlipped ? (sprite.getX() - sprite.getOffset().x + renderOffset) * Game.UNIT_SCALE :(sprite.getX() + sprite.getOffset().x + renderOffset) * Game.UNIT_SCALE,
+                (sprite.getY() - sprite.getHeight() - sprite.getOffset().y) * Game.UNIT_SCALE,
+                isFlipped ? -sprite.getWidth() * Game.UNIT_SCALE : sprite.getWidth() * Game.UNIT_SCALE,
+                sprite.getHeight() * Game.UNIT_SCALE);
+        /*batch.draw(sprite,
                 isFlipped ? ((sprite.getX() + sprite.getWidth()) * Game.UNIT_SCALE) - ((sprite.getWidth() - this.renderOffset) * Game.UNIT_SCALE) : sprite.getX() * Game.UNIT_SCALE,
                 sprite.getY() * Game.UNIT_SCALE,
                 isFlipped ? -sprite.getWidth() * Game.UNIT_SCALE : sprite.getWidth() * Game.UNIT_SCALE,
-                sprite.getHeight() * Game.UNIT_SCALE);
+                sprite.getHeight() * Game.UNIT_SCALE);*/
         if (Game.getDebugMode()) {
             batch.draw(debug, position.x * Game.UNIT_SCALE, position.y * Game.UNIT_SCALE, aabb.getWidth() * Game.UNIT_SCALE, aabb.getHeight() * Game.UNIT_SCALE);
         }
