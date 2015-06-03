@@ -5,12 +5,15 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
+import com.jxz.notcontra.entity.pickups.Pickups;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.hud.OSHealthBar;
 import com.jxz.notcontra.particles.DamageNumber;
 import com.jxz.notcontra.particles.ParticleFactory;
 import com.jxz.notcontra.world.Level;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by Kevin Xiao on 2015-04-23.
@@ -30,6 +33,8 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     protected Entity target;
     protected float deathLerp;
     protected int deathScore;
+    protected float dropChance;
+    protected Class[] itemDrops;
 
     public enum AIState {
         IDLE, PATROLLING, CHASING, DYING, SPAWNING
@@ -103,8 +108,10 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
         }
 
         // Update states:
-        if (health <= 0) {
+        if (health <= 0 && state != AIState.DYING) {
+            // Play death sound and drop items
             playDeathSound();
+            dropItems();
             health = 0;
             state = AIState.DYING;
             movementState.set(0, 0);
@@ -209,6 +216,15 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     }
 
     public abstract void playDeathSound();
+
+    public boolean calculateDrop(float chance) {
+        if (MathUtils.random(0f, 1f) <= chance ) {
+            return true;
+        }
+        return false;
+    }
+
+    public abstract void dropItems();
 }
 
 

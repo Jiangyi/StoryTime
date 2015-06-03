@@ -27,3 +27,6 @@ hitPlayer		textures/hud/damage/hitPlayer/hitPlayer.pack					TextureAtlas
 
 # Debug Rendering Hitbox
 hitbox			textures/debug.png     											Texture
+
+#Pickup Items
+pickups			textures/entities/pickups/pickups.pack							TextureAtlas

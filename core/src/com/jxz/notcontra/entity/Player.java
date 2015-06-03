@@ -11,6 +11,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.animation.AnimationEx;
 import com.jxz.notcontra.animation.SpriteEx;
 import com.jxz.notcontra.camera.PlayerCamera;
+import com.jxz.notcontra.entity.pickups.HealthPotion;
+import com.jxz.notcontra.entity.pickups.Pickups;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.handlers.EntityManager;
@@ -149,6 +151,26 @@ public class Player extends LivingEntity {
                                 }
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        // Iterate through pickups to check for touch to pickup
+        for (Entity p : EntityManager.getInstance().getEntitiesListIteration()) {
+            if (p instanceof Pickups && p.isActive) {
+                if (p.getCurrentLevel().equals(currentLevel)) {
+                    if (Intersector.overlaps(aabb, p.getAABB())) {
+                        if (p instanceof HealthPotion) {
+                            if (health < maxHealth) {
+                                this.health += 10;
+                                if (health >= maxHealth) {
+                                    health = maxHealth;
+                                }
+                                ((HealthPotion) p).reset();
+                            }
+                        }
+                        break;
                     }
                 }
             }

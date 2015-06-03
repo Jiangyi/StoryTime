@@ -169,11 +169,6 @@ public abstract class Entity {
                 (sprite.getY() - sprite.getHeight() - sprite.getOffset().y) * Game.UNIT_SCALE,
                 isFlipped ? -sprite.getWidth() * Game.UNIT_SCALE : sprite.getWidth() * Game.UNIT_SCALE,
                 sprite.getHeight() * Game.UNIT_SCALE);
-        /*batch.draw(sprite,
-                isFlipped ? ((sprite.getX() + sprite.getWidth()) * Game.UNIT_SCALE) - ((sprite.getWidth() - this.renderOffset) * Game.UNIT_SCALE) : sprite.getX() * Game.UNIT_SCALE,
-                sprite.getY() * Game.UNIT_SCALE,
-                isFlipped ? -sprite.getWidth() * Game.UNIT_SCALE : sprite.getWidth() * Game.UNIT_SCALE,
-                sprite.getHeight() * Game.UNIT_SCALE);*/
         if (Game.getDebugMode()) {
             batch.draw(debug, position.x * Game.UNIT_SCALE, position.y * Game.UNIT_SCALE, aabb.getWidth() * Game.UNIT_SCALE, aabb.getHeight() * Game.UNIT_SCALE);
         }

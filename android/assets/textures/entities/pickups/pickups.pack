@@ -1,0 +1,26 @@
+
+pickups.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+elixir_purple
+  rotate: false
+  xy: 1, 26
+  size: 32, 31
+  orig: 32, 31
+  offset: 0, 0
+  index: -1
+pill_orange
+  rotate: false
+  xy: 1, 1
+  size: 33, 23
+  orig: 33, 23
+  offset: 0, 0
+  index: -1
+potion_red
+  rotate: false
+  xy: 35, 30
+  size: 27, 27
+  orig: 27, 27
+  offset: 0, 0
+  index: -1
