@@ -2,7 +2,6 @@ package com.jxz.notcontra.menu.buttons;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.GameStateManager;
@@ -19,7 +18,7 @@ public abstract class Button {
     protected String name;
     protected ButtonState currentState;
     protected InputListener inputListener;
-    protected Vector2 position;
+    protected int x, y;
     protected float height;
     protected float width;
 
@@ -48,8 +47,8 @@ public abstract class Button {
 //        System.out.println("Y bounds: " + position.y + " - " + (position.y + width));
         // LibGDX goes from top to bottom for y for input management,
         // but bottom to top for y for rendering. Whut.
-        return (position.x < newX && newX < (position.x + width) &&
-                position.y < newY && newY < (position.y + height));
+        return (this.x < newX && newX < (this.x + width) &&
+                this.y < newY && newY < (this.y + height));
     }
 
     public void setState(ButtonState state) {

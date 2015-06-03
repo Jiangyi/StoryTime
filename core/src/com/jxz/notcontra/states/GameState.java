@@ -37,5 +37,7 @@ public abstract class GameState {
         sb.dispose();
         font.dispose();
     }
-
+    public BitmapFont getFont() {
+        return font;
+    }
 }

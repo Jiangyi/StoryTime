@@ -27,6 +27,7 @@ public class PlayState extends GameState {
     private TiledMap map;
     private boolean isPaused;
     private Menu pauseMenu;
+    private Menu currentMenu;
 
     private int killCounter;
 
@@ -42,6 +43,7 @@ public class PlayState extends GameState {
         playerCam.setPlayer(player);
         pauseMenu = new ParseMenu("PauseMenu.xml");
         pauseMenu.setMenuState(GameStateManager.getInstance().getMenuState());
+        currentMenu = pauseMenu;
 
         // Reset music
         AudioHelper.resetBackgroundMusic();
@@ -69,10 +71,6 @@ public class PlayState extends GameState {
 
     public void update() {
 
-        if (!player.isAlive()) {
-            pauseMenu.getButtonList().remove("Back");
-            // setIsPaused(true);
-        }
         if (!isPaused) {
             sb.setShader(game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH));
             currentMapRenderer.getBatch().setShader(player.isAlive() ? game.getShaders().getShaderType(Shaders.ShaderType.PASSTHROUGH) : game.getShaders().getShaderType(Shaders.ShaderType.VIGNETTE));
@@ -132,7 +130,7 @@ public class PlayState extends GameState {
                 font.draw(sb, "MovementStateY: " + player.getMovementState().y, 1100, 25);
             }
         } else {
-            pauseMenu.renderMenu(sb, font);
+            currentMenu.renderMenu(sb, font);
             if (Game.getDebugMode()) {
                 font.draw(sb, "GAME PAUSED... FPS: " + Gdx.graphics.getFramesPerSecond(), 100, 100);
                 font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
@@ -165,6 +163,13 @@ public class PlayState extends GameState {
 
     public Menu getPauseMenu() {
         return pauseMenu;
+    }
+
+    public Menu getCurrentMenu() {
+        return currentMenu;
+    }
+    public void setCurrentMenu(Menu menu) {
+        currentMenu = menu;
     }
 
     public int getKills() {

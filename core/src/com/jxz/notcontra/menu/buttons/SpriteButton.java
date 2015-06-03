@@ -3,7 +3,6 @@ package com.jxz.notcontra.menu.buttons;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by jiangyi on 09/05/15.
@@ -16,14 +15,15 @@ public class SpriteButton extends Button {
     protected boolean isFlipped;
 
     // Define a non-changing, default sprite button only
-    public SpriteButton(TextureAtlas buttonSprites, String atlasRegion, Vector2 position) {
-        this(buttonSprites.createSprite(atlasRegion, 0), buttonSprites.createSprite(atlasRegion, 1), buttonSprites.createSprite(atlasRegion, 2), position);
+    public SpriteButton(TextureAtlas buttonSprites, String atlasRegion, int x, int y) {
+        this(buttonSprites.createSprite(atlasRegion, 0), buttonSprites.createSprite(atlasRegion, 1), buttonSprites.createSprite(atlasRegion, 2), x, y);
     }
 
     // Define a button with sprites for all modes
-    public SpriteButton(Sprite defaultRegion, Sprite onHoverRegion, Sprite onClickRegion, Vector2 position) {
+    public SpriteButton(Sprite defaultRegion, Sprite onHoverRegion, Sprite onClickRegion, int x, int y) {
         this.currentState = ButtonState.DEFAULT;
-        this.position = position;
+        this.x = x;
+        this.y = y;
         this.defaultSprite = defaultRegion;
         this.onHoverSprite = onHoverRegion;
         this.onClickSprite = onClickRegion;
@@ -38,6 +38,13 @@ public class SpriteButton extends Button {
     public boolean getIsFlipped() {
         return isFlipped;
     }
+
+    public void flipSprites(boolean x, boolean y) {
+        defaultSprite.flip(x, y);
+        onHoverSprite.flip(x, y);
+        onClickSprite.flip(x, y);
+    }
+
     public void setDefaultSprite(Sprite defaultSprite) {
         this.defaultSprite = new Sprite(defaultSprite);
     }
@@ -64,10 +71,11 @@ public class SpriteButton extends Button {
 
     @Override
     public void draw(Batch batch) {
-        batch.draw(getCurrentStateSprite(), isFlipped ? position.x + getCurrentStateSprite().getWidth() : position.x, position.y, isFlipped ? -getCurrentStateSprite().getWidth() : getCurrentStateSprite().getWidth(), getCurrentStateSprite().getHeight());
+        batch.draw(getCurrentStateSprite(), x, y, getCurrentStateSprite().getWidth(),
+                getCurrentStateSprite().getHeight());
     }
 
-    private Sprite getCurrentStateSprite() {
+    protected Sprite getCurrentStateSprite() {
        switch (currentState) {
            case CLICK:
                return onClickSprite;
@@ -75,7 +83,6 @@ public class SpriteButton extends Button {
                return onHoverSprite;
            default:
                return defaultSprite;
-
        }
     }
 

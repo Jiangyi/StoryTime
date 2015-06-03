@@ -4,7 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.Array;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.menu.buttons.Button;
 import com.jxz.notcontra.states.MenuState;
@@ -14,8 +14,8 @@ import com.jxz.notcontra.states.MenuState;
  */
 public abstract class Menu {
     protected AssetHandler assetHandler = AssetHandler.getInstance();
-    protected ObjectMap<String, Button> buttons = new ObjectMap<String, Button>();
-    protected AnimatedScrollPane pane;
+    protected Array<Button> buttons = new Array<Button>();
+    protected ScrollPane pane;
     protected Menu prevMenu;
     protected MenuState menuState;
     protected FileHandle file;
@@ -23,10 +23,10 @@ public abstract class Menu {
     protected String prevCmd;
 
     protected void addButton(String name, Button button) {
-        buttons.put(name, button);
+        buttons.add(button);
     }
 
-    public ObjectMap<String, Button> getButtonList() {
+    public Array<Button> getButtonList() {
         return buttons;
     }
 
@@ -46,11 +46,11 @@ public abstract class Menu {
         return prevCmd;
     }
 
-    public void setPane(AnimatedScrollPane pane) {
+    public void setPane(ScrollPane pane) {
         this.pane = pane;
     }
 
-    public AnimatedScrollPane getPane() {
+    public ScrollPane getPane() {
         return pane;
     }
 
@@ -62,7 +62,7 @@ public abstract class Menu {
     }
 
     public void renderMenu(SpriteBatch batch, BitmapFont font) {
-        for (Button i : buttons.values()) {
+        for (Button i : buttons) {
             i.draw(batch);
         }
 

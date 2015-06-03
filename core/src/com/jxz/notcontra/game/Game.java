@@ -151,16 +151,24 @@ public class Game extends ApplicationAdapter {
         } else if (cmds[0].equalsIgnoreCase("unPauseGame")) {
             gsm.getPlayState().setIsPaused(false);
         } else if (cmds[0].equalsIgnoreCase("saveGame")) {
-            Gdx.input.getTextInput(new Input.TextInputListener() {
-                @Override
-                public void input(String text) {
-                    SaveGameHandler.saveCurrentStateToFile(text);
-                }
+            if (cmds[1].equalsIgnoreCase("overwrite")) {
+                System.out.println(cmds[2]);
+                SaveGameHandler.saveCurrentStateToFile(cmds[2]);
+                gsm.getPlayState().setCurrentMenu(gsm.getPlayState().getPauseMenu());
+            } else if (cmds[1].equalsIgnoreCase("new")) {
+                Gdx.input.getTextInput(new Input.TextInputListener() {
+                    @Override
+                    public void input(String text) {
+                        SaveGameHandler.saveCurrentStateToFile(text);
+                        gsm.getPlayState().setCurrentMenu(gsm.getPlayState().getPauseMenu());
+                    }
 
-                @Override
-                public void canceled() {
-                }
-            }, "Save Game", "" ,"File Name");
+                    @Override
+                    public void canceled() {
+                    }
+                }, "Save Game", "" ,"File Name");
+            }
+
         } else if (cmds[0].equalsIgnoreCase("Quit")) {
             Gdx.app.exit();
         }

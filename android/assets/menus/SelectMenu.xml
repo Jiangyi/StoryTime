@@ -1,11 +1,10 @@
 <menu>
-
-    <animatedScrollPane x="215" y="500" width="850">
+    <scrollPane type="animated" x="215" y="500" width="850">
         <idleAnimName duration=".667">stand1</idleAnimName>
         <activeAnimName duration=".167">walk1</activeAnimName>
         <values>Alice</values>
         <values>player</values>
-    </animatedScrollPane>
+    </scrollPane>
     <button x="150" y="100">
         <name>Back</name>
         <textureName>button_back</textureName>

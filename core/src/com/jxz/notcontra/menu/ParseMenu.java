@@ -2,13 +2,14 @@ package com.jxz.notcontra.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.menu.buttons.Button;
 import com.jxz.notcontra.menu.buttons.SpriteButton;
+import com.jxz.notcontra.states.MenuState;
+import com.jxz.notcontra.states.PlayState;
 
 import java.io.IOException;
 
@@ -16,7 +17,6 @@ import java.io.IOException;
  * Created by jiangyi on 09/05/15.
  */
 public class ParseMenu extends Menu {
-
 
     public ParseMenu(String menuFile) {
         file = Gdx.files.internal("menus/" + menuFile);
@@ -30,16 +30,20 @@ public class ParseMenu extends Menu {
         try {
             XmlReader.Element root = new XmlReader().parse(file);
             Array<XmlReader.Element> buttonElements = root.getChildrenByName("button");
-            XmlReader.Element paneElement = root.getChildByName("animatedScrollPane");
+            XmlReader.Element paneElement = root.getChildByName("scrollPane");
             if (paneElement != null) {
-                pane = new AnimatedScrollPane(paneElement);
-                Button[] navButtons = pane.getNavButtons();
-                buttons.put("leftNav", navButtons[0]);
-                buttons.put("rightNav", navButtons[1]);
+                if (paneElement.get("type").equalsIgnoreCase("animated")) {
+                    pane = new AnimatedScrollPane(paneElement);
+                } else if (paneElement.get("type").equalsIgnoreCase("save")) {
+                    SaveLoadScrollPane pane = new SaveLoadScrollPane(paneElement, GameStateManager.getInstance().getCurrentState().getFont());
+                    buttons.addAll(pane.getList());
+                    this.pane = pane;
+                }
+                buttons.addAll(pane.getNavButtons());
             }
 
             String name, atlasRegion;
-            float x, y;
+            int x, y;
             // Iterate through all buttons
             for (XmlReader.Element i : buttonElements) {
                 name = i.getChildByName("name").getText();
@@ -47,15 +51,19 @@ public class ParseMenu extends Menu {
                 // TODO: Add more name variables than just centre
                 if (i.get("x").equalsIgnoreCase("centre")) {
                     x = Game.VID_WIDTH / 2 - menuButtons.findRegion(atlasRegion).getRegionWidth() / 2;
+                } else if (i.get("x").equalsIgnoreCase("centre-left")) {
+                    x = Game.VID_WIDTH / 4 - menuButtons.findRegion(atlasRegion).getRegionWidth() / 2;
+                } else if (i.get("x").equalsIgnoreCase("centre-right")) {
+                    x = Game.VID_WIDTH * 3 / 4 - menuButtons.findRegion(atlasRegion).getRegionWidth() / 2;
                 } else {
                     // It's going to be a float otherwise
-                    x = i.getFloat("x");
+                    x = i.getInt("x");
                 }
-                y = i.getFloat("y");
+                y = i.getInt("y");
 
                 // Initialize button
-                final SpriteButton button = new SpriteButton(menuButtons, atlasRegion, new Vector2(x, y));
-
+                final SpriteButton button = new SpriteButton(menuButtons, atlasRegion, x, y);
+                System.out.println("Name: " + name + " X: " + x + " Y: " + y);
                 // Check for inputListener parameters
                 final XmlReader.Element onClick = i.getChildByName("onClick");
                 final String onClickType = onClick.get("type");
@@ -66,7 +74,11 @@ public class ParseMenu extends Menu {
                         public void onClick() {
                             if (onClickType.equalsIgnoreCase("setMenu")) {
                                 if (onClick.getText().equalsIgnoreCase("Previous")) {
-                                    menuState.setCurrentMenu(ParseMenu.this.getPrevMenu());
+                                    if (GameStateManager.getInstance().getCurrentState() instanceof MenuState) {
+                                        menuState.setCurrentMenu(ParseMenu.this.getPrevMenu());
+                                    } else if (GameStateManager.getInstance().getCurrentState() instanceof PlayState) {
+                                        GameStateManager.getInstance().getPlayState().setCurrentMenu(ParseMenu.this.getPrevMenu());
+                                    }
                                 } else if (onClick.getText().equalsIgnoreCase("MainMenu")) {
                                     GameStateManager gsm = GameStateManager.getInstance();
                                     gsm.getMenuState().setCurrentMenu(gsm.getMenuState().getRootMenu());
@@ -78,14 +90,25 @@ public class ParseMenu extends Menu {
                                     menu.setPrevMenu(ParseMenu.this);
                                     menu.setPrevCmd(onClick.getAttribute("prevCmd", null));
                                     menu.setMenuState(menuState);
-                                    menuState.setCurrentMenu(menu);
+                                    if (GameStateManager.getInstance().getCurrentState() instanceof MenuState) {
+                                        menuState.setCurrentMenu(menu);
+                                    } else if (GameStateManager.getInstance().getCurrentState() instanceof PlayState) {
+                                        GameStateManager.getInstance().getPlayState().setCurrentMenu(menu);
+                                    }
                                 }
                             } else if (onClickType.equalsIgnoreCase("cmd")) {
                                 GameStateManager.getInstance().getGame().executeCommand(onClick.getText());
                             } else if (onClickType.equalsIgnoreCase("getScrollPaneParam")) {
-                                if (prevCmd != null && pane != null) {
-                                    System.out.println(prevCmd + "," + pane.getCurrentCmd());
-                                    GameStateManager.getInstance().getGame().executeCommand(prevCmd + "," + pane.getCurrentCmd());
+                                if (pane != null) {
+                                    String cmd;
+                                    if (onClick.getText() != null) {
+                                        cmd = onClick.getText() + "," + pane.getCurrentCmd();
+                                    } else if (prevCmd != null) {
+                                        cmd = prevCmd + "," + pane.getCurrentCmd();
+                                    } else {
+                                        cmd = "";
+                                    }
+                                    GameStateManager.getInstance().getGame().executeCommand(cmd);
                                 }
                             }
                         }
@@ -97,7 +120,7 @@ public class ParseMenu extends Menu {
                     };
                     button.setInputListener(listener);
                 }
-                buttons.put(name, button);
+                buttons.add(button);
 
             }
         } catch (IOException e) {

@@ -7,7 +7,7 @@
     <button x="centre" y="175">
         <name>Load</name>
         <textureName>button_load</textureName>
-        <onClick type="cmd">play,load,save1.json</onClick>
+        <onClick type="setMenu">LoadMenu</onClick>
     </button>
     <button x="centre" y="75">
         <name>Back</name>

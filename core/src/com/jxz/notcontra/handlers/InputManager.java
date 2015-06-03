@@ -13,6 +13,7 @@ import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.menu.Menu;
 import com.jxz.notcontra.menu.buttons.Button;
+import com.jxz.notcontra.menu.buttons.TextLabel;
 import com.jxz.notcontra.states.LoadState;
 import com.jxz.notcontra.states.MenuState;
 import com.jxz.notcontra.states.PlayState;
@@ -264,11 +265,11 @@ public class InputManager implements InputProcessor {
         if (gsm.getCurrentState() instanceof MenuState) {
             currentMenu = gsm.getMenuState().getCurrentMenu();
         } else if (gsm.getCurrentState() instanceof PlayState && gsm.getPlayState().isPaused()) {
-            currentMenu = gsm.getPlayState().getPauseMenu();
+            currentMenu = gsm.getPlayState().getCurrentMenu();
         }
 
         if (currentMenu != null) {
-            for (Button i : currentMenu.getButtonList().values()) {
+            for (Button i : currentMenu.getButtonList()) {
                 if (i.isMouseWithinBoundary(screenX, screenY) && i.getInputListener() != null) {
                     i.setState(Button.ButtonState.CLICK);
                 }
@@ -287,14 +288,14 @@ public class InputManager implements InputProcessor {
         if (gsm.getCurrentState() instanceof MenuState) {
             currentMenu = gsm.getMenuState().getCurrentMenu();
         } else if (gsm.getCurrentState() instanceof PlayState && gsm.getPlayState().isPaused()) {
-            currentMenu = gsm.getPlayState().getPauseMenu();
+            currentMenu = gsm.getPlayState().getCurrentMenu();
         }
 
         if (currentMenu != null) {
-            for (Button i : currentMenu.getButtonList().values()) {
+            for (Button i : currentMenu.getButtonList()) {
                 if (i.isMouseWithinBoundary(screenX, screenY) && i.getInputListener() != null) {
                     i.getInputListener().onClick();
-                    if (i.getCurrentState() == Button.ButtonState.CLICK) {
+                    if (i.getCurrentState() == Button.ButtonState.CLICK && !(i instanceof TextLabel)) {
                         i.setState(Button.ButtonState.HOVER);
                     }
                 }
@@ -314,16 +315,20 @@ public class InputManager implements InputProcessor {
         if (gsm.getCurrentState() instanceof MenuState) {
             currentMenu = gsm.getMenuState().getCurrentMenu();
         } else if (gsm.getCurrentState() instanceof PlayState && gsm.getPlayState().isPaused()) {
-            currentMenu = gsm.getPlayState().getPauseMenu();
+            currentMenu = gsm.getPlayState().getCurrentMenu();
         }
 
         if (currentMenu != null) {
-            for (Button i : currentMenu.getButtonList().values()) {
-                if (i.isMouseWithinBoundary(screenX, screenY) && i.getInputListener() != null) {
-                    i.setState(Button.ButtonState.HOVER);
-                    i.getInputListener().onHover();
+            for (Button i : currentMenu.getButtonList()) {
+                if ((i instanceof TextLabel) && i.getCurrentState() == Button.ButtonState.CLICK) {
+                    continue;
                 } else {
-                    i.setState(Button.ButtonState.DEFAULT);
+                    if (i.isMouseWithinBoundary(screenX, screenY) && i.getInputListener() != null) {
+                        i.setState(Button.ButtonState.HOVER);
+                        i.getInputListener().onHover();
+                    } else {
+                        i.setState(Button.ButtonState.DEFAULT);
+                    }
                 }
             }
         }

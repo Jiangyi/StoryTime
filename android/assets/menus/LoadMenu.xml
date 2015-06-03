@@ -1,0 +1,15 @@
+<menu>
+    <scrollPane type="save" x="150" y="500" height="300" width="900">
+        <directory>saves</directory>
+    </scrollPane>
+    <button x="centre-left" y="75">
+        <name>Back</name>
+        <textureName>button_back</textureName>
+        <onClick type="setMenu">Previous</onClick>
+    </button>
+    <button x="centre-right" y="75">
+        <name>Load</name>
+        <textureName>button_load</textureName>
+        <onClick type="getScrollPaneParam">play,load</onClick>
+    </button>
+</menu>

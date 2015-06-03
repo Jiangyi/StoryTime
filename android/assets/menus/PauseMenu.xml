@@ -7,7 +7,7 @@
     <button x="centre" y="275">
         <name>Save</name>
         <textureName>button_save</textureName>
-        <onClick type="cmd">saveGame</onClick>
+        <onClick type="setMenu">SaveMenu</onClick>
     </button>
     <button x="centre" y="175">
         <name>Options</name>
