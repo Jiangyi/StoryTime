@@ -3,13 +3,8 @@ package com.jxz.notcontra.entity;
 import com.badlogic.gdx.math.MathUtils;
 import com.jxz.notcontra.animation.AnimationEx;
 import com.jxz.notcontra.animation.SpriteEx;
-import com.jxz.notcontra.entity.pickups.DropChance;
 import com.jxz.notcontra.entity.pickups.HealthPotion;
-import com.jxz.notcontra.entity.pickups.Pickups;
 import com.jxz.notcontra.handlers.AudioHelper;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * Created by Kevin Xiao on 2015-04-23.
@@ -84,18 +79,6 @@ public class Slime extends GruntMonster {
 
     public void playDeathSound() {
         AudioHelper.playSoundEffect("slime_die");
-    }
-
-    public void dropItems() {
-        float chance;
-        for (Class p : itemDrops) {
-            chance = DropChance.getDropChance(p);
-            if (MathUtils.random(0f, 1f) <= chance) {
-                Pickups drop = (Pickups) EntityFactory.spawn(p);
-                drop.setCurrentLevel(currentLevel);
-                drop.init(this.position.x, this.position.y);
-            }
-        }
     }
 
 }
