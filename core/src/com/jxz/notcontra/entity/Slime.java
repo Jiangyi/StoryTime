@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
+import com.jxz.notcontra.animation.AnimationEx;
+import com.jxz.notcontra.animation.SpriteEx;
+import com.jxz.notcontra.handlers.AudioHelper;
 
 /**
  * Created by Kevin Xiao on 2015-04-23.
@@ -11,23 +14,31 @@ import com.badlogic.gdx.math.MathUtils;
  */
 public class Slime extends GruntMonster {
 
+    // Animation frame name values
+    private final String TEXTURE_ATLAS_NAME = "grey_slime";
+    private final String ANIM_WALK = "move";
+    private final String ANIM_IDLE = "stand";
+    private final String ANIM_JUMP = "jump";
+    private final String ANIM_HURT = "hit1";
+    private final String ANIM_DEATH = "die1";
+
     public Slime() {
         super("slime");
 
         // Set up score
         deathScore = 5;
         // Set up animations
-        this.animFrames = (TextureAtlas) assetHandler.getByName("grey_slime");
-        animIdle = new Animation(1 / 6f, this.animFrames.findRegions("stand"));
-        animWalk = new Animation(1 / 6f, this.animFrames.findRegions("move"));
-        animHurt = new Animation(1 / 6f, this.animFrames.findRegions("hit1"));
-        animJump = new Animation(1 / 6f, this.animFrames.findRegions("jump"));
-        animDeath = new Animation(1 / 10f, this.animFrames.findRegions("die1"));
+        animIdle = new AnimationEx(1 / 6f, ANIM_IDLE, TEXTURE_ATLAS_NAME);
+        animWalk = new AnimationEx(1 / 6f, ANIM_WALK, TEXTURE_ATLAS_NAME);
+        animHurt = new AnimationEx(1 / 6f, ANIM_HURT, TEXTURE_ATLAS_NAME);
+        animJump = new AnimationEx(1 / 6f,  ANIM_JUMP, TEXTURE_ATLAS_NAME);
+        animDeath = new AnimationEx(1 / 10f, ANIM_DEATH, TEXTURE_ATLAS_NAME);
 
-        renderOffset = animIdle.getKeyFrame(0).getRegionWidth();
+        hitboxOffset.set(-aabb.getWidth() / 2f, 0);
+        renderOffset = 0;
 
         // Initialize sprite stuff
-        this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
+        this.sprite = new SpriteEx(animIdle.getKeyFrame(animStateTime, true));
 
         // Knock back values
         kbDuration = 0.4f;
@@ -51,4 +62,17 @@ public class Slime extends GruntMonster {
         patrolSpeed = 2.0f;
         chaseSpeed = 3.0f;
     }
+
+    @Override
+    public void damage(float dmg, Entity source) {
+        AudioHelper.playSoundEffect("slime_hit");
+        super.damage(dmg, source);
+    }
+
+    public void playDeathSound() {
+        if (state != AIState.DYING) {
+            AudioHelper.playSoundEffect("slime_die");
+        }
+    }
+
 }

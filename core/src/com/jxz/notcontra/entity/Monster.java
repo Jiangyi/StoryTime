@@ -50,7 +50,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
         damage = Math.round(baseDamage * Game.getDifficultyMultiplier());
         isVisible = true;
         isActive = true;
-        hitboxOffset.set(0, 0);
+        hitboxOffset.set(-aabb.getWidth() / 2f, 0);
         state = AIState.SPAWNING;
         aiStateTime = 0.5f; // Start off idle for 0.5 seconds
         currentAnimation = animIdle;
@@ -104,6 +104,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
 
         // Update states:
         if (health <= 0) {
+            playDeathSound();
             health = 0;
             state = AIState.DYING;
             movementState.set(0, 0);
@@ -206,6 +207,8 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     public void setAimRadius(float aimRadius) {
         this.aimRadius = aimRadius;
     }
+
+    public abstract void playDeathSound();
 }
 
 

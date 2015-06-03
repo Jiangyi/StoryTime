@@ -1,5 +1,6 @@
 package com.jxz.notcontra.skill;
 
+import com.jxz.notcontra.animation.SpriteEx;
 import com.jxz.notcontra.entity.AttachedHitbox;
 import com.jxz.notcontra.entity.EntityFactory;
 import com.jxz.notcontra.entity.LivingEntity;
@@ -28,7 +29,7 @@ public class MeleeAttackSkill extends Skill {
         this.caster = caster;
         hitbox = (AttachedHitbox) EntityFactory.spawn(AttachedHitbox.class);
         hitbox.setHitboxOffset(hitboxOffset.x, hitboxOffset.y);
-        hitbox.setSprite(vfx.createSprite(animName));
+        hitbox.setSprite(new SpriteEx(vfx.createSprite(animName)));
         hitbox.init(this, caster, true);
         hitbox.setAnimTravel(animation);
         hitbox.setTime(time);

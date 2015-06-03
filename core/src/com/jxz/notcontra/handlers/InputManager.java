@@ -122,11 +122,11 @@ public class InputManager implements InputProcessor {
                     player.jump();
                 }
                 // Attack | cast keys
-                if (keycode == keyPreferences.getInteger("melee", Input.Keys.H)) {
+                if (keycode == keyPreferences.getInteger("melee", Input.Keys.NUM_1)) {
                     player.getSkills().setActive(0, true);
                 }
 
-                if (keycode == keyPreferences.getInteger("rangeAttack", Input.Keys.J)) {
+                if (keycode == keyPreferences.getInteger("rangeAttack", Input.Keys.NUM_2)) {
                     player.getSkills().setActive(1, true);
                 }
 
@@ -242,11 +242,11 @@ public class InputManager implements InputProcessor {
                     player.setIsJumping(false);
                 }
                 // Release active skills
-                if (keycode == keyPreferences.getInteger("melee", Input.Keys.H)) {
+                if (keycode == keyPreferences.getInteger("melee", Input.Keys.NUM_1)) {
                     player.getSkills().setActive(0, false);
                 }
 
-                if (keycode == keyPreferences.getInteger("rangeAttack", Input.Keys.J)) {
+                if (keycode == keyPreferences.getInteger("rangeAttack", Input.Keys.NUM_2)) {
                     player.getSkills().setActive(1, false);
                 }
             }

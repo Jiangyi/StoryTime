@@ -98,13 +98,13 @@ public abstract class GruntMonster extends Monster {
                 animStateTime = 0;
             }
             forceDuration -= Gdx.graphics.getDeltaTime();
-            sprite.setRegion(animHurt.getKeyFrame(animStateTime, true));
+            sprite.setRegion(animHurt.getKeyFrame(animStateTime, true), animHurt.getAnimOffset(animStateTime));
             currentAnimation = animHurt;
         } else if (state == AIState.DYING) {
             if (currentAnimation != animDeath) {
                 animStateTime = 0;
             }
-            sprite.setRegion(animDeath.getKeyFrame(animStateTime, true));
+            sprite.setRegion(animDeath.getKeyFrame(animStateTime, true), animDeath.getAnimOffset(animStateTime));
             currentAnimation = animDeath;
             if (animStateTime > animDeath.getAnimationDuration()) {
                 die();
@@ -113,13 +113,13 @@ public abstract class GruntMonster extends Monster {
             if (currentAnimation != animIdle) {
                 animStateTime = 0;
             }
-            sprite.setRegion(animIdle.getKeyFrame(animStateTime, true));
+            sprite.setRegion(animIdle.getKeyFrame(animStateTime, true), animIdle.getAnimOffset(animStateTime));
             currentAnimation = animIdle;
         } else {
             if (currentAnimation != animWalk) {
                 animStateTime = 0;
             }
-            sprite.setRegion(animWalk.getKeyFrame(animStateTime, true));
+            sprite.setRegion(animWalk.getKeyFrame(animStateTime, true), animWalk.getAnimOffset(animStateTime));
             currentAnimation = animWalk;
         }
 

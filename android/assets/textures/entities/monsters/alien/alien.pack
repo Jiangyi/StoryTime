@@ -283,3 +283,45 @@ stand
   orig: 59, 111
   offset: 0, 0
   index: 9
+attack1.info.hit
+  rotate: false
+  xy: 700, 312
+  size: 79, 75
+  orig: 79, 75
+  offset: 0, 0
+  index: 0
+attack1.info.hit
+  rotate: false
+  xy: 700, 312
+  size: 79, 75
+  orig: 79, 75
+  offset: 0, 0
+  index: 3
+attack1.info.hit
+  rotate: false
+  xy: 781, 312
+  size: 79, 75
+  orig: 79, 75
+  offset: 0, 0
+  index: 1
+attack1.info.hit
+  rotate: false
+  xy: 781, 312
+  size: 79, 75
+  orig: 79, 75
+  offset: 0, 0
+  index: 4
+attack1.info.hit
+  rotate: false
+  xy: 862, 312
+  size: 79, 75
+  orig: 79, 75
+  offset: 0, 0
+  index: 2
+attack1.info.hit
+  rotate: false
+  xy: 862, 312
+  size: 79, 75
+  orig: 79, 75
+  offset: 0, 0
+  index: 5

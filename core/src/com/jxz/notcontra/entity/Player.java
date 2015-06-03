@@ -3,14 +3,14 @@ package com.jxz.notcontra.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.jxz.notcontra.animation.AnimationEx;
+import com.jxz.notcontra.animation.SpriteEx;
 import com.jxz.notcontra.camera.PlayerCamera;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AudioHelper;
@@ -38,13 +38,24 @@ public class Player extends LivingEntity {
     private int flickerCount;
     private int score;
     private PlayerSave playerSave;
-    private Animation animDeath;
+    private AnimationEx animDeath;
     private float fallDamage = 0;
 
     // Constants
     private final float FALL_DMG_GRAVITY_MIN = 11.5f;
     private final float FLICKER_SECONDS = 1.5f;
     private final int FLICKER_COUNT = 8;
+
+    // Animation frame name values
+    private final String ANIM_WALK = "walk1";
+    private final String ANIM_IDLE = "stand1";
+    private final String ANIM_JUMP = "jump";
+    private final String ANIM_ROPE = "rope";
+    private final String ANIM_LADDER = "ladder";
+    private final String ANIM_CAST_0 = "swingO1";
+    private final String ANIM_CAST_1 = "swingO2";
+    private final String ANIM_CAST_2 = "swingOF";
+    private final String ANIM_DEATH = "dead1";
 
     // Constructor
     public Player(PlayState playState) {
@@ -62,25 +73,24 @@ public class Player extends LivingEntity {
             this.score = 0;
         }
         // Set up animations
-        this.animFrames = (TextureAtlas) assetHandler.getByName(name);
-        animWalk = new Animation(1 / 6f, this.animFrames.findRegions("walk1"));
-        animIdle = new Animation(1 / 1.5f, this.animFrames.findRegions("stand1"));
-        animJump = new Animation(1f, (this.animFrames.findRegions("jump")));
-        animRope = new Animation(1 / 2f, this.animFrames.findRegions("rope"));
-        animLadder = new Animation(1 / 4f, this.animFrames.findRegions("ladder"));
-        animCast = new Animation[3];
-        animCast[0] = new Animation(1 / 4.2f, this.animFrames.findRegions("swingO1"));
-        animCast[1] = new Animation(1 / 5f, this.animFrames.findRegions("swingO2"));
-        animCast[2] = new Animation(1 / 7f, this.animFrames.findRegions("swingOF"));
-        animDeath = new Animation(1 / 2f, this.animFrames.findRegions("dead1"), Animation.PlayMode.LOOP);
+        animWalk = new AnimationEx(1 / 6f, ANIM_WALK, name);
+        animIdle = new AnimationEx(1 / 1.5f, ANIM_IDLE, name);
+        animJump = new AnimationEx(1f, ANIM_JUMP, name);
+        animRope = new AnimationEx(1 / 2f, ANIM_ROPE, name);
+        animLadder = new AnimationEx(1 / 4f, ANIM_LADDER, name);
+        animCast = new AnimationEx[3];
+        animCast[0] = new AnimationEx(1 / 4.2f, ANIM_CAST_0, name);
+        animCast[1] = new AnimationEx(1 / 5f, ANIM_CAST_1, name);
+        animCast[2] = new AnimationEx(1 / 7f, ANIM_CAST_2, name);
+        animDeath = new AnimationEx(1 / 2f, ANIM_DEATH, name);
 
         movementState = new Vector2(0, 0);
 
         // Setup Hitbox
         aabb.set(position.x, position.y, 30, 50);
-        hitboxOffset.set((animIdle.getKeyFrame(0).getRegionWidth() - aabb.getWidth()) / 2.0f, 0);
+        hitboxOffset.set(-aabb.getWidth() / 2f, 0);
         speed = 3;
-        renderOffset = animIdle.getKeyFrame(0).getRegionWidth();
+        renderOffset = 0;
 
         // Player stats setup
         maxHealth = 100;
@@ -104,7 +114,7 @@ public class Player extends LivingEntity {
         skills.setInventory(1, "iceball");
 
         // Initialize animated sprite for player
-        this.sprite = new Sprite(animIdle.getKeyFrame(animStateTime, true));
+        this.sprite = new SpriteEx(animIdle.getKeyFrame(animStateTime, true));
         this.playState = playState;
         this.healthBar = new PlayerStatusBar(this);
     }
@@ -177,7 +187,7 @@ public class Player extends LivingEntity {
             state = PlayerState.DEAD;
             Tombstone tombstone = (Tombstone) EntityFactory.spawn(Tombstone.class);
             tombstone.setCurrentLevel(currentLevel);
-            tombstone.setTombStone(this.position.x - (tombstone.getSprite().getWidth() - this.sprite.getWidth()) / 2 - 10, this.position.y);
+            tombstone.setTombStone(this.position.x - (tombstone.getSprite().getWidth() - this.sprite.getWidth()) / 2 - 10, this.position.y + tombstone.getSprite().getHeight());
             AudioHelper.playSoundEffect("player_death");
         }
     }
@@ -265,24 +275,24 @@ public class Player extends LivingEntity {
             if (isGrounded && !isCasting) {
                 climbingStateTime = 0;
                 if (movementState.x == 0) {
-                    this.sprite.setRegion(animIdle.getKeyFrame(animStateTime, true));
+                    this.sprite.setRegion(animIdle.getKeyFrame(animStateTime, true), animIdle.getAnimOffset(animStateTime));
                 } else {
-                    this.sprite.setRegion(animWalk.getKeyFrame(animStateTime, true));
+                    this.sprite.setRegion(animWalk.getKeyFrame(animStateTime, true), animWalk.getAnimOffset(animStateTime));
                 }
             } else if (!isGrounded && isClimbing) {
                 animStateTime = 0;
                 if (movementState.y != 0) {
                     climbingStateTime += Gdx.graphics.getDeltaTime();
                 }
-                this.sprite.setRegion(animLadder.getKeyFrame(climbingStateTime, true));
+                this.sprite.setRegion(animLadder.getKeyFrame(climbingStateTime, true), animLadder.getAnimOffset(climbingStateTime));
             } else {
-                this.sprite.setRegion(animJump.getKeyFrame(animStateTime, true));
+                this.sprite.setRegion(animJump.getKeyFrame(animStateTime, true), animJump.getAnimOffset(animStateTime));
             }
 
             // Attack
             if (isCasting && !isClimbing) {
                 castStateTime += Gdx.graphics.getDeltaTime();
-                this.sprite.setRegion(animCast[castType].getKeyFrame(castStateTime, false));
+                this.sprite.setRegion(animCast[castType].getKeyFrame(castStateTime, false), animCast[castType].getAnimOffset(castStateTime));
                 // Only spawns skill after casting animation is finished
                 if (animCast[castType].getKeyFrameIndex(castStateTime) == animCast[castType].getKeyFrameIndex(animCast[castType].getAnimationDuration()) && !skillCasted) {
                     currentSkill.use(this);
@@ -298,9 +308,7 @@ public class Player extends LivingEntity {
                 }
             }
         } else {
-            if (animFrames.findRegions("dead1").size != 0) {
-                this.sprite.setRegion(animDeath.getKeyFrame(animStateTime));
-            }
+            this.sprite.setRegion(animDeath.getKeyFrame(animStateTime, true), animDeath.getAnimOffset(animStateTime));
         }
 
         // Flip sprite if facing left

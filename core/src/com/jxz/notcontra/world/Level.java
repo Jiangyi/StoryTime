@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Array;
 import com.jxz.notcontra.entity.Alien;
 import com.jxz.notcontra.entity.EntityFactory;
 import com.jxz.notcontra.entity.Monster;
+import com.jxz.notcontra.entity.Slime;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.GameStateManager;
@@ -32,8 +33,8 @@ public class Level {
     public static final String TRIGGER_LAYER = "Trigger Tile";  // Name of trigger layer (ladders/ropes)
     public static final String SPAWN_LAYER = "Spawn";            // Name of spawn point poly-line layer
 
-    public static final float MAX_SECONDS_TO_SPAWN = 8.0f;
-    public static final float MIN_SECONDS_TO_SPAWN = 3.0f;
+    public static final float MAX_SECONDS_TO_SPAWN = 5.0f;
+    public static final float MIN_SECONDS_TO_SPAWN = 2.0f;
 
     // Class Variables
     private static Array<Level> loadedMaps = new Array<Level>();    // Static list of Levels to avoid duplicates
@@ -42,12 +43,15 @@ public class Level {
     private int height, width;
     private float gravity = 0.25f / Game.UNIT_SCALE;
     private boolean firstLoad;
+    private Game game;
+
+    // Survival Variables
     private int monsterCount;
     private int currentWave;
     private int subWavesRemaining;
     private int monstersPerWave;
-    private Game game;
     private float spawnTimer;
+    private float[] spawnPercentage;
 
     protected Level(TiledMap map) {
         this.map = map;
@@ -58,6 +62,7 @@ public class Level {
         subWavesRemaining = 3;
         spawnTimer = 5;
         monstersPerWave = 5;
+        spawnPercentage = new float[3];
 
         // Load parallax backgrounds from map file
         layers[0] = (Texture) assetHandler.getByName(map.getProperties().get("parallaxBackground", String.class));
@@ -104,11 +109,26 @@ public class Level {
                 break;
             case SURVIVAL:
                 // Survival game mode: Waves respawn occur after each wave is dead
-                // Sub waves spawn every 8 seconds, decreasing by 1 second every 10 waves, down to a minimum of 3
+                // Sub waves spawn every 5 seconds, decreasing by 0.5 seconds every 2 waves, down to a minimum of 2.0
                 if (subWavesRemaining > 1) {
                     if (monsterCount == 0 || spawnTimer <= 0) {
-                        spawn(monstersPerWave);
-                        spawnTimer = MathUtils.clamp(MAX_SECONDS_TO_SPAWN - (currentWave / 10), MIN_SECONDS_TO_SPAWN, MAX_SECONDS_TO_SPAWN);
+                        spawnPercentage[0] = MathUtils.clamp(1.0f - 0.05f * (currentWave - 1), 0.1f, 1.0f);  // Spawn grunts, 5% less grunts per wave
+                        spawnPercentage[1] = MathUtils.clamp(0.05f * (currentWave - 1), 0, 0.9f); // Spawn ranged, 5% more per wave
+                        spawnPercentage[2] =  (currentWave % 5 == 0) ?  0.05f : 0; // Spawn 5% elite mobs every 5 waves
+
+                        // Actually spawn mobs
+                        for (int i = 0; i < spawnPercentage.length; i++) {
+                            if (spawnPercentage[i] > 0) {
+                                spawn(MathUtils.ceil(monstersPerWave * spawnPercentage[i]), i);
+                            }
+                        }
+
+                        if (currentWave % 25 == 0) {
+                            // Spawn a boss every 25 waves
+                            spawn(1, 3);
+                        }
+
+                        spawnTimer = MathUtils.clamp(MAX_SECONDS_TO_SPAWN - 0.5f * (currentWave / 2), MIN_SECONDS_TO_SPAWN, MAX_SECONDS_TO_SPAWN);
                         subWavesRemaining--;
                     }
                 } else if (monsterCount == 0) {
@@ -116,8 +136,8 @@ public class Level {
                     currentWave++;
                     // Monsters per subwave increases by 1 every 3 waves, up to 25
                     monstersPerWave = MathUtils.clamp(5 + (currentWave / 3), 5, 25);
-                    // Number of subwaves start at 3, increasing by 1 every 2 waves
-                    subWavesRemaining = 3 + (currentWave / 2);
+                    // Number of subwaves start at 3, increasing by 1 every 4 waves
+                    subWavesRemaining = 3 + (currentWave / 4);
                     // Increase difficulty value by 5% every wave
                     Game.setDifficultyMultiplier(1 + 0.05f * (currentWave - 1));
                     spawnTimer = Game.REST_DURATION;
@@ -144,16 +164,52 @@ public class Level {
         spawn(currentWave);
     }
 
+    public void spawn(Class type) {
+        Monster monster = (Monster) EntityFactory.spawn(type);
+        monster.init();
+        monster.setPosition(spawnPointList.randomSpawn());
+        monster.setCurrentLevel(this);
+
+        // Automatically aggro to players in survival
+        if (GameStateManager.getInstance().getGame().getPlayMode() == Game.PlayMode.SURVIVAL) {
+            monster.setTarget(GameStateManager.getInstance().getPlayState().getPlayer());
+        }
+    }
+
     public void spawn(int monsters) {
         for (int i = 0; i < monsters; i++) {
-            Monster monster = (Alien) EntityFactory.spawn(Alien.class);
-            monster.init();
-            monster.setPosition(spawnPointList.randomSpawn());
-            monster.setCurrentLevel(this);
+            spawn(Alien.class);
+        }
+    }
 
-            // Automatically aggro to players in survival
-            if (GameStateManager.getInstance().getGame().getPlayMode() == Game.PlayMode.SURVIVAL) {
-                monster.setTarget(GameStateManager.getInstance().getPlayState().getPlayer());
+    /**
+     * Method to spawn monsters based on monster hierarchy.
+     *
+     * @param monsters Number of monsters to spawn.
+     * @param monsterLevel Rank of monster. 0 - grunt, 1 - basic, 2 - elite, 3 - boss.
+     */
+    public void spawn(int monsters, int monsterLevel) {
+        // List of valid monster classes
+        Array<Class> validMonsterType = new Array<Class>();
+
+        // Add appropriate monster classes to the array
+        switch (monsterLevel) {
+            case 0:
+                validMonsterType.add(Slime.class);
+                break;
+            case 1:
+                validMonsterType.add(Alien.class);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
+
+        // Spawns random monsters from selected class
+        if (validMonsterType.size > 0) {
+            for (int i = 0; i < monsters; i++) {
+                spawn(validMonsterType.random());
             }
         }
     }

@@ -23,6 +23,7 @@ import com.jxz.notcontra.game.Game;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 /**
  * Written by Andrew Jiang on 2015-04-18
@@ -54,6 +55,14 @@ public class AssetHandler extends AssetManager {
         return assetHandler;
     }
 
+    /**
+     * @return the internal file path of the given file, excluding file extension type
+     * @param name the String key value of the file
+     */
+    public String getFilePath(String name) {
+        return assetMap.get(name).fileName.split(Pattern.quote("."))[0];
+    }
+
     public synchronized void loadFromFile(String filePath) {
         FileHandle fileHandle = Gdx.files.internal(filePath);
         BufferedReader br = new BufferedReader(fileHandle.reader());
@@ -83,7 +92,7 @@ public class AssetHandler extends AssetManager {
     }
 
     public synchronized Object getByName(String name) {
-         return get(assetMap.get(name));
+        return get(assetMap.get(name));
     }
 
     public synchronized boolean isLoadedByName(String name) {
@@ -110,6 +119,7 @@ public class AssetHandler extends AssetManager {
             e.printStackTrace();
         }
     }
+
     // Unfortunately, Java does not provide a way to find a class by reflection
     // without providing the full classname as a string. And since these classes
     // are all in different sub-packages, this is the best I've got.

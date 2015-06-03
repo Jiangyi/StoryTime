@@ -65,7 +65,6 @@ public class DamageNumber extends Particle {
     }
 
     public void draw(Batch batch) {
-        update();
         // Draw damage numbers
         if (stateTime >= BEGIN_FADE_TIME) {
             batch.setColor(1f, 1f, 1f, (END_FADE_TIME - stateTime) / (END_FADE_TIME - BEGIN_FADE_TIME));
