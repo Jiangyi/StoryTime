@@ -14,7 +14,6 @@ public class SaveGameHandler {
 
     private static EntityManager entityManager = EntityManager.getInstance();
 
-
     public static void saveCurrentStateToFile(String filename) {
         FileHandle file = Gdx.files.local("saves/" + filename);
 
@@ -26,6 +25,7 @@ public class SaveGameHandler {
         playerSave.setName(player.getName());
         playerSave.setScore(player.getScore());
         playerSave.setWave(player.getCurrentLevel().getCurrentWave());
+        playerSave.setTimeSurvived(GameStateManager.getInstance().getPlayState().getTimeSurvived());
         playerSave.setMode(GameStateManager.getInstance().getGame().getPlayMode().toString());
 
         Json json = new Json();
@@ -47,7 +47,7 @@ public class SaveGameHandler {
             json.setIgnoreUnknownFields(true);
             json.setOutputType(JsonWriter.OutputType.json);
 
-            return json.fromJson(PlayerSave.class,file);
+            return json.fromJson(PlayerSave.class, file);
         } else {
             System.out.println("Savefile does not exist!");
         }

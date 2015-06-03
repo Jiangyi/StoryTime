@@ -39,7 +39,9 @@ public class PlayState extends GameState {
         // Initialize for the first time
         isPaused = false;
         SkillManager.init();
-
+        if (game.getLoadSaveObject() != null) {
+            timeSurvived = game.getLoadSaveObject().timeSurvived;
+        }
         // Initialize player
         player = new Player(this);
         player.setCamera(playerCam);
@@ -111,7 +113,7 @@ public class PlayState extends GameState {
             player.getHealthBar().draw(sb);
             font.draw(sb, "Score: " + player.getScore(), 1100, 680);
 
-            if (game.getPlayMode() == Game.PlayMode.SURVIVAL) {
+            if (game.getPlayMode() == Game.PlayMode.SURVIVAL || game.getPlayMode() == Game.PlayMode.REST) {
                 long minutes = TimeUnit.SECONDS.toMinutes((long) timeSurvived);
                 font.draw(sb, "Time survived: " + String.format("%02d:%02d", minutes, TimeUnit.SECONDS.toSeconds((long) timeSurvived - minutes * 60)), 1100, 700);
                 font.draw(sb, "Time to next spawn: " + (currentLevel.getSpawnTimer()), 500, 250);
@@ -186,5 +188,13 @@ public class PlayState extends GameState {
 
     public void setKills(int kills) {
         killCounter = kills;
+    }
+
+    public void setTimeSurvived(float timeSurvived) {
+        this.timeSurvived = timeSurvived;
+    }
+
+    public float getTimeSurvived() {
+        return timeSurvived;
     }
 }

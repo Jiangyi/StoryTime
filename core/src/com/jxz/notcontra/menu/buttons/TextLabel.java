@@ -36,13 +36,13 @@ public class TextLabel extends SpriteButton {
     @Override
     public void draw(Batch batch) {
 
-            batch.draw(getCurrentStateSprite(), x, y, width, height);
+        batch.draw(getCurrentStateSprite(), x, y, width, height);
 
         font.draw(batch, primaryText, x + OFFSET, y + height - OFFSET);
         if (secondaryText != null) {
             font.draw(batch, secondaryText, x + width / 2 + OFFSET, y + height - OFFSET);
         }
-}
+    }
 
     public String getPrimaryText() {
         return primaryText;

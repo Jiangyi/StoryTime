@@ -64,6 +64,7 @@ public class PlayerSave {
     public void setTimeSurvived(float timeSurvived) {
         this.timeSurvived = timeSurvived;
     }
+
     public int getWave() {
         return wave;
     }
