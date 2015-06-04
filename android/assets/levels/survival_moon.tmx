@@ -3,9 +3,9 @@
  <properties>
   <property name="defaultMobLevel" value="0"/>
   <property name="defaultSpawnAmount" value="5"/>
-  <property name="parallaxBackground" value="background_sky"/>
-  <property name="parallaxForeground" value="background_sakura"/>
-  <property name="parallaxMidground" value="background_fuji"/>
+  <property name="parallaxBackground" value="background_night"/>
+  <property name="parallaxForeground" value="blank"/>
+  <property name="parallaxMidground" value="blank"/>
   <property name="spawnX" value="31"/>
   <property name="spawnY" value="6"/>
   <property name="theme" value="moon"/>

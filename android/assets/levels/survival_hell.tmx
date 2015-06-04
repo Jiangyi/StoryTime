@@ -3,9 +3,9 @@
  <properties>
   <property name="defaultMobLevel" value="0"/>
   <property name="defaultSpawnAmount" value="5"/>
-  <property name="parallaxBackground" value="background_sky"/>
-  <property name="parallaxForeground" value="background_sakura"/>
-  <property name="parallaxMidground" value="background_fuji"/>
+  <property name="parallaxBackground" value="background_hell"/>
+  <property name="parallaxForeground" value="blank"/>
+  <property name="parallaxMidground" value="background_hell_rock"/>
   <property name="spawnX" value="3"/>
   <property name="spawnY" value="5"/>
   <property name="theme" value="hell"/>
@@ -84,12 +84,12 @@
    eJzt1kEOgCAMRFEuYIzx/nc1Lrq2QqG0/S9hRwIzYKQ1AAAAAAAAoKY70IANuoTgLtTDmUPL+58/+z3At1BPxjPPmGmFjL1FynQq5lzGa+7Sjya7+Opgl0xaf7IL63vw8uitJ7uY0cFKI9lFbwcj70qLfUdF9prIDgCxHd4bcPYA0DYIng==
   </data>
  </layer>
- <layer name="Trigger Tile" width="64" height="48" visible="0">
+ <layer name="Trigger Tile" width="64" height="48">
   <data encoding="base64" compression="zlib">
    eJztz7ENwDAAw7AMWfP/u32igAaTuwHrHAAAAADgD7c+ENO/Tf82/dv0t/ua/nZf09/ua/q36d+mHwCA2qsPxD65OQBy
   </data>
  </layer>
- <layer name="Foreground" width="64" height="48" visible="0">
+ <layer name="Foreground" width="64" height="48">
   <data encoding="base64" compression="zlib">
    eJztz7kNACAMBEEa4Om/WiAmxsJiRrrU1pYCAAAAAAAAAAAAAKe+1h5chN0+gn69RvufsrTXCzeztG8T4XACvg==
   </data>

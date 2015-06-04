@@ -9,6 +9,12 @@ su_hell		levels/survival_hell.tmx		TiledMap
 su_moon		levels/survival_moon.tmx		TiledMap
 
 # Level Background
+blank				textures/levels/blank.png	Texture
 background_sky      textures/levels/blue.png    Texture
 background_fuji     textures/levels/fuji.png     Texture
 background_sakura     textures/levels/sakuratrees.png      Texture
+
+background_hell			textures/levels/hell_back.png		Texture
+background_hell_rock	textures/levels/hell_rocks.png		Texture
+
+background_night		textures/levels/night_back.png		Texture
