@@ -3,6 +3,7 @@
  <properties>
   <property name="defaultMobLevel" value="0"/>
   <property name="defaultSpawnAmount" value="5"/>
+  <property name="levelName" value="Forest Survival"/>
   <property name="parallaxBackground" value="background_sky"/>
   <property name="parallaxForeground" value="background_sakura"/>
   <property name="parallaxMidground" value="background_fuji"/>
