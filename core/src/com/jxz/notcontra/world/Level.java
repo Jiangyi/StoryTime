@@ -154,11 +154,6 @@ public class Level {
                             }
                         }
 
-                        if (currentWave % 25 == 0) {
-                            // Spawn a boss every 25 waves
-                            spawn(1, 3);
-                        }
-
                         spawnTimer = MathUtils.clamp(MAX_SECONDS_TO_SPAWN - 0.5f * (currentWave / 2), MIN_SECONDS_TO_SPAWN, MAX_SECONDS_TO_SPAWN);
                         subWavesRemaining--;
                     }
@@ -235,7 +230,7 @@ public class Level {
                 } else if (theme.equals("space")) {
                     validMonsterType.add(Slime.class);
                 } else if (theme.equals("hell")) {
-
+                    validMonsterType.add(Slime.class);
                 }
                 break;
             case 1:
@@ -244,7 +239,7 @@ public class Level {
                 } else if (theme.equals("space")) {
                     validMonsterType.add(Alien.class);
                 } else if (theme.equals("hell")) {
-
+                    validMonsterType.add(Alien.class);
                 }
                 break;
             case 2:

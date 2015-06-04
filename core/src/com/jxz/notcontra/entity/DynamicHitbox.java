@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.Pool;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.EntityManager;
+import com.jxz.notcontra.handlers.SkillManager;
+import com.jxz.notcontra.skill.ExplosionSkill;
 import com.jxz.notcontra.skill.Skill;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poola
     protected ArrayList<Entity> hitEntities;    // Keeps track of entities hit
     protected boolean isCollidable; // If collisions should be handled
     protected boolean targetLimited;    // Whether or not the hitbox should be disabled after targets are hit
-
+    protected float explosionRadius;    // If it is greater than 0, explosion of radius explosionRadius will occur on hit
     public DynamicHitbox() {
         super("dynHitbox");
     }
@@ -44,6 +46,8 @@ public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poola
         position.y = y + hitboxOffset.y;
         setPosition(position);
         aabb.setPosition(position);
+        aabb.setWidth(sprite.getWidth() * sprite.getScaleX());
+        aabb.setHeight(sprite.getHeight() * sprite.getScaleY());
         this.parent = parent;
         this.caster = caster;
     }
@@ -71,6 +75,13 @@ public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poola
         isVisible = false;
         sprite.setRegion(animTravel.getKeyFrame(0));
         hitEntities.clear();
+
+        if (explosionRadius > 0) {
+            ExplosionSkill explosion = (ExplosionSkill) SkillManager.getSkill("Explosion");
+            explosion.setRadius(explosionRadius);
+            explosion.use(caster, getPosition());
+        }
+        explosionRadius = 0;
     }
 
     @Override
@@ -92,6 +103,10 @@ public abstract class DynamicHitbox extends AnimatedEntity implements Pool.Poola
     }
 
     public void setHitboxOffset(float x, float y) {
-        hitboxOffset.set(x,y);
+        hitboxOffset.set(x, y);
+    }
+
+    public void setExplosionRadius(float radius) {
+        this.explosionRadius = radius;
     }
 }

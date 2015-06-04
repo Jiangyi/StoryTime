@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.skill.LinearProjectileSkill;
 import com.jxz.notcontra.skill.Skill;
 
 import java.util.ArrayList;
@@ -47,7 +48,26 @@ public class Projectile extends DynamicHitbox {
                         if (targets > 0 && targetLimited) {
                             targets--;
                         }
-                        parent.hit(e);
+                        if (e instanceof LivingEntity) {
+                            LivingEntity le = (LivingEntity) e;
+                            if (le.getBuffList().hasBuff("ForceBuff")) {
+                                // Deflect projectile with force
+                                caster = le;
+                                parent.setCaster(le);
+                                if (parent instanceof LinearProjectileSkill) {
+                                    LinearProjectileSkill lps = (LinearProjectileSkill) parent;
+                                    time = lps.getRange() / lps.getSpeed();
+                                } else {
+                                    time = 1.5f;
+                                }
+                                hitEntities.clear();
+                                direction = direction.scl(-1);
+                            } else {
+                                parent.hit(e);
+                            }
+                        } else {
+                            parent.hit(e);
+                        }
                     }
                 }
             }
@@ -133,5 +153,9 @@ public class Projectile extends DynamicHitbox {
 
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+    public void setTime(float units) {
+        time = units;
     }
 }

@@ -27,6 +27,11 @@ public class BuffSkill extends Skill {
     }
 
     @Override
+    public void use(LivingEntity caster, Vector2 initial) {
+        use(caster);
+    }
+
+    @Override
     public void preCast(LivingEntity caster) {
         // There is no precast for giving buffs, except for cast effects
         // Spawn cast effect if there is one

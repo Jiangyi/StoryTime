@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Pools;
 import com.jxz.notcontra.animation.SpriteEx;
 import com.jxz.notcontra.effect.SpriteEffect;
 import com.jxz.notcontra.entity.*;
+import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.handlers.InputManager;
 
@@ -27,13 +28,12 @@ public class LinearProjectileSkill extends Skill {
     }
 
     @Override
-    public void use(LivingEntity caster) {
+    public void use(LivingEntity caster, Vector2 initial) {
         this.caster = caster;
         hitbox = (Projectile) EntityFactory.spawn(Projectile.class);
         hitbox.setSprite(new SpriteEx(vfx.createSprite(animName)));
         hitbox.getSprite().setOriginCenter();
         hitbox.setHitboxOffset(hitboxOffset.x, hitboxOffset.y);
-        Vector2 initial = caster.getCenterPosition().cpy();
         initial.sub(hitbox.getSprite().getWidth() / 2, hitbox.getSprite().getHeight() / 2);
 
         // Step the projectile forwards so it comes out properly
@@ -41,6 +41,7 @@ public class LinearProjectileSkill extends Skill {
 
         // Initialize hitbox variables
         hitbox.init(this, caster, initial.x, initial.y);
+        hitbox.setExplosionRadius(0);
         hitbox.setDirection(target.cpy());
         hitbox.setAnimTravel(animation);
         hitbox.setSpeed(speed);
@@ -66,6 +67,8 @@ public class LinearProjectileSkill extends Skill {
         // Bypasses cast effect when using via cast skill
         if (caster.getBuffList().hasBuff("CastingBuff")) {
             use(caster);
+        } else {
+            AudioHelper.playSoundEffect("genericCast");
         }
     }
 
@@ -103,6 +106,14 @@ public class LinearProjectileSkill extends Skill {
 
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+    public float getRange() {
+        return range;
+    }
+
+    public float getSpeed() {
+        return speed;
     }
 }
 

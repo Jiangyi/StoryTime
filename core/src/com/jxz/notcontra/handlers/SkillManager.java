@@ -138,6 +138,7 @@ public class SkillManager {
         iceball.setHitAnimation(new Animation(1 / 3f, animFrames.findRegion(iceball.getHitEffect())));
         iceball.setStatusEffect("FrozenBuff");
         iceball.setStatusDuration(1.5f);
+        iceball.setCost(30);
         skillList.add(iceball);
 
         // Skill 4: Ice ball spam
@@ -156,7 +157,58 @@ public class SkillManager {
         dash.setBuffDuration(0.2f);
         dash.setMagnitude(25.0f);
         dash.setCooldown(1.2f);
+        dash.setCost(75);
         skillList.add(dash);
+
+        // Skill 6: Explosion
+        ExplosionSkill explosion = new ExplosionSkill("Explosion");
+        explosion.setDamage(50.0f);
+        animFrames = (TextureAtlas) assetManager.getByName("explosion");
+        explosion.setVfx(animFrames);
+        explosion.setHitboxSize(300, 300);
+        explosion.setAnimName("end");
+        explosion.setAnimation(new Animation(1 / 10.0f, animFrames.findRegions("end")));
+        skillList.add(explosion);
+
+        // Skill 7: Ice Spikes
+        RainProjectileSkill icespike = new RainProjectileSkill("icespikeInternal");
+        animFrames = (TextureAtlas) assetManager.getByName("icespike");
+        icespike.setVfx(animFrames);
+        icespike.setAnimName("end");
+        icespike.setAnimation(new Animation(1 / 10.0f, animFrames.findRegions("end")));
+        icespike.setDamage(15);
+        icespike.setStatusEffect("FrozenBuff");
+        icespike.setStatusDuration(1.5f);
+        icespike.setHitboxSize(60, 180);
+        icespike.setCost(5);
+        skillList.add(iceball);
+
+
+        // Skill 7: Ice Spikes
+        CastingBuffSkill iceSpikes = new CastingBuffSkill("icespike");
+        iceSpikes.setRootWhileCasting(true);
+        iceSpikes.setBuffName("CastingBuff");
+        iceSpikes.setInterval(0.5f);
+        iceSpikes.setBuffDuration(3.0f);
+        iceSpikes.setChildSkill(icespike);
+        skillList.add(iceSpikes);
+
+        // Skill 8: Swirling moon
+        MeleeAttackSkill swirlingMoon = new MeleeAttackSkill("swirlingmoon");
+        swirlingMoon.setRootWhileCasting(true);
+        animFrames = (TextureAtlas) assetManager.getByName("swirlingmoon");
+        swirlingMoon.setVfx(animFrames);
+        swirlingMoon.setTime(0.6f);
+        swirlingMoon.setAnimName("effect");
+        swirlingMoon.setHitboxSize(350, 300);
+        swirlingMoon.setHitboxOffset(-100, 0);
+        swirlingMoon.setAnimation(new Animation(1 / 20.0f, animFrames.findRegions("effect")));
+        swirlingMoon.setDamage(45);
+        swirlingMoon.setDamageScaling(1.5f);
+        swirlingMoon.setCost(25);
+        swirlingMoon.setHitEffect("hit.0");
+        swirlingMoon.setHitAnimation(new Animation(1 / 10.0f, animFrames.findRegions(swirlingMoon.getHitEffect())));
+        skillList.add(swirlingMoon);
 
     }
 

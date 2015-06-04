@@ -45,6 +45,7 @@ public class Player extends LivingEntity {
     private final float FALL_DMG_GRAVITY_MIN = 11.5f;
     private final float FLICKER_SECONDS = 1.5f;
     private final int FLICKER_COUNT = 8;
+    private final int MANA_REGEN = 1;
 
     // Animation frame name values
     private final String ANIM_WALK = "walk1";
@@ -102,6 +103,7 @@ public class Player extends LivingEntity {
         state = PlayerState.ALIVE;
         flickerTimer = 0f;
         flickerCount = 0;
+        baseDamage = 30;
         damageMultiplier = 1;
         criticalChance = 0.2f; // Percentage in decimal form
 
@@ -114,8 +116,23 @@ public class Player extends LivingEntity {
 
         // Setup Skill
         skills = new SkillInventory(5);
-        skills.setInventory(0, "iceballSpam");
-        skills.setInventory(1, "dash");
+        name = GameStateManager.getInstance().getGame().getPlayerSpriteName();
+        if (name.equalsIgnoreCase("Player")) {
+            // Mage
+            skills.setInventory(0, "iceball");
+            skills.setInventory(1, "icespike");
+        } else if (name.equalsIgnoreCase("Kirito")) {
+            // Warrior
+            skills.setInventory(0, "swirlingmoon");
+            skills.setInventory(1, "dash");
+        } else if (name.equalsIgnoreCase("Hotdog")) {
+            // Not sure
+            skills.setInventory(0, "hotdogspam");
+            skills.setInventory(1, "dash");
+        } else {
+            skills.setInventory(0, "iceballSpam");
+            skills.setInventory(1, "iceball");
+        }
 
         // Initialize animated sprite for player
         this.sprite = new SpriteEx(animIdle.getKeyFrame(animStateTime, true));
@@ -140,6 +157,10 @@ public class Player extends LivingEntity {
                 skills.decreaseCooldown(i, Gdx.graphics.getDeltaTime());
             }
         }
+
+        // Regen Mana
+        changeMana(Math.round(MANA_REGEN * Game.getFpsTimer()));
+
         // Iterate through entities to check collision
         if (forceDuration == 0) {
             for (Entity e : EntityManager.getInstance().getEntitiesListIteration()) {
@@ -152,7 +173,7 @@ public class Player extends LivingEntity {
                                 if (Intersector.overlaps(aabb, e.getAABB())) {
                                     if (buffs.hasBuff("ForceBuff")) {
                                         // Cannot be damaged while force buff'd
-                                        m.damage(5, this);
+                                        m.damage(15, this);
                                     } else {
                                         damage(m.getTouchDamage(), e);
                                     }
@@ -260,27 +281,30 @@ public class Player extends LivingEntity {
 
     public void cast(int index) {
         Skill skill = skills.getSkill(index);
-        // Check if the player is casting already
-        if (skill.isPriorityCast()) {
-            if (!isClimbing() && !isCasting) {
-                isCasting = true;
-                skillCasted = false;
-                currentSkill = skills.getSkill(index);
-                currentSkill.preCast(this);
+        if (mana > skill.getCost()) {
+            // Check if the player is casting already
+            if (skill.isPriorityCast()) {
+                if (!isClimbing() && !isCasting) {
+                    isCasting = true;
+                    skillCasted = false;
+                    currentSkill = skills.getSkill(index);
+                    currentSkill.preCast(this);
 
-                if (index != castType) {
-                    castType = index;
-                    castStateTime = 0;
+                    if (index != castType) {
+                        castType = index;
+                        castStateTime = 0;
+                    }
+                    if (isGrounded && currentSkill.isRootWhileCasting()) {
+                        // No motions persist through casting, unless one is already in the air
+                        movementState.set(0, 0);
+                    }
                 }
-                if (isGrounded && currentSkill.isRootWhileCasting()) {
-                    // No motions persist through casting, unless one is already in the air
-                    movementState.set(0, 0);
-                }
+            } else {
+                // Skill can be cast during other skills
+                skill.use(this);
+                skills.setCooldown(index, skill.getMaxCooldown());
             }
-        } else {
-            // Skill can be cast during other skills
-            skill.use(this);
-            skills.setCooldown(index, skill.getMaxCooldown());
+            mana -= skill.getCost();
         }
     }
 

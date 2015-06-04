@@ -1,0 +1,96 @@
+
+magicbolt.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+hit.0
+  rotate: false
+  xy: 1, 36
+  size: 71, 67
+  orig: 71, 67
+  offset: 0, 0
+  index: 0
+hit.0
+  rotate: false
+  xy: 74, 36
+  size: 71, 67
+  orig: 71, 67
+  offset: 0, 0
+  index: 1
+hit.0
+  rotate: false
+  xy: 147, 36
+  size: 71, 67
+  orig: 71, 67
+  offset: 0, 0
+  index: 2
+hit.1
+  rotate: false
+  xy: 220, 39
+  size: 73, 64
+  orig: 73, 64
+  offset: 0, 0
+  index: 0
+hit.1
+  rotate: false
+  xy: 295, 39
+  size: 73, 64
+  orig: 73, 64
+  offset: 0, 0
+  index: 1
+hit.1
+  rotate: false
+  xy: 370, 39
+  size: 73, 64
+  orig: 73, 64
+  offset: 0, 0
+  index: 2
+ball
+  rotate: false
+  xy: 1, 1
+  size: 33, 33
+  orig: 33, 33
+  offset: 0, 0
+  index: 0
+ball
+  rotate: false
+  xy: 445, 70
+  size: 33, 33
+  orig: 33, 33
+  offset: 0, 0
+  index: 1
+ball
+  rotate: false
+  xy: 445, 70
+  size: 33, 33
+  orig: 33, 33
+  offset: 0, 0
+  index: 3
+ball
+  rotate: false
+  xy: 36, 1
+  size: 33, 33
+  orig: 33, 33
+  offset: 0, 0
+  index: 2
+2001004
+  rotate: false
+  xy: 71, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 0
+2001004
+  rotate: false
+  xy: 105, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 1
+2001004
+  rotate: false
+  xy: 139, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 2

@@ -22,16 +22,14 @@ public class ForceBuffSkill extends BuffSkill {
     @Override
     public void use(LivingEntity caster) {
         ForceBuff buff = Pools.obtain(ForceBuff.class);
-
-        if (caster instanceof Player) {
-            // Players move towards the cursor
-            buff.setDirection(new Vector2(InputManager.getInstance().getCursorDirection().x, 0).nor());
-        } else {
-            // Mobs move in their direction
-            buff.setDirection(caster.getMovementState());
-        }
+        buff.setDirection(new Vector2(caster.isFlipped() ? -1 : 1, 0));
         buff.setAdditionalSpeed(magnitude);
         SkillManager.applyBuff(buff, caster, buffDuration);
+    }
+
+    @Override
+    public void use(LivingEntity caster, Vector2 initial) {
+        use(caster);
     }
 
     @Override

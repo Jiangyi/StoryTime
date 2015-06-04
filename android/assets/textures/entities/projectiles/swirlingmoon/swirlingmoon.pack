@@ -1,0 +1,233 @@
+
+swirlingmoon.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effect
+  rotate: false
+  xy: 1, 400
+  size: 623, 535
+  orig: 623, 535
+  offset: 0, 0
+  index: 0
+hit.0
+  rotate: false
+  xy: 1, 88
+  size: 310, 310
+  orig: 310, 310
+  offset: 0, 0
+  index: 0
+hit.0
+  rotate: false
+  xy: 626, 625
+  size: 310, 310
+  orig: 310, 310
+  offset: 0, 0
+  index: 1
+hit.0
+  rotate: false
+  xy: 313, 88
+  size: 310, 310
+  orig: 310, 310
+  offset: 0, 0
+  index: 2
+hit.0
+  rotate: false
+  xy: 626, 313
+  size: 310, 310
+  orig: 310, 310
+  offset: 0, 0
+  index: 3
+hit.0
+  rotate: false
+  xy: 625, 1
+  size: 310, 310
+  orig: 310, 310
+  offset: 0, 0
+  index: 4
+11121101
+  rotate: false
+  xy: 938, 894
+  size: 41, 41
+  orig: 41, 41
+  offset: 0, 0
+  index: 0
+11121101
+  rotate: false
+  xy: 1, 45
+  size: 41, 41
+  orig: 41, 41
+  offset: 0, 0
+  index: 1
+11121101
+  rotate: false
+  xy: 938, 851
+  size: 41, 41
+  orig: 41, 41
+  offset: 0, 0
+  index: 2
+
+swirlingmoon2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effect
+  rotate: false
+  xy: 1, 313
+  size: 623, 535
+  orig: 623, 535
+  offset: 0, 0
+  index: 1
+hit.0
+  rotate: false
+  xy: 1, 1
+  size: 310, 310
+  orig: 310, 310
+  offset: 0, 0
+  index: 5
+hit.0
+  rotate: false
+  xy: 626, 538
+  size: 310, 310
+  orig: 310, 310
+  offset: 0, 0
+  index: 6
+hit.0
+  rotate: false
+  xy: 313, 1
+  size: 310, 310
+  orig: 310, 310
+  offset: 0, 0
+  index: 7
+
+swirlingmoon3.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effect
+  rotate: false
+  xy: 1, 1
+  size: 623, 535
+  orig: 623, 535
+  offset: 0, 0
+  index: 10
+
+swirlingmoon4.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effect
+  rotate: false
+  xy: 1, 1
+  size: 623, 535
+  orig: 623, 535
+  offset: 0, 0
+  index: 11
+
+swirlingmoon5.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effect
+  rotate: false
+  xy: 1, 1
+  size: 623, 535
+  orig: 623, 535
+  offset: 0, 0
+  index: 12
+
+swirlingmoon6.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effect
+  rotate: false
+  xy: 1, 1
+  size: 623, 535
+  orig: 623, 535
+  offset: 0, 0
+  index: 2
+
+swirlingmoon7.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effect
+  rotate: false
+  xy: 1, 1
+  size: 623, 535
+  orig: 623, 535
+  offset: 0, 0
+  index: 3
+
+swirlingmoon8.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effect
+  rotate: false
+  xy: 1, 1
+  size: 623, 535
+  orig: 623, 535
+  offset: 0, 0
+  index: 4
+
+swirlingmoon9.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effect
+  rotate: false
+  xy: 1, 1
+  size: 623, 535
+  orig: 623, 535
+  offset: 0, 0
+  index: 5
+
+swirlingmoon10.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effect
+  rotate: false
+  xy: 1, 1
+  size: 623, 535
+  orig: 623, 535
+  offset: 0, 0
+  index: 6
+
+swirlingmoon11.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effect
+  rotate: false
+  xy: 1, 1
+  size: 623, 535
+  orig: 623, 535
+  offset: 0, 0
+  index: 7
+
+swirlingmoon12.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effect
+  rotate: false
+  xy: 1, 1
+  size: 623, 535
+  orig: 623, 535
+  offset: 0, 0
+  index: 8
+
+swirlingmoon13.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effect
+  rotate: false
+  xy: 1, 1
+  size: 623, 535
+  orig: 623, 535
+  offset: 0, 0
+  index: 9

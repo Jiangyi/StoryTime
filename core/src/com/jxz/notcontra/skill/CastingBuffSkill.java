@@ -1,5 +1,6 @@
 package com.jxz.notcontra.skill;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pools;
 import com.jxz.notcontra.buff.CastingBuff;
 import com.jxz.notcontra.entity.LivingEntity;
@@ -23,6 +24,11 @@ public class CastingBuffSkill extends BuffSkill {
         buff.setSkill(childSkill);
         buff.setInterval(interval);
         SkillManager.applyBuff(buff, caster, buffDuration);
+    }
+
+    @Override
+    public void use(LivingEntity caster, Vector2 initial) {
+        use(caster);
     }
 
     public void setChildSkill(Skill childSkill) {

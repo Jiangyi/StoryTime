@@ -1,5 +1,6 @@
 package com.jxz.notcontra.skill;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -9,6 +10,7 @@ import com.jxz.notcontra.entity.Entity;
 import com.jxz.notcontra.entity.LivingEntity;
 import com.jxz.notcontra.entity.Monster;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.SkillManager;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public abstract class Skill implements Cloneable {
     protected String animName;
     protected String castName;
     protected float time;
+    protected int mana;
     protected float cooldown;
     protected float damage;
     protected float damageScaling;
@@ -41,6 +44,7 @@ public abstract class Skill implements Cloneable {
     protected Entity caster;
     protected Vector2 castOffset;
     protected boolean hasCastEffect;
+    protected boolean explodeOnHit;
 
     // Constructor
     public Skill(String name) {
@@ -53,7 +57,11 @@ public abstract class Skill implements Cloneable {
         cooldown = 0;
     }
 
-    public abstract void use(LivingEntity caster);
+    public abstract void use(LivingEntity caster, Vector2 position);
+
+    public void use(LivingEntity caster) {
+        use(caster, caster.getCenterPosition().cpy());
+    }
 
     public abstract void preCast(LivingEntity caster);
 
@@ -206,5 +214,25 @@ public abstract class Skill implements Cloneable {
 
     public void setCooldown(float cooldown) {
         this.cooldown = cooldown;
+    }
+
+    public void setCaster(Entity caster) {
+        this.caster = caster;
+    }
+
+    public boolean isExplodeOnHit() {
+        return explodeOnHit;
+    }
+
+    public void setExplodeOnHit(boolean explodeOnHit) {
+        this.explodeOnHit = explodeOnHit;
+    }
+
+    public int getCost() {
+        return mana;
+    }
+
+    public void setCost(int mana) {
+        this.mana = mana;
     }
 }

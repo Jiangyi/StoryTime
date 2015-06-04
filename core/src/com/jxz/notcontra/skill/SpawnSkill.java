@@ -1,5 +1,6 @@
 package com.jxz.notcontra.skill;
 
+import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.entity.EntityFactory;
 import com.jxz.notcontra.entity.LivingEntity;
 import com.jxz.notcontra.entity.Monster;
@@ -38,6 +39,11 @@ public class SpawnSkill extends Skill {
                 }
             }
         }
+    }
+
+    @Override
+    public void use(LivingEntity caster, Vector2 initial) {
+        use(caster);
     }
 
     @Override

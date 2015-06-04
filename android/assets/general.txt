@@ -14,6 +14,13 @@ alien_attack	sfx/monsters/alien/alien_attack.wav								Sound
 alien_chardmg	sfx/monsters/alien/alien_chardmg.wav							Sound
 alien_hit		sfx/monsters/alien/alien_hit.wav								Sound
 alien_die		sfx/monsters/alien/alien_die.wav								Sound
+zombie_hit	sfx/monsters/zombie/zombie_hit.wav							Sound
+zombie_die	sfx/monsters/zombie/zombie_die.wav							Sound
+plateon_hit	sfx/monsters/plateon/plateon_hit.wav							Sound
+plateon_die	sfx/monsters/plateon/plateon_die.wav							Sound
+
+genericCast	sfx/generic/cast1.wav	Sound
+genericCast2 	sfx/generic/cast2.wav	Sound
 
 pill			sfx/pickups/pill.wav											Sound
 potion			sfx/pickups/potion.wav											Sound
@@ -21,6 +28,10 @@ potion			sfx/pickups/potion.wav											Sound
 # Projectiles
 iceball			textures/entities/projectiles/iceball/iceball.pack				TextureAtlas
 swing			textures/entities/projectiles/swing/swing.pack					TextureAtlas
+explosion		textures/entities/projectiles/explosion/explosion.pack				TextureAtlas
+magicbolt		textures/entities/projectiles/magicbolt/magicbolt.pack				TextureAtlas
+swirlingmoon		textures/entities/projectiles/swirlingmoon/swirlingmoon.pack			TextureAtlas
+icespike		textures/entities/projectiles/icespike/icespike.pack				TextureAtlas
 
 # HUD Stuff
 hud_bars		textures/hud/bars/hud_bars.pack									TextureAtlas

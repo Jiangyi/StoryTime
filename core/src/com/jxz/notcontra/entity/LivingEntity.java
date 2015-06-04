@@ -509,6 +509,18 @@ public abstract class LivingEntity extends AnimatedEntity {
         }
     }
 
+    public void changeMana(int change) {
+        if (this.maxHealth - this.health <= change) {
+            this.mana = maxMana;
+        } else {
+            this.mana += change;
+        }
+
+        if (mana < 0) {
+            mana = 0;
+        }
+    }
+
     public int getHealth() {
         return health;
     }
@@ -608,4 +620,6 @@ public abstract class LivingEntity extends AnimatedEntity {
     public float getAdditionalSpeed() {
         return this.additionalSpeed;
     }
+
+
 }

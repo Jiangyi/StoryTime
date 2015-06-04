@@ -23,10 +23,9 @@ public class AttachedHitbox extends DynamicHitbox {
         if (time > 0) {
             // Update visual with regards to caster
             isFlipped = !caster.isFlipped();
-            position = caster.getPosition().cpy().add(caster.getAABB().getWidth() / 2, 0);
-            position.sub(sprite.getWidth() / 2, 0);
-            position.add(isFlipped ? hitboxOffset.x  : -hitboxOffset.x, 0);
+            setCenterPosition(caster.getCenterPosition().cpy());
             aabb.setPosition(position.x, position.y);
+            position.add(hitboxOffset.x, hitboxOffset.y);
             animate();
 
             // Update lifespan

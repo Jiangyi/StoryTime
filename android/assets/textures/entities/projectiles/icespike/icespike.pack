@@ -1,0 +1,159 @@
+
+icespike.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+start
+  rotate: false
+  xy: 1, 1
+  size: 60, 180
+  orig: 60, 180
+  offset: 0, 0
+  index: 0
+start
+  rotate: false
+  xy: 63, 1
+  size: 60, 180
+  orig: 60, 180
+  offset: 0, 0
+  index: 1
+start
+  rotate: false
+  xy: 125, 1
+  size: 60, 180
+  orig: 60, 180
+  offset: 0, 0
+  index: 2
+start
+  rotate: false
+  xy: 187, 1
+  size: 60, 180
+  orig: 60, 180
+  offset: 0, 0
+  index: 3
+start
+  rotate: false
+  xy: 249, 1
+  size: 60, 180
+  orig: 60, 180
+  offset: 0, 0
+  index: 4
+start
+  rotate: false
+  xy: 311, 1
+  size: 60, 180
+  orig: 60, 180
+  offset: 0, 0
+  index: 5
+start
+  rotate: false
+  xy: 373, 1
+  size: 60, 180
+  orig: 60, 180
+  offset: 0, 0
+  index: 6
+start
+  rotate: false
+  xy: 435, 1
+  size: 60, 180
+  orig: 60, 180
+  offset: 0, 0
+  index: 7
+end
+  rotate: false
+  xy: 497, 1
+  size: 56, 180
+  orig: 56, 180
+  offset: 0, 0
+  index: 0
+ing
+  rotate: false
+  xy: 497, 1
+  size: 56, 180
+  orig: 56, 180
+  offset: 0, 0
+  index: 0
+end
+  rotate: false
+  xy: 555, 1
+  size: 56, 180
+  orig: 56, 180
+  offset: 0, 0
+  index: 1
+ing
+  rotate: false
+  xy: 555, 1
+  size: 56, 180
+  orig: 56, 180
+  offset: 0, 0
+  index: 1
+end
+  rotate: false
+  xy: 613, 1
+  size: 56, 180
+  orig: 56, 180
+  offset: 0, 0
+  index: 2
+ing
+  rotate: false
+  xy: 613, 1
+  size: 56, 180
+  orig: 56, 180
+  offset: 0, 0
+  index: 2
+end
+  rotate: false
+  xy: 671, 1
+  size: 56, 180
+  orig: 56, 180
+  offset: 0, 0
+  index: 3
+ing
+  rotate: false
+  xy: 671, 1
+  size: 56, 180
+  orig: 56, 180
+  offset: 0, 0
+  index: 3
+end
+  rotate: false
+  xy: 729, 1
+  size: 56, 180
+  orig: 56, 180
+  offset: 0, 0
+  index: 4
+ing
+  rotate: false
+  xy: 729, 1
+  size: 56, 180
+  orig: 56, 180
+  offset: 0, 0
+  index: 4
+end
+  rotate: false
+  xy: 787, 1
+  size: 56, 180
+  orig: 56, 180
+  offset: 0, 0
+  index: 5
+ing
+  rotate: false
+  xy: 787, 1
+  size: 56, 180
+  orig: 56, 180
+  offset: 0, 0
+  index: 5
+end
+  rotate: false
+  xy: 845, 1
+  size: 56, 180
+  orig: 56, 180
+  offset: 0, 0
+  index: 6
+ing
+  rotate: false
+  xy: 845, 1
+  size: 56, 180
+  orig: 56, 180
+  offset: 0, 0
+  index: 6
