@@ -4,8 +4,9 @@ alien		textures/entities/monsters/alien/alien.pack	TextureAtlas
 
 
 # Level tile map
-level1  levels/level_a.tmx    TiledMap
-level2	levels/level_b.tmx	TiledMap
+su_grass  	levels/survival_grass.tmx    	TiledMap
+su_hell		levels/survival_hell.tmx		TiledMap
+su_moon		levels/survival_moon.tmx		TiledMap
 
 # Level Background
 background_sky      textures/levels/blue.png    Texture
