@@ -2,6 +2,9 @@ menu_buttons	textures/menu/buttons/menu_buttons.pack		TextureAtlas
 menu_background		textures/menu/background/background.png		Texture
 highscore_header	textures/menu/misc/highscore_header.png	Texture
 
+# Fonts
+font_bandera		fonts/bandera.fnt	BitmapFont
+
 # Atlas for player
 player    textures/entities/player/player.pack    TextureAtlas
 Alice    textures/entities/player/Alice.pack    TextureAtlas

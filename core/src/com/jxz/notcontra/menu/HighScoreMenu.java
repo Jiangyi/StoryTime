@@ -28,6 +28,7 @@ public class HighScoreMenu extends Menu {
     private int y;
     private int height;
     private int width;
+    private BitmapFont font = (BitmapFont) assetHandler.getByName("font_bandera");
 
     public HighScoreMenu() {
         x = 300;
@@ -61,10 +62,10 @@ public class HighScoreMenu extends Menu {
     private void setUpTextLabels() {
         for (int i = 0; i < highScores.size(); i++) {
             TextLabel label = new TextLabel(menuButtons.createSprite("button_highscore_bg"), highScores.get(i).getName(),
-                    String.valueOf(highScores.get(i).getScore()), GameStateManager.getInstance().getCurrentState().getFont(), x, y - i * height / 5, height / 5, width);
-            int yOffset = menuButtons.createSprite("button_highscore_bg").getRegionHeight() / 4;
+                    String.valueOf(highScores.get(i).getScore()), font , x, y - i * height / 5, height / 5, width);
+            int yOffset = menuButtons.createSprite("button_highscore_bg").getRegionHeight() / 5;
             label.setPrimaryOffset(20, yOffset);
-            label.setSecondaryOffset(45, yOffset);
+            label.setSecondaryOffset(75, yOffset);
             buttons.add(label);
         }
     }

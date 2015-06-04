@@ -30,42 +30,53 @@ public class SaveLoadScrollPane extends ScrollPane {
         navButtonOffset = menuButtons.findRegion("button_arrow_v").getRegionWidth();
         this.directory = element.getChildByName("directory").getText();
         this.font = font;
-        TextLabel label = new TextLabel(menuButtons, "button_savelabelbg", "File", "Date Modified", font, x, y, TEXT_LABEL_HEIGHT, width);
-        label.setSecondaryOffset(400, 5);
+        TextLabel label = new TextLabel(menuButtons, "button_savelabelbg", "File", "Date Modified", font, x, y, TEXT_LABEL_HEIGHT, width - navButtonOffset);
+        setLabelOffset(label);
         list.add(label);
         parseDirectory();
     }
 
+    private void setLabelOffset(TextLabel label) {
+        label.setPrimaryOffset(45, 5);
+        label.setSecondaryOffset(300, 5);
+    }
+
     protected void parseDirectory() {
         FileHandle dirHandle = Gdx.files.internal(directory);
-        int counter = 0;
-        for (FileHandle file : dirHandle.list()) {
-
-            Date date = new Date(file.lastModified());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-            final TextLabel textLabel = new TextLabel(menuButtons, "button_savelabelbg", file.name(), dateFormat.format(date),
-                    font, x, y - TEXT_LABEL_HEIGHT * (counter + 1), TEXT_LABEL_HEIGHT, width);
-            textLabel.setSecondaryOffset(400, 5);
-            textLabel.setInputListener(new Button.InputListener() {
-                @Override
-                public void onClick() {
-                    int index = SaveLoadScrollPane.this.list.indexOf(textLabel, true);
-                    if (SaveLoadScrollPane.this.index != index) {
-                        SaveLoadScrollPane.this.list.get(SaveLoadScrollPane.this.index).setState(Button.ButtonState.DEFAULT);
-                        SaveLoadScrollPane.this.index = index;
-                    }
-                }
-
-                @Override
-                public void onHover() {
-
-                }
-            });
-
+        if (dirHandle.list().length == 0) {
+            final TextLabel textLabel =  new TextLabel(menuButtons, "button_savelabelbg", "No saves found!",
+                    font, x, y - TEXT_LABEL_HEIGHT, TEXT_LABEL_HEIGHT, width - navButtonOffset);
+            setLabelOffset(textLabel);
             list.add(textLabel);
-            counter++;
-        }
+        } else {
+            int counter = 0;
+            for (FileHandle file : dirHandle.list()) {
 
+                Date date = new Date(file.lastModified());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
+                final TextLabel textLabel = new TextLabel(menuButtons, "button_savelabelbg", file.name(), dateFormat.format(date),
+                        font, x, y - TEXT_LABEL_HEIGHT * (counter++ + 1), TEXT_LABEL_HEIGHT, width - navButtonOffset);
+                textLabel.setPrimaryOffset(45, 5);
+                textLabel.setSecondaryOffset(300, 5);
+                textLabel.setInputListener(new Button.InputListener() {
+                    @Override
+                    public void onClick() {
+                        int index = SaveLoadScrollPane.this.list.indexOf(textLabel, true);
+                        if (SaveLoadScrollPane.this.index != index) {
+                            SaveLoadScrollPane.this.list.get(SaveLoadScrollPane.this.index).setState(Button.ButtonState.DEFAULT);
+                            SaveLoadScrollPane.this.index = index;
+                        }
+                    }
+
+                    @Override
+                    public void onHover() {
+
+                    }
+                });
+
+                list.add(textLabel);
+            }
+        }
         index = 1;
         update();
     }
@@ -110,7 +121,12 @@ public class SaveLoadScrollPane extends ScrollPane {
 
     @Override
     public String getCurrentCmd() {
-        return list.get(index).getPrimaryText();
+        String out = list.get(index).getPrimaryText();
+        if (out.equalsIgnoreCase("No saves found!")) {
+            return null;
+        } else {
+            return out;
+        }
     }
 
     @Override
@@ -120,11 +136,6 @@ public class SaveLoadScrollPane extends ScrollPane {
 
     public Array<TextLabel> getList() {
         return list;
-    }
-
-    public void reloadPane() {
-        list.removeRange(1, list.size - 1);
-        parseDirectory();
     }
 
     @Override

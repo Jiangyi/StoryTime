@@ -115,7 +115,7 @@ public class ParseMenu extends Menu {
                             } else if (onClickType.equalsIgnoreCase("getScrollPaneParam")) {
                                 if (pane != null) {
                                     String cmd;
-                                    if (onClick.getText() != null) {
+                                    if (onClick.getText() != null && pane.getCurrentCmd() != null) {
                                         cmd = onClick.getText() + "," + pane.getCurrentCmd();
                                     } else if (prevCmd != null) {
                                         cmd = prevCmd + "," + pane.getCurrentCmd();
