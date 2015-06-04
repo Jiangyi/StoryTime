@@ -1,12 +1,14 @@
 package com.jxz.notcontra.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.*;
+import com.jxz.notcontra.menu.HighScoreMenu;
 import com.jxz.notcontra.menu.Menu;
 import com.jxz.notcontra.menu.ParseMenu;
 import com.jxz.notcontra.shaders.Shaders;
@@ -31,6 +33,7 @@ public class PlayState extends GameState {
     private Menu pauseMenu;
     private Menu currentMenu;
     private float timeSurvived;
+    private boolean highScoreShown;
 
     private int killCounter;
 
@@ -70,6 +73,26 @@ public class PlayState extends GameState {
     }
 
     public void update() {
+
+        if (!player.isAlive() && !highScoreShown) {
+            highScoreShown = true;
+            if (player.getScore() > HighScoreHandler.getLowestScore()) {
+                Gdx.input.getTextInput(new Input.TextInputListener() {
+                    @Override
+                    public void input(String text) {
+                        HighScoreHandler.addHighScore(text, player.getScore());
+                        setCurrentMenu(new HighScoreMenu() {{
+                            setMenuState(GameStateManager.getInstance().getMenuState());
+                        }});
+                        setIsPaused(true);
+                    }
+
+                    @Override
+                    public void canceled() {
+                    }
+                }, "New high score!", "", "Please enter your name:");
+            }
+        }
 
         if (game.getPlayMode() == Game.PlayMode.SURVIVAL && !isPaused && player.isAlive()) {
             timeSurvived += Gdx.graphics.getDeltaTime();

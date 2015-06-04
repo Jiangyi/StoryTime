@@ -30,7 +30,9 @@ public class SaveLoadScrollPane extends ScrollPane {
         navButtonOffset = menuButtons.findRegion("button_arrow_v").getRegionWidth();
         this.directory = element.getChildByName("directory").getText();
         this.font = font;
-        list.add(new TextLabel(menuButtons, "File", "Date Modified", font, x, y, TEXT_LABEL_HEIGHT, width));
+        TextLabel label = new TextLabel(menuButtons, "button_savelabelbg", "File", "Date Modified", font, x, y, TEXT_LABEL_HEIGHT, width);
+        label.setSecondaryTextOffset(400);
+        list.add(label);
         parseDirectory();
     }
 
@@ -41,9 +43,9 @@ public class SaveLoadScrollPane extends ScrollPane {
 
             Date date = new Date(file.lastModified());
             SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-            final TextLabel textLabel = new TextLabel(menuButtons, file.name(), dateFormat.format(date),
+            final TextLabel textLabel = new TextLabel(menuButtons, "button_savelabelbg", file.name(), dateFormat.format(date),
                     font, x, y - TEXT_LABEL_HEIGHT * (counter + 1), TEXT_LABEL_HEIGHT, width);
-
+            textLabel.setSecondaryTextOffset(400);
             textLabel.setInputListener(new Button.InputListener() {
                 @Override
                 public void onClick() {

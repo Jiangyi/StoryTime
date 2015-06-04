@@ -3,317 +3,324 @@ menu_buttons.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+button_highscore_bg
+  rotate: false
+  xy: 1, 817
+  size: 1000, 144
+  orig: 1000, 144
+  offset: 0, 0
+  index: 0
 button_savelabelbg
   rotate: false
-  xy: 1, 831
+  xy: 1, 765
   size: 1000, 50
   orig: 1000, 50
   offset: 0, 0
   index: 0
 button_savelabelbg
   rotate: false
-  xy: 1, 779
+  xy: 1, 713
   size: 1000, 50
   orig: 1000, 50
   offset: 0, 0
   index: 1
 button_savelabelbg
   rotate: false
-  xy: 1, 727
+  xy: 1, 661
   size: 1000, 50
   orig: 1000, 50
   offset: 0, 0
   index: 2
-button_mainmenu
-  rotate: false
-  xy: 1, 661
-  size: 256, 64
-  orig: 256, 64
-  offset: 0, 0
-  index: 0
 button_mainmenu
   rotate: false
   xy: 1, 595
   size: 256, 64
   orig: 256, 64
   offset: 0, 0
+  index: 0
+button_mainmenu
+  rotate: false
+  xy: 1, 529
+  size: 256, 64
+  orig: 256, 64
+  offset: 0, 0
   index: 1
 button_mainmenu
   rotate: false
-  xy: 259, 661
+  xy: 259, 595
   size: 256, 64
   orig: 256, 64
   offset: 0, 0
   index: 2
 button_survival
   rotate: false
-  xy: 1, 529
-  size: 224, 64
-  orig: 224, 64
-  offset: 0, 0
-  index: 0
-button_survival
-  rotate: false
-  xy: 259, 595
-  size: 224, 64
-  orig: 224, 64
-  offset: 0, 0
-  index: 1
-button_survival
-  rotate: false
-  xy: 517, 661
-  size: 224, 64
-  orig: 224, 64
-  offset: 0, 0
-  index: 2
-button_options
-  rotate: false
   xy: 1, 463
-  size: 192, 64
-  orig: 192, 64
+  size: 224, 64
+  orig: 224, 64
   offset: 0, 0
   index: 0
-button_options
+button_survival
   rotate: false
-  xy: 227, 529
-  size: 192, 64
-  orig: 192, 64
+  xy: 259, 529
+  size: 224, 64
+  orig: 224, 64
   offset: 0, 0
   index: 1
-button_options
+button_survival
   rotate: false
-  xy: 485, 595
-  size: 192, 64
-  orig: 192, 64
+  xy: 517, 595
+  size: 224, 64
+  orig: 224, 64
   offset: 0, 0
   index: 2
-button_start
-  rotate: false
-  xy: 743, 661
-  size: 160, 64
-  orig: 160, 64
-  offset: 0, 0
-  index: 0
-button_start
+button_options
   rotate: false
   xy: 1, 397
-  size: 160, 64
-  orig: 160, 64
+  size: 192, 64
+  orig: 192, 64
+  offset: 0, 0
+  index: 0
+button_options
+  rotate: false
+  xy: 227, 463
+  size: 192, 64
+  orig: 192, 64
   offset: 0, 0
   index: 1
-button_start
+button_options
   rotate: false
-  xy: 195, 463
-  size: 160, 64
-  orig: 160, 64
+  xy: 485, 529
+  size: 192, 64
+  orig: 192, 64
   offset: 0, 0
   index: 2
-button_story
+button_start
   rotate: false
-  xy: 421, 529
+  xy: 743, 595
   size: 160, 64
   orig: 160, 64
   offset: 0, 0
   index: 0
-button_story
-  rotate: false
-  xy: 679, 595
-  size: 160, 64
-  orig: 160, 64
-  offset: 0, 0
-  index: 1
-button_story
+button_start
   rotate: false
   xy: 1, 331
   size: 160, 64
   orig: 160, 64
   offset: 0, 0
+  index: 1
+button_start
+  rotate: false
+  xy: 195, 397
+  size: 160, 64
+  orig: 160, 64
+  offset: 0, 0
+  index: 2
+button_story
+  rotate: false
+  xy: 421, 463
+  size: 160, 64
+  orig: 160, 64
+  offset: 0, 0
+  index: 0
+button_story
+  rotate: false
+  xy: 679, 529
+  size: 160, 64
+  orig: 160, 64
+  offset: 0, 0
+  index: 1
+button_story
+  rotate: false
+  xy: 1, 265
+  size: 160, 64
+  orig: 160, 64
+  offset: 0, 0
   index: 2
 button_arrow_h
   rotate: false
-  xy: 163, 333
+  xy: 163, 267
   size: 64, 128
   orig: 64, 128
   offset: 0, 0
   index: 0
 button_arrow_h
   rotate: false
-  xy: 1, 201
+  xy: 1, 135
   size: 64, 128
   orig: 64, 128
   offset: 0, 0
   index: 1
 button_arrow_h
   rotate: false
-  xy: 229, 333
+  xy: 229, 267
   size: 64, 128
   orig: 64, 128
   offset: 0, 0
   index: 2
 button_arrow_v
   rotate: false
-  xy: 357, 463
+  xy: 357, 397
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 0
 button_arrow_v
   rotate: false
-  xy: 583, 529
+  xy: 583, 463
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 1
 button_arrow_v
-  rotate: false
-  xy: 295, 397
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 2
-button_back
-  rotate: false
-  xy: 487, 463
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 0
-button_back
-  rotate: false
-  xy: 425, 397
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 1
-button_back
-  rotate: false
-  xy: 713, 529
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 2
-button_blank
-  rotate: false
-  xy: 617, 463
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 0
-button_blank
-  rotate: false
-  xy: 555, 397
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 1
-button_blank
   rotate: false
   xy: 295, 331
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 2
-button_load
+button_back
+  rotate: false
+  xy: 487, 397
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 0
+button_back
   rotate: false
   xy: 425, 331
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
+  index: 1
+button_back
+  rotate: false
+  xy: 713, 463
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 2
+button_blank
+  rotate: false
+  xy: 617, 397
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
   index: 0
-button_load
+button_blank
   rotate: false
   xy: 555, 331
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 1
-button_load
+button_blank
   rotate: false
-  xy: 67, 265
+  xy: 295, 265
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 2
-button_new
+button_load
+  rotate: false
+  xy: 425, 265
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 0
+button_load
+  rotate: false
+  xy: 555, 265
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 1
+button_load
   rotate: false
   xy: 67, 199
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
+  index: 2
+button_new
+  rotate: false
+  xy: 67, 133
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
   index: 0
 button_new
   rotate: false
-  xy: 747, 463
+  xy: 747, 397
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 1
 button_new
-  rotate: false
-  xy: 685, 397
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 2
-button_play
   rotate: false
   xy: 685, 331
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
+  index: 2
+button_play
+  rotate: false
+  xy: 685, 265
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
   index: 0
 button_play
   rotate: false
-  xy: 841, 595
+  xy: 841, 529
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 1
 button_play
   rotate: false
-  xy: 843, 529
+  xy: 843, 463
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 2
 button_quit
   rotate: false
-  xy: 877, 463
+  xy: 877, 397
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 0
-button_quit
-  rotate: false
-  xy: 815, 397
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 1
 button_quit
   rotate: false
   xy: 815, 331
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
-  index: 2
-button_save
+  index: 1
+button_quit
   rotate: false
-  xy: 1, 133
+  xy: 815, 265
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
-  index: 0
+  index: 2
 button_save
   rotate: false
   xy: 1, 67
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
-  index: 1
+  index: 0
 button_save
   rotate: false
   xy: 1, 1
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 1
+button_save
+  rotate: false
+  xy: 131, 67
   size: 128, 64
   orig: 128, 64
   offset: 0, 0

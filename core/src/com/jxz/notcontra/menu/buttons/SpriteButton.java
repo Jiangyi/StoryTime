@@ -19,16 +19,20 @@ public class SpriteButton extends Button {
         this(buttonSprites.createSprite(atlasRegion, 0), buttonSprites.createSprite(atlasRegion, 1), buttonSprites.createSprite(atlasRegion, 2), x, y);
     }
 
-    // Define a button with sprites for all modes
-    public SpriteButton(Sprite defaultRegion, Sprite onHoverRegion, Sprite onClickRegion, int x, int y) {
+    public SpriteButton(Sprite defaultRegion, int x, int y) {
         this.currentState = ButtonState.DEFAULT;
         this.x = x;
         this.y = y;
         this.defaultSprite = defaultRegion;
-        this.onHoverSprite = onHoverRegion;
-        this.onClickSprite = onClickRegion;
         this.height = defaultSprite.getRegionHeight();
         this.width = defaultSprite.getRegionWidth();
+    }
+
+    // Define a button with sprites for all modes
+    public SpriteButton(Sprite defaultRegion, Sprite onHoverRegion, Sprite onClickRegion, int x, int y) {
+        this(defaultRegion, x, y);
+        this.onHoverSprite = onHoverRegion;
+        this.onClickSprite = onClickRegion;
     }
 
     public void setIsFlipped(boolean isFlipped) {

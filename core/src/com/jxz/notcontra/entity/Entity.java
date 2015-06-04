@@ -7,11 +7,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.jxz.notcontra.animation.SpriteEx;
-import com.jxz.notcontra.effect.Effect;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
 import com.jxz.notcontra.handlers.EntityManager;
-import com.jxz.notcontra.handlers.ParticleManager;
 import com.jxz.notcontra.world.Level;
 
 /**

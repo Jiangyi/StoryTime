@@ -1,7 +1,6 @@
 package com.jxz.notcontra.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.jxz.notcontra.game.Game;
@@ -20,7 +19,6 @@ public class ParseMenu extends Menu {
 
     public ParseMenu(String menuFile) {
         file = Gdx.files.internal("menus/" + menuFile);
-        this.menuButtons = (TextureAtlas) assetHandler.getByName("menu_buttons");
 
         parseFromFile();
     }
@@ -95,6 +93,16 @@ public class ParseMenu extends Menu {
                                     } else if (GameStateManager.getInstance().getCurrentState() instanceof PlayState) {
                                         GameStateManager.getInstance().getPlayState().setCurrentMenu(menu);
                                     }
+                                }
+                            } else if (onClickType.equalsIgnoreCase("setMenuInternal")) {
+                                Menu menu;
+                                try {
+                                    menu = (Menu) Class.forName("com.jxz.notcontra.menu." + onClick.getText()).newInstance();
+                                    menu.setMenuState(menuState);
+                                    menu.setPrevMenu(ParseMenu.this);
+                                    menuState.setCurrentMenu(menu);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                             } else if (onClickType.equalsIgnoreCase("cmd")) {
                                 GameStateManager.getInstance().getGame().executeCommand(onClick.getText());
