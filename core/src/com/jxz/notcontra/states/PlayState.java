@@ -75,6 +75,7 @@ public class PlayState extends GameState {
 
     public void update() {
         if (!player.isAlive() && !highScoreShown) {
+            HighScoreHandler.loadFromDisk();
             highScoreShown = true;
             if (player.getScore() > HighScoreHandler.getLowestScore()) {
                 Gdx.input.getTextInput(new Input.TextInputListener() {
