@@ -1,6 +1,10 @@
-menu_buttons	textures/menu/buttons/menu_buttons.pack		TextureAtlas
-menu_background		textures/menu/background/background.png		Texture
-highscore_header	textures/menu/misc/highscore_header.png	Texture
+menu_buttons	textures/menu/buttons/menu_buttons.pack							TextureAtlas
+menu_background		textures/menu/background/background.png						Texture
+highscore_header	textures/menu/misc/highscore_header.png						Texture
+
+su_grass_image		textures/levels/survival_forest_image.png					Texture
+su_hell_image		textures/levels/survival_hell_image.png						Texture
+su_moon_image		textures/levels/survival_moon_image.png						Texture
 
 # Fonts
 font_bandera		fonts/bandera.fnt	BitmapFont
@@ -13,3 +17,6 @@ Alice    textures/entities/player/Alice.pack    TextureAtlas
 menu_music		music/tale_east.mp3												Music
 menu_hit		sfx/menu/menu_hit.wav											Sound
 menu_hover		sfx/menu/menu_hover.wav											Sound
+
+#blank png
+blank			blank.png										Texture
