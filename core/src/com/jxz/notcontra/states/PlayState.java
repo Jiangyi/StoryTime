@@ -70,7 +70,7 @@ public class PlayState extends GameState {
     }
 
     public void load() {
-        load("level1");
+        load("su_grass");
     }
 
     public void update() {

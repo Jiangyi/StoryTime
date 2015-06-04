@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="48" tilewidth="32" tileheight="32" nextobjectid="44">
+ <properties>
+  <property name="defaultMobLevel" value="0"/>
+  <property name="defaultSpawnAmount" value="5"/>
+  <property name="parallaxBackground" value="background_sky"/>
+  <property name="parallaxForeground" value="background_sakura"/>
+  <property name="parallaxMidground" value="background_fuji"/>
+  <property name="spawnX" value="24"/>
+  <property name="spawnY" value="6"/>
+  <property name="theme" value="grass"/>
+ </properties>
+ <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32" spacing="1">
+  <image source="../textures/levels/tileset.png" width="858" height="32"/>
+  <tile id="3">
+   <properties>
+    <property name="climbable" value=""/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="climbable" value=""/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="slope" value="1"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="slope" value="-1"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="interactable" value="nextLevel"/>
+    <property name="nextLevel" value="su_hell"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="platform" value=""/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="slope" value="1"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="slope" value="-1"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="platform" value=""/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="slope" value="1"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="slope" value="-1"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="platform" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Static Map" width="64" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt0sEJACAMBMHo0/4L9mUHSjicgS3gQqoAAAAAAAAAAAAAIMcM6oUR1Pp8/7nBzZ/q3qPeNuBpAWg=
+  </data>
+ </layer>
+ <layer name="Dynamic Map" width="64" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt1jEKwDAMBEG7DOT/780L3MU6gWbAvTBX7FoAAGdvkwcAcEu6c7QQ1eyLyewf8l2jhahmT0xm/5DvGD1ENdthMvunuyd9QAP+gD/t9AFhH9J8CSw=
+  </data>
+ </layer>
+ <layer name="Trigger Tile" width="64" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt0MEJgEAQBEEFf+afryGoCC5HV0UwPdsGADxxTg9Y3DE9YJj+Nv1t+tv0c6f+kf42/W362/SvbfX9X+lv09+mv00/f6t/rr9Nf5v+tno/8M4+PWDYBTsGAJk=
+  </data>
+ </layer>
+ <layer name="Foreground" width="64" height="48">
+  <data encoding="base64" compression="zlib">
+   eJztz7EJAAAIA0Et3H9lG3cQ9A6+TyIAAAAAAAAAAAAA7qrpq+//gVtye8CyBq9oABY=
+  </data>
+ </layer>
+ <objectgroup name="Spawn">
+  <object id="33" x="250.667" y="1366.67">
+   <polyline points="5.33333,9.33333 1061.33,9.33333"/>
+  </object>
+  <object id="35" x="384" y="256">
+   <polyline points="0,0 1024,0"/>
+  </object>
+  <object id="37" x="1504" y="544">
+   <polyline points="0,0 -1248,0"/>
+  </object>
+  <object id="38" x="224" y="832">
+   <polyline points="0,0 1376,0"/>
+  </object>
+  <object id="39" x="128" y="928">
+   <polyline points="0,0 64,0"/>
+  </object>
+  <object id="40" x="160" y="640">
+   <polyline points="0,0 64,0"/>
+  </object>
+  <object id="41" x="96" y="1312">
+   <polyline points="0,0 64,0"/>
+  </object>
+  <object id="42" x="1472" y="1440">
+   <polyline points="0,0 544,0"/>
+  </object>
+  <object id="43" x="1728" y="1120">
+   <polyline points="0,0 -1536,0"/>
+  </object>
+ </objectgroup>
+</map>
