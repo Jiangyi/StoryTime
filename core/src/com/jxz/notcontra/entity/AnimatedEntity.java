@@ -1,8 +1,5 @@
 package com.jxz.notcontra.entity;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
 
 /**
@@ -11,6 +8,7 @@ import com.jxz.notcontra.handlers.AssetHandler;
  */
 public abstract class AnimatedEntity extends Entity {
     protected float animStateTime;
+    protected boolean animationPaused = false;
     protected AssetHandler assetHandler = AssetHandler.getInstance();
 
     public AnimatedEntity(String name) {
@@ -19,4 +17,11 @@ public abstract class AnimatedEntity extends Entity {
 
     public abstract void animate();
 
+    public boolean isAnimationPaused() {
+        return animationPaused;
+    }
+
+    public void setAnimationPaused(boolean animationPaused) {
+        this.animationPaused = animationPaused;
+    }
 }

@@ -45,6 +45,7 @@ public class Level {
     private float gravity = 0.25f / Game.UNIT_SCALE;
     private boolean firstLoad;
     private Game game;
+    private String theme;
 
     // Survival Variables
     private int monsterCount;
@@ -64,6 +65,7 @@ public class Level {
         height = map.getProperties().get("height", int.class);
         width = map.getProperties().get("width", int.class);
         game = GameStateManager.getInstance().getGame();
+        theme = map.getProperties().get("theme", String.class);
 
         // Survival Setup
         subWavesRemaining = 3;
@@ -96,7 +98,7 @@ public class Level {
         // Spawn mobs if necessary; story mode only
         if (game.getPlayMode() == Game.PlayMode.STANDARD) {
             if (map.getProperties().containsKey("defaultSpawnAmount") && map.getProperties().containsKey("defaultMobLevel")) {
-                spawn(map.getProperties().get("defaultSpawnAmount", int.class), map.getProperties().get("defaultMobLevel", int.class));
+                spawn(Integer.parseInt(map.getProperties().get("defaultSpawnAmount", String.class)), Integer.parseInt(map.getProperties().get("defaultMobLevel", String.class)));
             }
 
             // Spawns boss on boss levels
@@ -228,15 +230,38 @@ public class Level {
         // Add appropriate monster classes to the array
         switch (monsterLevel) {
             case 0:
-                validMonsterType.add(Slime.class);
+                if (theme.equals("grass")) {
+                    validMonsterType.add(Slime.class);
+                } else if (theme.equals("space")) {
+                    validMonsterType.add(Slime.class);
+                } else if (theme.equals("hell")) {
+
+                }
                 break;
             case 1:
-                validMonsterType.add(Alien.class);
+                if (theme.equals("grass")) {
+                    validMonsterType.add(Alien.class);
+                } else if (theme.equals("space")) {
+                    validMonsterType.add(Alien.class);
+                } else if (theme.equals("hell")) {
+
+                }
                 break;
             case 2:
-                break;
+                if (theme.equals("grass")) {
+
+                } else if (theme.equals("space")) {
+
+                } else if (theme.equals("hell")) {
+
+                }
             case 3:
-                break;
+                if (theme.equals("grass")) {
+                } else if (theme.equals("space")) {
+
+                } else if (theme.equals("hell")) {
+
+                }
         }
 
         // Spawns random monsters from selected class

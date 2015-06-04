@@ -15,7 +15,6 @@ public abstract class RangedMonster extends Monster {
 
     protected float attackRange; // Effective range of the monster, it will approach until in this range
     protected int skillCount;
-    protected boolean canCast;
 
     public RangedMonster(String name, int skillCount) {
         super(name);
@@ -55,13 +54,12 @@ public abstract class RangedMonster extends Monster {
 
     @Override
     public void preCollisionAiUpdate() {
-        boolean skillsAvailable = false;
+       boolean skillsAvailable = false;
 
         // Iterate through active skills to check what to cast
         for (int i = 0; i < skillCount; i++) {
             if (skills.getSkill(i) != null) {
                 if (skills.getCooldown(i) == 0) {
-                    canCast = true;
                     skillsAvailable = true;
                 }
                 skills.decreaseCooldown(i, Gdx.graphics.getDeltaTime());
@@ -142,7 +140,9 @@ public abstract class RangedMonster extends Monster {
 
     public void animate() {
         // Update animation time
-        animStateTime += Gdx.graphics.getDeltaTime();
+        if (!isAnimationPaused()) {
+            animStateTime += Gdx.graphics.getDeltaTime();
+        }
 
         // Casting > Hurt > Death > Movement/Idle
         if (isCasting) {

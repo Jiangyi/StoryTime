@@ -11,7 +11,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.jxz.notcontra.animation.AnimationEx;
 import com.jxz.notcontra.animation.SpriteEx;
 import com.jxz.notcontra.camera.PlayerCamera;
-import com.jxz.notcontra.entity.pickups.HealthPotion;
 import com.jxz.notcontra.entity.pickups.Pickups;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AudioHelper;
@@ -131,18 +130,19 @@ public class Player extends LivingEntity {
         // Iterate through active skills to check what to cast
         for (int i = 0; i < 5; i++) {
             if (skills.getSkill(i) != null) {
-                if (skills.getActive(i) && skills.getCooldown(i) == 0) {
+                if (skills.getActive(i) && skills.getCooldown(i) == 0 && canCast) {
                     cast(i);
                 }
                 skills.decreaseCooldown(i, Gdx.graphics.getDeltaTime());
             }
         }
-        // Iterate through entities to check for touch damage
+        // Iterate through entities to check collision
         if (forceDuration == 0) {
             for (Entity e : EntityManager.getInstance().getEntitiesListIteration()) {
                 if (e.isActive()) {
                     if (e.getCurrentLevel().equals(currentLevel)) {
                         if (e instanceof Monster && !e.equals(this)) {
+                            // Check touch damage
                             Monster m = (Monster) e;
                             if (m.getAIState() != Monster.AIState.DYING && m.getAIState() != Monster.AIState.SPAWNING) {
                                 if (Intersector.overlaps(aabb, e.getAABB())) {
@@ -150,31 +150,19 @@ public class Player extends LivingEntity {
                                     break;
                                 }
                             }
+                        } else if (e instanceof Pickups) {
+                            // Check pickups
+                            if (Intersector.overlaps(aabb, e.getAABB())) {
+                                Pickups p = (Pickups) e;
+                                p.giveEffect(this);
+                                p.reset();
+                            }
                         }
                     }
                 }
             }
         }
 
-        // Iterate through pickups to check for touch to pickup
-        for (Entity p : EntityManager.getInstance().getEntitiesListIteration()) {
-            if (p instanceof Pickups && p.isActive) {
-                if (p.getCurrentLevel().equals(currentLevel)) {
-                    if (Intersector.overlaps(aabb, p.getAABB())) {
-                        if (p instanceof HealthPotion) {
-                            if (health < maxHealth) {
-                                this.health += 10;
-                                if (health >= maxHealth) {
-                                    health = maxHealth;
-                                }
-                                ((HealthPotion) p).reset();
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-        }
         super.update();
 
         // Calculate fall damage
@@ -289,7 +277,9 @@ public class Player extends LivingEntity {
 
     public void animate() {
         // Animation stuff
-        animStateTime += Gdx.graphics.getDeltaTime();
+        if (!animationPaused) {
+            animStateTime += Gdx.graphics.getDeltaTime();
+        }
 
         // Changes animation based on current frame time
         if (isAlive()) {

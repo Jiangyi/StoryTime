@@ -90,7 +90,9 @@ public abstract class GruntMonster extends Monster {
     // Grunt monsters have no special animations, so no cast statements are needed
     public void animate() {
         // Update animation time
-        animStateTime += Gdx.graphics.getDeltaTime();
+        if (!isAnimationPaused()) {
+            animStateTime += Gdx.graphics.getDeltaTime();
+        }
 
         // Hurt > Death > Movement/Idle
         if (forceDuration > 0) {

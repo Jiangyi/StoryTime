@@ -13,7 +13,7 @@ public class SpawnSkill extends Skill {
     protected Class monsterType;
     protected int number;
 
-    public SpawnSkill(String name, Class<Monster> monsterType, int number) {
+    public SpawnSkill(String name, Class monsterType, int number) {
         super(name);
         requiresCastPriority = true;
         cooldown = 0;
