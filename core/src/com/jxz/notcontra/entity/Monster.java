@@ -112,6 +112,8 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
             playDeathSound();
             dropItems();
             health = 0;
+            animationPaused = false;
+            buffs.reset();
             state = AIState.DYING;
             movementState.set(0, 0);
         }

@@ -3,10 +3,13 @@ package com.jxz.notcontra.skill;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pools;
+import com.jxz.notcontra.effect.SpriteEffect;
 import com.jxz.notcontra.entity.Entity;
 import com.jxz.notcontra.entity.LivingEntity;
 import com.jxz.notcontra.entity.Monster;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.SkillManager;
 
 import java.util.ArrayList;
 
@@ -27,6 +30,10 @@ public abstract class Skill implements Cloneable {
     protected Vector2 hitboxOffset;
     protected boolean rootWhileCasting;
     protected boolean requiresCastPriority;
+    protected String statusEffect;
+    protected float statusDuration;
+    protected String hitEffect;
+    protected Animation hitAnimation;
     protected Animation animation;
     protected Animation castAnimation;
     protected TextureAtlas vfx;
@@ -42,6 +49,7 @@ public abstract class Skill implements Cloneable {
         castOffset = new Vector2(0, 0);
         requiresCastPriority = true;
         hasCastEffect = false;
+        cooldown = 0;
     }
 
     public abstract void use(LivingEntity caster);
@@ -59,6 +67,19 @@ public abstract class Skill implements Cloneable {
             LivingEntity le = (LivingEntity) target;
             if (!(target instanceof Monster && caster instanceof Monster)) {
                 le.damage(damage, caster);
+                if (statusEffect != null) {
+                    SkillManager.applyBuff(statusEffect, le, statusDuration);
+                }
+                if (hitEffect != null) {
+                    SpriteEffect effect = Pools.obtain(SpriteEffect.class);
+                    effect.init();
+                    effect.setParent(le);
+                    le.addChild(effect);
+                    effect.setSprite(vfx.createSprite(hitEffect));
+                    effect.setAnimation(hitAnimation);
+                    effect.setDirection(Vector2.Zero);
+                    effect.setOffset(0, 0);
+                }
                 if (Game.getDebugMode()) System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
             }
         }
@@ -160,5 +181,25 @@ public abstract class Skill implements Cloneable {
 
     public void setDamageScaling(float damageScaling) {
         this.damageScaling = damageScaling;
+    }
+
+    public void setStatusEffect(String buffName) {
+        statusEffect = buffName;
+    }
+
+    public void setStatusDuration(float duration) {
+        statusDuration = duration;
+    }
+
+    public void setHitAnimation(Animation animation) {
+        hitAnimation = animation;
+    }
+
+    public void setHitEffect(String hitEffect) {
+        this.hitEffect = hitEffect;
+    }
+
+    public String getHitEffect() {
+        return hitEffect;
     }
 }

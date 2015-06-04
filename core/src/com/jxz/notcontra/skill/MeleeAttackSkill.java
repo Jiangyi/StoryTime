@@ -16,7 +16,6 @@ public class MeleeAttackSkill extends Skill {
     public MeleeAttackSkill(String name) {
         super(name);
         requiresCastPriority = true;
-        cooldown = 0;
     }
 
     @Override

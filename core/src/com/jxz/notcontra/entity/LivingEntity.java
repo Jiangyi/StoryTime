@@ -5,9 +5,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pools;
 import com.jxz.notcontra.animation.AnimationEx;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AudioHelper;
+import com.jxz.notcontra.handlers.BuffInventory;
 import com.jxz.notcontra.handlers.SkillInventory;
 import com.jxz.notcontra.skill.Skill;
 import com.jxz.notcontra.world.Level;
@@ -23,8 +25,10 @@ public abstract class LivingEntity extends AnimatedEntity {
     protected int mana;
     protected int maxMana;
     protected float speed;
+    protected float additionalSpeed;
     protected float damageMultiplier;
     protected float baseDamage;
+    protected float additionalDamage;
     protected float criticalChance;
 
     private final float DAMAGE_RANGE_PERCENTAGE = 0.15f;
@@ -68,6 +72,7 @@ public abstract class LivingEntity extends AnimatedEntity {
     protected boolean canClimb = false;
     protected boolean isClimbing = false;
     protected boolean isCasting = false;
+    protected boolean canCast = true;
     protected boolean isRooted = false;
     protected boolean skillCasted = false;
 
@@ -75,16 +80,24 @@ public abstract class LivingEntity extends AnimatedEntity {
     SkillInventory skills;
     Skill currentSkill;
 
+    // Buff Inventory
+    BuffInventory buffs;
+
     // Constructor - start with no movement in either direction
     public LivingEntity(String entityName) {
         super(entityName);
         movementState = new Vector2(0, 0);
         forceVector = new Vector2(0, 0);
         forceDuration = 0;
+        buffs = Pools.obtain(BuffInventory.class);
     }
 
     @Override
     public void update() {
+        // Update Buffs
+        buffs.update();
+
+        // Update Collision
         /** Declare local variables */
         float slopeLeft, slopeRight;
         deltaX = 0;
@@ -125,7 +138,6 @@ public abstract class LivingEntity extends AnimatedEntity {
 
         // X collision check
         float maxDist = Math.abs(deltaX);
-        int slopeFactor = isOnSlope ? 5 : 0;
         for (int i = 0; i <= height; i++) {
             if (i == width) {
                 heightOffset = aabb.getHeight();
@@ -415,10 +427,7 @@ public abstract class LivingEntity extends AnimatedEntity {
     }
 
     public boolean calculateCrit(LivingEntity source) {
-        if (MathUtils.random(0.0f, 1.0f) <= source.getCriticalChance()) {
-            return true;
-        }
-        return false;
+        return MathUtils.randomBoolean(source.getCriticalChance());
     }
 
     public int calculateDamage(float dmg) {
@@ -428,25 +437,28 @@ public abstract class LivingEntity extends AnimatedEntity {
     public void die() {
         isActive = false;
         isVisible = false;
+        Pools.free(buffs);
         if (Game.getDebugMode()) System.out.println(name + id + " has been slain.");
     }
 
     public void jump() {
-        if (jumpCounter < maxJumps) {
-            if (isClimbing) {
-                isClimbing = false;
-                jumpState = jumpTime * 0.75f;
-                jumpCounter = maxJumps;
-            } else {
-                jumpState = jumpTime;
-                if (this instanceof Player) {
-                    AudioHelper.playSoundEffect("jump");
+        if (!isRooted) {
+            if (jumpCounter < maxJumps) {
+                if (isClimbing) {
+                    isClimbing = false;
+                    jumpState = jumpTime * 0.75f;
+                    jumpCounter = maxJumps;
+                } else {
+                    jumpState = jumpTime;
+                    if (this instanceof Player) {
+                        AudioHelper.playSoundEffect("jump");
+                    }
                 }
+                resetGravity();
+                jumpCounter += 1;
+                isGrounded = false;
+                isJumping = true;
             }
-            resetGravity();
-            jumpCounter += 1;
-            isGrounded = false;
-            isJumping = true;
         }
     }
 
@@ -566,4 +578,19 @@ public abstract class LivingEntity extends AnimatedEntity {
         return criticalChance;
     }
 
+    public BuffInventory getBuffList() {
+        return this.buffs;
+    }
+
+    public boolean getCanCast() {
+        return canCast;
+    }
+
+    public void setCanCast(boolean canCast) {
+        this.canCast = canCast;
+    }
+
+    public void setIsRooted(boolean isRooted) {
+        this.isRooted = isRooted;
+    }
 }
