@@ -325,107 +325,128 @@ button_new
   orig: 128, 64
   offset: 0, 0
   index: 2
-button_play
+button_next
   rotate: false
   xy: 649, 611
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 0
-button_play
+button_next
   rotate: false
   xy: 779, 677
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 1
-button_play
+button_next
   rotate: false
   xy: 519, 479
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 2
-button_quit
+button_play
   rotate: false
   xy: 649, 545
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 0
-button_quit
+button_play
   rotate: false
   xy: 779, 611
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 1
-button_quit
+button_play
   rotate: false
   xy: 649, 479
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 2
-button_save
+button_quit
   rotate: false
   xy: 779, 545
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 0
-button_save
+button_quit
   rotate: false
   xy: 779, 479
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 1
-button_save
+button_quit
   rotate: false
   xy: 583, 413
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 2
-button_start
+button_save
   rotate: false
   xy: 583, 347
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 0
-button_start
+button_save
   rotate: false
   xy: 713, 413
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 1
-button_start
+button_save
   rotate: false
   xy: 583, 281
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: 2
+button_start
+  rotate: false
+  xy: 713, 347
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 0
+button_start
+  rotate: false
+  xy: 583, 215
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 1
+button_start
+  rotate: false
+  xy: 713, 281
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 2
 button_arrow_v
   rotate: false
-  xy: 713, 363
+  xy: 583, 165
   size: 96, 48
   orig: 96, 48
   offset: 0, 0
   index: 0
 button_arrow_v
   rotate: false
-  xy: 583, 231
+  xy: 713, 231
   size: 96, 48
   orig: 96, 48
   offset: 0, 0
   index: 1
 button_arrow_v
   rotate: false
-  xy: 713, 313
+  xy: 583, 115
   size: 96, 48
   orig: 96, 48
   offset: 0, 0
