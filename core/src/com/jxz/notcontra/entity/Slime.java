@@ -60,25 +60,13 @@ public class Slime extends GruntMonster {
         patrolSpeed = 2.0f;
         chaseSpeed = 3.0f;
 
+        // Sound
+        dieSnd = "slime_die";
+        hitSnd = "slime_hit";
+
         // Drop chance
         itemDrops = new Class[1];
         itemDrops[0] = HealthPotion.class;
-        dropChance = 0.4f;
-    }
-
-    @Override
-    public void damage(float dmg, Entity source) {
-        AudioHelper.playSoundEffect("slime_hit");
-        super.damage(dmg, source);
-    }
-
-    @Override
-    public void die() {
-        super.die();
-    }
-
-    public void playDeathSound() {
-        AudioHelper.playSoundEffect("slime_die");
     }
 
 }

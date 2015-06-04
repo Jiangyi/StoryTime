@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Pool;
 import com.jxz.notcontra.entity.LivingEntity;
 import com.jxz.notcontra.entity.StaticEntity;
+import com.jxz.notcontra.handlers.AudioHelper;
 
 /**
  * Created by Kevin Xiao on 2015-06-03.
@@ -14,7 +15,7 @@ public abstract class Pickups extends StaticEntity implements Pool.Poolable {
     private float stateTime;
     private final float BEGIN_FADE_TIME = 10f;
     private final float END_FADE_TIME = 11f;
-    protected static float dropChance = 0.1f;
+    protected String pickupSnd;
 
     public Pickups(String pickupName) {
         super(pickupName);
@@ -60,10 +61,7 @@ public abstract class Pickups extends StaticEntity implements Pool.Poolable {
         batch.setColor(1f, 1f, 1f, 1f);
     }
 
-    public abstract void giveEffect(LivingEntity le);
-
-    public static float getChance() {
-        return dropChance;
+    public void giveEffect(LivingEntity le) {
+        AudioHelper.playSoundEffect(pickupSnd);
     }
-
 }

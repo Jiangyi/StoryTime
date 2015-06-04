@@ -16,12 +16,11 @@ public class HealthPotion extends Pickups {
         // initialize sprite stuff
         this.sprite = new SpriteEx(((TextureAtlas) AssetHandler.getInstance().getByName("pickups")).findRegion("potion_red"));
         aabb.set(position.x, position.y, sprite.getWidth(), sprite.getHeight());
-
-        // Set drop chance
-        dropChance = 1f;
+        pickupSnd = "potion";
     }
 
     public void giveEffect(LivingEntity le) {
+        super.giveEffect(le);
         if (le.getHealth() < le.getMaxHealth()) {
             le.changeHealth(10);
             this.reset();

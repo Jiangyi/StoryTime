@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Pool;
 import com.jxz.notcontra.entity.pickups.DropChance;
 import com.jxz.notcontra.entity.pickups.Pickups;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.hud.OSHealthBar;
 import com.jxz.notcontra.particles.DamageNumber;
@@ -32,7 +33,6 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
     protected Entity target;
     protected float deathLerp;
     protected int deathScore;
-    protected float dropChance;
     protected Class[] itemDrops;
 
     public enum AIState {
@@ -109,7 +109,7 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
         // Update states:
         if (health <= 0 && state != AIState.DYING) {
             // Play death sound and drop items
-            playDeathSound();
+            AudioHelper.playSoundEffect(dieSnd);
             dropItems();
             health = 0;
             animationPaused = false;
@@ -151,6 +151,8 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
         boolean doCrit = false;
         float newDmg;
 
+        // Play sound
+        AudioHelper.playSoundEffect(hitSnd);
         // Calculate critical hit and display damage numbers
         if (source instanceof Player) {
             doCrit = calculateCrit((LivingEntity) source);
@@ -216,23 +218,16 @@ public abstract class Monster extends LivingEntity implements Pool.Poolable {
         this.aimRadius = aimRadius;
     }
 
-    public abstract void playDeathSound();
-
-    public boolean calculateDrop(float chance) {
-        if (MathUtils.random(0f, 1f) <= chance ) {
-            return true;
-        }
-        return false;
-    }
-
     public void dropItems() {
         float chance;
-        for (Class p : itemDrops) {
-            chance = DropChance.getDropChance(p);
-            if (MathUtils.random(0f, 1f) <= chance) {
-                Pickups drop = (Pickups) EntityFactory.spawn(p);
-                drop.setCurrentLevel(currentLevel);
-                drop.init(this.position.x, this.position.y);
+        if (itemDrops != null) {
+            for (Class p : itemDrops) {
+                chance = DropChance.getDropChance(p);
+                if (MathUtils.random(0f, 1f) <= chance) {
+                    Pickups drop = (Pickups) EntityFactory.spawn(p);
+                    drop.setCurrentLevel(currentLevel);
+                    drop.init(this.position.x, this.position.y);
+                }
             }
         }
     }

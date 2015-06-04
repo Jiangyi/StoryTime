@@ -63,24 +63,12 @@ public class Alien extends RangedMonster {
         patrolSpeed = 2.0f;
         chaseSpeed = 3.0f;
 
+        // Sound
+        dieSnd = "alien_die";
+        hitSnd = "alien_hit";
+
         // Magic skills and stuff
         skills.setInventory(0, "iceball");
-
-        // Drop chance
-        dropChance = 0.1f;
     }
 
-    @Override
-    public void damage(float dmg, Entity source) {
-        AudioHelper.playSoundEffect("alien_hit");
-        super.damage(dmg, source);
-    }
-
-    public void playDeathSound() {
-        AudioHelper.playSoundEffect("alien_die");
-    }
-
-    public void dropItems() {
-
-    }
 }

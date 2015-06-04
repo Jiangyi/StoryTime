@@ -86,6 +86,10 @@ public class Player extends LivingEntity {
 
         movementState = new Vector2(0, 0);
 
+        // Sound strings
+        dieSnd = "player_death";
+
+
         // Setup Hitbox
         aabb.set(position.x, position.y, 30, 50);
         hitboxOffset.set(-aabb.getWidth() / 2f, 0);
@@ -197,7 +201,7 @@ public class Player extends LivingEntity {
             Tombstone tombstone = (Tombstone) EntityFactory.spawn(Tombstone.class);
             tombstone.setCurrentLevel(currentLevel);
             tombstone.setTombStone(this.position.x - (tombstone.getSprite().getWidth() - this.sprite.getWidth()) / 2 - 10, this.position.y + tombstone.getSprite().getHeight());
-            AudioHelper.playSoundEffect("player_death");
+            AudioHelper.playSoundEffect(dieSnd);
         }
     }
 

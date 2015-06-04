@@ -76,6 +76,11 @@ public abstract class LivingEntity extends AnimatedEntity {
     protected boolean isRooted = false;
     protected boolean skillCasted = false;
 
+    // Sound fields
+    protected String hitSnd;
+    protected String dieSnd;
+    protected String jumpSnd;
+
     // Skill Inventory
     SkillInventory skills;
     Skill currentSkill;
@@ -90,6 +95,8 @@ public abstract class LivingEntity extends AnimatedEntity {
         forceVector = new Vector2(0, 0);
         forceDuration = 0;
         buffs = Pools.obtain(BuffInventory.class);
+
+        jumpSnd = "jump";
     }
 
     @Override
@@ -451,7 +458,7 @@ public abstract class LivingEntity extends AnimatedEntity {
                 } else {
                     jumpState = jumpTime;
                     if (this instanceof Player) {
-                        AudioHelper.playSoundEffect("jump");
+                        AudioHelper.playSoundEffect(jumpSnd);
                     }
                 }
                 resetGravity();
