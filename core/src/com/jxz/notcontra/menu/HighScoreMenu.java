@@ -36,7 +36,7 @@ public class HighScoreMenu extends Menu {
         width = 850;
         setUpTextLabels();
         headerImage = new Sprite((Texture) AssetHandler.getInstance().getByName("highscore_header"));
-        SpriteButton back = new SpriteButton(menuButtons, "button_back", 150, 100);
+        SpriteButton back = new SpriteButton(menuButtons, "button_back", 150, 75);
         back.setInputListener(new Button.InputListener() {
             @Override
             public void onClick() {
@@ -62,6 +62,9 @@ public class HighScoreMenu extends Menu {
         for (int i = 0; i < highScores.size(); i++) {
             TextLabel label = new TextLabel(menuButtons.createSprite("button_highscore_bg"), highScores.get(i).getName(),
                     String.valueOf(highScores.get(i).getScore()), GameStateManager.getInstance().getCurrentState().getFont(), x, y - i * height / 5, height / 5, width);
+            int yOffset = menuButtons.createSprite("button_highscore_bg").getRegionHeight() / 4;
+            label.setPrimaryOffset(20, yOffset);
+            label.setSecondaryOffset(45, yOffset);
             buttons.add(label);
         }
     }

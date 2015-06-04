@@ -31,7 +31,7 @@ public class SaveLoadScrollPane extends ScrollPane {
         this.directory = element.getChildByName("directory").getText();
         this.font = font;
         TextLabel label = new TextLabel(menuButtons, "button_savelabelbg", "File", "Date Modified", font, x, y, TEXT_LABEL_HEIGHT, width);
-        label.setSecondaryTextOffset(400);
+        label.setSecondaryOffset(400, 5);
         list.add(label);
         parseDirectory();
     }
@@ -45,7 +45,7 @@ public class SaveLoadScrollPane extends ScrollPane {
             SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
             final TextLabel textLabel = new TextLabel(menuButtons, "button_savelabelbg", file.name(), dateFormat.format(date),
                     font, x, y - TEXT_LABEL_HEIGHT * (counter + 1), TEXT_LABEL_HEIGHT, width);
-            textLabel.setSecondaryTextOffset(400);
+            textLabel.setSecondaryOffset(400, 5);
             textLabel.setInputListener(new Button.InputListener() {
                 @Override
                 public void onClick() {

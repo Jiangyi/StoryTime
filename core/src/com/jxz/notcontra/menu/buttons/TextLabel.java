@@ -14,8 +14,8 @@ public class TextLabel extends SpriteButton {
     protected String secondaryText;
     protected BitmapFont font;
     protected boolean drawBg = true;
-    protected final int OFFSET = 5;
-    protected int secondaryTextOffset = 30;
+    protected int primaryOffsetX = 5, primaryOffsetY = 5;
+    protected int secondaryOffsetX = 30, secondaryOffsetY = 5;
 
     public TextLabel(TextureAtlas buttonSprites, String spriteRegion, String text, BitmapFont font, int x, int y, int height, int width) {
         super(buttonSprites, spriteRegion, x, y);
@@ -53,9 +53,9 @@ public class TextLabel extends SpriteButton {
         if (drawBg) {
             batch.draw(getCurrentStateSprite(), x, y, width, height);
         }
-        font.draw(batch, primaryText, x + OFFSET, y + height - OFFSET);
+        font.draw(batch, primaryText, x + primaryOffsetX, y + height - primaryOffsetY);
         if (secondaryText != null) {
-            font.draw(batch, secondaryText, x + width - secondaryTextOffset, y + height - OFFSET);
+            font.draw(batch, secondaryText, x + width - secondaryOffsetX, y + height - secondaryOffsetY);
         }
     }
 
@@ -74,8 +74,15 @@ public class TextLabel extends SpriteButton {
     public void setSecondaryText(String secondaryText) {
         this.secondaryText = secondaryText;
     }
-    public void setSecondaryTextOffset(int offset) {
-        this.secondaryTextOffset = offset;
+
+    public void setPrimaryOffset(int offsetX, int offsetY) {
+        this.primaryOffsetX = offsetX;
+        this.primaryOffsetY = offsetY;
+    }
+
+    public void setSecondaryOffset(int offsetX, int offsetY) {
+        this.secondaryOffsetX = offsetX;
+        this.secondaryOffsetY = offsetY;
     }
 
     public void setDrawBg(boolean drawBg) {
