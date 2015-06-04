@@ -160,7 +160,7 @@ public class InputManager implements InputProcessor {
                 return true;
             }
         }
-        // LOAD STATE SWITCH STATE TEST
+        // LOAD STATE SWITCH STATE
         if (gsm.getCurrentState() instanceof LoadState) {
             if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE) && gsm.getLoadState().getIsDoneLoading() && gsm.getLoadState().getIsEnteringGame()) {
                 gsm.getLoadState().resetLoadingBar();
@@ -324,8 +324,10 @@ public class InputManager implements InputProcessor {
                     continue;
                 } else {
                     if (i.isMouseWithinBoundary(screenX, screenY) && i.getInputListener() != null) {
-                        i.setState(Button.ButtonState.HOVER);
-                        i.getInputListener().onHover();
+                        if (i.getCurrentState() != Button.ButtonState.HOVER) {
+                            i.setState(Button.ButtonState.HOVER);
+                            i.getInputListener().onHover();
+                        }
                     } else {
                         i.setState(Button.ButtonState.DEFAULT);
                     }

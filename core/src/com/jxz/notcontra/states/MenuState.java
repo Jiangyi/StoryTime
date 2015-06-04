@@ -1,11 +1,13 @@
 package com.jxz.notcontra.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
+import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.menu.Menu;
 import com.jxz.notcontra.menu.ParseMenu;
 
@@ -19,6 +21,7 @@ public class MenuState extends GameState {
     private TextureAtlas menuButtonTextures;
     private Menu rootMenu;
     private Texture background;
+    private Music music;
 
     public MenuState(Game game) {
         super(game);
@@ -29,10 +32,14 @@ public class MenuState extends GameState {
         rootMenu = new ParseMenu("MainMenu.xml");
         rootMenu.setMenuState(this);
         setCurrentMenu(rootMenu);
+
+        this.setMusic();
     }
 
     public void update() {
-        // Do nothing
+        if (!AudioHelper.getMusic().equals(music)) {
+            this.setMusic();
+        }
     }
 
     public void render() {
@@ -72,6 +79,14 @@ public class MenuState extends GameState {
 
     public void setMenuButtonTextures(TextureAtlas menuButtonTextures) {
         this.menuButtonTextures = menuButtonTextures;
+    }
+
+    public void setMusic() {
+        // Music setup
+        music = Gdx.audio.newMusic(Gdx.files.internal(assetHandler.getFilePath("menu_music") + ".mp3"));
+        AudioHelper.setBgMusic(this.music);
+        AudioHelper.resetBackgroundMusic();
+        AudioHelper.playBgMusic(true);
     }
 }
 

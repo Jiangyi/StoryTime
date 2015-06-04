@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.menu.buttons.Button;
 import com.jxz.notcontra.menu.buttons.SpriteButton;
@@ -72,6 +73,7 @@ public class ParseMenu extends Menu {
                     Button.InputListener listener = new Button.InputListener() {
                         @Override
                         public void onClick() {
+                            AudioHelper.playSoundEffect("menu_hit");
                             if (onClickType.equalsIgnoreCase("setMenu")) {
                                 if (onClick.getText().equalsIgnoreCase("Previous")) {
                                     if (GameStateManager.getInstance().getCurrentState() instanceof MenuState) {
@@ -115,7 +117,7 @@ public class ParseMenu extends Menu {
 
                         @Override
                         public void onHover() {
-
+                            AudioHelper.playSoundEffect("menu_hover");
                         }
                     };
                     button.setInputListener(listener);

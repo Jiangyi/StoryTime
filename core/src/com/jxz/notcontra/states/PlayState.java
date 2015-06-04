@@ -1,6 +1,7 @@
 package com.jxz.notcontra.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -31,6 +32,7 @@ public class PlayState extends GameState {
     private Menu pauseMenu;
     private Menu currentMenu;
     private float timeSurvived;
+    private Music music;
 
     private int killCounter;
 
@@ -50,8 +52,7 @@ public class PlayState extends GameState {
         pauseMenu.setMenuState(GameStateManager.getInstance().getMenuState());
         currentMenu = pauseMenu;
 
-        // Reset music
-        AudioHelper.resetBackgroundMusic();
+        this.setMusic();
     }
 
     public void load(String levelName) {
@@ -70,7 +71,9 @@ public class PlayState extends GameState {
     }
 
     public void update() {
-
+        if (!AudioHelper.getMusic().equals(music)) {
+            this.setMusic();
+        }
         if (game.getPlayMode() == Game.PlayMode.SURVIVAL && !isPaused && player.isAlive()) {
             timeSurvived += Gdx.graphics.getDeltaTime();
         }
@@ -196,5 +199,13 @@ public class PlayState extends GameState {
 
     public float getTimeSurvived() {
         return timeSurvived;
+    }
+
+    public void setMusic() {
+        // Music setup
+        music = Gdx.audio.newMusic(Gdx.files.internal(assetHandler.getFilePath("bgmusic") + ".mp3"));
+        AudioHelper.setBgMusic(this.music);
+        AudioHelper.resetBackgroundMusic();
+        AudioHelper.playBgMusic(true);
     }
 }
