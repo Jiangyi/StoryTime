@@ -9,8 +9,7 @@ import com.badlogic.gdx.audio.Sound;
 public class AudioHelper {
 
     private static AssetHandler assetHandler = AssetHandler.getInstance();
-    // TODO: Generalize background music further
-    private static Music bgMusic = (Music) assetHandler.getByName("bgmusic");
+    private static Music music;
     private static Sound sound;
     private static float volume;
 
@@ -21,38 +20,53 @@ public class AudioHelper {
             vol = 0;
         }
         volume = vol;
-        bgMusic.setVolume(volume);
+        music.setVolume(volume);
     }
 
     public static float getMusicVolume() {
-        return bgMusic.getVolume();
+        return music.getVolume();
+    }
+
+    public static Music getMusic() {
+        return music;
     }
 
     public static void playBgMusic(boolean play) {
         if (play) {
-            bgMusic.setLooping(true);
-            bgMusic.play();
+            music.setLooping(true);
+            music.play();
         } else {
-            bgMusic.pause();
+            music.pause();
         }
     }
 
     public static void muteMusic() {
-        if (bgMusic.getVolume() > 0) {
-            volume = bgMusic.getVolume();
-            bgMusic.setVolume(0f);
+        if (music.getVolume() > 0) {
+            volume = music.getVolume();
+            music.setVolume(0f);
         } else {
-            bgMusic.setVolume(volume);
+            music.setVolume(volume);
         }
     }
 
+    public static void setBgMusic(Music newMusic) {
+        if (music != null) {
+            music.dispose();
+        }
+        music = newMusic;
+    }
+
     public static boolean isBgMusicPlaying() {
-        return bgMusic.isPlaying();
+        return music.isPlaying();
     }
 
     public static void resetBackgroundMusic() {
-        bgMusic.setPosition(0f);
+        if (music != null) {
+            music.setPosition(0f);
+        }
+        music.dispose();
     }
+
     public static void playSoundEffect(String soundName) {
         sound = (Sound) assetHandler.getByName(soundName);
         sound.play();

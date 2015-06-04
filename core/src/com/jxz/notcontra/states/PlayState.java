@@ -2,6 +2,7 @@ package com.jxz.notcontra.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -34,6 +35,7 @@ public class PlayState extends GameState {
     private Menu currentMenu;
     private float timeSurvived;
     private boolean highScoreShown;
+    private Music music;
 
     private int killCounter;
 
@@ -53,8 +55,7 @@ public class PlayState extends GameState {
         pauseMenu.setMenuState(GameStateManager.getInstance().getMenuState());
         currentMenu = pauseMenu;
 
-        // Reset music
-        AudioHelper.resetBackgroundMusic();
+        this.setMusic();
     }
 
     public void load(String levelName) {
@@ -73,7 +74,6 @@ public class PlayState extends GameState {
     }
 
     public void update() {
-
         if (!player.isAlive() && !highScoreShown) {
             highScoreShown = true;
             if (player.getScore() > HighScoreHandler.getLowestScore()) {
@@ -92,6 +92,10 @@ public class PlayState extends GameState {
                     }
                 }, "New high score!", "", "Please enter your name:");
             }
+        }
+
+        if (!AudioHelper.getMusic().equals(music)) {
+            this.setMusic();
         }
 
         if (game.getPlayMode() == Game.PlayMode.SURVIVAL && !isPaused && player.isAlive()) {
@@ -155,7 +159,7 @@ public class PlayState extends GameState {
                 font.draw(sb, "Press O to turn on VSync, P to turn off", 700, 25);
                 font.draw(sb, "Press M to mute/unmute background music", 700, 50);
                 font.draw(sb, "Slimes: " + currentLevel.getMonsterCount(), 500, 25);
-                font.draw(sb, "isClimbing: " + player.isClimbing() + "    isOnPlatform: " + player.isOnPlatform() + "    isGrounded: " + player.isGrounded() + "    jumpState" + player.getJumpState(), 500, 125);
+                font.draw(sb, "isClimbing: " + player.isClimbing() + "    isOnPlatform: " + player.isOnPlatform() + "    isGrounded: " + player.isGrounded() + "    jumpState: " + player.getJumpState() + "     isOnSlope: " + player.isOnSlope(), 500, 125);
                 font.draw(sb, "MovementStateY: " + player.getMovementState().y, 1100, 25);
             }
         } else {
@@ -197,6 +201,7 @@ public class PlayState extends GameState {
     public Menu getCurrentMenu() {
         return currentMenu;
     }
+
     public void setCurrentMenu(Menu menu) {
         currentMenu = menu;
     }
@@ -219,5 +224,13 @@ public class PlayState extends GameState {
 
     public float getTimeSurvived() {
         return timeSurvived;
+    }
+
+    public void setMusic() {
+        // Music setup
+        music = Gdx.audio.newMusic(Gdx.files.internal(assetHandler.getFilePath("bgmusic") + ".mp3"));
+        AudioHelper.setBgMusic(this.music);
+        AudioHelper.resetBackgroundMusic();
+        AudioHelper.playBgMusic(true);
     }
 }

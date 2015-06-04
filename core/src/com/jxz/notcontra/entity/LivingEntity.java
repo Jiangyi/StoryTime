@@ -1,7 +1,6 @@
 package com.jxz.notcontra.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.MathUtils;
@@ -481,6 +480,14 @@ public abstract class LivingEntity extends AnimatedEntity {
 
     public void resetGravity() {
         this.currentGravity = 0;
+    }
+
+    public void changeHealth(int change) {
+        if (this.maxHealth - this.health <= change) {
+            this.health = maxHealth;
+        } else {
+            this.health += change;
+        }
     }
 
     public int getHealth() {

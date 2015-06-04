@@ -64,7 +64,6 @@ public class GameStateManager {
 
     public void setState(State state) {
         if (state == State.PLAY) {
-            AudioHelper.playBgMusic(true);
             if (playState == null) {
                 playState = new PlayState(game);
                 playState.load();

@@ -1,11 +1,9 @@
 package com.jxz.notcontra.entity;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.jxz.notcontra.animation.AnimationEx;
 import com.jxz.notcontra.animation.SpriteEx;
+import com.jxz.notcontra.entity.pickups.HealthPotion;
 import com.jxz.notcontra.handlers.AudioHelper;
 
 /**
@@ -31,7 +29,7 @@ public class Slime extends GruntMonster {
         animIdle = new AnimationEx(1 / 6f, ANIM_IDLE, TEXTURE_ATLAS_NAME);
         animWalk = new AnimationEx(1 / 6f, ANIM_WALK, TEXTURE_ATLAS_NAME);
         animHurt = new AnimationEx(1 / 6f, ANIM_HURT, TEXTURE_ATLAS_NAME);
-        animJump = new AnimationEx(1 / 6f,  ANIM_JUMP, TEXTURE_ATLAS_NAME);
+        animJump = new AnimationEx(1 / 6f, ANIM_JUMP, TEXTURE_ATLAS_NAME);
         animDeath = new AnimationEx(1 / 10f, ANIM_DEATH, TEXTURE_ATLAS_NAME);
 
         hitboxOffset.set(-aabb.getWidth() / 2f, 0);
@@ -61,6 +59,11 @@ public class Slime extends GruntMonster {
         // Speed parameters
         patrolSpeed = 2.0f;
         chaseSpeed = 3.0f;
+
+        // Drop chance
+        itemDrops = new Class[1];
+        itemDrops[0] = HealthPotion.class;
+        dropChance = 0.4f;
     }
 
     @Override
@@ -69,10 +72,13 @@ public class Slime extends GruntMonster {
         super.damage(dmg, source);
     }
 
+    @Override
+    public void die() {
+        super.die();
+    }
+
     public void playDeathSound() {
-        if (state != AIState.DYING) {
-            AudioHelper.playSoundEffect("slime_die");
-        }
+        AudioHelper.playSoundEffect("slime_die");
     }
 
 }

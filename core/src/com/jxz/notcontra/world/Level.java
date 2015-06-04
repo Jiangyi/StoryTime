@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.jxz.notcontra.entity.Alien;
 import com.jxz.notcontra.entity.EntityFactory;
@@ -53,16 +54,26 @@ public class Level {
     private float spawnTimer;
     private float[] spawnPercentage;
 
+    // Story Variables
+    private boolean levelComplete;
+    private boolean bossLevel;
+
     protected Level(TiledMap map) {
+        // Map Property setup
         this.map = map;
         height = map.getProperties().get("height", int.class);
         width = map.getProperties().get("width", int.class);
         game = GameStateManager.getInstance().getGame();
 
+        // Survival Setup
         subWavesRemaining = 3;
         spawnTimer = 5;
         monstersPerWave = 5;
         spawnPercentage = new float[3];
+
+        // Story initialization
+        levelComplete = false;
+        bossLevel = false;
 
         // Load parallax backgrounds from map file
         layers[0] = (Texture) assetHandler.getByName(map.getProperties().get("parallaxBackground", String.class));
@@ -78,8 +89,22 @@ public class Level {
             }
         }
 
+        // Add map to static array
         loadedMaps.add(this);
         firstLoad = true;
+
+        // Spawn mobs if necessary; story mode only
+        if (game.getPlayMode() == Game.PlayMode.STANDARD) {
+            if (map.getProperties().containsKey("defaultSpawnAmount") && map.getProperties().containsKey("defaultMobLevel")) {
+                spawn(map.getProperties().get("defaultSpawnAmount", int.class), map.getProperties().get("defaultMobLevel", int.class));
+            }
+
+            // Spawns boss on boss levels
+            if (map.getProperties().containsKey("bossMode")) {
+                bossLevel = true;
+                spawn(1, 3);
+            }
+        }
     }
 
     /**
@@ -106,6 +131,10 @@ public class Level {
         switch (game.getPlayMode()) {
             case STANDARD:
                 // Standard game mode: Respawns don't occur, unless specifically triggered.
+                // The next level is ready when monster count is equal to zero
+                if (monsterCount == 0) {
+                    levelComplete = true;
+                }
                 break;
             case SURVIVAL:
                 // Survival game mode: Waves respawn occur after each wave is dead
@@ -165,13 +194,17 @@ public class Level {
     }
 
     public void spawn(Class type) {
+        spawn(type, spawnPointList.randomSpawn());
+    }
+
+    public void spawn(Class type, Vector2 position) {
         Monster monster = (Monster) EntityFactory.spawn(type);
         monster.init();
-        monster.setPosition(spawnPointList.randomSpawn());
+        monster.setPosition(position);
         monster.setCurrentLevel(this);
 
-        // Automatically aggro to players in survival
-        if (GameStateManager.getInstance().getGame().getPlayMode() == Game.PlayMode.SURVIVAL) {
+        // Automatically aggro to players in survival, or if its a boss
+        if (GameStateManager.getInstance().getGame().getPlayMode() == Game.PlayMode.SURVIVAL || bossLevel) {
             monster.setTarget(GameStateManager.getInstance().getPlayState().getPlayer());
         }
     }
@@ -424,5 +457,13 @@ public class Level {
     public void setCurrentWave(int currentWave) {
         this.currentWave = currentWave;
         Game.setDifficultyMultiplier(1 + 0.05f * (currentWave - 1));
+    }
+
+    public SpawnPointList getSpawnPointList() {
+        return spawnPointList;
+    }
+
+    public boolean isComplete() {
+        return levelComplete;
     }
 }

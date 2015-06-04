@@ -3,7 +3,6 @@ package com.jxz.notcontra.skill;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.jxz.notcontra.effect.Effect;
 import com.jxz.notcontra.entity.Entity;
 import com.jxz.notcontra.entity.LivingEntity;
 import com.jxz.notcontra.entity.Monster;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
  * Created by Samuel on 23/04/2015.
  * Base class for skills.
  */
-public abstract class Skill {
+public abstract class Skill implements Cloneable {
     // Statistical Info
     protected String name;
     protected String animName;
@@ -32,7 +31,6 @@ public abstract class Skill {
     protected Animation castAnimation;
     protected TextureAtlas vfx;
     protected Entity caster;
-    protected Effect castEffect;
     protected Vector2 castOffset;
     protected boolean hasCastEffect;
 
@@ -64,6 +62,16 @@ public abstract class Skill {
                 if (Game.getDebugMode()) System.out.println(le.getName() + le.getId() + " is now at " + le.getHealth() + " hp.");
             }
         }
+    }
+
+    @Override
+    public Skill clone() {
+        try {
+            return (Skill) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // I'm actually not sure what to do here, since it should never happen.
+        }
+        return null;
     }
 
     public boolean isRootWhileCasting() {
@@ -124,6 +132,10 @@ public abstract class Skill {
             return this.castAnimation;
         }
         return null;
+    }
+
+    public boolean isHasCastEffect() {
+        return hasCastEffect;
     }
 
     public void setCastOffset(float x, float y) {

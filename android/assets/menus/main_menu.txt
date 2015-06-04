@@ -5,3 +5,8 @@ highscore_header	textures/menu/misc/highscore_header.png	Texture
 # Atlas for player
 player    textures/entities/player/player.pack    TextureAtlas
 Alice    textures/entities/player/Alice.pack    TextureAtlas
+
+#Sounds
+menu_music		music/tale_east.mp3												Music
+menu_hit		sfx/menu/menu_hit.wav											Sound
+menu_hover		sfx/menu/menu_hover.wav											Sound
