@@ -2,7 +2,7 @@
     <button x="centre" y="375">
         <name>Play</name>
         <textureName>button_play</textureName>
-        <onClick type="setMenu">PlayMenu</onClick>
+        <onClick type="setMenu" prevCmd="play">PlayMenu</onClick>
     </button>
     <button x="centre" y="275">
         <name>Options</name>

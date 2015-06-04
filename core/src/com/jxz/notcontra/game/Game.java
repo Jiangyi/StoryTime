@@ -34,6 +34,7 @@ public class Game extends ApplicationAdapter {
     // String to keep track of loading save files
     private PlayerSave save;
     private String playerSpriteName;
+    private String loadLevel;
 
     public String getPlayerSpriteName() {
         return playerSpriteName;
@@ -136,12 +137,12 @@ public class Game extends ApplicationAdapter {
             if (cmds[1].equalsIgnoreCase("new")) {
                 playMode = PlayMode.valueOf(cmds[2].toUpperCase());
                 playerSpriteName = cmds[3];
-                // String level = cmds[4];
+                loadLevel = cmds[4];
             } else if (cmds[1].equalsIgnoreCase("load")) {
                 save = SaveGameHandler.loadSave(cmds[2]);
                 playMode = PlayMode.valueOf(save.mode);
                 playerSpriteName = save.name;
-//                level = playerSave.level;
+                loadLevel = save.level;
             }
             gsm.setState(GameStateManager.State.LOAD);
             GameStateManager.getInstance().getLoadState().load("levels/levels.txt");
@@ -192,6 +193,13 @@ public class Game extends ApplicationAdapter {
         this.playMode = mode;
     }
 
+    public String getLoadLevel() {
+        return loadLevel;
+    }
+
+    public void resetLoadLevel() {
+        loadLevel = null;
+    }
     public static float getDifficultyMultiplier() {
         return difficultyMultiplier;
     }

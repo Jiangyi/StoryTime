@@ -21,8 +21,6 @@ public class KeyLayoutHelper {
         put("Jump", "jump");
         put("Skill 1", "skill1");
         put("Skill 2", "skill2");
-        put("Skill 3", "skill3");
-        put("Skill 4", "skill4");
         put("Interact", "interact");
         put("Set Debug", "setDebug");
     }};

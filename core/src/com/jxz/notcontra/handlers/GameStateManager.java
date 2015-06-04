@@ -66,7 +66,8 @@ public class GameStateManager {
         if (state == State.PLAY) {
             if (playState == null) {
                 playState = new PlayState(game);
-                playState.load();
+                playState.load(game.getLoadLevel());
+                game.resetLoadLevel();
             }
             currentGameState = playState;
         } else if (state == State.LOAD) {

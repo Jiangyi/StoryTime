@@ -10,6 +10,6 @@
     <button x="centre-right" y="75">
         <name>Load</name>
         <textureName>button_load</textureName>
-        <onClick type="getScrollPaneParam">play,load</onClick>
+        <onClick type="getScrollPaneParam"/>
     </button>
 </menu>

@@ -7,11 +7,11 @@
   <walk2 delay="180" x="-58" y="-83"/>
   <walk2 delay="180" x="-58" y="-83"/>
   <walk2 delay="180" x="-58" y="-83"/>
-  <stand2 delay="500" x="-56" y="-80"/>
-  <stand2 delay="500" x="-56" y="-80"/>
-  <stand2 delay="500" x="-56" y="-80"/>
-  <stand2 delay="500" x="-56" y="-80"/>
-  <stand2 delay="500" x="-56" y="-80"/>
+  <stand1 delay="500" x="-56" y="-80"/>
+  <stand1 delay="500" x="-56" y="-80"/>
+  <stand1 delay="500" x="-56" y="-80"/>
+  <stand1 delay="500" x="-56" y="-80"/>
+  <stand1 delay="500" x="-56" y="-80"/>
   <alert delay="500" x="-24" y="-75"/>
   <alert delay="500" x="-24" y="-75"/>
   <alert delay="500" x="-24" y="-75"/>
@@ -30,16 +30,16 @@
   <swingTF delay="150" x="-34" y="-104"/>
   <swingTF delay="150" x="-34" y="-104"/>
   <swingTF delay="200" x="-34" y="-104"/>
-  <swingP1 delay="300" x="-62" y="-96"/>
-  <swingP1 delay="150" x="-62" y="-96"/>
-  <swingP1 delay="350" x="-62" y="-96"/>
-  <swingP2 delay="300" x="-41" y="-96"/>
-  <swingP2 delay="150" x="-41" y="-96"/>
-  <swingP2 delay="350" x="-41" y="-96"/>
-  <swingPF delay="100" x="-47" y="-110"/>
-  <swingPF delay="200" x="-47" y="-110"/>
-  <swingPF delay="200" x="-47" y="-110"/>
-  <swingPF delay="200" x="-47" y="-110"/>
+  <swingO1 delay="300" x="-62" y="-96"/>
+  <swingO1 delay="150" x="-62" y="-96"/>
+  <swingO1 delay="350" x="-62" y="-96"/>
+  <swingO2 delay="300" x="-41" y="-96"/>
+  <swingO2 delay="150" x="-41" y="-96"/>
+  <swingO2 delay="350" x="-41" y="-96"/>
+  <swingOF delay="100" x="-47" y="-110"/>
+  <swingOF delay="200" x="-47" y="-110"/>
+  <swingOF delay="200" x="-47" y="-110"/>
+  <swingOF delay="200" x="-47" y="-110"/>
   <stabO1 delay="350" x="-36" y="-73"/>
   <stabO1 delay="450" x="-36" y="-73"/>
   <stabO2 delay="350" x="-34" y="-76"/>

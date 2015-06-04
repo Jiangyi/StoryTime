@@ -1,9 +1,10 @@
 <menu>
-    <scrollPane type="animated" x="215" y="500" width="850">
-        <idleAnimName duration=".667">stand1</idleAnimName>
+    <scrollPane type="animated" playAnim="false" x="215" y="500" width="850">
+        <idleAnimName duration=".667">stand2</idleAnimName>
         <activeAnimName duration=".167">walk1</activeAnimName>
-        <values>Alice</values>
-        <values>player</values>
+        <values prettyName="Grass" type="Texture">su_grass</values>
+        <values prettyName="Hell" type="Texture">su_hell</values>
+        <values prettyName="Moon" type="Texture">su_moon</values>
     </scrollPane>
     <button x="150" y="100">
         <name>Back</name>

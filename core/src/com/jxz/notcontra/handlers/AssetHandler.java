@@ -92,7 +92,12 @@ public class AssetHandler extends AssetManager {
     }
 
     public synchronized Object getByName(String name) {
-        return get(assetMap.get(name));
+        if (assetMap.containsKey(name)) {
+            return get(assetMap.get(name));
+        } else {
+            System.out.println("Asset not loaded!");
+            return null;
+        }
     }
 
     public synchronized boolean isLoadedByName(String name) {

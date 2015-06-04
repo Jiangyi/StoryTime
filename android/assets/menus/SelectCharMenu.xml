@@ -1,0 +1,20 @@
+<menu>
+    <scrollPane type="animated" playAnim="true" x="215" y="500" width="850">
+        <idleAnimName duration=".667">stand1</idleAnimName>
+        <activeAnimName duration=".167">walk1</activeAnimName>
+        <values prettyName="Alice" type="TextureAtlas">Alice</values>
+        <values prettyName="Icy" type="TextureAtlas">player</values>
+        <values prettyName="Fabulous HotDog Man" type="TextureAtlas">fabulous</values>
+        <values prettyName="Kirito" type="TextureAtlas">kirito</values>
+    </scrollPane>
+    <button x="150" y="100">
+        <name>Back</name>
+        <textureName>button_back</textureName>
+        <onClick type="setMenu">previous</onClick>
+    </button>
+    <button x="975" y="100">
+        <name>Next</name>
+        <textureName>button_next</textureName>
+        <onClick type="setMenu" prevCmd="getScrollPaneParam">SelectMapMenu</onClick>
+    </button>
+</menu>

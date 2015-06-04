@@ -12,6 +12,9 @@ font_bandera		fonts/bandera.fnt	BitmapFont
 # Atlas for player
 player    textures/entities/player/player.pack    TextureAtlas
 Alice    textures/entities/player/Alice.pack    TextureAtlas
+fabulous	textures/entities/player/fabulous.pack    TextureAtlas
+kirito    textures/entities/player/kirito.pack    TextureAtlas
+
 
 #Sounds
 #menu_music		music/tale_east.mp3												Music

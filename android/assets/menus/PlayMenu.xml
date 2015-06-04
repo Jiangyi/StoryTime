@@ -2,12 +2,12 @@
     <button x="centre" y="275">
         <name>New</name>
         <textureName>button_new</textureName>
-        <onClick type="setMenu">ModeMenu</onClick>
+        <onClick type="setMenu" prevCmd="new">ModeMenu</onClick>
     </button>
     <button x="centre" y="175">
         <name>Load</name>
         <textureName>button_load</textureName>
-        <onClick type="setMenu">LoadMenu</onClick>
+        <onClick type="setMenu" prevCmd="load">LoadMenu</onClick>
     </button>
     <button x="centre" y="75">
         <name>Back</name>

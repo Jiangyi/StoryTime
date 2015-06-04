@@ -36,6 +36,7 @@ public class PlayState extends GameState {
     private float timeSurvived;
     private boolean highScoreShown;
     private Music music;
+    private String levelName;
 
     private int killCounter;
 
@@ -231,6 +232,7 @@ public class PlayState extends GameState {
 
     public void setMusic() {
         // Music setup
+        System.out.println(assetHandler.getFilePath("bgmusic") + ".mp3");
         music = Gdx.audio.newMusic(Gdx.files.internal(assetHandler.getFilePath("bgmusic") + ".mp3"));
         AudioHelper.setBgMusic(this.music);
         AudioHelper.resetBackgroundMusic();

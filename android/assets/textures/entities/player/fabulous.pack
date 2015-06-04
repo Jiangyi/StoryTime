@@ -24,49 +24,49 @@ stabOF
   orig: 197, 86
   offset: 0, 0
   index: 2
-swingPF
+swingOF
   rotate: false
   xy: 598, 881
   size: 190, 142
   orig: 190, 142
   offset: 0, 0
   index: 0
-swingPF
+swingOF
   rotate: false
   xy: 790, 881
   size: 190, 142
   orig: 190, 142
   offset: 0, 0
   index: 1
-swingPF
+swingOF
   rotate: false
   xy: 1, 793
   size: 190, 142
   orig: 190, 142
   offset: 0, 0
   index: 2
-swingPF
+swingOF
   rotate: false
   xy: 193, 793
   size: 190, 142
   orig: 190, 142
   offset: 0, 0
   index: 3
-swingP1
+swingO1
   rotate: false
   xy: 385, 807
   size: 179, 128
   orig: 179, 128
   offset: 0, 0
   index: 0
-swingP1
+swingO1
   rotate: false
   xy: 566, 751
   size: 179, 128
   orig: 179, 128
   offset: 0, 0
   index: 1
-swingP1
+swingO1
   rotate: false
   xy: 385, 677
   size: 179, 128
@@ -297,7 +297,7 @@ dead1
   orig: 52, 78
   offset: 0, 0
   index: 3
-swingP2
+swingO2
   rotate: false
   xy: 531, 271
   size: 137, 125
@@ -311,28 +311,28 @@ dead1
   orig: 52, 78
   offset: 0, 0
   index: 2
-swingP2
+swingO2
   rotate: false
   xy: 304, 190
   size: 137, 125
   orig: 137, 125
   offset: 0, 0
   index: 1
-stand2
+stand1
   rotate: false
   xy: 443, 197
   size: 85, 80
   orig: 85, 80
   offset: 0, 0
   index: 0
-stand2
+stand1
   rotate: false
   xy: 443, 197
   size: 85, 80
   orig: 85, 80
   offset: 0, 0
   index: 4
-swingP2
+swingO2
   rotate: false
   xy: 148, 125
   size: 137, 125
@@ -409,14 +409,14 @@ swingT3
   orig: 134, 124
   offset: 0, 0
   index: 2
-stand2
+stand1
   rotate: false
   xy: 443, 115
   size: 85, 80
   orig: 85, 80
   offset: 0, 0
   index: 1
-stand2
+stand1
   rotate: false
   xy: 443, 115
   size: 85, 80
@@ -540,7 +540,7 @@ jump
   orig: 84, 82
   offset: 0, 0
   index: 0
-stand2
+stand1
   rotate: false
   xy: 1, 1
   size: 85, 80

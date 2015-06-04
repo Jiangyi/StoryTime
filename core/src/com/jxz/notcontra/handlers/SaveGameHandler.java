@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.entity.PlayerSave;
+import com.jxz.notcontra.world.Level;
 
 /**
  * Created by Andrew on 2015-04-19.
@@ -26,6 +27,7 @@ public class SaveGameHandler {
         playerSave.setScore(player.getScore());
         playerSave.setWave(player.getCurrentLevel().getCurrentWave());
         playerSave.setTimeSurvived(GameStateManager.getInstance().getPlayState().getTimeSurvived());
+        playerSave.setLevel(player.getCurrentLevel().getMap().getProperties().get("mapName", String.class));
         playerSave.setMode(GameStateManager.getInstance().getGame().getPlayMode().toString());
 
         Json json = new Json();
