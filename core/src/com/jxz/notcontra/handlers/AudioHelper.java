@@ -11,7 +11,7 @@ public class AudioHelper {
     private static AssetHandler assetHandler = AssetHandler.getInstance();
     private static Music music;
     private static Sound sound;
-    private static float volume;
+    private static float volume = 1f;
 
     public static void setMusicVolume(float vol) {
         if (vol > 1) {
@@ -24,7 +24,7 @@ public class AudioHelper {
     }
 
     public static float getMusicVolume() {
-        return music.getVolume();
+        return volume;
     }
 
     public static Music getMusic() {
@@ -47,6 +47,10 @@ public class AudioHelper {
         } else {
             music.setVolume(volume);
         }
+    }
+
+    public static boolean isMusicMuted() {
+        return music.getVolume() == 0f;
     }
 
     public static void setBgMusic(Music newMusic) {

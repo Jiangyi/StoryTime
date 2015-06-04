@@ -24,10 +24,7 @@ public class HighScoreMenu extends Menu {
 
     private ArrayList<HighScoreHandler.HighScore> highScores = HighScoreHandler.getHighScores();
     private Sprite headerImage;
-    private int x;
-    private int y;
-    private int height;
-    private int width;
+
     private BitmapFont font = (BitmapFont) assetHandler.getByName("font_bandera");
 
     public HighScoreMenu() {

@@ -21,6 +21,10 @@ public abstract class Menu {
     protected FileHandle file;
     protected TextureAtlas menuButtons = (TextureAtlas) assetHandler.getByName("menu_buttons");
     protected String prevCmd;
+    protected int x;
+    protected int y;
+    protected int height;
+    protected int width;
 
     protected void addButton(String name, Button button) {
         buttons.add(button);

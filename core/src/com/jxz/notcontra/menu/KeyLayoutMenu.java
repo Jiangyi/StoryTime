@@ -20,14 +20,14 @@ import java.util.ArrayList;
 public class KeyLayoutMenu extends Menu {
     ArrayList<TextLabel> textLabels = new ArrayList<TextLabel>();
     private final int TEXT_LABEL_HEIGHT = 30;
-    private int x = 150;
-    private int y = 600;
-    private int width = 800;
-    private int height = 500;
     private int index;
     private int counter;
 
     public KeyLayoutMenu() {
+        x = 150;
+        y = 600;
+        width = 800;
+        height = 500;
         createTextLabels();
         createClickableTextLabels();
         setUpGeneralButtons();

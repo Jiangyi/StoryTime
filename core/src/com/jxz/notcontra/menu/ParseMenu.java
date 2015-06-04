@@ -42,7 +42,7 @@ public class ParseMenu extends Menu {
             }
 
             String name, atlasRegion;
-            int x, y;
+
             // Iterate through all buttons
             for (XmlReader.Element i : buttonElements) {
                 name = i.getChildByName("name").getText();

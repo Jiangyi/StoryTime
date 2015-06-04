@@ -27,7 +27,6 @@ public class SpriteButton extends Button {
         this.height = defaultSprite.getRegionHeight();
         this.width = defaultSprite.getRegionWidth();
     }
-
     // Define a button with sprites for all modes
     public SpriteButton(Sprite defaultRegion, Sprite onHoverRegion, Sprite onClickRegion, int x, int y) {
         this(defaultRegion, x, y);
@@ -73,10 +72,30 @@ public class SpriteButton extends Button {
         return onClickSprite;
     }
 
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setSize(float scale) {
+        height *= scale;
+        width *= scale;
+    }
+
     @Override
     public void draw(Batch batch) {
-        batch.draw(getCurrentStateSprite(), x, y, getCurrentStateSprite().getWidth(),
-                getCurrentStateSprite().getHeight());
+        batch.draw(getCurrentStateSprite(), x, y, width, height);
     }
 
     protected Sprite getCurrentStateSprite() {
