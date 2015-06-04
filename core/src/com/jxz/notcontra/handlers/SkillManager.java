@@ -8,9 +8,7 @@ import com.jxz.notcontra.buff.FrozenBuff;
 import com.jxz.notcontra.entity.BossMonster;
 import com.jxz.notcontra.entity.LivingEntity;
 import com.jxz.notcontra.entity.Player;
-import com.jxz.notcontra.skill.LinearProjectileSkill;
-import com.jxz.notcontra.skill.MeleeAttackSkill;
-import com.jxz.notcontra.skill.Skill;
+import com.jxz.notcontra.skill.*;
 
 import java.util.ArrayList;
 
@@ -54,6 +52,19 @@ public class SkillManager {
 
     public static void applyBuff(Class buffClass, LivingEntity afflicted, float duration) {
         Buff buff = (Buff) Pools.obtain(buffClass);
+        // Disables cannot affect players or boss mobs
+        if (afflicted instanceof Player || afflicted instanceof BossMonster) {
+            if (!buff.isDisable()) {
+                buff.setDuration(duration);
+                buff.cast(afflicted);
+            }
+        } else {
+            buff.setDuration(duration);
+            buff.cast(afflicted);
+        }
+    }
+
+    public static void applyBuff(Buff buff, LivingEntity afflicted, float duration) {
         // Disables cannot affect players or boss mobs
         if (afflicted instanceof Player || afflicted instanceof BossMonster) {
             if (!buff.isDisable()) {
@@ -128,6 +139,25 @@ public class SkillManager {
         iceball.setStatusEffect("FrozenBuff");
         iceball.setStatusDuration(1.5f);
         skillList.add(iceball);
+
+        // Skill 4: Ice ball spam
+        CastingBuffSkill iceballSpam = new CastingBuffSkill("iceballSpam");
+        iceballSpam.setRootWhileCasting(false);
+        iceballSpam.setBuffName("CastingBuff");
+        iceballSpam.setChildSkill(iceball);
+        iceballSpam.setInterval(0.2f);
+        iceballSpam.setBuffDuration(5.0f);
+        skillList.add(iceballSpam);
+
+        // Skill 5: Dash
+        ForceBuffSkill dash = new ForceBuffSkill("dash");
+        dash.setRootWhileCasting(true);
+        dash.setBuffName("ForceBuff");
+        dash.setBuffDuration(0.2f);
+        dash.setMagnitude(25.0f);
+        dash.setCooldown(1.2f);
+        skillList.add(dash);
+
     }
 
     public static void initBuffs() {

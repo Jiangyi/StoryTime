@@ -28,7 +28,7 @@ public abstract class Buff implements Pool.Poolable {
         if (duration <= 0) {
             expire();
         }
-    };
+    }
 
     // Method is called on first cast of buff. Used to set values. Children should call super.cast(afflicted) at the BEGINNING of the method.
     public void cast(LivingEntity afflicted) {

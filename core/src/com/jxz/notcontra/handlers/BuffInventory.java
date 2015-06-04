@@ -32,7 +32,8 @@ public class BuffInventory implements Pool.Poolable {
     }
 
     public boolean hasBuff(String name) {
-        for (Buff b : buffArray) {
+        for (Object o : buffArray.toArray(Buff.class)) {
+            Buff b = (Buff) o;
             if (b.getName().equalsIgnoreCase(name)) {
                 return true;
             }
@@ -42,6 +43,9 @@ public class BuffInventory implements Pool.Poolable {
 
     @Override
     public void reset() {
+        for (int i = 0; i < buffArray.size; i++) {
+            buffArray.get(i).expire();
+        }
         buffArray.clear();
     }
 }

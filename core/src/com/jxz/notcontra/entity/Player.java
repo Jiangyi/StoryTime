@@ -114,8 +114,8 @@ public class Player extends LivingEntity {
 
         // Setup Skill
         skills = new SkillInventory(5);
-        skills.setInventory(0, "testmelee");
-        skills.setInventory(1, "iceball");
+        skills.setInventory(0, "iceballSpam");
+        skills.setInventory(1, "dash");
 
         // Initialize animated sprite for player
         this.sprite = new SpriteEx(animIdle.getKeyFrame(animStateTime, true));
@@ -150,7 +150,12 @@ public class Player extends LivingEntity {
                             Monster m = (Monster) e;
                             if (m.getAIState() != Monster.AIState.DYING && m.getAIState() != Monster.AIState.SPAWNING) {
                                 if (Intersector.overlaps(aabb, e.getAABB())) {
-                                    damage(m.getTouchDamage(), e);
+                                    if (buffs.hasBuff("ForceBuff")) {
+                                        // Cannot be damaged while force buff'd
+                                        m.damage(5, this);
+                                    } else {
+                                        damage(m.getTouchDamage(), e);
+                                    }
                                     break;
                                 }
                             }
@@ -310,7 +315,9 @@ public class Player extends LivingEntity {
                 this.sprite.setRegion(animCast[castType].getKeyFrame(castStateTime, false), animCast[castType].getAnimOffset(castStateTime));
                 // Only spawns skill after casting animation is finished
                 if (animCast[castType].getKeyFrameIndex(castStateTime) == animCast[castType].getKeyFrameIndex(animCast[castType].getAnimationDuration()) && !skillCasted) {
-                    currentSkill.use(this);
+                    if (!buffs.hasBuff("CastingBuff") && !buffs.hasBuff("ForceBuff")) {
+                        currentSkill.use(this);
+                    }
                     skillCasted = true;
                 }
                 if (animCast[castType].isAnimationFinished(castStateTime)) {

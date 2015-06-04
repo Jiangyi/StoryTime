@@ -1,6 +1,5 @@
 package com.jxz.notcontra.skill;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pools;
@@ -16,7 +15,6 @@ import com.jxz.notcontra.handlers.InputManager;
  */
 public class LinearProjectileSkill extends Skill {
     protected Projectile hitbox;
-    protected SpriteEffect castEffect;
     protected float range;
     protected float speed;
     protected Vector2 target;
@@ -63,6 +61,11 @@ public class LinearProjectileSkill extends Skill {
             target.add(MathUtils.random(-m.getAimRadius(), m.getAimRadius()), MathUtils.random(-m.getAimRadius(), m.getAimRadius()));
             target.sub(caster.getCenterPosition());
             preCast(caster, target);
+        }
+
+        // Bypasses cast effect when using via cast skill
+        if (caster.getBuffList().hasBuff("CastingBuff")) {
+            use(caster);
         }
     }
 

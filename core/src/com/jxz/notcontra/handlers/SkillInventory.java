@@ -58,7 +58,9 @@ public class SkillInventory {
     }
 
     public void setCooldown(Skill skill, float cd) {
-        cooldown[getIndex(skill)] = cd;
+        if (getIndex(skill) > 0) {
+            cooldown[getIndex(skill)] = cd;
+        }
     }
 
     public int getIndex(Skill skill) {

@@ -125,7 +125,7 @@ public abstract class LivingEntity extends AnimatedEntity {
         // Step X for static tile data
         if (movementState.x != 0) {
             // Add effective speed to delta X
-            float effectiveSpeed = speed * (isSprinting ? 2 : 1) * (isOnSlope ? 0.75f : 1);
+            float effectiveSpeed = (speed + additionalSpeed) * (isSprinting ? 2 : 1) * (isOnSlope ? 0.75f : 1);
             deltaX += effectiveSpeed * movementState.x;
         }
 
@@ -203,7 +203,7 @@ public abstract class LivingEntity extends AnimatedEntity {
                 position.x = (float) Math.floor(centerX * Game.UNIT_SCALE) / Game.UNIT_SCALE + (0.5f / Game.UNIT_SCALE - aabb.getWidth() / 2);
             }
             jumpState = 0;
-            deltaY += speed * 0.8 * movementState.y;
+            deltaY += (speed + additionalSpeed) * 0.8 * movementState.y;
         } else if (movementState.y < 0 && isOnPlatform) {
             // Allows stepping down from one way platforms with a downwards jump
             if (jumpState == jumpTime) {
@@ -599,5 +599,13 @@ public abstract class LivingEntity extends AnimatedEntity {
 
     public void setIsRooted(boolean isRooted) {
         this.isRooted = isRooted;
+    }
+
+    public void setAdditionalSpeed(float speed) {
+        this.additionalSpeed = speed;
+    }
+
+    public float getAdditionalSpeed() {
+        return this.additionalSpeed;
     }
 }

@@ -53,7 +53,7 @@ public abstract class GruntMonster extends Monster {
                     // If you're going to run yourself off a platform, at least jump.
                     if (isOnPlatform) {
                         float boundingEdgeDelta = (movementState.x > 0 ? 1 : -1) * aabb.getWidth() / 2;
-                        TiledMapTile targetTile = currentLevel.getTileAt(position.x + aabb.getWidth() / 2 + boundingEdgeDelta + (movementState.x * speed), position.y - 1, Level.DYNAMIC_LAYER);
+                        TiledMapTile targetTile = currentLevel.getTileAt(position.x + aabb.getWidth() / 2 + boundingEdgeDelta + (movementState.x * (speed + additionalSpeed)), position.y - 1, Level.DYNAMIC_LAYER);
                         if (targetTile == null) {
                             jump();
                         }
@@ -77,7 +77,7 @@ public abstract class GruntMonster extends Monster {
                     // Turn around if the slime is going to run off the platform
                     if (isOnPlatform) {
                         float boundingEdgeDelta = (movementState.x > 0 ? 1 : -1) * aabb.getWidth() / 2;
-                        TiledMapTile targetTile = currentLevel.getTileAt(position.x + aabb.getWidth() / 2 + boundingEdgeDelta + (movementState.x * speed), position.y - 1, Level.DYNAMIC_LAYER);
+                        TiledMapTile targetTile = currentLevel.getTileAt(position.x + aabb.getWidth() / 2 + boundingEdgeDelta + (movementState.x * (speed + additionalSpeed)), position.y - 1, Level.DYNAMIC_LAYER);
                         if (targetTile == null) {
                             movementState.set(-movementState.x, 0);
                         }

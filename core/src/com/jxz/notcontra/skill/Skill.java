@@ -33,6 +33,7 @@ public abstract class Skill implements Cloneable {
     protected String statusEffect;
     protected float statusDuration;
     protected String hitEffect;
+    protected SpriteEffect castEffect;
     protected Animation hitAnimation;
     protected Animation animation;
     protected Animation castAnimation;
@@ -201,5 +202,9 @@ public abstract class Skill implements Cloneable {
 
     public String getHitEffect() {
         return hitEffect;
+    }
+
+    public void setCooldown(float cooldown) {
+        this.cooldown = cooldown;
     }
 }

@@ -104,7 +104,7 @@ public abstract class RangedMonster extends Monster {
                     // If you're going to run yourself off a platform, at least jump.
                     if (isOnPlatform && !isCasting) {
                         float boundingEdgeDelta = (movementState.x > 0 ? 1 : -1) * aabb.getWidth() / 2;
-                        TiledMapTile targetTile = currentLevel.getTileAt(position.x + aabb.getWidth() / 2 + boundingEdgeDelta + (movementState.x * speed), position.y - 1, Level.DYNAMIC_LAYER);
+                        TiledMapTile targetTile = currentLevel.getTileAt(position.x + aabb.getWidth() / 2 + boundingEdgeDelta + (movementState.x * (speed + additionalSpeed)), position.y - 1, Level.DYNAMIC_LAYER);
                         if (targetTile == null) {
                             jump();
                         }
@@ -128,7 +128,7 @@ public abstract class RangedMonster extends Monster {
                     // Turn around if the slime is going to run off the platform
                     if (isOnPlatform) {
                         float boundingEdgeDelta = (movementState.x > 0 ? 1 : -1) * aabb.getWidth() / 2;
-                        TiledMapTile targetTile = currentLevel.getTileAt(position.x + aabb.getWidth() / 2 + boundingEdgeDelta + (movementState.x * speed), position.y - 1, Level.DYNAMIC_LAYER);
+                        TiledMapTile targetTile = currentLevel.getTileAt(position.x + aabb.getWidth() / 2 + boundingEdgeDelta + (movementState.x * (speed + additionalSpeed)), position.y - 1, Level.DYNAMIC_LAYER);
                         if (targetTile == null) {
                             movementState.set(-movementState.x, 0);
                         }
@@ -150,7 +150,9 @@ public abstract class RangedMonster extends Monster {
             this.sprite.setRegion(animCast[castType].getKeyFrame(castStateTime, false), animCast[castType].getAnimOffset(castStateTime));
             // Only spawns skill after casting animation is finished
             if (animCast[castType].getKeyFrameIndex(castStateTime) == animCast[castType].getKeyFrameIndex(animCast[castType].getAnimationDuration()) && !skillCasted) {
-                currentSkill.use(this);
+                if (!buffs.hasBuff("CastingBuff") && !buffs.hasBuff("ForceBuff")) {
+                    currentSkill.use(this);
+                }
                 skillCasted = true;
             }
             if (animCast[castType].isAnimationFinished(castStateTime)) {
