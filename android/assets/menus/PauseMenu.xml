@@ -12,7 +12,7 @@
     <button x="centre" y="175">
         <name>Options</name>
         <textureName>button_options</textureName>
-        <onClick type="null" />
+        <onClick type="setMenuInternal">KeyLayoutMenu</onClick>
     </button>
     <button x="centre" y="75">
         <name>Quit</name>

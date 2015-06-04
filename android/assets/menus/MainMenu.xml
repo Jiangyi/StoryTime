@@ -1,12 +1,17 @@
 <menu>
-    <button x="centre" y="275">
+    <button x="centre" y="375">
         <name>Play</name>
         <textureName>button_play</textureName>
         <onClick type="setMenu">PlayMenu</onClick>
     </button>
-    <button x="centre" y="175">
-        <name>Scores</name>
+    <button x="centre" y="275">
+        <name>Options</name>
         <textureName>button_options</textureName>
+        <onClick type="setMenuInternal">KeyLayoutMenu</onClick>
+    </button>
+    <button x="centre" y="175">
+        <name>Highscore</name>
+        <textureName>button_highscore</textureName>
         <onClick type="setMenuInternal">HighScoreMenu</onClick>
     </button>
     <button x="centre" y="75">

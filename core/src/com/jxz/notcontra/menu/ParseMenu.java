@@ -102,7 +102,11 @@ public class ParseMenu extends Menu {
                                     menu = (Menu) Class.forName("com.jxz.notcontra.menu." + onClick.getText()).newInstance();
                                     menu.setMenuState(menuState);
                                     menu.setPrevMenu(ParseMenu.this);
-                                    menuState.setCurrentMenu(menu);
+                                    if (GameStateManager.getInstance().getCurrentState() instanceof MenuState) {
+                                        menuState.setCurrentMenu(menu);
+                                    } else if (GameStateManager.getInstance().getCurrentState() instanceof PlayState) {
+                                        GameStateManager.getInstance().getPlayState().setCurrentMenu(menu);
+                                    }
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

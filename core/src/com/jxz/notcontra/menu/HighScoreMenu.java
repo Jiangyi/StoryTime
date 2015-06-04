@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jxz.notcontra.game.Game;
 import com.jxz.notcontra.handlers.AssetHandler;
+import com.jxz.notcontra.handlers.AudioHelper;
 import com.jxz.notcontra.handlers.GameStateManager;
 import com.jxz.notcontra.handlers.HighScoreHandler;
 import com.jxz.notcontra.menu.buttons.Button;
@@ -35,10 +36,11 @@ public class HighScoreMenu extends Menu {
         width = 850;
         setUpTextLabels();
         headerImage = new Sprite((Texture) AssetHandler.getInstance().getByName("highscore_header"));
-        SpriteButton back = new SpriteButton(menuButtons, "button_back", 150, 75);
+        SpriteButton back = new SpriteButton(menuButtons, "button_back", 150, 100);
         back.setInputListener(new Button.InputListener() {
             @Override
             public void onClick() {
+                AudioHelper.playSoundEffect("menu_hit");
                 if (GameStateManager.getInstance().getCurrentState() instanceof MenuState) {
                     menuState.setCurrentMenu(HighScoreMenu.this.prevMenu);
                 } else if (GameStateManager.getInstance().getCurrentState() instanceof PlayState) {
@@ -50,7 +52,7 @@ public class HighScoreMenu extends Menu {
 
             @Override
             public void onHover() {
-
+                AudioHelper.playSoundEffect("menu_hover");
             }
         });
         buttons.add(back);

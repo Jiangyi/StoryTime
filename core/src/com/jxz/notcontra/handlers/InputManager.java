@@ -11,9 +11,11 @@ import com.jxz.notcontra.entity.Entity;
 import com.jxz.notcontra.entity.Monster;
 import com.jxz.notcontra.entity.Player;
 import com.jxz.notcontra.game.Game;
+import com.jxz.notcontra.menu.KeyLayoutMenu;
 import com.jxz.notcontra.menu.Menu;
 import com.jxz.notcontra.menu.buttons.Button;
 import com.jxz.notcontra.menu.buttons.TextLabel;
+import com.jxz.notcontra.states.GameState;
 import com.jxz.notcontra.states.LoadState;
 import com.jxz.notcontra.states.MenuState;
 import com.jxz.notcontra.states.PlayState;
@@ -58,22 +60,33 @@ public class InputManager implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
 
+        if (changeKey != null && keycode != Input.Keys.ESCAPE) {
+            KeyLayoutHelper.setKey(changeKey, keycode);
+            if (changeKey != null) {
+                GameState state = GameStateManager.getInstance().getCurrentState();
+                if (state instanceof MenuState) {
+                    if (((MenuState) state).getCurrentMenu() instanceof KeyLayoutMenu) {
+                        ((KeyLayoutMenu) ((MenuState) state).getCurrentMenu()).keyChangeComplete(keycode);
+                    }
+                } else if (state instanceof PlayState) {
+                    if (((PlayState) state).getCurrentMenu() instanceof KeyLayoutMenu) {
+                        ((KeyLayoutMenu) ((PlayState) state).getCurrentMenu()).keyChangeComplete(keycode);
+                    }
+                }
+            }
+            changeKey = null;
+            return true;
+        }
+
         // Debug Mode
-        if (keycode == keyPreferences.getInteger("setDebug", Input.Keys.F)) {
+        if (keycode == KeyLayoutHelper.getKey("setDebug")) {
             Game.setDebugMode(!Game.getDebugMode());
         }
 
-        if (changeKey != null) {
-            keyPreferences.getInteger(changeKey, keycode);
-            changeKey = null;
-        }
         // Movement controls only operational if in play state
         if (gsm.getCurrentState() instanceof PlayState) {
 
             if (Game.getDebugMode()) {
-                if (keycode == keyPreferences.getInteger("save", Input.Keys.S) && isCtrlPressed) {
-                    SaveGameHandler.saveCurrentStateToFile("save1.json");
-                }
                 // Load saved key preferences
                 // TODO: Remove this when we get a proper key config UI
                 if (keycode == Input.Keys.PLUS) {
@@ -96,42 +109,42 @@ public class InputManager implements InputProcessor {
             if (player.isAlive()) {
                 if (!player.isRooted()) {
                     // Update sprinting state
-                    if (keycode == keyPreferences.getInteger("sprint", Input.Keys.SHIFT_LEFT) && player.getJumpState() == 0) {
+                    if (keycode == KeyLayoutHelper.getKey("sprint") && player.getJumpState() == 0) {
                         player.setSprinting(true);
                         return true;
                     }
 
                     // Standard WASD Movement
-                    if (keycode == keyPreferences.getInteger("left", Input.Keys.A)) {
+                    if (keycode == KeyLayoutHelper.getKey("left")) {
                         player.getMovementState().add(-1, 0);
                     }
-                    if (keycode == keyPreferences.getInteger("right", Input.Keys.D)) {
+                    if (keycode == KeyLayoutHelper.getKey("right")) {
                         player.getMovementState().add(1, 0);
                     }
-                    if (keycode == keyPreferences.getInteger("up", Input.Keys.W)) {
+                    if (keycode == KeyLayoutHelper.getKey("up")) {
                         player.getMovementState().add(0, 1);
                     }
-                    if (keycode == keyPreferences.getInteger("down", Input.Keys.S)) {
+                    if (keycode == KeyLayoutHelper.getKey("down")) {
                         player.getMovementState().add(0, -1);
                     }
 
                 }
 
                 // Jump if max jumps is not reached
-                if (keycode == keyPreferences.getInteger("jump", Input.Keys.SPACE) && !player.isJumping() && !gsm.getPlayState().isPaused()) {
+                if (keycode == KeyLayoutHelper.getKey("jump") && !player.isJumping() && !gsm.getPlayState().isPaused()) {
                     player.jump();
                 }
                 // Attack | cast keys
-                if (keycode == keyPreferences.getInteger("melee", Input.Keys.NUM_1)) {
+                if (keycode == KeyLayoutHelper.getKey("skill1")) {
                     player.getSkills().setActive(0, true);
                 }
 
-                if (keycode == keyPreferences.getInteger("rangeAttack", Input.Keys.NUM_2)) {
+                if (keycode == KeyLayoutHelper.getKey("skill2")) {
                     player.getSkills().setActive(1, true);
                 }
 
                 // Interact key
-                if (keycode == keyPreferences.getInteger("interact", Input.Keys.E)) {
+                if (keycode == KeyLayoutHelper.getKey("interact")) {
                     player.interact();
                 }
 
@@ -155,14 +168,18 @@ public class InputManager implements InputProcessor {
             }
 
             // PAUSE GAME FROM PLAY STATE
-            if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE)) {
-                gsm.getPlayState().setIsPaused(!gsm.getPlayState().isPaused());
+            if (keycode == Input.Keys.ESCAPE) {
+                if (gsm.getPlayState().getCurrentMenu().getPrevMenu() != null) {
+                    gsm.getPlayState().setCurrentMenu(gsm.getPlayState().getCurrentMenu().getPrevMenu());
+                } else {
+                    gsm.getPlayState().setIsPaused(!gsm.getPlayState().isPaused());
+                }
                 return true;
             }
         }
         // LOAD STATE SWITCH STATE
         if (gsm.getCurrentState() instanceof LoadState) {
-            if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE) && gsm.getLoadState().getIsDoneLoading() && gsm.getLoadState().getIsEnteringGame()) {
+            if (keycode == Input.Keys.ESCAPE && gsm.getLoadState().getIsDoneLoading() && gsm.getLoadState().getIsEnteringGame()) {
                 gsm.getLoadState().resetLoadingBar();
                 gsm.setState(GameStateManager.State.PLAY);
                 return true;
@@ -170,7 +187,7 @@ public class InputManager implements InputProcessor {
         }
         if (gsm.getCurrentState() instanceof MenuState) {
             Menu prevMenu = gsm.getMenuState().getCurrentMenu().getPrevMenu();
-            if (keycode == keyPreferences.getInteger("escape", Input.Keys.ESCAPE) && prevMenu != null) {
+            if (keycode == Input.Keys.ESCAPE && prevMenu != null) {
                 gsm.getMenuState().setCurrentMenu(prevMenu);
             }
         }
@@ -198,13 +215,6 @@ public class InputManager implements InputProcessor {
             return true;
         }
 
-        if (keycode == keyPreferences.getInteger("camZoomOut", Input.Keys.ALT_LEFT)) {
-            game.getPlayerCam().zoom += 1;
-        }
-
-        if (keycode == keyPreferences.getInteger("camZoomIn", Input.Keys.ALT_RIGHT)) {
-            game.getPlayerCam().zoom -= 1;
-        }
         return false;
     }
 
@@ -216,37 +226,37 @@ public class InputManager implements InputProcessor {
             // Released keys signal end of movement if player is not rooted
             if (player.isAlive()) {
                 if (!player.isRooted()) {
-                    if (keycode == keyPreferences.getInteger("sprint", Input.Keys.SHIFT_LEFT)) {
+                    if (keycode == KeyLayoutHelper.getKey("sprint")) {
                         player.setSprinting(false);
                     }
                     if (keycode == Input.Keys.CONTROL_LEFT || keycode == Input.Keys.CONTROL_RIGHT) {
                         isCtrlPressed = false;
                     }
                     // Standard WASD Movement
-                    if (keycode == keyPreferences.getInteger("left", Input.Keys.A)) {
+                    if (keycode == KeyLayoutHelper.getKey("left")) {
                         player.getMovementState().add(1, 0);
                     }
-                    if (keycode == keyPreferences.getInteger("right", Input.Keys.D)) {
+                    if (keycode == KeyLayoutHelper.getKey("right")) {
                         player.getMovementState().add(-1, 0);
                     }
-                    if (keycode == keyPreferences.getInteger("up", Input.Keys.W)) {
+                    if (keycode == KeyLayoutHelper.getKey("up")) {
                         player.getMovementState().add(0, -1);
                     }
-                    if (keycode == keyPreferences.getInteger("down", Input.Keys.S)) {
+                    if (keycode == KeyLayoutHelper.getKey("down")) {
                         player.getMovementState().add(0, 1);
                     }
                 }
 
                 // Resets jump flag if space bar is released - ready to jump again
-                if (keycode == keyPreferences.getInteger("jump", Input.Keys.SPACE)) {
+                if (keycode == KeyLayoutHelper.getKey("jump")) {
                     player.setIsJumping(false);
                 }
                 // Release active skills
-                if (keycode == keyPreferences.getInteger("melee", Input.Keys.NUM_1)) {
+                if (keycode == KeyLayoutHelper.getKey("skill1")) {
                     player.getSkills().setActive(0, false);
                 }
 
-                if (keycode == keyPreferences.getInteger("rangeAttack", Input.Keys.NUM_2)) {
+                if (keycode == KeyLayoutHelper.getKey("skill2")) {
                     player.getSkills().setActive(1, false);
                 }
             }
@@ -262,6 +272,21 @@ public class InputManager implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (changeKey != null) {
+            GameState state = GameStateManager.getInstance().getCurrentState();
+            if (state instanceof MenuState) {
+                if (((MenuState) state).getCurrentMenu() instanceof KeyLayoutMenu) {
+                    ((KeyLayoutMenu) ((MenuState) state).getCurrentMenu()).keyChangeComplete(-9001);
+                }
+            } else if (state instanceof PlayState) {
+                if (((PlayState) state).getCurrentMenu() instanceof KeyLayoutMenu) {
+                    ((KeyLayoutMenu) ((PlayState) state).getCurrentMenu()).keyChangeComplete(-9001);
+                }
+            }
+            changeKey = null;
+            return true;
+        }
+
         if (gsm.getCurrentState() instanceof MenuState) {
             currentMenu = gsm.getMenuState().getCurrentMenu();
         } else if (gsm.getCurrentState() instanceof PlayState && gsm.getPlayState().isPaused()) {

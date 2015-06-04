@@ -137,9 +137,13 @@ public class PlayState extends GameState {
 
         sb.begin();
         font.setColor(Color.WHITE);
+
+        if (!player.isAlive()) {
+            font.draw(sb, "YOU ARE DEAD.", 600, 550);
+        }
+        font.draw(sb, "Score: " + player.getScore(), 1100, 680);
         if (!isPaused()) {
             player.getHealthBar().draw(sb);
-            font.draw(sb, "Score: " + player.getScore(), 1100, 680);
 
             if (game.getPlayMode() == Game.PlayMode.SURVIVAL || game.getPlayMode() == Game.PlayMode.REST) {
                 long minutes = TimeUnit.SECONDS.toMinutes((long) timeSurvived);
@@ -170,9 +174,7 @@ public class PlayState extends GameState {
                 font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
             }
         }
-        if (!player.isAlive()) {
-            font.draw(sb, "YOU ARE DEAD.", 600, 550);
-        }
+
         sb.end();
     }
 

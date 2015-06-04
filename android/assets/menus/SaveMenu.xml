@@ -14,7 +14,7 @@
     </button>
     <button x="centre-right" y="75">
         <name>Overwrite Save</name>
-        <textureName>button_new</textureName>
+        <textureName>button_overwrite</textureName>
         <onClick type="getScrollPaneParam">saveGame,overwrite</onClick>
     </button>
 </menu>

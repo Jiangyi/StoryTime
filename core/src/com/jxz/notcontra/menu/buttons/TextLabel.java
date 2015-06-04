@@ -63,10 +63,17 @@ public class TextLabel extends SpriteButton {
         return primaryText;
     }
 
+    public void setPrimaryText(String primaryText) {
+        this.primaryText = primaryText;
+    }
+
     public String getSecondaryText() {
         return secondaryText;
     }
 
+    public void setSecondaryText(String secondaryText) {
+        this.secondaryText = secondaryText;
+    }
     public void setSecondaryTextOffset(int offset) {
         this.secondaryTextOffset = offset;
     }
