@@ -4,6 +4,7 @@
   <property name="mapName" value="su_moon" />
   <property name="defaultMobLevel" value="0"/>
   <property name="defaultSpawnAmount" value="5"/>
+  <property name="levelName" value="Moon Survival"/>
   <property name="parallaxBackground" value="background_night"/>
   <property name="parallaxForeground" value="blank"/>
   <property name="parallaxMidground" value="blank"/>

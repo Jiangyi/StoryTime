@@ -4,6 +4,7 @@
   <property name="mapName" value="su_hell" />
   <property name="defaultMobLevel" value="0"/>
   <property name="defaultSpawnAmount" value="5"/>
+  <property name="levelName" value="Welcome to Hell"/>
   <property name="parallaxBackground" value="background_hell"/>
   <property name="parallaxForeground" value="blank"/>
   <property name="parallaxMidground" value="background_hell_rock"/>
