@@ -28,7 +28,7 @@ import java.io.IOException;
  */
 public class InputManager implements InputProcessor {
 
-    private Preferences keyPreferences = Gdx.app.getPreferences("InputManager");
+    //    private Preferences keyPreferences = Gdx.app.getPreferences("InputManager");
     private Game game;
     private GameStateManager gsm;
     private static InputManager manager;
@@ -86,21 +86,6 @@ public class InputManager implements InputProcessor {
         // Movement controls only operational if in play state
         if (gsm.getCurrentState() instanceof PlayState) {
 
-            if (Game.getDebugMode()) {
-                // Load saved key preferences
-                // TODO: Remove this when we get a proper key config UI
-                if (keycode == Input.Keys.PLUS) {
-                    setSavedKeyPreferences();
-                    return true;
-                }
-
-                // Clear all saved key preferences
-                if (keycode == Input.Keys.MINUS) {
-                    keyPreferences.clear();
-                    return true;
-                }
-            }
-
             if (keycode == Input.Keys.CONTROL_LEFT || keycode == Input.Keys.CONTROL_RIGHT) {
                 isCtrlPressed = true;
             }
@@ -148,23 +133,23 @@ public class InputManager implements InputProcessor {
                     player.interact();
                 }
 
-                if (Game.getDebugMode()) {
-                    // K has become the "piss off everything on the map" button
-                    if (keycode == keyPreferences.getInteger("aggroAll", Input.Keys.K)) {
-                        for (Entity e : EntityManager.getInstance().getEntitiesListIteration()) {
-                            if (e instanceof Monster) {
-                                Monster m = (Monster) e;
-                                m.setTarget(player);
-                                m.setAIState(Monster.AIState.CHASING);
-                            }
-                        }
-                    }
-                    if (keycode == keyPreferences.getInteger("spawnMonster", Input.Keys.L)) {
-                        // Spawn some slimes
-                        player.getCurrentLevel().spawn();
-                    }
-
-                }
+//                if (Game.getDebugMode()) {
+//                    // K has become the "piss off everything on the map" button
+//                    if (keycode == keyPreferences.getInteger("aggroAll", Input.Keys.K)) {
+//                        for (Entity e : EntityManager.getInstance().getEntitiesListIteration()) {
+//                            if (e instanceof Monster) {
+//                                Monster m = (Monster) e;
+//                                m.setTarget(player);
+//                                m.setAIState(Monster.AIState.CHASING);
+//                            }
+//                        }
+//                    }
+//                    if (keycode == keyPreferences.getInteger("spawnMonster", Input.Keys.L)) {
+//                        // Spawn some slimes
+//                        player.getCurrentLevel().spawn();
+//                    }
+//
+//                }
             }
 
             // PAUSE GAME FROM PLAY STATE
@@ -202,16 +187,6 @@ public class InputManager implements InputProcessor {
 
         if (keycode == Input.Keys.M) {
             AudioHelper.muteMusic();
-            return true;
-        }
-
-        if (keycode == keyPreferences.getInteger("volUp", Input.Keys.PAGE_UP)) {
-            AudioHelper.setMusicVolume(AudioHelper.getMusicVolume() + 0.1f);
-            return true;
-        }
-
-        if (keycode == keyPreferences.getInteger("volDown", Input.Keys.PAGE_DOWN)) {
-            AudioHelper.setMusicVolume(AudioHelper.getMusicVolume() - 0.1f);
             return true;
         }
 
@@ -386,30 +361,30 @@ public class InputManager implements InputProcessor {
         return getCursorInWorld().sub(relativePos);
     }
 
-    private boolean setSavedKeyPreferences() {
-        String FILENAME = "keys/SavedLayout.txt";
-        FileHandle fileHandle = Gdx.files.internal(FILENAME);
-        BufferedReader br = new BufferedReader(fileHandle.reader());
-
-        String line;
-        String[] tmp;
-        try {
-            while ((line = br.readLine()) != null) {
-                if (Game.getDebugMode()) System.out.println(line);
-                // Only parse uncommented lines
-                if (!line.trim().startsWith("#") && line.trim().length() > 0) {
-                    // Regex for whitespace and tabs
-                    tmp = line.split("\\s+");
-                    keyPreferences.putInteger(tmp[0], Input.Keys.valueOf(tmp[1]));
-                }
-            }
-            keyPreferences.flush();
-            return true;
-        } catch (IOException e) {
-            System.out.println(FILENAME + "does not exist!");
-            return false;
-        }
-    }
+//    private boolean setSavedKeyPreferences() {
+//        String FILENAME = "keys/SavedLayout.txt";
+//        FileHandle fileHandle = Gdx.files.internal(FILENAME);
+//        BufferedReader br = new BufferedReader(fileHandle.reader());
+//
+//        String line;
+//        String[] tmp;
+//        try {
+//            while ((line = br.readLine()) != null) {
+//                if (Game.getDebugMode()) System.out.println(line);
+//                // Only parse uncommented lines
+//                if (!line.trim().startsWith("#") && line.trim().length() > 0) {
+//                    // Regex for whitespace and tabs
+//                    tmp = line.split("\\s+");
+//                    keyPreferences.putInteger(tmp[0], Input.Keys.valueOf(tmp[1]));
+//                }
+//            }
+//            keyPreferences.flush();
+//            return true;
+//        } catch (IOException e) {
+//            System.out.println(FILENAME + "does not exist!");
+//            return false;
+//        }
+//    }
 
     public void setChangeKey(String function) {
         changeKey = function;

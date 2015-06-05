@@ -97,7 +97,7 @@ public class KeyLayoutMenu extends Menu {
             final String key = text;
             final TextLabel label = new TextLabel(menuButtons, "button_savelabelbg", Input.Keys.toString(KeyLayoutHelper.getKey(text)),
                     GameStateManager.getInstance().getCurrentState().getFont(),
-                    x + width / 2, y - TEXT_LABEL_HEIGHT * counter++, TEXT_LABEL_HEIGHT, width / 2);
+                    x + width / 2 + 5, y - TEXT_LABEL_HEIGHT * counter++, TEXT_LABEL_HEIGHT, width / 2);
             label.setInputListener(new Button.InputListener() {
                 @Override
                 public void onClick() {

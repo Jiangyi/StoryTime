@@ -46,7 +46,7 @@ public class AnimatedScrollPane extends ScrollPane {
             if (i.get("type").equalsIgnoreCase("Texture")) {
                 sprites.add(new ScrollPaneSprite(i.getText(), prettyName, (Texture) assetHandler.getByName(i.getText() + "_image")));
             } else {
-                sprites.add(new ScrollPaneSprite(i.getText(), (TextureAtlas) assetHandler.getByName(i.getText()), (Texture) assetHandler.getByName("blank")));
+                sprites.add(new ScrollPaneSprite(i.getText(), prettyName, (TextureAtlas) assetHandler.getByName(i.getText())));
             }
         }
         index = (sprites.size - 1) / 2;
@@ -72,10 +72,10 @@ public class AnimatedScrollPane extends ScrollPane {
         private Texture texture;
         private Animation currentAnim;
 
-        private ScrollPaneSprite(String name, TextureAtlas textureAtlas, Texture texture) {
+        private ScrollPaneSprite(String name, String prettyName, TextureAtlas textureAtlas) {
             this.name = name;
+            this.prettyName = prettyName;
             this.textureAtlas = textureAtlas;
-            this.texture = texture;
         }
 
         private ScrollPaneSprite(String name, String prettyName, Texture texture) {
@@ -132,7 +132,6 @@ public class AnimatedScrollPane extends ScrollPane {
             if (index + 1 < sprites.size) {
                 batch.draw(sprites.get(index + 1).getCurrentKeyframe(), x + width * 3 / 4 - sprites.get(index + 1).getCurrentKeyframe().getRegionWidth() / 2, y);
             }
-            batch.draw(sprites.get(index).getTexture(), x + sprites.get(index).getTexture().getWidth() / 2, y - 50);
         } else {
             batch.draw(sprites.get(index).getTexture(), x + width / 2 - sprites.get(index).getTexture().getWidth() / 2, y);
 
@@ -142,9 +141,8 @@ public class AnimatedScrollPane extends ScrollPane {
             if (index + 1 < sprites.size) {
                 batch.draw(sprites.get(index + 1).getTexture(), x + width * 3 / 4 - sprites.get(index + 1).getTexture().getWidth() / 2, y);
             }
-
-            font.draw(batch, sprites.get(index).getPrettyName(), x + width / 2 - 15, y - 50);
         }
+        font.draw(batch, sprites.get(index).getPrettyName(), x + width / 2 - 15, y + 150);
     }
 
     @Override

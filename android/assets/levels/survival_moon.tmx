@@ -9,7 +9,7 @@
   <property name="parallaxMidground" value="blank"/>
   <property name="spawnX" value="31"/>
   <property name="spawnY" value="6"/>
-  <property name="theme" value="moon"/>
+  <property name="theme" value="space"/>
  </properties>
  <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32" spacing="1">
   <image source="../textures/levels/tileset.png" width="858" height="32"/>

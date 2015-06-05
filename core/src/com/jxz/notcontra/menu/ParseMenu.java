@@ -125,15 +125,14 @@ public class ParseMenu extends Menu {
                                 GameStateManager.getInstance().getGame().executeCommand(onClick.getText());
                             } else if (onClickType.equalsIgnoreCase("getScrollPaneParam")) {
                                 if (pane != null) {
-                                    String cmd;
-                                    if (prevCmd != null) {
-                                        cmd = prevCmd + "," + pane.getCurrentCmd();
-                                    } else if (onClick.getText() != null && pane.getCurrentCmd() != null) {
-                                        cmd = onClick.getText() + "," + pane.getCurrentCmd();
-                                    } else {
-                                        cmd = "";
+                                    String cmd = "";
+                                    if (pane.getCurrentCmd() != null) {
+                                        if (prevCmd != null) {
+                                            cmd = prevCmd + "," + pane.getCurrentCmd();
+                                        } else if (onClick.getText() != null) {
+                                            cmd = onClick.getText() + "," + pane.getCurrentCmd();
+                                        }
                                     }
-                                    System.out.println("Out command: " + cmd);
                                     GameStateManager.getInstance().getGame().executeCommand(cmd);
                                 }
                             }

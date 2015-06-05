@@ -146,11 +146,13 @@ public class PlayState extends GameState {
         if (!isPaused()) {
             player.getHealthBar().draw(sb);
 
+            if (game.getPlayMode() == Game.PlayMode.REST) {
+                font.draw(sb, "Time to next spawn: " + (currentLevel.getSpawnTimer()), 600, 50);
+            }
             if (game.getPlayMode() == Game.PlayMode.SURVIVAL || game.getPlayMode() == Game.PlayMode.REST) {
                 long minutes = TimeUnit.SECONDS.toMinutes((long) timeSurvived);
                 font.draw(sb, "Time survived: " + String.format("%02d:%02d", minutes, TimeUnit.SECONDS.toSeconds((long) timeSurvived - minutes * 60)), 1100, 700);
-                font.draw(sb, "Time to next spawn: " + (currentLevel.getSpawnTimer()), 500, 250);
-                font.draw(sb, "Current Wave: " + currentLevel.getCurrentWave() + " Diff: " + Game.getDifficultyMultiplier(), 750, 250);
+                font.draw(sb, "Current Wave: " + currentLevel.getCurrentWave() + " Diff: " + Game.getDifficultyMultiplier(), 850, 50);
             }
 
             if (Game.getDebugMode()) {
@@ -162,8 +164,6 @@ public class PlayState extends GameState {
                 //font.draw(sb, "Y tile: " + player.getPosition().y * Game.UNIT_SCALE, 300, 50);
                 //font.draw(sb, "MovementStateX: " + player.getMovementState().x, 500, 50);
                 font.draw(sb, "Delta Time (from last frame) " + Gdx.graphics.getDeltaTime(), 500, 100);
-                font.draw(sb, "Press O to turn on VSync, P to turn off", 700, 25);
-                font.draw(sb, "Press M to mute/unmute background music", 700, 50);
                 font.draw(sb, "Slimes: " + currentLevel.getMonsterCount(), 500, 25);
                 font.draw(sb, "isClimbing: " + player.isClimbing() + "    isOnPlatform: " + player.isOnPlatform() + "    isGrounded: " + player.isGrounded() + "    jumpState: " + player.getJumpState() + "     isOnSlope: " + player.isOnSlope(), 500, 125);
                 font.draw(sb, "MovementStateY: " + player.getMovementState().y, 1100, 25);
@@ -232,7 +232,6 @@ public class PlayState extends GameState {
 
     public void setMusic() {
         // Music setup
-        System.out.println(assetHandler.getFilePath("bgmusic") + ".mp3");
         music = Gdx.audio.newMusic(Gdx.files.internal(assetHandler.getFilePath("bgmusic") + ".mp3"));
         AudioHelper.setBgMusic(this.music);
         AudioHelper.resetBackgroundMusic();

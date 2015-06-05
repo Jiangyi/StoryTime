@@ -1,5 +1,6 @@
 package com.jxz.notcontra.menu;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jxz.notcontra.handlers.AudioHelper;
@@ -58,6 +59,9 @@ public class GeneralSettingsMenu extends Menu {
             setInputListener(new InputListener() {
                 @Override
                 public void onClick() {
+                    if (AudioHelper.isMusicMuted()) {
+                        buttons.get(0).getInputListener().onClick();
+                    }
                     float newVolume = Math.round(AudioHelper.getMusicVolume() * 100) - 10;
                     if (newVolume >= 0f) {
                         AudioHelper.setMusicVolume(newVolume / 100);
@@ -76,6 +80,9 @@ public class GeneralSettingsMenu extends Menu {
             setInputListener(new InputListener() {
                 @Override
                 public void onClick() {
+                    if (AudioHelper.isMusicMuted()) {
+                        buttons.get(0).getInputListener().onClick();
+                    }
                     float newVolume = Math.round(AudioHelper.getMusicVolume() * 100) + 10;
                     if (newVolume <= 100f) {
                         AudioHelper.setMusicVolume(newVolume / 100);

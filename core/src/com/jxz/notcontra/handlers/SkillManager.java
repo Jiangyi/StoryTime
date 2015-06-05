@@ -157,7 +157,7 @@ public class SkillManager {
         dash.setBuffDuration(0.2f);
         dash.setMagnitude(25.0f);
         dash.setCooldown(1.2f);
-        dash.setCost(75);
+        dash.setCost(50);
         skillList.add(dash);
 
         // Skill 6: Explosion

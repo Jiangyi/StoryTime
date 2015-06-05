@@ -2,7 +2,6 @@
     <scrollPane type="animated" playAnim="true" x="215" y="500" width="850">
         <idleAnimName duration=".667">stand1</idleAnimName>
         <activeAnimName duration=".167">walk1</activeAnimName>
-        <values prettyName="Alice" type="TextureAtlas">Alice</values>
         <values prettyName="Icy" type="TextureAtlas">player</values>
         <values prettyName="Fabulous HotDog Man" type="TextureAtlas">fabulous</values>
         <values prettyName="Kirito" type="TextureAtlas">kirito</values>

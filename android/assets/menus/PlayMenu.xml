@@ -2,7 +2,7 @@
     <button x="centre" y="275">
         <name>New</name>
         <textureName>button_new</textureName>
-        <onClick type="setMenu" prevCmd="new">ModeMenu</onClick>
+        <onClick type="setMenu" prevCmd="new,survival">SelectCharMenu</onClick>
     </button>
     <button x="centre" y="175">
         <name>Load</name>

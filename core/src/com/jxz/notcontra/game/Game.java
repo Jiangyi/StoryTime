@@ -16,11 +16,11 @@ import com.jxz.notcontra.shaders.Shaders;
 
 public class Game extends ApplicationAdapter {
     // Program Constants
-    public static final String TITLE = "Test Game";
+    public static final String TITLE = "Definitely Not Contra v0.420";
     public static final int VID_WIDTH = 1280;
     public static final int VID_HEIGHT = 704;
     public static final float REST_DURATION = 10.0f;
-    private static boolean debugMode = true;
+    private static boolean debugMode = false;
 
     private static float fpsTimer;
     private AssetHandler assetHandler = AssetHandler.getInstance();

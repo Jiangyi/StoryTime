@@ -62,7 +62,7 @@ public class HighScoreMenu extends Menu {
                     String.valueOf(highScores.get(i).getScore()), font , x, y - i * height / 5, height / 5, width);
             int yOffset = menuButtons.createSprite("button_highscore_bg").getRegionHeight() / 5;
             label.setPrimaryOffset(20, yOffset);
-            label.setSecondaryOffset(75, yOffset);
+            label.setSecondaryOffset(95, yOffset);
             buttons.add(label);
         }
     }

@@ -37,7 +37,7 @@ public class KeyLayoutHelper {
         put("skill3", Input.Keys.NUM_3);
         put("skill4", Input.Keys.NUM_4);
         put("interact", Input.Keys.E);
-        put("setDebug", Input.Keys.F);
+        put("setDebug", Input.Keys.GRAVE);
     }};
 
     public static int getKey(String keyname) {

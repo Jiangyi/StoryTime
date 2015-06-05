@@ -20,7 +20,11 @@ public class OSHealthBar extends HealthBar {
     public void update() {
         this.position.x = parent.getTilePosition().x + (parent.getSprite().getWidth() - this.bar.getWidth()) * Game.UNIT_SCALE / 2;
         this.position.y = parent.getTilePosition().y + (parent.getSprite().getHeight() + this.bar.getHeight()) * Game.UNIT_SCALE;
-        percentage = Interpolation.swingOut.apply(percentage, ((float) parent.getHealth() / (float) parent.getMaxHealth()), 0.03f);
+        float currentHealth = ((float) parent.getHealth() / (float) parent.getMaxHealth());
+        if (currentHealth < 0) {
+            currentHealth = 0;
+        }
+        percentage = Interpolation.swingOut.apply(percentage, currentHealth, 0.03f);
     }
 
     public void draw(Batch batch) {

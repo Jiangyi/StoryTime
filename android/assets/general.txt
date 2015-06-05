@@ -2,7 +2,7 @@
 # var name		path to file													type of file
 
 # Music
-bgmusic			Music/peaceful_forest.mp3										Music
+bgmusic			music/peaceful_forest.mp3										Music
 
 # SFX
 jump			sfx/jump.wav													Sound

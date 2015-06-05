@@ -82,12 +82,11 @@ public class MenuState extends GameState {
     }
 
     public void setMusic() {
-        /** Music setup
+        // Music setup
         music = Gdx.audio.newMusic(Gdx.files.internal(assetHandler.getFilePath("menu_music") + ".mp3"));
         AudioHelper.setBgMusic(this.music);
         AudioHelper.resetBackgroundMusic();
         AudioHelper.playBgMusic(true);
-         */
     }
 }
 
