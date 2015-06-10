@@ -81,6 +81,7 @@ public class GameStateManager {
             }
             currentGameState = menuState;
         }
+        currentGameState.setMusic();
     }
 
     public GameState getCurrentState() {

@@ -55,8 +55,6 @@ public class PlayState extends GameState {
         pauseMenu = new ParseMenu("PauseMenu.xml");
         pauseMenu.setMenuState(GameStateManager.getInstance().getMenuState());
         currentMenu = pauseMenu;
-
-        this.setMusic();
     }
 
     public void load(String levelName) {
@@ -94,10 +92,6 @@ public class PlayState extends GameState {
                     }
                 }, "New high score!", "", "Please enter your name:");
             }
-        }
-
-        if (!AudioHelper.getMusic().equals(music)) {
-            this.setMusic();
         }
 
         if (game.getPlayMode() == Game.PlayMode.SURVIVAL && !isPaused && player.isAlive()) {

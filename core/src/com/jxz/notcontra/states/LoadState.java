@@ -92,6 +92,11 @@ public class LoadState extends GameState {
         sb.end();
     }
 
+    @Override
+    public void setMusic() {
+        // Do nothing
+    }
+
     public void resetLoadingBar() {
         progress = 0f;
     }

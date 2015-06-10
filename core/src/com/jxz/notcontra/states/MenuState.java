@@ -32,14 +32,9 @@ public class MenuState extends GameState {
         rootMenu = new ParseMenu("MainMenu.xml");
         rootMenu.setMenuState(this);
         setCurrentMenu(rootMenu);
-
-        this.setMusic();
     }
 
     public void update() {
-       /* if (!AudioHelper.getMusic().equals(music)) {
-           this.setMusic();
-        } */
     }
 
     public void render() {

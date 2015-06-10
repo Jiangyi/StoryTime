@@ -40,4 +40,6 @@ public abstract class GameState {
     public BitmapFont getFont() {
         return font;
     }
+
+    public abstract void setMusic();
 }
