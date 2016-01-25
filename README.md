@@ -25,6 +25,6 @@ The goal of this project was purely for educational purposes, that is, to develo
 * As previously stated, this project was purely made for educational purposes. Since this is a remake of an already existing game, it utilizes some assets that were not created by us. Namely, the character sprites were extracted directly from MapleStory and the music files were borrowed from both MapleStory and Ragnarok Online. We do not claim any rights to these assets. On the occurrence that you are a creator of any of the assets used in this game and would like to have your assets removed, please feel free to contact us.
 
 # Screenshots #
-[mainmenu.jpg](https://bitbucket.org/repo/oX9rLp/images/2742762888-mainmenu.jpg)
+![mainmenu.jpg](https://bitbucket.org/repo/oX9rLp/images/2742762888-mainmenu.jpg)
 
-[ingame1.jpg](https://bitbucket.org/repo/oX9rLp/images/1668187096-ingame1.jpg)
+![ingame1.jpg](https://bitbucket.org/repo/oX9rLp/images/1668187096-ingame1.jpg)
